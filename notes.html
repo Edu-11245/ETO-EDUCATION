@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>نوتس المذاكرة | Eto PDF Notes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="Data/cons_themes.js" onerror="window.pageThemes = [{ id: 'blank_white', name: 'أبيض سادة', bgColor: '#ffffff', type: 'blank' }];"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&family=Amiri:wght@400;700&family=Almarai:wght@400;700&family=Changa:wght@400;700&family=Lateef&display=swap');
+        
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        
+        .toolbar { padding: 12px 20px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); display: flex; gap: 15px; align-items: center; justify-content: space-between; flex-wrap: wrap; z-index: 50; position: relative; border-bottom: 1px solid #e2e8f0; }
+        
+        #text-toolbar { animation: slideDown 0.2s ease-out; }
+        .text-format-btn { width: 36px; height: 36px; border-radius: 8px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; background: #f1f5f9; color: #475569; font-weight: bold; }
+        .text-format-btn.active { background: #3b82f6; color: white; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+        .text-format-btn:hover:not(.active) { background: #e2e8f0; }
+
+        .workspace-wrapper { height: calc(100vh - 130px); min-height: 0; overflow: auto; display: flex; flex-direction: column; align-items: center; padding: 35px 45px 60px; background-color: #e2e8f0; }
+        
+        .canvas-container { position: relative; width: min(92vw, 1100px); min-width: 800px; box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2); background-color: white; margin-bottom: 25px; border-radius: 6px; overflow: hidden; flex-shrink: 0; }
+        #pdf-canvas { display: block; width: 100%; height: auto; }
+        #draw-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; touch-action: none; cursor: crosshair; mix-blend-mode: multiply; }
+        
+        .btn-hover { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .btn-hover:active { transform: translateY(0); scale: 0.95; }
+
+        .tool-btn { width: 46px; height: 46px; border-radius: 14px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s; border: 2px solid transparent; background: white; color: #64748b; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .tool-btn.active { border-color: #3b82f6; background-color: #eff6ff; color: #2563eb; transform: scale(1.08); box-shadow: 0 8px 15px rgba(59, 130, 246, 0.25); }
+        .tool-btn:hover:not(.active) { background-color: #f8fafc; color: #334155; transform: translateY(-2px); }
+        
+        .color-btn { width: 34px; height: 34px; border-radius: 50%; cursor: pointer; border: 3px solid white; box-shadow: 0 0 0 1px #e2e8f0; transition: all 0.2s; }
+        .color-btn.active { box-shadow: 0 0 0 2px #3b82f6; transform: scale(1.2); }
+
+        .floating-text-box { position: absolute; border: 2px dashed #cbd5e1; padding: 5px; cursor: move; z-index: 100; background: rgba(255, 255, 255, 0.1); border-radius: 8px; backdrop-filter: blur(2px); user-select: none; }
+        .floating-text-box:hover { border-color: #3b82f6; background: rgba(255, 255, 255, 0.5); }
+        .pin-btn { position: absolute; top: -35px; right: 0; background: #2563eb; color: white; border: none; border-radius: 8px; padding: 4px 12px; font-size: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.2s; }
+        .pin-btn:hover { background: #1d4ed8; transform: scale(1.05); }
+
+        .modal-overlay { animation: fadeIn 0.2s ease-out; backdrop-filter: blur(6px); }
+        .modal-content { animation: slideDown 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideDown { from { transform: translateY(-20px) scale(0.98); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+        
+        ::-webkit-scrollbar { width: 14px; height: 14px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 6px; border: 3px solid #f8fafc; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="text-slate-800">
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';</script>
+
+    <!-- شريط الأدوات الأساسي -->
+    <div class="toolbar">
+        <div class="flex items-center gap-3 border-l pl-4 border-gray-200">
+            <button onclick="confirmExit('index.html')" class="text-gray-500 hover:text-blue-600 bg-gray-50 p-2.5 rounded-xl transition btn-hover" title="الرئيسية"><i class="fa-solid fa-house"></i></button>
+            <button onclick="openThemesModal()" class="bg-blue-50 text-blue-600 px-4 py-2.5 rounded-xl font-bold text-sm btn-hover"><i class="fa-solid fa-file-circle-plus"></i> ملف جديد</button>
+            <button onclick="document.getElementById('pdf-upload').click()" class="bg-indigo-600 text-white px-4 py-2.5 rounded-xl font-bold text-sm shadow-md btn-hover"><i class="fa-solid fa-folder-open"></i> فتح PDF</button>
+            <input type="file" id="pdf-upload" class="hidden" accept=".pdf">
+        </div>
+
+        <div class="flex items-center gap-2 bg-gray-50 px-5 py-2 rounded-2xl border border-gray-200 shadow-inner">
+            <button id="undo-btn" onclick="undoStep()" class="text-gray-500 hover:text-blue-600 p-1 text-xl transition transform hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed" title="تراجع Ctrl+Z"><i class="fa-solid fa-rotate-left"></i></button>
+            <button id="redo-btn" onclick="redoStep()" class="text-gray-500 hover:text-blue-600 p-1 text-xl transition transform hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed" title="إعادة Ctrl+Y"><i class="fa-solid fa-rotate-right"></i></button>
+            <div class="h-7 w-px bg-gray-300 mx-1"></div>
+            <button id="prev-page" class="text-gray-500 hover:text-blue-600 p-1 text-xl transition transform hover:scale-110"><i class="fa-solid fa-chevron-right"></i></button>
+            <span class="text-sm font-black w-20 text-center text-slate-700"><span id="page-num">0</span> / <span id="page-count">0</span></span>
+            <button id="next-page" class="text-gray-500 hover:text-blue-600 p-1 text-xl transition transform hover:scale-110"><i class="fa-solid fa-chevron-left"></i></button>
+        </div>
+
+        <div class="flex items-center gap-2 bg-white px-3 py-2 rounded-2xl border border-gray-200 shadow-sm">
+            <div class="tool-btn active" id="tool-pen" onclick="setTool('pen')" title="قلم"><i class="fa-solid fa-pen"></i></div>
+            <div class="tool-btn" id="tool-highlighter" onclick="setTool('highlighter')" title="هايلايت"><i class="fa-solid fa-highlighter"></i></div>
+            <div class="tool-btn" id="tool-text" onclick="setTool('text')" title="إضافة نص"><i class="fa-solid fa-t"></i></div>
+            <div class="tool-btn" id="tool-eraser" onclick="setTool('eraser')" title="ممحاة"><i class="fa-solid fa-eraser"></i></div>
+            
+            <div class="h-10 w-px bg-gray-200 mx-1"></div>
+            
+            <!-- زر الرسم الذكي (AI) -->
+            <button id="ai-draw-btn" onclick="toggleSmartDraw()" class="text-gray-400 hover:text-purple-600 p-2 rounded-xl transition flex flex-col items-center justify-center gap-1" title="تصحيح وتنعيم الرسم (AI)">
+                <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+            </button>
+
+            <div class="h-10 w-px bg-gray-200 mx-1"></div>
+            
+            <div class="color-btn active" style="background: #0f172a;" onclick="setColor('#0f172a', this)"></div>
+            <div class="color-btn" style="background: #dc2626;" onclick="setColor('#dc2626', this)"></div>
+            <div class="color-btn" style="background: #2563eb;" onclick="setColor('#2563eb', this)"></div>
+            <div class="color-btn" style="background: #16a34a;" onclick="setColor('#16a34a', this)"></div>
+            <div class="color-btn" style="background: #f59e0b;" onclick="setColor('#f59e0b', this)"></div>
+            <input type="color" id="custom-color" class="w-9 h-9 p-0 border-0 rounded-full cursor-pointer ml-1 btn-hover" onchange="setColor(this.value, this)" title="لون مخصص">
+            
+            <div class="h-10 w-px bg-gray-200 mx-2"></div>
+            <label class="text-xs font-bold text-gray-500 ml-1">شفافية الهايلايت:</label>
+            <input type="range" id="highlight-opacity" min="0.1" max="1" step="0.1" value="0.5" class="w-20 cursor-pointer accent-blue-600">
+        </div>
+
+        <div class="flex gap-3 border-r pr-4 border-gray-200">
+            <button onclick="savePDF(false)" class="bg-emerald-500 text-white px-4 py-2.5 rounded-xl font-bold text-sm shadow-md hover:bg-emerald-600 btn-hover flex items-center gap-2">
+                <i class="fa-solid fa-floppy-disk"></i> حفظ
+            </button>
+            <button onclick="savePDF(true)" class="bg-gray-100 text-gray-700 px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-gray-200 btn-hover">
+                حفظ باسم
+            </button>
+        </div>
+    </div>
+
+    <!-- شريط إعدادات النص (يظهر فقط عند اختيار أداة النص) -->
+    <div id="text-toolbar" class="hidden justify-center items-center gap-4 px-6 py-2 bg-white border-b border-gray-200 shadow-sm w-full z-40">
+        <span class="text-sm font-bold text-gray-500">إعدادات الخط:</span>
+        <select id="top-font-family" class="bg-gray-50 border border-gray-200 text-sm rounded-lg p-2 font-bold outline-none cursor-pointer">
+            <option value="Cairo">Cairo (الافتراضي)</option>
+            <option value="Tajawal">Tajawal (رسمي)</option>
+            <option value="Amiri">Amiri (كلاسيكي)</option>
+            <option value="Almarai">Almarai (عصري)</option>
+            <option value="Changa">Changa (عريض)</option>
+            <option value="Lateef">Lateef (رقعة)</option>
+        </select>
+        
+        <div class="flex items-center gap-1 border-r border-l px-4 border-gray-200">
+            <label class="text-xs font-bold text-gray-500">حجم الخط:</label>
+            <input type="number" id="top-font-size" value="26" class="w-16 bg-gray-50 border border-gray-200 text-sm font-bold rounded-lg p-1.5 outline-none text-center">
+        </div>
+
+        <div class="flex gap-2">
+            <button id="btn-bold" onclick="this.classList.toggle('active')" class="text-format-btn active" title="عريض (Bold)">B</button>
+            <button id="btn-underline" onclick="this.classList.toggle('active')" class="text-format-btn" style="text-decoration: underline;" title="تسطير">U</button>
+        </div>
+        <span class="text-xs text-blue-500 font-bold mr-4"><i class="fa-solid fa-circle-info"></i> اضغط في أي مكان على الورقة لتكتب</span>
+    </div>
+
+    <!-- منطقة العمل -->
+    <div class="workspace-wrapper" id="workspace">
+        <div id="start-msg" class="text-center mt-32 text-gray-400">
+            <i class="fa-solid fa-book-open text-7xl mb-6 text-blue-200"></i>
+            <h2 class="text-4xl font-black mb-4 text-slate-700">مساحة المذاكرة الذكية</h2>
+            <p class="text-lg">ابدأ بـ <button onclick="openThemesModal()" class="text-blue-500 underline font-bold hover:text-blue-700 transition">ملف جديد</button> أو قم بفتح ملف PDF موجود.</p>
+        </div>
+
+        <div class="canvas-container hidden" id="main-container">
+            <canvas id="pdf-canvas"></canvas>
+            <canvas id="draw-canvas"></canvas>
+        </div>
+
+        <button id="add-page-btn" class="hidden mt-6 mb-12 bg-white border-2 border-dashed border-gray-300 text-gray-500 hover:text-blue-600 hover:border-blue-400 hover:bg-blue-50 px-10 py-4 rounded-2xl font-bold transition flex items-center gap-3 text-lg btn-hover shadow-sm">
+            <i class="fa-solid fa-plus"></i> إضافة صفحة بالثيم الحالي
+        </button>
+    </div>
+
+    <!-- مودال اختيار الـ Themes الجديد -->
+    <div id="themes-modal" class="fixed inset-0 bg-slate-900/70 z-[200] hidden flex items-center justify-center modal-overlay p-4">
+        <div class="bg-white rounded-3xl shadow-2xl p-6 w-full max-w-5xl max-h-[90vh] flex flex-col modal-content">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
+                <h3 class="text-2xl font-black text-indigo-700 flex items-center gap-2"><i class="fa-solid fa-swatchbook"></i> اختر شكل الصفحة (Theme)</h3>
+                <button onclick="document.getElementById('themes-modal').classList.add('hidden')" class="text-gray-400 hover:text-red-500 transition bg-gray-50 w-10 h-10 rounded-full flex items-center justify-center"><i class="fa-solid fa-times text-xl"></i></button>
+            </div>
+            
+            <div class="overflow-y-auto p-2 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5 custom-scrollbar" id="themes-grid">
+                <!-- هيتم ملئها بالجافاسكريبت -->
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال الخروج -->
+    <div id="exit-modal" class="fixed inset-0 bg-slate-900/60 z-[200] hidden flex items-center justify-center modal-overlay">
+        <div class="bg-white rounded-3xl shadow-2xl p-8 w-[90%] max-w-md modal-content text-center">
+            <div class="w-24 h-24 bg-red-50 text-red-500 rounded-full flex items-center justify-center text-5xl mx-auto mb-5 shadow-inner"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3 class="text-3xl font-black text-slate-800 mb-3">مهلاً! لم تقم بالحفظ</h3>
+            <p class="text-gray-500 mb-8 text-base">لديك تعديلات وملاحظات لم يتم حفظها. إذا خرجت الآن سيضيع مجهودك.</p>
+            <div class="flex gap-4">
+                <button onclick="proceedExit()" class="flex-1 bg-gray-100 text-gray-600 font-bold py-3.5 rounded-xl hover:bg-red-50 hover:text-red-600 transition btn-hover">الخروج بدون حفظ</button>
+                <button onclick="document.getElementById('exit-modal').classList.add('hidden')" class="flex-1 bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-200 transition btn-hover">تراجع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- اللودينج -->
+    <div id="loading" class="fixed inset-0 bg-white/80 flex flex-col justify-center items-center z-[300] hidden backdrop-blur-md">
+        <div class="w-20 h-20 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+        <span class="font-bold text-2xl text-slate-700" id="loading-txt">جاري المعالجة...</span>
+    </div>
+
+    <script>
+        let pdfDoc = null;
+        let totalPages = 0;
+        let pageNum = 1;
+        let isDirty = false;
+        let fileName = "My_Notes";
+        let exitTargetUrl = "";
+        let currentThemeId = 'blank_white';
+        const scale = 1.3;
+        const A4_WIDTH = 595 * scale;
+        const A4_HEIGHT = 842 * scale;
+        const mainContainer = document.getElementById('main-container');
+        const pdfCanvas = document.getElementById('pdf-canvas');
+        const pdfCtx = pdfCanvas.getContext('2d');
+        const drawCanvas = document.getElementById('draw-canvas');
+        const drawCtx = drawCanvas.getContext('2d', { willReadFrequently: true });
+        let drawingsData = {};
+        let isDrawing = false;
+        let currentTool = 'pen';
+        let currentColor = '#0f172a';
+        let lastX = 0, lastY = 0;
+        let isSmartDrawActive = false;
+        let strokePoints = [];
+        let lastCanvasState = null;
+        let historyStack = [];
+        let historyIndex = -1;
+        let isRestoringHistory = false;
+
+        function createHistoryState() {
+            return {
+                drawingsData: { ...drawingsData },
+                totalPages: totalPages,
+                pageNum: pageNum,
+                currentThemeId: currentThemeId,
+                isDirty: isDirty
+            };
+        }
+
+        function updateHistoryButtons() {
+            const undoBtn = document.getElementById('undo-btn');
+            const redoBtn = document.getElementById('redo-btn');
+
+            if (undoBtn) undoBtn.disabled = historyIndex <= 0;
+            if (redoBtn) redoBtn.disabled = historyIndex >= historyStack.length - 1;
+        }
+
+        function saveHistoryStep() {
+            if (isRestoringHistory) return;
+            const state = createHistoryState();
+
+            if (historyIndex < historyStack.length - 1) {
+                historyStack = historyStack.slice(0, historyIndex + 1);
+            }
+            const currentState = historyStack[historyIndex];
+            if (currentState && JSON.stringify(currentState) === JSON.stringify(state)) {
+                updateHistoryButtons();
+                return;
+            }
+            historyStack.push(state);
+            historyIndex++;
+            if (historyStack.length > 50) {
+                historyStack.shift();
+                historyIndex--;
+            }
+            updateHistoryButtons();
+        }
+
+        async function restoreHistoryState(state) {
+            isRestoringHistory = true;
+
+            drawingsData = { ...state.drawingsData };
+            totalPages = state.totalPages;
+            pageNum = state.pageNum;
+            currentThemeId = state.currentThemeId;
+            isDirty = state.isDirty;
+
+            document.getElementById('page-num').textContent = pageNum;
+            document.getElementById('page-count').textContent = totalPages;
+
+            if (pdfDoc && pageNum <= pdfDoc.numPages) {
+                await renderPage(pageNum);
+            } else {
+                renderBlankPage();
+            }
+
+            isRestoringHistory = false;
+            updateHistoryButtons();
+        }
+
+        async function undoStep() {
+            if (historyIndex <= 0 || isRestoringHistory) return;
+
+            historyIndex--;
+            await restoreHistoryState(historyStack[historyIndex]);
+        }
+
+        async function redoStep() {
+            if (historyIndex >= historyStack.length - 1 || isRestoringHistory) return;
+
+            historyIndex++;
+            await restoreHistoryState(historyStack[historyIndex]);
+        }
+
+        document.addEventListener('keydown', async (e) => {
+            if (e.ctrlKey && e.key.toLowerCase() === 'z') {
+                e.preventDefault();
+                await undoStep();
+            }
+
+            if (e.ctrlKey && (e.key.toLowerCase() === 'y' || (e.shiftKey && e.key.toLowerCase() === 'z'))) {
+                e.preventDefault();
+                await redoStep();
+            }
+        });
+        window.addEventListener('beforeunload', function (e) {
+            if (isDirty) { e.preventDefault(); e.returnValue = ''; }
+        });
+        
+        function confirmExit(url) {
+            if (isDirty) { exitTargetUrl = url; document.getElementById('exit-modal').classList.remove('hidden'); }
+            else { window.location.href = url; }
+        }
+        function proceedExit() { isDirty = false; window.location.href = exitTargetUrl; }
+
+        function toggleSmartDraw() {
+            isSmartDrawActive = !isSmartDrawActive;
+            const btn = document.getElementById('ai-draw-btn');
+            if(isSmartDrawActive) {
+                btn.classList.replace('text-gray-400', 'text-purple-600');
+                btn.classList.add('bg-purple-100', 'shadow-inner');
+                btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles text-lg animate-pulse"></i><span class="text-[10px] font-bold mt-1">AI مُفعل</span>`;
+            } else {
+                btn.classList.replace('text-purple-600', 'text-gray-400');
+                btn.classList.remove('bg-purple-100', 'shadow-inner');
+                btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles text-lg"></i>`;
+            }
+        }
+
+        function setTool(tool) {
+            currentTool = tool;
+            document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('tool-' + tool).classList.add('active');
+            const textToolbar = document.getElementById('text-toolbar');
+            if (tool === 'text') {
+                textToolbar.classList.remove('hidden');
+                textToolbar.classList.add('flex');
+                drawCanvas.style.cursor = 'text';
+            } else {
+                textToolbar.classList.add('hidden');
+                textToolbar.classList.remove('flex');
+                if (tool === 'eraser') drawCanvas.style.cursor = 'cell';
+                else drawCanvas.style.cursor = 'crosshair';
+            }
+            
+            updateContextSettings();
+        }
+
+        function setColor(color, element) {
+            currentColor = color;
+            if(currentTool === 'eraser') setTool('pen');
+            document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
+            if(element.classList.contains('color-btn')) element.classList.add('active');
+            updateContextSettings();
+        }
+
+        function updateContextSettings() {
+            if (currentTool === 'pen') {
+                drawCtx.globalCompositeOperation = 'source-over';
+                drawCtx.strokeStyle = currentColor;
+                drawCtx.lineWidth = 4;
+                drawCtx.lineCap = 'round';
+                drawCtx.lineJoin = 'round';
+            } else if (currentTool === 'highlighter') {
+                drawCtx.globalCompositeOperation = 'source-over'; 
+                drawCtx.strokeStyle = currentColor === '#0f172a' ? '#fef08a' : currentColor;
+                drawCtx.lineWidth = 25;
+                drawCtx.lineCap = 'round'; 
+                drawCtx.lineJoin = 'round';
+            } else if (currentTool === 'eraser') {
+                drawCtx.globalCompositeOperation = 'destination-out';
+                drawCtx.lineWidth = 50;
+                drawCtx.lineCap = 'round';
+            }
+        }
+
+        function getCoordinates(e) {
+            const rect = drawCanvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: (clientX - rect.left) * (drawCanvas.width / rect.width),
+                y: (clientY - rect.top) * (drawCanvas.height / rect.height)
+            };
+        }
+
+        drawCanvas.addEventListener('mousedown', startAction);
+        drawCanvas.addEventListener('mousemove', draw);
+        drawCanvas.addEventListener('mouseup', stopAction);
+        drawCanvas.addEventListener('mouseout', stopDrawingOnly);
+        drawCanvas.addEventListener('touchstart', (e) => { e.preventDefault(); startAction(e); }, { passive: false });
+        drawCanvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); }, { passive: false });
+        drawCanvas.addEventListener('touchend', stopAction);
+
+        function startAction(e) {
+            if (currentTool === 'text') {
+                const isBold = document.getElementById('btn-bold').classList.contains('active');
+                const isUnderline = document.getElementById('btn-underline').classList.contains('active');
+                const fontName = document.getElementById('top-font-family').value;
+                const fontSize = document.getElementById('top-font-size').value;
+
+                let inlineInput = document.createElement('textarea');
+                inlineInput.style.position = 'absolute';
+                inlineInput.style.left = (e.touches ? e.touches[0].clientX : e.clientX) + 'px';
+                inlineInput.style.top = (e.touches ? e.touches[0].clientY : e.clientY) + 'px';
+                inlineInput.style.background = 'rgba(255, 255, 255, 0.95)';
+                inlineInput.style.border = '2px dashed #3b82f6';
+                inlineInput.style.color = currentColor === '#fef08a' ? '#0f172a' : currentColor;
+                inlineInput.style.fontSize = fontSize + 'px';
+                inlineInput.style.fontFamily = fontName + ', sans-serif';
+                inlineInput.style.fontWeight = isBold ? 'bold' : 'normal';
+                inlineInput.style.textDecoration = isUnderline ? 'underline' : 'none';
+                inlineInput.style.outline = 'none';
+                inlineInput.style.padding = '8px';
+                inlineInput.style.borderRadius = '8px';
+                inlineInput.style.zIndex = '1000';
+                inlineInput.style.minWidth = '200px';
+                inlineInput.style.minHeight = '60px';
+                inlineInput.style.boxShadow = '0 10px 25px rgba(0,0,0,0.1)';
+                inlineInput.placeholder = 'اكتب ملاحظاتك هنا...';
+                document.body.appendChild(inlineInput);
+                
+                setTimeout(() => inlineInput.focus(), 10);
+                
+                inlineInput.addEventListener('blur', () => {
+                    if (inlineInput.value.trim() !== '') {
+                        spawnDraggableText(
+                            inlineInput.value, 
+                            fontName, 
+                            parseInt(fontSize), 
+                            inlineInput.style.color, 
+                            isUnderline, 
+                            isBold, 
+                            inlineInput.style.left, 
+                            inlineInput.style.top
+                        );
+                    }
+                    inlineInput.remove();
+                    setTool('pen'); 
+                });
+                return;
+            }
+
+            isDrawing = true;
+            isDirty = true;
+            const coords = getCoordinates(e);
+            lastX = coords.x; lastY = coords.y;
+            
+            if(isSmartDrawActive && currentTool === 'pen') {
+                strokePoints = [{x: lastX, y: lastY}];
+                lastCanvasState = drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height);
+            }
+            
+            updateContextSettings();
+            drawCtx.beginPath();
+            drawCtx.moveTo(lastX, lastY);
+            
+            if(currentTool === 'highlighter') { 
+                drawCtx.globalAlpha = parseFloat(document.getElementById('highlight-opacity').value); 
+            } else { 
+                drawCtx.globalAlpha = 1.0; 
+            }
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const coords = getCoordinates(e);
+            
+            if(isSmartDrawActive && currentTool === 'pen') {
+                strokePoints.push(coords);
+            }
+            
+            drawCtx.lineTo(coords.x, coords.y);
+            drawCtx.stroke();
+            lastX = coords.x; lastY = coords.y;
+        }
+
+        function stopAction() {
+            if (isDrawing) {
+                isDrawing = false;
+                
+                if(isSmartDrawActive && currentTool === 'pen' && strokePoints.length > 3) {
+                    smoothStroke(strokePoints);
+                }
+                
+                drawCtx.closePath();
+                drawingsData[pageNum] = drawCanvas.toDataURL();
+
+                saveHistoryStep();
+            }
+        }
+        function stopDrawingOnly() { if(isDrawing) stopAction(); }
+
+        function simplifyPath(pts, epsilon) {
+            if (pts.length <= 2) return pts;
+            let dmax = 0, index = 0;
+            const start = pts[0], end = pts[pts.length - 1];
+            for (let i = 1; i < pts.length - 1; i++) {
+                const p = pts[i];
+                const num = Math.abs((end.y - start.y) * p.x - (end.x - start.x) * p.y + end.x * start.y - end.y * start.x);
+                const den = Math.sqrt(Math.pow(end.y - start.y, 2) + Math.pow(end.x - start.x, 2));
+                const d = den === 0 ? Math.sqrt(Math.pow(p.x - start.x, 2) + Math.pow(p.y - start.y, 2)) : num / den;
+                if (d > dmax) { index = i; dmax = d; }
+            }
+            if (dmax > epsilon) {
+                const rec1 = simplifyPath(pts.slice(0, index + 1), epsilon);
+                const rec2 = simplifyPath(pts.slice(index), epsilon);
+                return rec1.slice(0, rec1.length - 1).concat(rec2);
+            } else { return [start, end]; }
+        }
+
+        function smoothStroke(points) {
+            drawCtx.putImageData(lastCanvasState, 0, 0); 
+            if (points.length < 5) return;
+            const start = points[0], end = points[points.length - 1];
+            const dx = end.x - start.x, dy = end.y - start.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            points.forEach(p => {
+                if (p.x < minX) minX = p.x; if (p.y < minY) minY = p.y;
+                if (p.x > maxX) maxX = p.x; if (p.y > maxY) maxY = p.y;
+            });
+            const width = maxX - minX, height = maxY - minY;
+            const diag = Math.sqrt(width * width + height * height);
+            drawCtx.beginPath();
+            if (distance < diag * 0.25 && points.length > 15 && width > 20 && height > 20) {
+                const cx = minX + width / 2, cy = minY + height / 2;
+                drawCtx.ellipse(cx, cy, width / 2, height / 2, 0, 0, 2 * Math.PI);
+                drawCtx.closePath();
+            } else {
+                const epsilon = diag * 0.05; 
+                const simplified = simplifyPath(points, epsilon);
+                if (simplified.length >= 2 && simplified.length <= 12) {
+                    drawCtx.moveTo(simplified[0].x, simplified[0].y);
+                    for (let i = 1; i < simplified.length; i++) {
+                        drawCtx.lineTo(simplified[i].x, simplified[i].y);
+                    }
+                    if (distance < diag * 0.15) drawCtx.closePath(); 
+                } else {
+                    drawCtx.moveTo(points[0].x, points[0].y);
+                    for (let i = 1; i < points.length - 2; i++) {
+                        const xc = (points[i].x + points[i + 1].x) / 2;
+                        const yc = (points[i].y + points[i + 1].y) / 2;
+                        drawCtx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+                    }
+                    drawCtx.quadraticCurveTo(points[points.length-2].x, points[points.length-2].y, end.x, end.y);
+                }
+            }
+            drawCtx.stroke();
+        }
+        function spawnDraggableText(text, font, size, color, isUnderline, isBold, clientLeft, clientTop) {
+            const wrapper = document.getElementById('main-container');
+            const el = document.createElement('div');
+            el.className = 'floating-text-box';
+            
+            el.style.color = color;
+            el.style.fontFamily = `'${font}', sans-serif`;
+            const screenRatio = drawCanvas.offsetWidth / drawCanvas.width;
+            el.style.fontSize = Math.max((size * 1.5) * screenRatio, 16) + 'px'; 
+            el.style.fontWeight = isBold ? 'bold' : 'normal';
+            el.style.textDecoration = isUnderline ? 'underline' : 'none';
+            el.style.whiteSpace = 'pre-wrap';
+            el.innerText = text;
+            el.style.left = clientLeft;
+            el.style.top = clientTop;
+            el.style.transform = 'none';
+
+            const pinBtn = document.createElement('button');
+            pinBtn.className = 'pin-btn';
+            pinBtn.innerHTML = '<i class="fa-solid fa-check"></i> تثبيت';
+            
+            pinBtn.onclick = (e) => {
+                e.stopPropagation();
+                const rect = wrapper.getBoundingClientRect();
+                const elRect = el.getBoundingClientRect();
+                
+                const scaleX = drawCanvas.width / rect.width;
+                const scaleY = drawCanvas.height / rect.height;
+                
+                const canvasX = (elRect.left - rect.left) * scaleX;
+                const canvasY = (elRect.top - rect.top) * scaleY;
+
+                drawCtx.globalCompositeOperation = 'source-over';
+                drawCtx.globalAlpha = 1.0;
+                drawCtx.fillStyle = color;
+                drawCtx.font = `${isBold ? 'bold' : 'normal'} ${size * 1.5}px '${font}', sans-serif`;
+                drawCtx.textAlign = 'right';
+                drawCtx.textBaseline = 'top';
+                
+                const lines = text.split('\n');
+                let y = canvasY;
+                
+                lines.forEach(line => {
+                    const textWidth = drawCtx.measureText(line).width;
+                    drawCtx.fillText(line, canvasX + textWidth, y);
+                    
+                    if(isUnderline) {
+                        drawCtx.beginPath();
+                        drawCtx.strokeStyle = color;
+                        drawCtx.lineWidth = Math.max(2, size * 0.1);
+                        drawCtx.moveTo(canvasX + textWidth, y + (size * 1.6));
+                        drawCtx.lineTo(canvasX, y + (size * 1.6));
+                        drawCtx.stroke();
+                    }
+                    y += (size * 1.5) + 10;
+                });
+
+                isDirty = true;
+                drawingsData[pageNum] = drawCanvas.toDataURL();
+                el.remove();
+
+                saveHistoryStep();
+            };
+            
+            el.appendChild(pinBtn);
+            wrapper.appendChild(el);
+            
+            let isDragging = false, startX, startY, initialX, initialY;
+            
+            const dragStart = (e) => {
+                if(e.target === pinBtn) return;
+                isDragging = true;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                startX = clientX;
+                startY = clientY;
+                initialX = el.offsetLeft;
+                initialY = el.offsetTop;
+            };
+            
+            const dragMove = (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                const dx = clientX - startX;
+                const dy = clientY - startY;
+                el.style.left = (initialX + dx) + 'px';
+                el.style.top = (initialY + dy) + 'px';
+            };
+            
+            const dragEnd = () => { isDragging = false; };
+            
+            el.addEventListener('mousedown', dragStart);
+            document.addEventListener('mousemove', dragMove);
+            document.addEventListener('mouseup', dragEnd);
+            
+            el.addEventListener('touchstart', dragStart, {passive: false});
+            document.addEventListener('touchmove', dragMove, {passive: false});
+            document.addEventListener('touchend', dragEnd);
+        }
+
+        function showLoading(txt) {
+            document.getElementById('loading-txt').textContent = txt;
+            document.getElementById('loading').classList.remove('hidden');
+        }
+        function hideLoading() { document.getElementById('loading').classList.add('hidden'); }
+        function openThemesModal() {
+            if(isDirty && !confirm("لديك تعديلات غير محفوظة. متأكد من إنشاء ملف جديد؟")) return;
+            const grid = document.getElementById('themes-grid');
+            grid.innerHTML = '';
+            
+            (window.pageThemes || []).forEach(theme => {
+                const box = document.createElement('div');
+                box.className = 'cursor-pointer border-2 border-transparent bg-gray-50 rounded-2xl p-3 hover:border-blue-500 hover:bg-blue-50 hover:shadow-lg transition-all flex flex-col items-center gap-3 transform hover:-translate-y-1';
+                box.onclick = () => { applyNewFileTheme(theme.id); };
+                const preview = document.createElement('div');
+                preview.className = 'w-full aspect-[1/1.4] rounded-lg border border-gray-200 shadow-sm relative overflow-hidden';
+                preview.style.backgroundColor = theme.bgColor;
+
+                if (theme.type === 'lines') {
+                    preview.style.backgroundImage = `repeating-linear-gradient(transparent, transparent 15px, ${theme.lineColor} 15px, ${theme.lineColor} 16px)`;
+                    if(theme.margin) {
+                        const marginLine = document.createElement('div');
+                        marginLine.style.position = 'absolute';
+                        marginLine.style.left = '15%'; marginLine.style.top = '0'; marginLine.style.bottom = '0';
+                        marginLine.style.borderLeft = `2px solid ${theme.margin}`;
+                        preview.appendChild(marginLine);
+                    }
+                } else if (theme.type === 'grid') {
+                    preview.style.backgroundImage = `linear-gradient(${theme.lineColor} 1px, transparent 1px), linear-gradient(90deg, ${theme.lineColor} 1px, transparent 1px)`;
+                    preview.style.backgroundSize = '12px 12px';
+                } else if (theme.type === 'dots') {
+                     preview.style.backgroundImage = `radial-gradient(${theme.lineColor} 1px, transparent 1px)`;
+                     preview.style.backgroundSize = '12px 12px';
+                }
+
+                box.innerHTML = `
+                    <div class="w-full flex justify-center p-1">${preview.outerHTML}</div>
+                    <span class="text-sm font-bold text-center text-gray-800">${theme.name}</span>
+                `;
+                grid.appendChild(box);
+            });
+            document.getElementById('themes-modal').classList.remove('hidden');
+        }
+
+        function applyNewFileTheme(themeId) {
+            document.getElementById('themes-modal').classList.add('hidden');
+            currentThemeId = themeId;
+            pdfDoc = null; totalPages = 1; pageNum = 1; isDirty = false; drawingsData = {}; fileName = "New_Notes";
+            historyStack = []; historyIndex = -1;
+            
+            document.getElementById('start-msg').classList.add('hidden');
+            mainContainer.classList.remove('hidden');
+            document.getElementById('add-page-btn').classList.remove('hidden');
+            renderBlankPage();
+            saveHistoryStep();
+        }
+
+        document.getElementById('pdf-upload').addEventListener('change', async (e) => {
+            let file = e.target.files[0];
+            if (!file || file.type !== "application/pdf") return;
+            if(isDirty && !confirm("لديك تعديلات غير محفوظة. متأكد من فتح ملف جديد؟")) return;
+
+            fileName = file.name.replace('.pdf', '');
+            showLoading('جاري فتح الملف...');
+            
+            const fileReader = new FileReader();
+            fileReader.onload = async function() {
+                try {
+                    pdfDoc = await pdfjsLib.getDocument(new Uint8Array(this.result)).promise;
+                    totalPages = pdfDoc.numPages;
+                    drawingsData = {}; pageNum = 1; isDirty = false;
+                    historyStack = []; historyIndex = -1;
+                    
+                    document.getElementById('start-msg').classList.add('hidden');
+                    mainContainer.classList.remove('hidden');
+                    document.getElementById('add-page-btn').classList.remove('hidden');
+                    renderPage(pageNum);
+                    saveHistoryStep();
+                } catch(err) { alert('حدث خطأ أثناء الفتح.'); hideLoading(); }
+            };
+            fileReader.readAsArrayBuffer(file);
+        });
+        document.getElementById('add-page-btn').addEventListener('click', () => {
+            totalPages++;
+            pageNum = totalPages;
+            isDirty = true;
+
+            if (!pdfDoc || pageNum > pdfDoc.numPages) renderBlankPage();
+            else renderPage(pageNum);
+
+            saveHistoryStep();
+        });
+        async function renderPage(num) {
+            document.getElementById('page-num').textContent = num;
+            document.getElementById('page-count').textContent = totalPages;
+            
+            if (!pdfDoc || num > pdfDoc.numPages) { renderBlankPage(); return; }
+
+            showLoading('تحميل الصفحة...');
+            const page = await pdfDoc.getPage(num);
+            const viewport = page.getViewport({ scale: scale });
+            
+            pdfCanvas.width = drawCanvas.width = viewport.width;
+            pdfCanvas.height = drawCanvas.height = viewport.height;
+
+            await page.render({ canvasContext: pdfCtx, viewport: viewport }).promise;
+            restoreDrawingLayer(num);
+            hideLoading();
+        }
+        function renderBlankPage() {
+            document.getElementById('page-num').textContent = pageNum;
+            document.getElementById('page-count').textContent = totalPages;
+            
+            pdfCanvas.width = drawCanvas.width = A4_WIDTH;
+            pdfCanvas.height = drawCanvas.height = A4_HEIGHT;
+            
+            const theme = (window.pageThemes || []).find(t => t.id === currentThemeId) || { bgColor: '#ffffff', type: 'blank' };
+            
+            pdfCtx.fillStyle = theme.bgColor;
+            pdfCtx.fillRect(0, 0, A4_WIDTH, A4_HEIGHT);
+            
+            if(theme.type !== 'blank') {
+                pdfCtx.lineWidth = 1.5;
+                pdfCtx.strokeStyle = theme.lineColor;
+                
+                if(theme.type === 'lines') {
+                    for(let y = theme.spacing * scale; y < A4_HEIGHT; y += theme.spacing * scale) {
+                        pdfCtx.beginPath(); pdfCtx.moveTo(0, y); pdfCtx.lineTo(A4_WIDTH, y); pdfCtx.stroke();
+                    }
+                    if(theme.margin) {
+                        pdfCtx.strokeStyle = theme.margin; pdfCtx.lineWidth = 3;
+                        pdfCtx.beginPath(); pdfCtx.moveTo(100 * scale, 0); pdfCtx.lineTo(100 * scale, A4_HEIGHT); pdfCtx.stroke();
+                    }
+                } else if(theme.type === 'grid') {
+                    for(let y = 0; y < A4_HEIGHT; y += theme.spacing * scale) {
+                        pdfCtx.beginPath(); pdfCtx.moveTo(0, y); pdfCtx.lineTo(A4_WIDTH, y); pdfCtx.stroke();
+                    }
+                    for(let x = 0; x < A4_WIDTH; x += theme.spacing * scale) {
+                        pdfCtx.beginPath(); pdfCtx.moveTo(x, 0); pdfCtx.lineTo(x, A4_HEIGHT); pdfCtx.stroke();
+                    }
+                } else if(theme.type === 'dots') {
+                    pdfCtx.fillStyle = theme.lineColor;
+                    for(let y = theme.spacing * scale; y < A4_HEIGHT; y += theme.spacing * scale) {
+                        for(let x = theme.spacing * scale; x < A4_WIDTH; x += theme.spacing * scale) {
+                            pdfCtx.beginPath(); pdfCtx.arc(x, y, 2 * scale, 0, Math.PI * 2); pdfCtx.fill();
+                        }
+                    }
+                }
+            }
+            restoreDrawingLayer(pageNum);
+            hideLoading();
+        }
+
+        function restoreDrawingLayer(num) {
+            drawCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
+            updateContextSettings();
+            if (drawingsData[num]) {
+                const img = new Image();
+                img.onload = () => {
+                    drawCtx.globalCompositeOperation = 'source-over';
+                    drawCtx.globalAlpha = 1.0;
+                    drawCtx.drawImage(img, 0, 0);
+                    updateContextSettings();
+                }
+                img.src = drawingsData[num];
+            }
+        }
+
+        document.getElementById('prev-page').addEventListener('click', () => { if (pageNum > 1) { pageNum--; renderPage(pageNum); } });
+        document.getElementById('next-page').addEventListener('click', () => { if (pageNum < totalPages) { pageNum++; renderPage(pageNum); } });
+        async function savePDF(isSaveAs) {
+            if (totalPages === 0) return alert("مفيش ملف مفتوح عشان يتحفظ يسطا!");
+            
+            const floatingTexts = document.querySelectorAll('.floating-text-box .pin-btn');
+            if(floatingTexts.length > 0) {
+                if(confirm("في نصوص لسه متثبتتش، أثبتها تلقائي وأحفظ؟")) {
+                    floatingTexts.forEach(btn => btn.click());
+                } else return;
+            }
+
+            let exportName = fileName;
+            if (isSaveAs) {
+                let p = prompt("أدخل اسم الملف الجديد:", fileName);
+                if (p === null) return;
+                exportName = p.trim() || "My_Notes";
+            }
+            
+            showLoading('جاري تجميع الملف وتصديره، ثواني...');
+            if(isDrawing) stopAction();
+            drawingsData[pageNum] = drawCanvas.toDataURL();
+
+            setTimeout(async () => {
+                try {
+                    const { jsPDF } = window.jspdf;
+                    let exportPdf = null;
+                    const tempCanvas = document.createElement('canvas');
+                    const tempCtx = tempCanvas.getContext('2d');
+
+                    for (let i = 1; i <= totalPages; i++) {
+                        let vpWidth = A4_WIDTH, vpHeight = A4_HEIGHT;
+
+                        if (pdfDoc && i <= pdfDoc.numPages) {
+                            const page = await pdfDoc.getPage(i);
+                            const viewport = page.getViewport({ scale: scale });
+                            vpWidth = viewport.width; vpHeight = viewport.height;
+                            tempCanvas.width = vpWidth; tempCanvas.height = vpHeight;
+                            await page.render({ canvasContext: tempCtx, viewport: viewport }).promise;
+                        } else {
+                            tempCanvas.width = vpWidth; tempCanvas.height = vpHeight;
+                            const theme = (window.pageThemes || []).find(t => t.id === currentThemeId) || { bgColor: '#ffffff', type: 'blank' };
+                            tempCtx.fillStyle = theme.bgColor;
+                            tempCtx.fillRect(0, 0, vpWidth, vpHeight);
+                            if(theme.type !== 'blank') {
+                                tempCtx.lineWidth = 1.5; tempCtx.strokeStyle = theme.lineColor;
+                                if(theme.type === 'lines') {
+                                    for(let y = theme.spacing * scale; y < vpHeight; y += theme.spacing * scale) { tempCtx.beginPath(); tempCtx.moveTo(0, y); tempCtx.lineTo(vpWidth, y); tempCtx.stroke(); }
+                                    if(theme.margin) { tempCtx.strokeStyle = theme.margin; tempCtx.lineWidth = 3; tempCtx.beginPath(); tempCtx.moveTo(100 * scale, 0); tempCtx.lineTo(100 * scale, vpHeight); tempCtx.stroke(); }
+                                }
+                            }
+                        }
+
+                        if (drawingsData[i]) {
+                            await new Promise((resolve) => {
+                                const img = new Image();
+                                img.onload = () => {
+                                    tempCtx.globalCompositeOperation = 'multiply'; 
+                                    tempCtx.drawImage(img, 0, 0, vpWidth, vpHeight);
+                                    resolve();
+                                };
+                                img.src = drawingsData[i];
+                            });
+                        }
+
+                        const format = vpWidth > vpHeight ? 'l' : 'p';
+                        if (i === 1) exportPdf = new jsPDF(format, 'px', [vpWidth, vpHeight]);
+                        else exportPdf.addPage([vpWidth, vpHeight], format);
+                        
+                        exportPdf.addImage(tempCanvas.toDataURL('image/jpeg', 0.85), 'JPEG', 0, 0, vpWidth, vpHeight);
+                    }
+                    exportPdf.save(`${exportName}.pdf`);
+                    fileName = exportName;
+                    isDirty = false;
+                } catch(e) { alert("حصل مشكلة في الحفظ!"); console.error(e); }
+                hideLoading();
+            }, 150);
+        }
+    </script>
+</body>
+</html>

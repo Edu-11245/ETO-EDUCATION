@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "library": "كلية العلوم",
+  "rootFolder": "Data/كلية العلوم",
+  "subjects": [
+    {
+      "id": "sc_mull920p_ngxaa",
+      "name": "Zoology",
+      "folder": "Data/كلية العلوم/Zoology",
+      "items": [
+        {
+          "title": "المحاضرة الأولي",
+          "type": "محاضرة",
+          "url": "https://github.com/EngMohammedSaad/Zoology/releases/download/%D9%85%D8%AD%D8%A7%D8%B6%D8%B1%D8%A7%D8%AA/Lecture.one.biology.pptx",
+          "driveUrl": "https://docs.google.com/presentation/d/1A_XJZ5Q_GYqe7vFzVpjja45tjOwYg_aB/edit?usp=drivesdk&ouid=112853357816746900673&rtpof=true&sd=true",
+          "description": "المحاضرة الاولي - Zoology السنة الدراسية الأولي",
+          "date": "2026-09-28T18:43:30.673Z"
+        }
+      ]
+    }
+  ]
+}

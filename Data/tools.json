@@ -1,0 +1,346 @@
+{
+    "tools": [
+
+        {
+            "name_en": "PhET Simulations",
+            "name_ar": "محاكاة فيت",
+            "type": "simulation",
+            "field": "physics",
+            "url": "https://phet.colorado.edu/"
+        },
+        {
+            "name_en": "Falstad Circuit Simulator",
+            "name_ar": "محاكي الدوائر الكهربائية",
+            "type": "simulation",
+            "field": "physics",
+            "url": "https://falstad.com/circuit/"
+        },
+        {
+            "name_en": "EveryCircuit",
+            "name_ar": "محاكي الدوائر (EveryCircuit)",
+            "type": "simulation",
+            "field": "physics",
+            "url": "https://everycircuit.com/"
+        },
+
+        {
+            "name_en": "Desmos Calculator",
+            "name_ar": "آلة ديسموس",
+            "type": "calculator",
+            "field": "math",
+            "url": "https://www.desmos.com/calculator"
+        },
+        {
+            "name_en": "Symbolab",
+            "name_ar": "سيمبولاب",
+            "type": "calculator",
+            "field": "math",
+            "url": "https://www.symbolab.com/"
+        },
+        {
+            "name_en": "Wolfram Alpha",
+            "name_ar": "وولفرام ألفا",
+            "type": "calculator",
+            "field": "math",
+            "url": "https://www.wolframalpha.com/"
+        },
+        {
+            "name_en": "GeoGebra",
+            "name_ar": "جيوجبرا",
+            "type": "calculator",
+            "field": "math",
+            "url": "https://www.geogebra.org/"
+        },
+
+        {
+            "name_en": "Periodic Table",
+            "name_ar": "الجدول الدوري التفاعلي",
+            "type": "reference",
+            "field": "chemistry",
+            "url": "https://ptable.com/"
+        },
+        {
+            "name_en": "ChemCollective",
+            "name_ar": "مختبر كيمياء افتراضي",
+            "type": "simulation",
+            "field": "chemistry",
+            "url": "https://chemcollective.org/"
+        },
+
+        {
+            "name_en": "BioInteractive",
+            "name_ar": "أحياء تفاعلي",
+            "type": "learning",
+            "field": "biology",
+            "url": "https://www.biointeractive.org/"
+        },
+        {
+            "name_en": "Visible Body",
+            "name_ar": "تشريح الجسم ثلاثي الأبعاد",
+            "type": "simulation",
+            "field": "biology",
+            "url": "https://www.visiblebody.com/"
+        },
+
+        {
+            "name_en": "Google Translate",
+            "name_ar": "ترجمة جوجل",
+            "type": "tool",
+            "field": "english",
+            "url": "https://translate.google.com/"
+        },
+        {
+            "name_en": "Grammarly",
+            "name_ar": "جرامرلي لتصحيح الإنجليزي",
+            "type": "tool",
+            "field": "english",
+            "url": "https://www.grammarly.com/"
+        },
+
+        {
+            "name_en": "Quizlet",
+            "name_ar": "كويزلِت للمذاكرة",
+            "type": "study_tool",
+            "field": "general",
+            "url": "https://quizlet.com/"
+        },
+        {
+            "name_en": "Notion",
+            "name_ar": "نوتيون لتنظيم المذاكرة",
+            "type": "productivity",
+            "field": "general",
+            "url": "https://www.notion.so/"
+        },
+        {
+            "name_en": "Google Drive",
+            "name_ar": "جوجل درايف",
+            "type": "storage",
+            "field": "general",
+            "url": "https://drive.google.com/"
+        },
+
+        {
+            "name_en": "Calculator.net",
+            "name_ar": "آلة حاسبة أونلاين",
+            "type": "calculator",
+            "field": "general",
+            "url": "https://www.calculator.net/"
+        }
+    ],
+    "teachers": [
+
+        {
+            "name": "محمد صلاح",
+            "subject": "arabic",
+            "lang": "arabic",
+            "platforms": ["bassthalk"]
+        },
+        {
+            "name": "رضا الفاروق",
+            "subject": "arabic",
+            "lang": "arabic",
+            "platforms": []
+        },
+
+        {
+            "name": "عبد الحميد حامد",
+            "subject": "english",
+            "lang": "both",
+            "platforms": ["bassthalk", "fullmark"]
+        },
+        {
+            "name": "محمد صلاح (English)",
+            "subject": "english",
+            "lang": "languages",
+            "platforms": []
+        },
+
+        {
+            "name": "عبدالمعبود",
+            "subject": "physics",
+            "lang": "arabic",
+            "platforms": ["abdelmaaboud"]
+        },
+        {
+            "name": "شادي الشرقاوي",
+            "subject": "physics",
+            "lang": "languages",
+            "platforms": ["elkheta"]
+        },
+        {
+            "name": "عمر رعية",
+            "subject": "physics",
+            "lang": "languages",
+            "platforms": ["omarraeia"]
+        },
+
+        {
+            "name": "عبدالجواد",
+            "subject": "chemistry",
+            "lang": "arabic",
+            "platforms": []
+        },
+        {
+            "name": "دكتور جوزيف عادل",
+            "subject": "chemistry",
+            "lang": "languages",
+            "platforms": ["drjosephadel"]
+        },
+        {
+            "name": "الشامي",
+            "subject": "chemistry",
+            "lang": "languages",
+            "platforms": ["elkheta"]
+        },
+
+        {
+            "name": "عمر الشربيني",
+            "subject": "math",
+            "lang": "languages",
+            "platforms": ["omar_sherbeni"]
+        },
+        {
+            "name": "الكلياني",
+            "subject": "math",
+            "lang": "languages",
+            "platforms": ["fintech"]
+        },
+        {
+            "name": "مصطفى حسام",
+            "subject": "math",
+            "lang": "arabic",
+            "platforms": ["mostafa_hossam"]
+        },
+        {
+            "name": "أحمد الجوهري",
+            "subject": "biology",
+            "lang": "arabic",
+            "platforms": ["ahmed_elgohary"]
+        },
+        {
+            "name": "ناصر البطل",
+            "subject": "chemistry",
+            "lang": "languages",
+            "platforms": ["ednuva"]
+        },
+        {
+            "name": "خالد صقر",
+            "subject": "chemistry",
+            "lang": "arabic",
+            "platforms": ["khaled_sakr"]
+        }
+    ],
+    "platforms": [
+        {
+            "name_en": "Elkheta",
+            "name_ar": "الخطة التعليمية",
+            "type": "learning_platform",
+            "url": "https://elkheta.com/study-content"
+        },
+        {
+            "name_en": "Bassthalk",
+            "name_ar": "بسطتهالك",
+            "type": "learning_platform",
+            "url": "https://bassthalk.com/"
+        },
+        {
+            "name_en": "Ednuva",
+            "name_ar": "إدنوفا",
+            "type": "learning_platform",
+            "url": "https://ednuva.com/"
+        },
+
+        {
+            "name_en": "Omar Sherbeni",
+            "name_ar": "عمر الشربيني",
+            "type": "subject_platform",
+            "field": "math",
+            "lang": "languages",
+            "url": "https://omar-sherbeni.com/"
+        },
+        {
+            "name_en": "El Kelany",
+            "name_ar": "الكلياني",
+            "type": "subject_platform",
+            "field": "math",
+            "lang": "languages",
+            "url": "https://www.fintechelearning.com/teachers/25"
+        },
+        {
+            "name_en": "Mostafa Hossam",
+            "name_ar": "مصطفى حسام",
+            "type": "subject_platform",
+            "field": "math",
+            "lang": "arabic",
+            "url": "https://mr-mostafa-hossam.com"
+        },
+
+        {
+            "name_en": "Dr Joseph Adel",
+            "name_ar": "دكتور جوزيف عادل",
+            "type": "subject_platform",
+            "field": "chemistry",
+            "lang": "languages",
+            "url": "https://www.drjosephadel.com/"
+        },
+        {
+            "name_en": "MAG Academy",
+            "name_ar": "ماج أكاديمي",
+            "type": "subject_platform",
+            "field": "chemistry",
+            "lang": "arabic",
+            "url": "https://magacademy.co/"
+        },
+
+        {
+            "name_en": "Abdelmaaboud",
+            "name_ar": "عبدالمعبود",
+            "type": "subject_platform",
+            "field": "physics",
+            "lang": "arabic",
+            "url": "https://abdelmaaboud.com/"
+        },
+        {
+            "name_en": "Omar Raeia",
+            "name_ar": "عمر رعية",
+            "type": "subject_platform",
+            "field": "physics",
+            "lang": "languages",
+            "url": "https://omarraeia.com/"
+        },
+
+        {
+            "name_en": "Abdelgawad",
+            "name_ar": "عبدالجواد",
+            "type": "subject_platform",
+            "field": "biology",
+            "lang": "arabic",
+            "url": "https://ahmed-elgohary.com/"
+        },
+
+        {
+            "name_en": "Abdelhamid Hamed",
+            "name_ar": "عبد الحميد حامد",
+            "type": "subject_platform",
+            "field": "english",
+            "lang": "both",
+            "url": "https://fullmark-en.com/"
+        },
+
+        {
+            "name_en": "Ministry of Education Egypt",
+            "name_ar": "وزارة التربية والتعليم",
+            "type": "official",
+            "url": "https://moe.gov.eg/"
+        },
+
+        {
+            "name_en": "Booxtore",
+            "name_ar": "بوك ستور",
+            "type": "book_store",
+            "url": "https://booxtore.net/"
+        }
+    ]
+
+
+}

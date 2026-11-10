@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ETO Admin • إدارة الملخصات والامتحانات</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+    *{box-sizing:border-box}
+    body{font-family:'Cairo',sans-serif;background:#f1f5f9;color:#0f172a}
+    .app{max-width:1250px;margin:auto}
+    .hero{background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 55%,#4f46e5 100%);color:#fff;border-radius:28px;padding:28px;position:relative;overflow:hidden;box-shadow:0 25px 60px rgba(15,23,42,.16)}
+    .hero:before,.hero:after{content:"";position:absolute;border-radius:999px;background:#fff;opacity:.07;pointer-events:none}.hero:before{width:260px;height:260px;left:-90px;top:-140px}.hero:after{width:210px;height:210px;right:-90px;bottom:-125px}
+    .tabbar{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.tab{border:1px solid #e2e8f0;background:#fff;border-radius:16px;padding:13px;font-size:12px;font-weight:900;cursor:pointer;transition:.2s}.tab.active{background:#4f46e5;color:#fff;border-color:#4f46e5;box-shadow:0 10px 24px rgba(79,70,229,.2)}
+    .panel{background:#fff;border:1px solid #e2e8f0;border-radius:22px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+    label{display:block;font-size:11px;font-weight:900;color:#475569;margin-bottom:6px}.field{margin-bottom:12px}.control{width:100%;height:43px;border:1px solid #dbe3ec;border-radius:12px;padding:0 12px;background:#fff;font-size:12px;font-weight:800;outline:none}.control:focus{border-color:#818cf8;box-shadow:0 0 0 4px rgba(99,102,241,.10)}
+    .drop{border:2px dashed #c7d2fe;background:#eef2ff;border-radius:14px;padding:15px;text-align:center;cursor:pointer;color:#4f46e5}
+    .item{display:flex;gap:12px;align-items:flex-start;border:1px solid #e2e8f0;border-radius:15px;padding:11px;background:#f8fafc}.thumb{width:58px;height:58px;border-radius:12px;object-fit:cover;border:1px solid #dbe3ec;background:#e0e7ff;flex:none}.pill{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#eef2ff;color:#4f46e5;font-size:9px;font-weight:900}.danger{color:#dc2626}.hidden-tab{display:none!important}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:100;background:#0f172a;color:#fff;border-radius:12px;padding:10px 16px;font-size:12px;font-weight:800;box-shadow:0 15px 35px rgba(0,0,0,.22)}
+    @media(max-width:800px){.grid2{grid-template-columns:1fr!important}.tabbar{grid-template-columns:1fr}.hero{padding:22px}}
+  </style>
+</head>
+<body class="p-4 md:p-7">
+<div class="app">
+  <section class="hero">
+    <div class="relative z-10">
+      <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 text-[10px] font-black"><i class="fa-solid fa-user-shield"></i> ETO ADMIN</span>
+      <h1 class="text-3xl md:text-4xl font-black mt-3">إدارة مكتبة الطلاب</h1>
+      <p class="text-blue-100 text-sm leading-7 mt-2 max-w-3xl">من مكان واحد ضيف الملخصات والامتحانات، استورد الملفات القديمة، وطلّع كل ملف JSON لوحده داخل مجلد Data.</p>
+    </div>
+  </section>
+
+  <div class="tabbar">
+    <button class="tab active" data-admin-tab="summaries"><i class="fa-solid fa-book-open ml-2"></i>إدارة الملخصات</button>
+    <button class="tab" data-admin-tab="exams"><i class="fa-solid fa-file-circle-question ml-2"></i>إدارة الامتحانات</button>
+    <button class="tab" data-admin-tab="science"><i class="fa-solid fa-flask ml-2"></i>كلية العلوم</button>
+  </div>
+
+  <section id="admin-summaries" class="mt-4">
+    <div class="panel p-5 md:p-6 mb-5">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div><h2 class="text-lg font-black">إضافة ملخص جديد</h2><p class="text-xs text-slate-400 mt-1">البيانات هتتخزن محليًا لحد ما تضغط تنزيل summaries.json.</p></div>
+        <span class="pill"><i class="fa-solid fa-database ml-1"></i> Data/summaries.json</span>
+      </div>
+      <div class="grid grid-cols-2 gap-4 grid2">
+        <div>
+          <div class="field"><label>المرحلة الدراسية</label><select id="s-year" class="control"></select></div>
+          <div class="field"><label>نوع الدراسة</label><select id="s-track" class="control"><option value="عام">عام</option><option value="لغات">لغات</option></select></div>
+          <div class="field"><label>المادة</label><input id="s-subject" class="control" placeholder="مثال: كيمياء"></div>
+          <div class="field"><label>اسم الدرس / الملخص</label><input id="s-lesson" class="control" placeholder="مثال: الباب الأول - الموائع"></div>
+          <div class="field"><label>رابط الملف المباشر</label><input id="s-url" type="url" class="control" placeholder="https://github.com/.../releases/download/...pdf"></div>
+          <div class="field"><label>رابط Google Drive (اختياري للمعاينة)</label><input id="s-drive" type="url" class="control" placeholder="https://drive.google.com/file/d/.../view"></div>
+        </div>
+        <div>
+          <label>صورة الغلاف</label>
+          <label class="drop" for="s-image"><i class="fa-solid fa-image text-2xl block mb-2"></i>ارفع صورة للغلاف</label>
+          <input id="s-image" type="file" accept="image/*" class="hidden">
+          <p class="text-[10px] text-slate-400 mt-2">أو ارفع PDF لاستخراج أول صفحة تلقائيًا.</p>
+          <label class="drop mt-2" for="s-pdf"><i class="fa-solid fa-file-pdf text-2xl block mb-2"></i>استخراج غلاف من PDF</label>
+          <input id="s-pdf" type="file" accept="application/pdf" class="hidden">
+          <div class="mt-3 flex items-center gap-2"><img id="s-preview" class="thumb hidden"><button id="s-clear-image" type="button" class="hidden text-xs font-black danger">مسح الصورة</button></div>
+          <button id="s-add" class="w-full mt-5 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl text-sm font-black"><i class="fa-solid fa-plus ml-1"></i> إضافة الملخص للقائمة</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel p-5 md:p-6">
+      <div class="flex items-center justify-between gap-3 mb-4"><div><h2 class="text-lg font-black">قائمة الملخصات <span id="s-count" class="text-indigo-600">0</span></h2><p class="text-xs text-slate-400">اقدر تستورد الملف القديم وتكمل عليه.</p></div><button id="s-download" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-black"><i class="fa-solid fa-download ml-1"></i> تنزيل summaries.json</button></div>
+      <div class="flex gap-2 mb-4"><label class="drop flex-1" for="s-import"><i class="fa-solid fa-file-import ml-1"></i> استيراد summaries.json</label><input id="s-import" type="file" accept="application/json" class="hidden"></div>
+      <div id="s-list" class="space-y-2"></div><div id="s-empty" class="text-center py-10 text-xs text-slate-400">القائمة فاضية.</div>
+    </div>
+  </section>
+
+  <section id="admin-exams" class="mt-4 hidden-tab">
+    <div class="panel p-5 md:p-6 mb-5">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div><h2 class="text-lg font-black">إضافة امتحان جديد</h2><p class="text-xs text-slate-400 mt-1">نفس نظام الملخصات ولكن الحقل الأساسي هو اسم الامتحان.</p></div>
+        <span class="pill"><i class="fa-solid fa-database ml-1"></i> Data/exams.json</span>
+      </div>
+      <div class="grid grid-cols-2 gap-4 grid2">
+        <div>
+          <div class="field"><label>المرحلة الدراسية</label><select id="e-year" class="control"></select></div>
+          <div class="field"><label>نوع الدراسة</label><select id="e-track" class="control"><option value="عام">عام</option><option value="لغات">لغات</option></select></div>
+          <div class="field"><label>المادة</label><input id="e-subject" class="control" placeholder="مثال: رياضيات"></div>
+          <div class="field"><label>اسم الامتحان</label><input id="e-exam" class="control" placeholder="مثال: امتحان الوحدة الأولى"></div>
+          <div class="field"><label>رابط الملف المباشر</label><input id="e-url" type="url" class="control" placeholder="https://github.com/.../releases/download/...pdf"></div>
+          <div class="field"><label>رابط Google Drive (اختياري للمعاينة)</label><input id="e-drive" type="url" class="control" placeholder="https://drive.google.com/file/d/.../view"></div>
+        </div>
+        <div>
+          <label>صورة الغلاف</label>
+          <label class="drop" for="e-image"><i class="fa-solid fa-image text-2xl block mb-2"></i>ارفع صورة للغلاف</label>
+          <input id="e-image" type="file" accept="image/*" class="hidden">
+          <p class="text-[10px] text-slate-400 mt-2">أو ارفع PDF لاستخراج أول صفحة تلقائيًا.</p>
+          <label class="drop mt-2" for="e-pdf"><i class="fa-solid fa-file-pdf text-2xl block mb-2"></i>استخراج غلاف من PDF</label>
+          <input id="e-pdf" type="file" accept="application/pdf" class="hidden">
+          <div class="mt-3 flex items-center gap-2"><img id="e-preview" class="thumb hidden"><button id="e-clear-image" type="button" class="hidden text-xs font-black danger">مسح الصورة</button></div>
+          <button id="e-add" class="w-full mt-5 bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl text-sm font-black"><i class="fa-solid fa-plus ml-1"></i> إضافة الامتحان للقائمة</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel p-5 md:p-6">
+      <div class="flex items-center justify-between gap-3 mb-4"><div><h2 class="text-lg font-black">قائمة الامتحانات <span id="e-count" class="text-red-600">0</span></h2><p class="text-xs text-slate-400">استورد exams.json القديم وكمل عليه.</p></div><button id="e-download" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-black"><i class="fa-solid fa-download ml-1"></i> تنزيل exams.json</button></div>
+      <div class="flex gap-2 mb-4"><label class="drop flex-1" for="e-import"><i class="fa-solid fa-file-import ml-1"></i> استيراد exams.json</label><input id="e-import" type="file" accept="application/json" class="hidden"></div>
+      <div id="e-list" class="space-y-2"></div><div id="e-empty" class="text-center py-10 text-xs text-slate-400">القائمة فاضية.</div>
+    </div>
+  </section>
+
+  <section id="admin-science" class="mt-4 hidden-tab">
+
+    <div class="panel p-5 md:p-6 mb-5">
+
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+
+        <div>
+          <h2 class="text-lg font-black">مكتبة كلية العلوم</h2>
+          <p class="text-xs text-slate-400 mt-1">
+            أضف المواد والدروس والشروحات، وكل مادة هيكون ليها مسار Folder مستقل داخل Data/كلية العلوم.
+          </p>
+        </div>
+
+        <span class="pill">
+          <i class="fa-solid fa-database ml-1"></i>
+          Data/college-science.json
+        </span>
+
+      </div>
+
+
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-3 mb-6">
+
+        <div>
+          <label>إضافة مادة جديدة</label>
+
+          <input
+            id="sc-new-subject"
+            class="control"
+            placeholder="مثال: كيمياء تحليلية">
+        </div>
+
+        <button
+          id="sc-add-subject"
+          type="button"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 rounded-xl text-sm font-black">
+
+          <i class="fa-solid fa-folder-plus ml-1"></i>
+          إضافة المادة
+
+        </button>
+
+      </div>
+
+
+      <div class="rounded-2xl border border-indigo-100 bg-indigo-50 p-4 mb-6">
+
+        <div class="flex items-center gap-2 mb-3">
+
+          <i class="fa-solid fa-folder-tree text-indigo-600"></i>
+
+          <div>
+            <h3 class="text-sm font-black text-slate-800">
+              مسار المواد
+            </h3>
+
+            <p class="text-[10px] text-slate-500">
+              كل مادة جديدة بيتم تجهيز Folder Path ليها تلقائيًا.
+            </p>
+          </div>
+
+        </div>
+
+        <div
+          id="sc-subjects-list"
+          class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        </div>
+
+      </div>
+
+
+      <div class="border-t border-slate-200 pt-5">
+
+        <div class="mb-4">
+
+          <h3 class="text-base font-black">
+            إضافة ملف / شرح جديد
+          </h3>
+
+          <p class="text-xs text-slate-400 mt-1">
+            اختار المادة، اكتب اسم الملف وحط رابط الملف أو Google Drive.
+          </p>
+
+        </div>
+
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          <div class="field">
+
+            <label>المادة</label>
+
+            <select
+              id="sc-subject-select"
+              class="control">
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>نوع المحتوى</label>
+
+            <select
+              id="sc-type"
+              class="control">
+
+              <option value="شرح">شرح</option>
+              <option value="محاضرة">محاضرة</option>
+              <option value="ملخص">ملخص</option>
+              <option value="شيت">شيت</option>
+              <option value="بنك أسئلة">بنك أسئلة</option>
+              <option value="مراجعة">مراجعة</option>
+              <option value="أخرى">أخرى</option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>اسم الملف / الدرس</label>
+
+            <input
+              id="sc-title"
+              class="control"
+              placeholder="مثال: المحاضرة الأولى - Atomic Structure">
+
+          </div>
+
+
+          <div class="field">
+
+            <label>رابط الملف المباشر</label>
+
+            <input
+              id="sc-url"
+              type="url"
+              dir="ltr"
+              class="control"
+              placeholder="https://.../file.pdf">
+
+          </div>
+
+
+          <div class="field md:col-span-2">
+
+            <label>رابط Google Drive للمعاينة</label>
+
+            <input
+              id="sc-drive"
+              type="url"
+              dir="ltr"
+              class="control"
+              placeholder="https://drive.google.com/file/d/.../view">
+
+          </div>
+
+
+          <div class="field md:col-span-2">
+
+            <label>وصف مختصر</label>
+
+            <textarea
+              id="sc-description"
+              class="control"
+              style="height:90px;padding-top:10px"
+              placeholder="وصف بسيط للملف أو الشرح"></textarea>
+
+          </div>
+
+        </div>
+
+
+        <button
+          id="sc-add-material"
+          type="button"
+          class="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl text-sm font-black">
+
+          <i class="fa-solid fa-plus ml-1"></i>
+          إضافة الملف للمادة
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="panel p-5 md:p-6">
+
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+
+        <div>
+
+          <h2 class="text-lg font-black">
+            مكتبة كلية العلوم
+            <span
+              id="sc-count"
+              class="text-indigo-600">
+              0
+            </span>
+          </h2>
+
+          <p class="text-xs text-slate-400 mt-1">
+            كل المحتوى اللي هيتصدّر داخل college-science.json.
+          </p>
+
+        </div>
+
+
+        <div class="flex gap-2 flex-wrap">
+
+          <label
+            class="drop px-4 py-2"
+            for="sc-import">
+
+            <i class="fa-solid fa-file-import ml-1"></i>
+            استيراد JSON
+
+          </label>
+
+          <input
+            id="sc-import"
+            type="file"
+            accept="application/json"
+            class="hidden">
+
+
+          <button
+            id="sc-download"
+            type="button"
+            class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-black">
+
+            <i class="fa-solid fa-download ml-1"></i>
+            تنزيل college-science.json
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div id="sc-list" class="space-y-3"></div>
+
+
+      <div
+        id="sc-empty"
+        class="text-center py-12 text-xs text-slate-400">
+
+        لسه مفيش مواد مضافة.
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+  const YEARS=['الصف الأول الابتدائي','الصف الثاني الابتدائي','الصف الثالث الابتدائي','الصف الرابع الابتدائي','الصف الخامس الابتدائي','الصف السادس الابتدائي','الصف الأول الإعدادي','الصف الثاني الإعدادي','الصف الثالث الإعدادي','الصف الأول الثانوي','الصف الثاني الثانوي','الصف الثالث الثانوي','الأولى بكالوريا','الثانية بكالوريا','الثالثة بكالوريا'];
+  let summaries=[], exams=[], sPendingImage=null, ePendingImage=null;
+
+  let scienceLibrary={
+    version:1,
+    library:'كلية العلوم',
+    rootFolder:'Data/كلية العلوم',
+    subjects:[]
+  };
+  const $=id=>document.getElementById(id);
+  function toast(msg,error=false){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');t.style.background=error?'#dc2626':'#0f172a';clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.add('hidden'),2600)}
+  function esc(v){const d=document.createElement('div');d.textContent=v??'';return d.innerHTML}
+  YEARS.forEach(y=>{const a=document.createElement('option');a.value=y;a.textContent=y;$('s-year').appendChild(a);const b=a.cloneNode(true);$('e-year').appendChild(b)});
+  $('s-year').value='الصف الأول الثانوي';$('e-year').value='الصف الأول الثانوي';
+  function fileData(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
+  function resizeData(data,max=520){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>{const scale=Math.min(1,max/im.width),w=Math.max(1,Math.round(im.width*scale)),h=Math.max(1,Math.round(im.height*scale));const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);res(c.toDataURL('image/jpeg',.76))};im.onerror=rej;im.src=data})}
+  async function pdfCover(file){const buf=await file.arrayBuffer(),pdf=await pdfjsLib.getDocument({data:buf}).promise,page=await pdf.getPage(1),base=page.getViewport({scale:1}),scale=520/base.width,vp=page.getViewport({scale}),c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;return c.toDataURL('image/jpeg',.76)}
+  function setPreview(prefix,data){$(prefix+'-preview').src=data;$(prefix+'-preview').classList.remove('hidden');$(prefix+'-clear-image').classList.remove('hidden')}
+  function clearPreview(prefix){if(prefix==='s')sPendingImage=null;else ePendingImage=null;$(prefix+'-preview').src='';$(prefix+'-preview').classList.add('hidden');$(prefix+'-clear-image').classList.add('hidden');$(prefix+'-image').value='';$(prefix+'-pdf').value=''}
+  $('s-image').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{sPendingImage=await resizeData(await fileData(f));setPreview('s',sPendingImage);$('s-pdf').value=''}catch{toast('تعذر تحميل الصورة','error')}});
+  $('e-image').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{ePendingImage=await resizeData(await fileData(f));setPreview('e',ePendingImage);$('e-pdf').value=''}catch{toast('تعذر تحميل الصورة','error')}});
+  $('s-pdf').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{toast('بنستخرج صورة الغلاف...');sPendingImage=await pdfCover(f);setPreview('s',sPendingImage);$('s-image').value=''}catch{toast('تعذر استخراج الغلاف','error')}});
+  $('e-pdf').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{toast('بنستخرج صورة الغلاف...');ePendingImage=await pdfCover(f);setPreview('e',ePendingImage);$('e-image').value=''}catch{toast('تعذر استخراج الغلاف','error')}});
+  $('s-clear-image').onclick=()=>clearPreview('s');$('e-clear-image').onclick=()=>clearPreview('e');
+  function renderList(type){const arr=type==='s'?summaries:exams,list=$(type==='s'?'s-list':'e-list'),empty=$(type==='s'?'s-empty':'e-empty'),count=$(type==='s'?'s-count':'e-count');count.textContent=arr.length;list.innerHTML='';empty.classList.toggle('hidden',arr.length>0);arr.forEach((it,i)=>{const row=document.createElement('div');row.className='item';const img=it.image?`<img class="thumb" src="${esc(it.image)}">`:`<div class="thumb flex items-center justify-center text-indigo-500"><i class="fa-solid ${type==='s'?'fa-book-open':'fa-file-circle-question'}"></i></div>`;row.innerHTML=`${img}<div class="min-w-0 flex-1"><div class="font-black text-xs truncate">${esc(type==='s'?(it.lesson||it.title||'ملخص'):(it.exam||it.lesson||it.title||'امتحان'))}</div><div class="text-[10px] text-slate-500 mt-1">${esc(it.subject||'')} • ${esc(it.year||'')} • ${esc(it.track||'عام')}</div><div class="text-[10px] text-slate-400 truncate mt-1">${esc(it.url||it.driveUrl||'')}</div></div><button class="danger text-sm px-2" data-remove="${i}" title="حذف"><i class="fa-solid fa-trash"></i></button>`;row.querySelector('[data-remove]').onclick=()=>{arr.splice(i,1);renderList(type)};list.appendChild(row)})}
+  function resetForm(type){if(type==='s'){['s-subject','s-lesson','s-url','s-drive'].forEach(id=>$(id).value='');clearPreview('s')}else{['e-subject','e-exam','e-url','e-drive'].forEach(id=>$(id).value='');clearPreview('e')}}
+  $('s-add').onclick=()=>{const item={year:$('s-year').value,track:$('s-track').value,subject:$('s-subject').value.trim(),lesson:$('s-lesson').value.trim(),url:$('s-url').value.trim(),date:new Date().toISOString()};if(!item.subject||!item.lesson||!item.url){toast('املأ المادة والدرس والرابط','error');return}if($('s-drive').value.trim())item.driveUrl=$('s-drive').value.trim();if(sPendingImage)item.image=sPendingImage;summaries.push(item);resetForm('s');renderList('s');toast('اتضاف الملخص')};
+  $('e-add').onclick=()=>{const item={year:$('e-year').value,track:$('e-track').value,subject:$('e-subject').value.trim(),exam:$('e-exam').value.trim(),url:$('e-url').value.trim(),date:new Date().toISOString()};if(!item.subject||!item.exam||!item.url){toast('املأ المادة واسم الامتحان والرابط','error');return}if($('e-drive').value.trim())item.driveUrl=$('e-drive').value.trim();if(ePendingImage)item.image=ePendingImage;exams.push(item);resetForm('e');renderList('e');toast('اتضاف الامتحان')};
+  function downloadJson(filename,data){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('تم تنزيل '+filename)}
+  $('s-download').onclick=()=>{if(!summaries.length){toast('قائمة الملخصات فاضية','error');return}downloadJson('summaries.json',summaries)};
+  $('e-download').onclick=()=>{if(!exams.length){toast('قائمة الامتحانات فاضية','error');return}downloadJson('exams.json',exams)};
+  function importJson(input,type){input.addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result),arr=Array.isArray(d)?d:(d.items||[]);if(type==='s')summaries=arr;else exams=arr;renderList(type);toast('تم استيراد الملف');}catch{toast('الملف مش JSON صحيح','error')}input.value=''};r.readAsText(f)})}
+  importJson($('s-import'),'s');
+  importJson($('e-import'),'e');
+
+
+  function scSafeFolderName(name){
+
+    return String(name || '')
+      .trim()
+      .replace(/[\\/:*?"<>|]/g,'-')
+      .replace(/\s+/g,' ');
+
+  }
+
+
+  function scMakeId(){
+
+    return 'sc_' + Date.now().toString(36) + '_' +
+      Math.random().toString(36).slice(2,7);
+
+  }
+
+
+  function scGetSubject(){
+
+    return $('sc-subject-select').value;
+
+  }
+
+
+  function scRenderSubjects(){
+
+    const select=$('sc-subject-select');
+    const list=$('sc-subjects-list');
+
+    select.innerHTML='';
+    list.innerHTML='';
+
+    if(!scienceLibrary.subjects.length){
+
+      const option=document.createElement('option');
+
+      option.value='';
+      option.textContent='أضف مادة الأول';
+
+      select.appendChild(option);
+
+      return;
+
+    }
+
+
+    scienceLibrary.subjects.forEach(subject=>{
+
+      const option=document.createElement('option');
+
+      option.value=subject.id;
+      option.textContent=subject.name;
+
+      select.appendChild(option);
+
+
+      const row=document.createElement('div');
+
+      row.className=
+        'bg-white border border-indigo-100 rounded-xl p-3';
+
+      row.innerHTML=`
+
+        <div class="font-black text-xs text-slate-800">
+          ${esc(subject.name)}
+        </div>
+
+        <div class="text-[9px] text-slate-400 mt-1" dir="ltr">
+          ${esc(subject.folder)}
+        </div>
+
+        <div class="text-[9px] text-indigo-500 font-black mt-1">
+          ${subject.items.length} ملف
+        </div>
+
+      `;
+
+      list.appendChild(row);
+
+    });
+
+  }
+
+
+  function scRenderList(){
+
+    const list=$('sc-list');
+    const empty=$('sc-empty');
+
+    let total=0;
+
+    list.innerHTML='';
+
+
+    scienceLibrary.subjects.forEach(subject=>{
+
+      if(!subject.items.length) return;
+
+      total += subject.items.length;
+
+
+      const box=document.createElement('div');
+
+      box.className=
+        'border border-slate-200 rounded-2xl p-4 bg-slate-50';
+
+      box.innerHTML=`
+
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+
+          <div>
+            <div class="font-black text-sm text-slate-800">
+              ${esc(subject.name)}
+            </div>
+
+            <div class="text-[9px] text-slate-400 mt-1" dir="ltr">
+              ${esc(subject.folder)}
+            </div>
+          </div>
+
+          <span class="pill">
+            ${subject.items.length} ملف
+          </span>
+
+        </div>
+
+        <div class="space-y-2">
+
+          ${subject.items.map((item,index)=>`
+
+            <div class="item">
+
+              <div class="thumb flex items-center justify-center text-indigo-500">
+
+                <i class="fa-solid fa-file-pdf"></i>
+
+              </div>
+
+              <div class="min-w-0 flex-1">
+
+                <div class="font-black text-xs">
+                  ${esc(item.title)}
+                </div>
+
+                <div class="text-[10px] text-slate-500 mt-1">
+                  ${esc(item.type || 'شرح')}
+                  ${item.description ? ' • ' + esc(item.description) : ''}
+                </div>
+
+                <div class="text-[10px] text-slate-400 truncate mt-1" dir="ltr">
+                  ${esc(item.url || item.driveUrl || '')}
+                </div>
+
+              </div>
+
+              <button
+                type="button"
+                class="danger text-sm px-2"
+                data-sc-remove="${esc(subject.id)}"
+                data-sc-index="${index}"
+                title="حذف">
+
+                <i class="fa-solid fa-trash"></i>
+
+              </button>
+
+            </div>
+
+          `).join('')}
+
+        </div>
+
+      `;
+
+
+      list.appendChild(box);
+
+    });
+
+
+    $('sc-count').textContent=total;
+
+    empty.classList.toggle('hidden',total>0);
+
+  }
+
+
+  $('sc-add-subject').onclick=()=>{
+
+    const input=$('sc-new-subject');
+
+    const name=input.value.trim();
+
+    if(!name){
+
+      toast('اكتب اسم المادة الأول','error');
+
+      return;
+
+    }
+
+
+    const exists=
+      scienceLibrary.subjects.some(
+        s=>s.name.toLowerCase()===name.toLowerCase()
+      );
+
+    if(exists){
+
+      toast('المادة دي موجودة بالفعل','error');
+
+      return;
+
+    }
+
+
+    const safe=scSafeFolderName(name);
+
+    scienceLibrary.subjects.push({
+
+      id:scMakeId(),
+
+      name:name,
+
+      folder:'Data/كلية العلوم/' + safe,
+
+      items:[]
+
+    });
+
+
+    input.value='';
+
+    scRenderSubjects();
+    scRenderList();
+
+    toast('اتضافت مادة جديدة');
+
+  };
+
+
+  $('sc-add-material').onclick=()=>{
+
+    const subjectId=scGetSubject();
+
+    const title=$('sc-title').value.trim();
+    const type=$('sc-type').value;
+    const url=$('sc-url').value.trim();
+    const driveUrl=$('sc-drive').value.trim();
+    const description=$('sc-description').value.trim();
+
+
+    if(!subjectId){
+
+      toast('اختار المادة الأول','error');
+
+      return;
+
+    }
+
+
+    if(!title){
+
+      toast('اكتب اسم الملف أو الدرس','error');
+
+      return;
+
+    }
+
+
+    if(!url && !driveUrl){
+
+      toast('حط رابط الملف أو Google Drive','error');
+
+      return;
+
+    }
+
+
+    const subject=
+      scienceLibrary.subjects.find(
+        s=>s.id===subjectId
+      );
+
+
+    if(!subject) return;
+
+
+    subject.items.push({
+
+      title:title,
+      type:type,
+      url:url,
+      ...(driveUrl ? {driveUrl:driveUrl} : {}),
+      ...(description ? {description:description} : {}),
+      date:new Date().toISOString()
+
+    });
+
+
+    $('sc-title').value='';
+    $('sc-url').value='';
+    $('sc-drive').value='';
+    $('sc-description').value='';
+
+    scRenderSubjects();
+    $('sc-subject-select').value=subjectId;
+    scRenderList();
+
+    toast('اتضاف الملف للمادة');
+
+  };
+
+
+  $('sc-list').addEventListener('click',event=>{
+
+    const btn=
+      event.target.closest('[data-sc-remove]');
+
+    if(!btn) return;
+
+
+    const subject=
+      scienceLibrary.subjects.find(
+        s=>s.id===btn.dataset.scRemove
+      );
+
+    if(!subject) return;
+
+
+    const index=
+      Number(btn.dataset.scIndex);
+
+
+    subject.items.splice(index,1);
+
+    scRenderSubjects();
+    scRenderList();
+
+    toast('تم حذف الملف');
+
+  });
+
+
+  $('sc-download').onclick=()=>{
+
+    downloadJson(
+      'college-science.json',
+      scienceLibrary
+    );
+
+  };
+
+
+  $('sc-import').addEventListener('change',event=>{
+
+    const file=event.target.files[0];
+
+    if(!file) return;
+
+
+    const reader=new FileReader();
+
+
+    reader.onload=()=>{
+
+      try{
+
+        const data=
+          JSON.parse(reader.result);
+
+
+        if(
+          !data ||
+          !Array.isArray(data.subjects)
+        ){
+
+          throw new Error('bad science json');
+
+        }
+
+
+        scienceLibrary={
+
+          version:Number(data.version)||1,
+
+          library:data.library||'كلية العلوم',
+
+          rootFolder:
+            data.rootFolder||'Data/كلية العلوم',
+
+          subjects:data.subjects.map(subject=>({
+
+            id:subject.id||scMakeId(),
+
+            name:String(subject.name||'مادة'),
+
+            folder:
+              subject.folder ||
+              (
+                'Data/كلية العلوم/' +
+                scSafeFolderName(subject.name||'مادة')
+              ),
+
+            items:Array.isArray(subject.items)
+              ? subject.items
+              : []
+
+          }))
+
+        };
+
+
+        scRenderSubjects();
+        scRenderList();
+
+        toast('تم استيراد college-science.json');
+
+
+      }catch(error){
+
+        console.error(error);
+
+        toast(
+          'الملف مش College Science JSON صحيح',
+          'error'
+        );
+
+      }
+
+
+      event.target.value='';
+
+    };
+
+
+    reader.readAsText(file);
+
+  });
+
+
+  document.querySelectorAll('[data-admin-tab]').forEach(btn=>{
+
+    btn.onclick=()=>{
+
+      const type=btn.dataset.adminTab;
+
+      document
+        .querySelectorAll('.tab')
+        .forEach(b=>
+          b.classList.toggle(
+            'active',
+            b===btn
+          )
+        );
+
+
+      $('admin-summaries')
+        .classList.toggle(
+          'hidden-tab',
+          type!=='summaries'
+        );
+
+
+      $('admin-exams')
+        .classList.toggle(
+          'hidden-tab',
+          type!=='exams'
+        );
+
+
+      $('admin-science')
+        .classList.toggle(
+          'hidden-tab',
+          type!=='science'
+        );
+
+    };
+
+  });
+
+
+  scRenderSubjects();
+  scRenderList();
+
+
+  renderList('s');
+  renderList('e');
+</script>
+</body>
+</html>

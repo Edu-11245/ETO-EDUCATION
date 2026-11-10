@@ -1,0 +1,3187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2563eb">
+<title>مساعد Eto.Edu</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --blue:#2563eb;
+    --blue-dark:#1d4ed8;
+    --blue-soft:#eff6ff;
+    --blue-border:#dbeafe;
+
+    --green:#16a34a;
+    --green-soft:#ecfdf5;
+
+    --ink:#0f172a;
+    --sub:#64748b;
+    --muted:#94a3b8;
+
+    --bg:#f8fafc;
+    --card:#ffffff;
+    --border:#e2e8f0;
+
+    --user-start:#2563eb;
+    --user-end:#1d4ed8;
+
+    --shadow:0 8px 28px rgba(15,23,42,.07);
+    --shadow-soft:0 4px 16px rgba(15,23,42,.05);
+  }
+
+  html.dark{
+    --ink:#f8fafc;
+    --sub:#94a3b8;
+    --muted:#64748b;
+
+    --bg:#0f172a;
+    --card:#111827;
+    --border:#1e293b;
+
+    --blue-soft:#0f1d36;
+    --blue-border:#1e3a8a;
+
+    --green-soft:#0b2417;
+
+    --shadow:0 8px 28px rgba(0,0,0,.24);
+    --shadow-soft:0 4px 16px rgba(0,0,0,.2);
+  }
+
+  *{
+    box-sizing:border-box;
+  }
+
+  html,
+  body{
+    width:100%;
+    height:100%;
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Cairo',Arial,sans-serif;
+    overflow:hidden;
+  }
+
+  button,
+  input{
+    font-family:inherit;
+  }
+
+  button{
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  #app{
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* =========================================================
+     HEADER
+  ========================================================= */
+
+  #chat-header{
+    flex:none;
+    min-height:66px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+
+    background:
+      linear-gradient(135deg,#2563eb 0%,#1d4ed8 58%,#1e40af 100%);
+
+    color:#fff;
+    box-shadow:0 3px 16px rgba(37,99,235,.22);
+  }
+
+  #chat-avatar{
+    width:44px;
+    height:44px;
+    border-radius:13px;
+    flex:none;
+
+    display:block;
+
+    background-color:rgba(255,255,255,.16);
+    background-image:url('robot.png');
+    background-repeat:no-repeat;
+    background-position:0 0;
+    background-size:88px 132px;
+    border:1px solid rgba(255,255,255,.18);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 8px 18px rgba(15,23,42,.12);
+
+    image-rendering:auto;
+    user-select:none;
+  }
+
+  #chat-header-text{
+    flex:1;
+    min-width:0;
+  }
+
+  #chat-header-text b{
+    display:block;
+    font-size:13px;
+    line-height:1.4;
+    font-weight:900;
+  }
+
+  #chat-header-text span{
+    display:block;
+    margin-top:1px;
+    font-size:9.5px;
+    line-height:1.6;
+    font-weight:700;
+    opacity:.86;
+  }
+
+  #chat-status-dot{
+    display:inline-block;
+    width:7px;
+    height:7px;
+    margin-left:5px;
+    border-radius:999px;
+
+    background:#4ade80;
+    box-shadow:0 0 0 3px rgba(74,222,128,.15);
+
+    vertical-align:middle;
+  }
+
+  #chat-close{
+    width:33px;
+    height:33px;
+    flex:none;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:10px;
+
+    background:rgba(255,255,255,.12);
+    color:#fff;
+
+    font-size:15px;
+    cursor:pointer;
+
+    transition:
+      background .15s ease,
+      transform .15s ease;
+  }
+
+  #chat-close:hover{
+    background:rgba(255,255,255,.22);
+    transform:translateY(-1px);
+  }
+
+  #chat-close:active{
+    transform:translateY(0);
+  }
+
+  /* =========================================================
+     BODY
+  ========================================================= */
+
+  #chat-body{
+    flex:1;
+    min-height:0;
+
+    overflow-y:auto;
+    overscroll-behavior:contain;
+
+    padding:14px 12px 10px;
+
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+
+    scroll-behavior:smooth;
+  }
+
+  #chat-body::-webkit-scrollbar{
+    width:6px;
+  }
+
+  #chat-body::-webkit-scrollbar-track{
+    background:transparent;
+  }
+
+  #chat-body::-webkit-scrollbar-thumb{
+    background:var(--border);
+    border-radius:99px;
+  }
+
+  /* =========================================================
+     MESSAGE ROWS
+  ========================================================= */
+
+  .msg-row{
+    width:100%;
+    display:flex;
+    gap:8px;
+    align-items:flex-start;
+  }
+
+  .msg-row.user{
+    flex-direction:row-reverse;
+  }
+
+  .msg-avatar{
+    width:28px;
+    height:28px;
+    flex:none;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:9px;
+
+    background:var(--blue-soft);
+    border:1px solid var(--blue-border);
+
+    color:var(--blue);
+    font-size:9.5px;
+    font-weight:900;
+
+    user-select:none;
+  }
+
+  .msg-row.user .msg-avatar{
+    background:var(--blue);
+    border-color:var(--blue);
+    color:#fff;
+  }
+
+  .bubble{
+    max-width:min(82%,620px);
+
+    padding:10px 12px;
+
+    border-radius:15px;
+
+    font-size:12px;
+    font-weight:700;
+    line-height:1.9;
+
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+
+  .msg-row.bot .bubble{
+    background:var(--blue-soft);
+    border:1px solid var(--blue-border);
+    border-top-right-radius:5px;
+    color:var(--ink);
+  }
+
+  .msg-row.user .bubble{
+    background:linear-gradient(
+      135deg,
+      var(--user-start),
+      var(--user-end)
+    );
+    color:#fff;
+    border-top-left-radius:5px;
+    box-shadow:0 4px 12px rgba(37,99,235,.15);
+  }
+
+  /* =========================================================
+     WELCOME CARD
+  ========================================================= */
+
+  .welcome-card{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+
+  .welcome-title{
+    font-size:14px;
+    font-weight:900;
+    color:var(--blue-dark);
+  }
+
+  html.dark .welcome-title{
+    color:#93c5fd;
+  }
+
+  .welcome-text{
+    color:var(--ink);
+    opacity:.92;
+  }
+
+  .welcome-tip{
+    padding:8px 10px;
+
+    border-radius:10px;
+
+    background:var(--card);
+    border:1px solid var(--border);
+
+    color:var(--sub);
+
+    font-size:10px;
+    line-height:1.8;
+    font-weight:800;
+  }
+
+  /* =========================================================
+     ANSWER CARD
+  ========================================================= */
+
+  .ans-wrap{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .ans-top{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+  }
+
+  .ans-tool-icon{
+    width:34px;
+    height:34px;
+    flex:none;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    background:var(--blue);
+    color:#fff;
+
+    font-size:12px;
+    font-weight:900;
+  }
+
+  .ans-head{
+    min-width:0;
+    flex:1;
+  }
+
+  .ans-category{
+    display:inline-flex;
+    align-items:center;
+
+    padding:3px 7px;
+    border-radius:999px;
+
+    background:rgba(37,99,235,.09);
+    border:1px solid var(--blue-border);
+
+    color:var(--blue-dark);
+
+    font-size:8px;
+    font-weight:900;
+
+    margin-bottom:3px;
+  }
+
+  html.dark .ans-category{
+    color:#93c5fd;
+    background:rgba(37,99,235,.1);
+  }
+
+  .ans-title{
+    margin:0;
+    color:var(--ink);
+    font-size:13px;
+    font-weight:900;
+    line-height:1.55;
+  }
+
+  .ans-summary{
+    margin:0;
+    color:var(--ink);
+    opacity:.9;
+    line-height:1.9;
+  }
+
+  .ans-steps{
+    margin:0;
+    padding:0;
+    list-style:none;
+
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .ans-steps li{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+
+    padding:8px 9px;
+
+    border-radius:10px;
+
+    background:var(--card);
+    border:1px solid var(--border);
+  }
+
+  .ans-steps b{
+    width:19px;
+    height:19px;
+    flex:none;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:6px;
+
+    background:var(--blue);
+    color:#fff;
+
+    font-size:9px;
+    font-weight:900;
+  }
+
+  .step-content{
+    min-width:0;
+    flex:1;
+  }
+
+  .step-label{
+    color:var(--ink);
+    font-size:10.5px;
+    line-height:1.6;
+    font-weight:900;
+  }
+
+  .step-text{
+    margin-top:1px;
+    color:var(--sub);
+    font-size:10px;
+    line-height:1.75;
+    font-weight:700;
+  }
+
+  .ans-note{
+    margin-top:1px;
+    padding-top:7px;
+
+    border-top:1px dashed var(--blue-border);
+
+    color:var(--sub);
+
+    font-size:9.5px;
+    line-height:1.8;
+    font-weight:700;
+  }
+
+  .ans-actions{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+  }
+
+  .ans-go-btn,
+  .ans-related-btn{
+    min-height:36px;
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+
+    padding:7px 11px;
+
+    border-radius:10px;
+
+    font-size:10.5px;
+    font-weight:900;
+
+    cursor:pointer;
+    transition:
+      background .15s ease,
+      border-color .15s ease,
+      color .15s ease,
+      transform .15s ease;
+  }
+
+  .ans-go-btn{
+    border:0;
+    background:var(--blue);
+    color:#fff;
+  }
+
+  .ans-go-btn:hover{
+    background:var(--blue-dark);
+    transform:translateY(-1px);
+  }
+
+  .ans-related-btn{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--ink);
+  }
+
+  .ans-related-btn:hover{
+    border-color:#93c5fd;
+    color:var(--blue);
+    transform:translateY(-1px);
+  }
+
+  /* =========================================================
+     AMBIGUOUS / LOW CONFIDENCE
+  ========================================================= */
+
+  .understand-box{
+    padding:9px 10px;
+
+    border-radius:11px;
+
+    background:var(--card);
+    border:1px solid var(--border);
+
+    font-size:10px;
+    line-height:1.8;
+    font-weight:800;
+  }
+
+  .understand-box strong{
+    color:var(--blue-dark);
+    font-weight:900;
+  }
+
+  html.dark .understand-box strong{
+    color:#93c5fd;
+  }
+
+  .candidate-list{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  .candidate-btn{
+    width:100%;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding:8px 10px;
+
+    border:1px solid var(--border);
+    border-radius:10px;
+
+    background:var(--card);
+    color:var(--ink);
+
+    text-align:right;
+
+    cursor:pointer;
+    transition:.15s;
+  }
+
+  .candidate-btn:hover{
+    border-color:#93c5fd;
+    transform:translateY(-1px);
+  }
+
+  .candidate-icon{
+    width:29px;
+    height:29px;
+    flex:none;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:8px;
+
+    background:var(--blue-soft);
+    color:var(--blue);
+
+    font-size:10px;
+    font-weight:900;
+  }
+
+  .candidate-info{
+    min-width:0;
+    flex:1;
+  }
+
+  .candidate-title{
+    color:var(--ink);
+    font-size:10.5px;
+    font-weight:900;
+    line-height:1.5;
+  }
+
+  .candidate-desc{
+    margin-top:1px;
+    color:var(--sub);
+    font-size:9px;
+    font-weight:700;
+    line-height:1.55;
+
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+
+  /* =========================================================
+     TYPING
+  ========================================================= */
+
+  .typing{
+    display:flex;
+    gap:4px;
+    align-items:center;
+
+    min-height:17px;
+  }
+
+  .typing span{
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:var(--sub);
+
+    animation:etoTyping 900ms infinite ease-in-out;
+  }
+
+  .typing span:nth-child(2){
+    animation-delay:120ms;
+  }
+
+  .typing span:nth-child(3){
+    animation-delay:240ms;
+  }
+
+  @keyframes etoTyping{
+    0%,60%,100%{
+      opacity:.3;
+      transform:translateY(0);
+    }
+
+    30%{
+      opacity:1;
+      transform:translateY(-3px);
+    }
+  }
+
+  /* =========================================================
+     SUGGESTIONS
+  ========================================================= */
+
+  #chat-suggestions{
+    flex:none;
+
+    display:flex;
+    gap:7px;
+
+    overflow-x:auto;
+
+    padding:8px 12px;
+
+    border-top:1px solid var(--border);
+    background:var(--bg);
+
+    overscroll-behavior:contain;
+  }
+
+  #chat-suggestions::-webkit-scrollbar{
+    display:none;
+  }
+
+  .chip{
+    flex:none;
+
+    min-height:31px;
+
+    padding:6px 11px;
+
+    border-radius:999px;
+
+    border:1px solid var(--border);
+
+    background:var(--card);
+    color:var(--ink);
+
+    font-size:9.5px;
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:
+      border-color .15s ease,
+      color .15s ease,
+      background .15s ease;
+  }
+
+  .chip:hover{
+    border-color:#93c5fd;
+    color:var(--blue);
+    background:var(--blue-soft);
+  }
+
+  .chip.primary{
+    border-color:#bfdbfe;
+    background:var(--blue-soft);
+    color:var(--blue-dark);
+  }
+
+  html.dark .chip.primary{
+    color:#93c5fd;
+  }
+
+  /* =========================================================
+     INPUT
+  ========================================================= */
+
+  #chat-input-bar{
+    flex:none;
+
+    display:flex;
+    gap:8px;
+
+    padding:9px 12px 11px;
+
+    border-top:1px solid var(--border);
+
+    background:var(--card);
+  }
+
+  #chat-input{
+    flex:1;
+    min-width:0;
+    height:42px;
+
+    border:1px solid var(--border);
+    border-radius:12px;
+
+    background:var(--bg);
+    color:var(--ink);
+
+    padding:9px 12px;
+
+    outline:none;
+
+    font-size:11.5px;
+    font-weight:700;
+
+    transition:
+      border-color .15s ease,
+      box-shadow .15s ease;
+  }
+
+  #chat-input::placeholder{
+    color:var(--muted);
+  }
+
+  #chat-input:focus{
+    border-color:#60a5fa;
+    box-shadow:0 0 0 3px rgba(37,99,235,.09);
+  }
+
+  #chat-send{
+    width:42px;
+    height:42px;
+    flex:none;
+
+    border:0;
+    border-radius:12px;
+
+    background:var(--blue);
+    color:#fff;
+
+    font-size:15px;
+    font-weight:900;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    transition:
+      background .15s ease,
+      transform .15s ease,
+      opacity .15s ease;
+  }
+
+  #chat-send:hover{
+    background:var(--blue-dark);
+    transform:translateY(-1px);
+  }
+
+  #chat-send:active{
+    transform:translateY(0);
+  }
+
+  #chat-send:disabled{
+    opacity:.45;
+    cursor:default;
+    transform:none;
+  }
+
+  /* =========================================================
+     SMALL STATUS
+  ========================================================= */
+
+  #chat-mini-status{
+    display:none;
+    padding:0 12px 7px;
+
+    color:var(--muted);
+
+    font-size:8.5px;
+    font-weight:700;
+
+    background:var(--card);
+  }
+
+  #chat-mini-status.show{
+    display:block;
+  }
+
+  /* =========================================================
+     MOBILE
+  ========================================================= */
+
+  @media(max-width:480px){
+    #chat-header{
+      padding:9px 10px;
+    }
+
+    #chat-body{
+      padding:12px 9px 8px;
+    }
+
+    #chat-suggestions{
+      padding:7px 9px;
+    }
+
+    #chat-input-bar{
+      padding:8px 9px 10px;
+    }
+
+    .bubble{
+      max-width:86%;
+      font-size:11.5px;
+    }
+
+    .ans-title{
+      font-size:12px;
+    }
+
+    .ans-go-btn,
+    .ans-related-btn{
+      width:100%;
+    }
+
+    .ans-actions{
+      flex-direction:column;
+    }
+  }
+
+  /* =========================================================
+     REDUCED MOTION
+  ========================================================= */
+
+  @media(prefers-reduced-motion:reduce){
+    *,
+    *::before,
+    *::after{
+      animation:none !important;
+      transition:none !important;
+      scroll-behavior:auto !important;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+  <!-- HEADER -->
+  <header id="chat-header">
+    <div id="chat-avatar" aria-hidden="true"></div>
+
+    <div id="chat-header-text">
+      <b>دكتور Eto · مساعد الموقع</b>
+
+      <span>
+        <span id="chat-status-dot"></span>
+        صل ع النبي وقولي عايز تسأل عن ايه؟
+      </span>
+    </div>
+
+    <button
+      id="chat-close"
+      type="button"
+      title="إغلاق"
+      aria-label="إغلاق المساعد"
+    >✕</button>
+  </header>
+
+  <!-- CHAT -->
+  <main id="chat-body" aria-live="polite"></main>
+
+  <!-- MINI STATUS -->
+  <div id="chat-mini-status"></div>
+
+  <!-- SUGGESTIONS -->
+  <div id="chat-suggestions" aria-label="اقتراحات سريعة"></div>
+
+  <!-- INPUT -->
+  <div id="chat-input-bar">
+
+    <input
+      id="chat-input"
+      type="text"
+      maxlength="700"
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="اكتب سؤالك"
+      placeholder="اكتب اللي عايز تعمله… مثال: عايز اصغر حجم PDF"
+    >
+
+    <button
+      id="chat-send"
+      type="button"
+      title="إرسال"
+      aria-label="إرسال"
+    >➤</button>
+
+  </div>
+
+</div>
+
+<script>
+(function(){
+
+  'use strict';
+  var els = {
+    body: document.getElementById('chat-body'),
+    suggestions: document.getElementById('chat-suggestions'),
+    input: document.getElementById('chat-input'),
+    send: document.getElementById('chat-send'),
+    close: document.getElementById('chat-close'),
+    miniStatus: document.getElementById('chat-mini-status')
+  };
+  var DATA = null;
+  var TOOLS = [];
+  var TOOL_MAP = {};
+  var GENERAL_DATA = {};
+  var isBusy = false;
+  var responseTimer = null;
+  var typingSoundTimer = null;
+  var maxHistoryMessages = 80;
+  var typingAudio = null;
+
+  try{
+    typingAudio = new Audio('Bot_Data/Audio/typing.wav');
+    typingAudio.preload = 'auto';
+  }catch(e){
+    typingAudio = null;
+  }
+  function syncDarkMode(){
+    try{
+      if(
+        window.parent &&
+        window.parent.document &&
+        window.parent.document.documentElement
+      ){
+        var isDark =
+          window.parent.document.documentElement.classList.contains('dark');
+        document.documentElement.classList.toggle('dark', isDark);
+      }
+    }catch(e){}
+  }
+  syncDarkMode();
+  try{
+    if(
+      window.parent &&
+      window.parent.document &&
+      window.parent.document.documentElement &&
+      window.MutationObserver
+    ){
+      var parentRoot =
+        window.parent.document.documentElement;
+      var themeObserver =
+        new MutationObserver(function(){
+          syncDarkMode();
+        });
+      themeObserver.observe(
+        parentRoot,
+        {
+          attributes:true,
+          attributeFilter:['class']
+        }
+      );
+    }
+  }catch(e){}
+  var STOP_WORDS = {
+    "انا":1,
+    "اني":1,
+    "انت":1,
+    "انتي":1,
+    "هو":1,
+    "هي":1,
+    "هم":1,
+    "احنا":1,
+    "يا":1,
+    "ياجماعه":1,
+    "ياعم":1,
+    "يعم":1,
+    "بص":1,
+    "بقولك":1,
+    "ممكن":1,
+    "لو":1,
+    "عايز":1,
+    "عاوز":1,
+    "عايزه":1,
+    "عاوزه":1,
+    "محتاج":1,
+    "محتاجه":1,
+    "محتاجين":1,
+    "اريد":1,
+    "عايز اعرف":1,
+    "عاوز اعرف":1,
+    "ازاي":1,
+    "ازاى":1,
+    "إزاي":1,
+    "ازايه":1,
+    "ايه":1,
+    "اية":1,
+    "اي":1,
+    "فين":1,
+    "هو فين":1,
+    "اعمل":1,
+    "اعملي":1,
+    "اعمللي":1,
+    "هات":1,
+    "هاتلي":1,
+    "وريني":1,
+    "اشرح":1,
+    "اشرحلي":1,
+    "شرح":1,
+    "عن":1,
+    "من":1,
+    "في":1,
+    "فى":1,
+    "على":1,
+    "علي":1,
+    "لي":1,
+    "لـ":1,
+    "ال":1,
+    "و":1,
+    "او":1,
+    "أو":1,
+    "ده":1,
+    "دي":1,
+    "ده ايه":1,
+    "دي ايه":1,
+    "بتاع":1,
+    "بتاعت":1,
+    "بتعمل":1,
+    "بيعمل":1,
+    "تعمل":1,
+    "تعمله":1,
+    "اقدر":1,
+    "اقدر اعمل":1,
+    "ياريت":1
+  };
+  function normalize(str){
+    if(str === null || str === undefined){
+      return '';
+    }
+    var s = String(str);
+    s = s.toLowerCase();
+    s = s.replace(/[\u064B-\u0652\u0670]/g,'');
+    s = s
+      .replace(/[إأآٱ]/g,'ا')
+      .replace(/ى/g,'ي')
+      .replace(/ة/g,'ه')
+      .replace(/ؤ/g,'و')
+      .replace(/ئ/g,'ي')
+      .replace(/ـ/g,'');
+    s = s
+      .replace(/بي\s*دي\s*اف/g,'pdf')
+      .replace(/بي\s*دي\s*أف/g,'pdf')
+      .replace(/بي\s*دي\s*إف/g,'pdf')
+      .replace(/بيدياف/g,'pdf')
+      .replace(/بيديف/g,'pdf')
+      .replace(/pfd/g,'pdf')
+      .replace(/pdff/g,'pdf')
+      .replace(/pdef/g,'pdf');
+    s = s
+      .replace(/وورد/g,'word')
+      .replace(/وورد/g,'word')
+      .replace(/ورد/g,'word')
+      .replace(/دوبليوورد/g,'word');
+    s = s
+      .replace(/اكسيل/g,'excel')
+      .replace(/اكسل/g,'excel')
+      .replace(/اكسيل/g,'excel');
+    s = s
+      .replace(/باور\s*بوينت/g,'powerpoint')
+      .replace(/باوربوينت/g,'powerpoint')
+      .replace(/بوربوينت/g,'powerpoint')
+      .replace(/بواربوينت/g,'powerpoint')
+      .replace(/بور\s*بوينت/g,'powerpoint');
+    s = s
+      .replace(/بومودرو/g,'pomodoro')
+      .replace(/بومادورو/g,'pomodoro')
+      .replace(/بومدورو/g,'pomodoro')
+      .replace(/بومودورو/g,'pomodoro');
+    s = s
+      .replace(/واترمارك/g,'watermark')
+      .replace(/water\s*mark/g,'watermark');
+    s = s.replace(/https?:\/\/\S+/g,' ');
+    s = s.replace(/[^\u0600-\u06FFa-z0-9\s]/g,' ');
+    s = s.replace(/\s+/g,' ').trim();
+    return s;
+  }
+  function tokenize(str){
+    var normalized = normalize(str);
+    if(!normalized){
+      return [];
+    }
+    return normalized
+      .split(' ')
+      .filter(function(word){
+        if(!word){
+          return false;
+        }
+        if(word.length < 2){
+          return false;
+        }
+        return !STOP_WORDS[word];
+      });
+  }
+  function unique(arr){
+    var seen = {};
+    return arr.filter(function(item){
+      if(seen[item]){
+        return false;
+      }
+      seen[item] = true;
+      return true;
+
+    });
+  }
+  function normalizeGeneralMap(data){
+    var map = {};
+    if(!data || typeof data !== 'object'){
+      return map;
+    }
+    Object.keys(data).forEach(function(key){
+      var nk = normalize(key);
+      if(nk){
+        map[nk] = data[key];
+      }
+    });
+    return map;
+  }
+  function editDistance(a,b){
+    if(a === b){
+      return 0;
+    }
+    if(!a){
+      return b.length;
+    }
+    if(!b){
+      return a.length;
+    }
+    if(a.length > b.length){
+      var tmp = a;
+      a = b;
+      b = tmp;
+    }
+    var prev = [];
+    for(
+      var i = 0;
+      i <= a.length;
+      i++
+    ){
+      prev[i] = i;
+    }
+    for(
+      var j = 1;
+      j <= b.length;
+      j++
+    ){
+      var current = [j];
+      for(
+        var k = 1;
+        k <= a.length;
+        k++
+      ){
+        var insertCost = current[k - 1] + 1;
+        var deleteCost = prev[k] + 1;
+
+        var replaceCost =
+          prev[k - 1] +
+          (a.charAt(k - 1) === b.charAt(j - 1) ? 0 : 1);
+        current[k] =
+          Math.min(
+            insertCost,
+            deleteCost,
+            replaceCost
+          );
+
+      }
+      prev = current;
+    }
+    return prev[a.length];
+  }
+  function fuzzySimilar(a,b){
+    if(!a || !b){
+      return false;
+    }
+    if(a === b){
+      return true;
+    }
+    if(
+      a.length >= 3 &&
+      b.length >= 3 &&
+      (
+        a.indexOf(b) !== -1 ||
+        b.indexOf(a) !== -1
+      )
+    ){
+      return true;
+    }
+    if(
+      a.length < 4 ||
+      b.length < 4 ||
+      Math.abs(a.length - b.length) > 2
+    ){
+      return false;
+    }
+    var distance = editDistance(a,b);
+    if(
+      a.length >= 7 &&
+      distance <= 2
+    ){
+      return true;
+    }
+    if(
+      a.length >= 4 &&
+      distance <= 1
+    ){
+      return true;
+    }
+    return false;
+  }
+  var INTENT_RULES = [
+    {
+      ids:['merge'],
+      patterns:[
+        'ادمج',
+        'ادمج الملفات',
+        'اجمع الملفات',
+        'اجمع pdf',
+        'ضم الملفات',
+        'ضم pdf',
+        'خليهم ملف واحد',
+        'ملف واحد من كذا ملف',
+        'جمع ملفات pdf',
+        'merge pdf',
+        'combine pdf',
+        'join pdf'
+      ]
+    },
+    {
+      ids:['compress'],
+      patterns:[
+        'اضغط pdf',
+        'ضغط pdf',
+        'صغر pdf',
+        'صغر حجم pdf',
+        'قلل حجم pdf',
+        'تقليل حجم pdf',
+        'الملف كبير',
+        'pdf كبير',
+        'compress pdf',
+        'reduce pdf size',
+        'smaller pdf'
+      ]
+    },
+    {
+      ids:['pdf-to-word'],
+      patterns:[
+        'pdf word',
+        'pdf الى word',
+        'pdf إلى word',
+        'pdf لword',
+        'pdf لوورد',
+        'احول pdf لوورد',
+        'تحويل pdf لوورد',
+        'تحويل البي دي اف لوورد',
+        'convert pdf to word'
+      ]
+    },
+    {
+      ids:['convert'],
+      patterns:[
+        'صور الى pdf',
+        'صور إلى pdf',
+        'pdf الى صور',
+        'pdf إلى صور',
+        'pdf powerpoint',
+        'pdf باوربوينت',
+        'pdf بوربوينت',
+        'jpg to pdf',
+        'png to pdf',
+        'pdf to image',
+        'pdf to powerpoint'
+      ]
+    },
+    {
+      ids:['extract'],
+      patterns:[
+        'طلع صفحات',
+        'استخرج صفحات',
+        'استخراج صفحات',
+        'احذف صفحات',
+        'حذف صفحات',
+        'شيل صفحات',
+        'امسح صفحات',
+        'split pdf',
+        'extract pages',
+        'delete pages'
+      ]
+    },
+    {
+      ids:['reorder'],
+      patterns:[
+        'رتب الصفحات',
+        'اعادة ترتيب الصفحات',
+        'إعادة ترتيب الصفحات',
+        'غير ترتيب الصفحات',
+        'الصفحات ملخبطة',
+        'الصفحات مترتبة غلط',
+        'reorder pdf',
+        'sort pdf pages'
+      ]
+    },
+    {
+      ids:['protect'],
+      patterns:[
+        'حط باسورد',
+        'حط كلمة سر',
+        'حط كلمة مرور',
+        'احمي pdf',
+        'قفل pdf',
+        'اقفل pdf',
+        'شفر pdf',
+        'تشفير pdf',
+        'protect pdf',
+        'encrypt pdf',
+        'pdf password'
+      ]
+    },
+    {
+      ids:['watermark'],
+      patterns:[
+        'علامة مائية',
+        'علامه مائيه',
+        'watermark',
+        'اسم على pdf',
+        'حقوق على pdf',
+        'نص شفاف'
+      ]
+    },
+    {
+      ids:['cleaner'],
+      patterns:[
+        'لون pdf',
+        'تلوين pdf',
+        'اظلل pdf',
+        'تظليل pdf',
+        'هايلايت pdf',
+        'highlight pdf',
+        'الوضع الليلي pdf',
+        'ريح عيني'
+      ]
+    },
+    {
+      ids:['text'],
+      patterns:[
+        'طلع النص من pdf',
+        'استخراج النص',
+        'pdf الى text',
+        'صورة الى نص',
+        'صوره الى نص',
+        'ocr',
+        'حول النص pdf',
+        'النص الى pdf',
+        'text to pdf',
+        'pdf to text'
+      ]
+    },
+    {
+      ids:['compare'],
+      patterns:[
+        'قارن pdf',
+        'قارن ملفين',
+        'قارن نسختين',
+        'الفرق بين ملفين',
+        'الفرق بين نسختين',
+        'ايه اللي اتغير',
+        'مقارنة pdf',
+        'compare pdf',
+        'pdf differences'
+      ]
+    },
+    {
+      ids:['grades'],
+      patterns:[
+        'كشف درجات',
+        'درجات الطلاب',
+        'درجات الطلبة',
+        'ترتيب الطلاب',
+        'الاوايل',
+        'الأوائل',
+        'متوسط الدرجات',
+        'نسبة النجاح',
+        'student grades'
+      ]
+    },
+    {
+      ids:['certificate'],
+      patterns:[
+        'شهادة تقدير',
+        'اعمل شهادة',
+        'اعمللي شهادة',
+        'شهادات للطلاب',
+        'شهادة تكريم',
+        'certificate maker',
+        'student certificate'
+      ]
+    },
+    {
+      ids:['teacher'],
+      patterns:[
+        'اعمل شيت',
+        'اعمللي شيت',
+        'ورقة اسئلة',
+        'ورقة أسئلة',
+        'شيت اسئلة',
+        'صانع اسئلة',
+        'امتحان ورقي',
+        'worksheet'
+      ]
+    },
+    {
+      ids:['answers-key'],
+      patterns:[
+        'مفتاح الاجابة',
+        'مفتاح الإجابة',
+        'ملف الاجابات',
+        'ملف الإجابات',
+        'answer key',
+        'answers json',
+        'تصحيح الامتحان'
+      ]
+    },
+
+    {
+      ids:['exam-maker'],
+      patterns:[
+        'اعمل امتحان اونلاين',
+        'انشئ امتحان اونلاين',
+        'انشاء امتحان اونلاين',
+        'نشر امتحان',
+        'لينك امتحان',
+        'رابط الامتحان',
+        'امتحان برابط',
+        'online exam',
+        'exam maker'
+      ]
+    },
+
+    {
+      ids:['student-exams'],
+      patterns:[
+        'نتائج الامتحانات',
+        'نتيجة الطلاب',
+        'درجات الامتحان',
+        'شوف النتايج',
+        'شوف النتائج',
+        'الاسئلة الغلط',
+        'exam results',
+        'student results'
+      ]
+    },
+
+    {
+      ids:['summaries'],
+      patterns:[
+        'ملخص',
+        'ملخصات',
+        'مذكرة',
+        'مذكرات',
+        'مراجعة',
+        'ملخص pdf',
+        'study notes',
+        'summaries'
+      ]
+    },
+
+    {
+      ids:['exams'],
+      patterns:[
+        'امتحان جاهز',
+        'امتحانات جاهزة',
+        'اختبار جاهز',
+        'نماذج امتحانات',
+        'عايز امتحان احله',
+        'محتاج امتحان',
+        'practice exam',
+        'mock exam',
+        'practice test'
+      ]
+    },
+
+    {
+      ids:['schedule'],
+      patterns:[
+        'جدول مذاكرة',
+        'جدولي',
+        'خطة مذاكرة',
+        'جدول اسبوعي',
+        'خطة الاسبوع',
+        'study schedule',
+        'study planner'
+      ]
+    },
+
+    {
+      ids:['pomodoro'],
+      patterns:[
+        'بومودورو',
+        'pomodoro',
+        'تايمر مذاكرة',
+        'مؤقت مذاكرة',
+        'جلسة تركيز',
+        'focus timer',
+        'study timer'
+      ]
+    },
+
+    {
+      ids:['percentage'],
+      patterns:[
+        'كام في المية',
+        'كام بالمية',
+        'كام بالمائه',
+        'النسبة المئوية',
+        'احسبلي نسبتي',
+        'percentage',
+        'percent calculator'
+      ]
+    },
+
+    {
+      ids:['library'],
+      patterns:[
+        'مكتبتي',
+        'ملفاتي',
+        'مكتبة الملفات',
+        'ارشيف ملفاتي',
+        'library',
+        'my files'
+      ]
+    },
+
+    {
+      ids:['reader'],
+      patterns:[
+        'قارئ صوتي',
+        'اقرا pdf',
+        'اسمع pdf',
+        'قرألي pdf',
+        'read aloud',
+        'listen pdf',
+        'text to speech'
+      ]
+    },
+
+    {
+      ids:['my-teachers'],
+      patterns:[
+        'مدرسيني',
+        'المدرسين بتوعي',
+        'فين المدرسين',
+        'my teachers'
+      ]
+    },
+
+    {
+      ids:['my-platforms'],
+      patterns:[
+        'منصاتي',
+        'منصات تعليمية',
+        'موقع تعليمي',
+        'my platforms',
+        'education platforms'
+      ]
+    },
+
+    {
+      ids:['materials'],
+      patterns:[
+        'المواد الدراسية',
+        'المواد',
+        'فيزياء',
+        'الفيزياء',
+        'physics',
+        'study materials'
+      ]
+    }
+
+  ];
+  function roleHint(query){
+    var q = normalize(query);
+    if(
+      /معلم|مدرس|استاذ|مدرسين|teacher|teachers/.test(q)
+    ){
+      return 'teacher';
+    }
+    if(
+      /طالب|طلبه|الطلبه|الطلاب|student|students/.test(q)
+    ){
+      return 'student';
+    }
+    return '';
+  }
+  function actionScore(query, item){
+    var q = normalize(query);
+    var id = item.id;
+    var rules = {
+
+      'merge':[
+        'ادمج',
+        'اجمع',
+        'ضم',
+        'ملف واحد'
+      ],
+      'compress':[
+        'اضغط',
+        'صغر',
+        'قلل الحجم',
+        'حجم الملف كبير'
+      ],
+      'pdf-to-word':[
+        'حول',
+        'تحويل',
+        'word',
+        'وورد'
+      ],
+      'convert':[
+        'حول',
+        'تحويل',
+        'powerpoint',
+        'صور'
+      ],
+      'extract':[
+        'طلع',
+        'استخرج',
+        'احذف صفحات',
+        'شيل صفحات'
+      ],
+      'reorder':[
+        'رتب',
+        'ترتيب',
+        'ملخبطة'
+      ],
+      'protect':[
+        'احمي',
+        'باسورد',
+        'كلمة سر',
+        'شفر',
+        'تشفير'
+      ],
+      'watermark':[
+        'حقوق',
+        'علامة',
+        'اسم على'
+      ],
+      'cleaner':[
+        'ظلل',
+        'هايلايت',
+        'تلوين',
+        'ثيم',
+        'ريح عيني'
+      ],
+      'compare':[
+        'قارن',
+        'فرق',
+        'اختلاف',
+        'نسختين'
+      ],
+
+      'exam-maker':[
+        'انشئ',
+        'اعمل',
+        'نشر',
+        'لينك',
+        'رابط',
+        'اونلاين'
+      ],
+
+      'exams':[
+        'احل',
+        'جاهز',
+        'تحميل',
+        'نماذج',
+        'مراجعة'
+      ],
+
+      'grades':[
+        'درجات',
+        'متوسط',
+        'نسبة نجاح',
+        'اوائل'
+      ],
+
+      'schedule':[
+        'جدول',
+        'خطة',
+        'اسبوع'
+      ],
+
+      'pomodoro':[
+        'تايمر',
+        'مؤقت',
+        'تركيز',
+        'راحة'
+      ],
+
+      'percentage':[
+        'نسبة',
+        'كام في المية',
+        'درجة من'
+      ]
+
+    };
+
+    var list = rules[id] || [];
+    var scoreValue = 0;
+
+    list.forEach(function(word){
+
+      if(
+        q.indexOf(normalize(word)) !== -1
+      ){
+        scoreValue += 2;
+      }
+
+    });
+
+    return scoreValue;
+  }
+  function prepareTool(tool){
+
+    if(!tool){
+      return;
+    }
+    var title = normalize(tool.title || '');
+    var category = normalize(tool.category || '');
+    var summary = normalize(tool.summary || '');
+    var keywordPhrases = [];
+    var keywordTokens = [];
+    (tool.keywords || []).forEach(function(keyword){
+      var nk = normalize(keyword);
+      if(!nk){
+        return;
+      }
+      keywordPhrases.push(nk);
+      tokenize(nk).forEach(function(token){
+        keywordTokens.push(token);
+      });
+    });
+    var featurePhrases = [];
+    var featureTokens = [];
+    (tool.features || []).forEach(function(feature){
+      if(!feature){
+        return;
+      }
+      var label = normalize(feature.label || '');
+      var text = normalize(feature.text || '');
+      if(label){
+        featurePhrases.push(label);
+      }
+      if(text){
+        featurePhrases.push(text);
+      }
+      tokenize(label + ' ' + text).forEach(function(token){
+        featureTokens.push(token);
+      });
+    });
+
+    tool._normTitle = title;
+    tool._normCategory = category;
+    tool._normSummary = summary;
+    tool._keywordPhrases = unique(keywordPhrases);
+    tool._keywordTokens = unique(keywordTokens);
+    tool._featurePhrases = unique(featurePhrases);
+    tool._featureTokens = unique(featureTokens);
+    tool._titleTokens = unique(tokenize(title));
+    tool._categoryTokens = unique(tokenize(category));
+    tool._summaryTokens = unique(tokenize(summary));
+
+  }
+  function scoreTool(query, item){
+    var nq = normalize(query);
+    if(!nq || !item){
+      return {
+        score:0,
+        exact:false
+      };
+    }
+    var qTokens = unique(tokenize(nq));
+    if(!qTokens.length){
+      return {
+        score:0,
+        exact:false
+      };
+    }
+    var scoreValue = 0;
+    var exactHit = false;
+    var matchedTerms = [];
+    if(
+      item._normTitle &&
+      (
+        nq === item._normTitle ||
+        nq.indexOf(item._normTitle) !== -1
+      )
+    ){
+      scoreValue += 18;
+      exactHit = true;
+    }
+    item._keywordPhrases.forEach(function(phrase){
+      if(
+        phrase.length >= 3 &&
+        nq.indexOf(phrase) !== -1
+      ){
+        scoreValue += 11;
+        exactHit = true;
+        matchedTerms.push(phrase);
+      }
+    });
+    qTokens.forEach(function(qToken){
+      item._titleTokens.forEach(function(tToken){
+        if(qToken === tToken){
+          scoreValue += 6;
+          matchedTerms.push(qToken);
+        }
+        else if(fuzzySimilar(qToken,tToken)){
+          scoreValue += 2;
+        }
+      });
+    });
+    qTokens.forEach(function(qToken){
+      item._keywordTokens.forEach(function(kToken){
+        if(qToken === kToken){
+          scoreValue += 4;
+          matchedTerms.push(qToken);
+        }
+        else if(fuzzySimilar(qToken,kToken)){
+          scoreValue += 1.6;
+        }
+      });
+    });
+    qTokens.forEach(function(qToken){
+      item._summaryTokens.forEach(function(sToken){
+        if(qToken === sToken){
+          scoreValue += 1.3;
+        }
+      });
+    });
+    qTokens.forEach(function(qToken){
+      item._featureTokens.forEach(function(fToken){
+        if(qToken === fToken){
+          scoreValue += .85;
+        }
+      });
+    });
+    var role = roleHint(query);
+    if(role === 'teacher' && /معلم/.test(item._normCategory)){
+      scoreValue += 3;
+    }
+    if(role === 'student' && /طالب/.test(item._normCategory)){
+      scoreValue += 3;
+    }
+    scoreValue += actionScore(query,item);
+    var specialWords = [
+      'pdf',
+      'word',
+      'excel',
+      'powerpoint',
+      'merge',
+      'compress',
+      'watermark',
+      'ocr',
+      'json',
+      'بومودورو',
+      'تايمر',
+      'درجات',
+      'امتحان',
+      'ملخص',
+      'جدول',
+      'نسبة',
+      'باسورد'
+    ];
+    specialWords.forEach(function(word){
+      if(
+        nq.indexOf(word) !== -1
+      ){
+        if(
+          item._keywordPhrases.some(function(phrase){
+            return phrase.indexOf(word) !== -1;
+          }) ||
+          item._normTitle.indexOf(word) !== -1
+        ){
+          scoreValue += 3;
+        }
+      }
+    });
+    return {
+      score:scoreValue,
+      exact:exactHit,
+      matchedTerms:unique(matchedTerms)
+    };
+  }
+  function applyIntentRules(query, resultsMap){
+    var nq = normalize(query);
+    INTENT_RULES.forEach(function(rule){
+      var hit = false;
+      rule.patterns.some(function(pattern){
+        var np = normalize(pattern);
+        if(
+          np &&
+          nq.indexOf(np) !== -1
+        ){
+          hit = true;
+          return true;
+        }
+        return false;
+      });
+      if(!hit){
+        return;
+      }
+      rule.ids.forEach(function(id){
+        if(
+          resultsMap[id] !== undefined
+        ){
+          resultsMap[id] += 13;
+        }
+      });
+    });
+  }
+  function findBestMatches(query){
+    var resultsMap = {};
+    TOOLS.forEach(function(tool){
+      var result = scoreTool(query,tool);
+      resultsMap[tool.id] = result.score;
+    });
+    applyIntentRules(
+      query,
+      resultsMap
+    );
+    var results = TOOLS.map(function(tool){
+      return {
+        item:tool,
+        score:resultsMap[tool.id] || 0
+      };
+    }).filter(function(result){
+      return result.score > 0;
+    });
+    results.sort(function(a,b){
+      if(b.score !== a.score){
+        return b.score - a.score;
+      }
+      return (
+        (a.item.title || '').length -
+        (b.item.title || '').length
+      );
+    });
+    return results;
+  }
+  var BUILTIN_GENERAL = {
+    "السلام عليكم":
+      "وعليكم السلام ورحمة الله وبركاته ❤️\nقولّي محتاج تعمل إيه وأنا أوجهك للأداة المناسبة.",
+    "السلام عليكم ورحمة الله":
+      "وعليكم السلام ورحمة الله وبركاته ❤️\nقولّي عايز تعمل إيه وأنا أساعدك.",
+    "اهلا":
+      "أهلاً بيك يا باشا 👋\nقولّي عايز تعمل إيه في Eto.Edu وأنا أدورلك على الأداة المناسبة.",
+    "أهلا":
+      "أهلاً بيك يا باشا 👋\nقولّي عايز تعمل إيه في Eto.Edu وأنا أدورلك على الأداة المناسبة.",
+    "هاي":
+      "هاي يا بطل 👋\nقولّي محتاج إيه.",
+    "hello":
+      "Hello 👋\nقولي محتاج تعمل إيه وأنا أساعدك.",
+    "hi":
+      "أهلاً 👋\nقولّي محتاج إيه وأنا أوجهك للأداة المناسبة.",
+    "شكرا":
+      "العفو يا باشا ❤️\nأنا موجود عشان أسهلهالك.",
+    "ميرسي":
+      "العفو ❤️",
+    "thank you":
+      "العفو يا باشا ❤️",
+    "ازيك":
+      "الحمدلله تمام 😄\nقولي محتاج تعمل إيه.",
+    "عامل ايه":
+      "الحمدلله تمام 😄\nجاهز أساعدك. قولّي عايز تعمل إيه.",
+    "مين انت":
+      "أنا مساعد Eto.Edu 🤖\nوظيفتي أفهم أنت عايز تعمل إيه وأوصلك للأداة المناسبة بدل ما تفضل تدور عليها بنفسك.",
+    "بتعمل ايه":
+      "أنا بساعدك تلاقي وتفهم أدوات Eto.Edu 🤖\nمثلاً لو قلتلي: «عايز أصغر حجم PDF» هوجهك لأداة ضغط PDF."
+  };
+  var NORMALIZED_BUILTIN_GENERAL = normalizeGeneralMap(BUILTIN_GENERAL);
+  function resolveGeneralReply(value){
+    if(Array.isArray(value)){
+      if(!value.length){
+        return null;
+      }
+      return value[Math.floor(Math.random() * value.length)];
+    }
+    if(
+      value &&
+      typeof value === 'object' &&
+      Array.isArray(value.replies)
+    ){
+      return resolveGeneralReply(value.replies);
+    }
+    return typeof value === 'string'
+      ? value
+      : null;
+  }
+  function findGeneralReply(text){
+    var nq = normalize(text);
+    if(!nq){
+      return null;
+    }
+    if(
+      GENERAL_DATA &&
+      GENERAL_DATA[nq]
+    ){
+      return resolveGeneralReply(GENERAL_DATA[nq]);
+    }
+    if(
+      NORMALIZED_BUILTIN_GENERAL[nq]
+    ){
+      return resolveGeneralReply(NORMALIZED_BUILTIN_GENERAL[nq]);
+    }
+    var keys = Object.keys(GENERAL_DATA || {});
+    for(
+      var i=0;
+      i<keys.length;
+      i++
+    ){
+      var key = normalize(keys[i]);
+      if(
+        key &&
+        key.length >= 3 &&
+        (
+          nq.indexOf(key) !== -1 ||
+          key.indexOf(nq) !== -1
+        )
+      ){
+        return resolveGeneralReply(GENERAL_DATA[keys[i]]);
+
+      }
+    }
+    return null;
+  }
+  function categoryTools(category){
+    return TOOLS.filter(function(tool){
+      return normalize(tool.category || '') === normalize(category);
+    });
+  }
+  function showCategoryResult(categoryTitle){
+    var list = categoryTools(categoryTitle);
+    if(!list.length){
+      return;
+    }
+    var html = '';
+    html += '<div class="ans-wrap">';
+    html +=
+      '<div class="ans-title">أدوات ' +
+      escapeHtml(categoryTitle) +
+      '</div>';
+    html +=
+      '<div class="ans-summary">دي الأدوات الموجودة عندك في القسم:</div>';
+    html +=
+      '<div class="candidate-list">';
+    list.slice(0,12).forEach(function(tool){
+      html +=
+        '<button class="candidate-btn" type="button" data-open-id="' +
+        escapeHtml(tool.id) +
+        '">' +
+          '<span class="candidate-icon">E</span>' +
+          '<span class="candidate-info">' +
+            '<span class="candidate-title">' +
+              escapeHtml(tool.title) +
+            '</span>' +
+            '<span class="candidate-desc">' +
+              escapeHtml(tool.summary || '') +
+            '</span>' +
+          '</span>' +
+        '</button>';
+    });
+    html += '</div>';
+    html += '</div>';
+    var row = addBotBubble(html);
+    row.querySelectorAll('[data-open-id]').forEach(function(button){
+      button.addEventListener('click',function(){
+        goToTool(button.getAttribute('data-open-id'));
+      });
+    });
+  }
+  var DEFAULT_SUGGESTIONS = [
+    {
+      label:'عايز أضغط PDF',
+      query:'عايز اصغر حجم PDF'
+    },
+    {
+      label:'PDF لـ Word',
+      query:'عايز احول PDF لـ Word'
+    },
+    {
+      label:'دمج ملفات',
+      query:'عايز ادمج كذا PDF في ملف واحد'
+    },
+    {
+      label:'كشف درجات',
+      query:'عايز اعمل كشف درجات للطلاب'
+    },
+    {
+      label:'ملخصات',
+      query:'عايز الاقي ملخص للمادة'
+    },
+    {
+      label:'امتحانات',
+      query:'عايز امتحان جاهز'
+    },
+    {
+      label:'جدول مذاكرة',
+      query:'عايز اعمل جدول مذاكرة'
+    },
+    {
+      label:'بومودورو',
+      query:'عايز تايمر للمذاكرة'
+    }
+  ];
+  function clearSuggestions(){
+    if(!els.suggestions){
+      return;
+    }
+    els.suggestions.innerHTML = '';
+
+  }
+  function addSuggestion(label,query,isPrimary){
+    var chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className =
+      'chip' +
+      (isPrimary ? ' primary' : '');
+    chip.textContent = label;
+    chip.addEventListener('click',function(){
+      els.input.value = query;
+      handleQuery(query);
+    });
+    els.suggestions.appendChild(chip);
+  }
+  function showDefaultSuggestions(){
+    clearSuggestions();
+    DEFAULT_SUGGESTIONS.forEach(function(item,index){
+      addSuggestion(
+        item.label,
+        item.query,
+        index < 3
+      );
+    });
+  }
+  function showMatchSuggestions(results){
+    clearSuggestions();
+    var seen = {};
+    results.slice(0,7).forEach(function(result){
+      var tool = result.item;
+      if(seen[tool.id]){
+        return;
+      }
+      seen[tool.id] = true;
+      addSuggestion(
+        tool.title,
+        tool.title,
+        false
+      );
+    });
+    if(!els.suggestions.children.length){
+      showDefaultSuggestions();
+    }
+  }
+  function scrollDown(){
+    if(!els.body){
+      return;
+    }
+    requestAnimationFrame(function(){
+      els.body.scrollTop =
+        els.body.scrollHeight;
+    });
+  }
+  function trimHistory(){
+    while(
+      els.body &&
+      els.body.children &&
+      els.body.children.length > maxHistoryMessages
+    ){
+      els.body.removeChild(
+        els.body.firstElementChild
+      );
+    }
+  }
+  function addUserMessage(text){
+    var row = document.createElement('div');
+    row.className = 'msg-row user';
+    var avatar =
+      document.createElement('div');
+    avatar.className = 'msg-avatar';
+    avatar.textContent = 'أنت';
+    var bubble =
+      document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = text;
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    els.body.appendChild(row);
+    trimHistory();
+    scrollDown();
+  }
+  function addTypingIndicator(){
+    removeTypingIndicator();
+    var row =
+      document.createElement('div');
+    row.className = 'msg-row bot';
+    row.id = 'eto-typing-row';
+    var avatar =
+      document.createElement('div');
+    avatar.className = 'msg-avatar';
+    avatar.textContent = 'Eto';
+    var bubble =
+      document.createElement('div');
+    bubble.className = 'bubble';
+    var typing =
+      document.createElement('div');
+    typing.className = 'typing';
+    for(
+      var i=0;
+      i<3;
+      i++
+    ){
+      typing.appendChild(
+        document.createElement('span')
+      );
+    }
+    bubble.appendChild(typing);
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    els.body.appendChild(row);
+    playTypingSound();
+    scrollDown();
+  }
+  function removeTypingIndicator(){
+    var row =
+      document.getElementById('eto-typing-row');
+    if(row){
+      row.remove();
+    }
+    stopTypingSound();
+  }
+  function playTypingSound(){
+    if(!typingAudio){
+      return;
+    }
+    try{
+      if(typingSoundTimer){
+        clearTimeout(typingSoundTimer);
+        typingSoundTimer = null;
+      }
+      typingAudio.pause();
+      typingAudio.currentTime = 1;
+
+      var playPromise =
+        typingAudio.play();
+
+      if(
+        playPromise &&
+        typeof playPromise.catch === 'function'
+      ){
+        playPromise.catch(function(){});
+
+      }
+      typingSoundTimer =
+        setTimeout(
+          stopTypingSound,
+          1350
+        );
+    }catch(e){}
+  }
+  function stopTypingSound(){
+    if(typingSoundTimer){
+      clearTimeout(
+        typingSoundTimer
+      );
+      typingSoundTimer = null;
+    }
+    if(!typingAudio){
+      return;
+    }
+    try{
+      typingAudio.pause();
+      typingAudio.currentTime = 1;
+    }catch(e){}
+  }
+  function escapeHtml(value){
+    return String(value || '')
+      .replace(/[&<>"']/g,function(char){
+        var map = {
+          '&':'&amp;',
+          '<':'&lt;',
+          '>':'&gt;',
+          '"':'&quot;',
+          "'":'&#39;'
+        };
+        return map[char];
+      });
+  }
+  function addBotText(text){
+    var row =
+      document.createElement('div');
+    row.className = 'msg-row bot';
+    var avatar =
+      document.createElement('div');
+    avatar.className = 'msg-avatar';
+    avatar.textContent = 'Eto';
+    var bubble =
+      document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = text;
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    els.body.appendChild(row);
+    trimHistory();
+    scrollDown();
+    return row;
+  }
+  function addBotBubble(html){
+    var row =
+      document.createElement('div');
+    row.className = 'msg-row bot';
+    var avatar =
+      document.createElement('div');
+    avatar.className = 'msg-avatar';
+    avatar.textContent = 'Eto';
+    var bubble =
+      document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.innerHTML = html;
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    els.body.appendChild(row);
+    trimHistory();
+    scrollDown();
+    return row;
+
+  }
+  function toolIconLetter(tool){
+    if(!tool || !tool.title){
+      return 'E';
+    }
+    return tool.title.trim().charAt(0) || 'E';
+  }
+  function renderAnswer(item){
+    if(!item){
+      return null;
+    }
+    var html = '';
+    html += '<div class="ans-wrap">';
+    html += '<div class="ans-top">';
+    html +=
+      '<div class="ans-tool-icon">' +
+      escapeHtml(toolIconLetter(item)) +
+      '</div>';
+    html += '<div class="ans-head">';
+    if(item.category){
+      html +=
+        '<div class="ans-category">' +
+        escapeHtml(item.category) +
+        '</div>';
+    }
+    html +=
+      '<div class="ans-title">' +
+      escapeHtml(item.title || 'الأداة') +
+      '</div>';
+    html += '</div>';
+    html += '</div>';
+    if(item.summary){
+      html +=
+        '<div class="ans-summary">' +
+        escapeHtml(item.summary) +
+        '</div>';
+    }
+    if(
+      Array.isArray(item.features) &&
+      item.features.length
+    ){
+      html +=
+        '<ol class="ans-steps">';
+      item.features
+        .slice(0,8)
+        .forEach(function(feature,index){
+          html +=
+            '<li>' +
+              '<b>' +
+                (index + 1) +
+              '</b>' +
+
+              '<div class="step-content">' +
+
+                '<div class="step-label">' +
+                  escapeHtml(
+                    feature.label || 'ميزة'
+                  ) +
+                '</div>' +
+                '<div class="step-text">' +
+                  escapeHtml(
+                    feature.text || ''
+                  ) +
+                '</div>' +
+              '</div>' +
+            '</li>';
+        });
+
+      html += '</ol>';
+    }
+    if(item.note){
+      html +=
+        '<div class="ans-note">' +
+          '💡 ' +
+          escapeHtml(item.note) +
+        '</div>';
+    }
+    html +=
+      '<div class="ans-actions">';
+    html +=
+      '<button ' +
+      'type="button" ' +
+      'class="ans-go-btn" ' +
+      'data-open-tool="' +
+      escapeHtml(item.id) +
+      '">' +
+      'افتح الأداة' +
+      '</button>';
+    html +=
+      '<button ' +
+      'type="button" ' +
+      'class="ans-related-btn" ' +
+      'data-ask-tool="' +
+      escapeHtml(item.id) +
+      '">' +
+      'اشرحهالي أكتر' +
+      '</button>';
+    html +=
+      '</div>';
+    html += '</div>';
+    var row =
+      addBotBubble(html);
+    var openBtn =
+      row.querySelector(
+        '[data-open-tool]'
+      );
+    if(openBtn){
+      openBtn.addEventListener(
+        'click',
+        function(){
+          goToTool(
+            item.id
+          );
+        }
+      );
+    }
+    var askBtn =
+      row.querySelector(
+        '[data-ask-tool]'
+      );
+    if(askBtn){
+      askBtn.addEventListener(
+        'click',
+        function(){
+          addBotText(
+            'ببساطة: ' +
+            (item.summary || item.title || 'دي الأداة المناسبة ليك.')
+          );
+          showDefaultSuggestions();
+        }
+      );
+    }
+    return row;
+  }
+  function renderCandidates(results){
+    var topResults =
+      results.slice(0,3);
+    if(!topResults.length){
+      return;
+    }
+    var html =
+      '<div class="understand-box">' +
+        '<strong>ممكن تكون تقصد:</strong>' +
+      '</div>';
+    html +=
+      '<div class="candidate-list">';
+    topResults.forEach(function(result){
+      var item =
+        result.item;
+      html +=
+        '<button ' +
+        'type="button" ' +
+        'class="candidate-btn" ' +
+        'data-candidate-id="' +
+        escapeHtml(item.id) +
+        '">' +
+          '<span class="candidate-icon">' +
+            escapeHtml(
+              toolIconLetter(item)
+            ) +
+          '</span>' +
+          '<span class="candidate-info">' +
+            '<span class="candidate-title">' +
+              escapeHtml(item.title || '') +
+            '</span>' +
+            '<span class="candidate-desc">' +
+              escapeHtml(item.summary || '') +
+            '</span>' +
+          '</span>' +
+        '</button>';
+    });
+    html += '</div>';
+    var row =
+      addBotBubble(html);
+    row.querySelectorAll(
+      '[data-candidate-id]'
+    ).forEach(function(button){
+      button.addEventListener(
+        'click',
+        function(){
+          var id =
+            button.getAttribute(
+              'data-candidate-id'
+            );
+          if(
+            TOOL_MAP[id]
+          ){
+            renderAnswer(
+              TOOL_MAP[id]
+            );
+          }
+        }
+      );
+    });
+  }
+  function goToTool(id){
+    if(!id){
+      return;
+    }
+    if(
+      !TOOL_MAP[id]
+    ){
+      addBotText(
+        'الأداة دي مش موجودة في بيانات الروبوت حاليًا.'
+      );
+      return;
+    }
+    try{
+      if(
+        window.parent &&
+        typeof window.parent.navigate === 'function'
+      ){
+        window.parent.navigate(id);
+      }
+    }catch(error){
+      console.error(
+        '[Eto Robot] navigate error:',
+        error
+      );
+    }
+    try{
+      if(
+        window.parent &&
+        window.parent !== window
+      ){
+        window.parent.postMessage(
+          'eto-robot-close-chat',
+          '*'
+        );
+      }
+    }catch(e){}
+  }
+  function detectCategoryQuestion(text){
+    var q = normalize(text);
+    if(
+      /ادوات المعلم|أدوات المعلم|ادوات المدرس|ادوات المدرسين|أدوات المدرس|tools teacher/.test(q)
+    ){
+      return 'أدوات المعلم';
+    }
+    if(
+      /ادوات الطالب|أدوات الطالب|ادوات الطلبه|أدوات الطلبة|student tools/.test(q)
+    ){
+      return 'أدوات الطالب';
+    }
+    if(
+      /ادوات pdf|ادوات الملفات|أدوات pdf|أدوات الملفات|pdf tools/.test(q)
+    ){
+      return 'أدوات PDF والملفات';
+    }
+    return '';
+
+  }
+  function isVeryShortQuery(text){
+    var tokens =
+      tokenize(text);
+    return tokens.length <= 1;
+  }
+  function getConfidence(results){
+    if(!results.length){
+      return 0;
+    }
+    var top =
+      results[0].score || 0;
+    if(top >= 28){
+      return 1;
+    }
+    if(top >= 18){
+      return .9;
+    }
+    if(top >= 12){
+      return .78;
+    }
+    if(top >= 8){
+      return .62;
+    }
+    if(top >= 5){
+      return .42;
+    }
+    return .25;
+  }
+  function isAmbiguous(results){
+    if(results.length < 2){
+      return false;
+    }
+    var first =
+      results[0].score || 0;
+    var second =
+      results[1].score || 0;
+    if(first < 8){
+      return true;
+    }
+    if(
+      second >= first * .82
+    ){
+      return true;
+    }
+    return false;
+  }
+  function handleQuery(rawText){
+    if(isBusy){
+      return;
+    }
+    var text =
+      String(rawText || '')
+      .replace(/\s+/g,' ')
+      .trim();
+    if(!text){
+      return;
+    }
+    if(text.length > 700){
+      addBotText(
+        'السؤال طويل شوية 😅\nاختصرهولي في جملة صغيرة، زي: "عايز ادمج PDF" أو "عايز اعمل كشف درجات".'
+      );
+      return;
+    }
+    isBusy = true;
+    els.send.disabled = true;
+    clearSuggestions();
+    addUserMessage(text);
+    els.input.value = '';
+    setMiniStatus('بدور على قصدك…',true);
+    addTypingIndicator();
+    var delay =
+      450 +
+      Math.floor(
+        Math.random() * 250
+      );
+    responseTimer =
+      setTimeout(function(){
+      responseTimer = null;
+      removeTypingIndicator();
+      setMiniStatus('',false);
+      try{
+        var general =
+          findGeneralReply(text);
+        if(general){
+          addBotText(general);
+          showDefaultSuggestions();
+          finishBusy();
+          return;
+        }
+        var category =
+          detectCategoryQuestion(text);
+        if(category){
+          showCategoryResult(category);
+          showDefaultSuggestions();
+          finishBusy();
+          return;
+        }
+        if(!TOOLS.length){
+          addBotText(
+            'حصلت مشكلة بسيطة في تحميل معلومات الأدوات 😕\nجرب تقفل المساعد وتفتحه تاني.'
+          );
+          finishBusy();
+          return;
+        }
+        var results =
+          findBestMatches(text);
+        if(!results.length){
+          addBotText(
+            'مش قادر أحدد قصدك بالظبط 🤔\n\nجرب تقولها بطريقة أبسط، زي:\n• عايز أضغط PDF\n• عايز أحول PDF لـ Word\n• عايز أدمج ملفات\n• عايز أعمل كشف درجات'
+          );
+          showDefaultSuggestions();
+          finishBusy();
+          return;
+        }
+        var confidence =
+          getConfidence(results);
+        var ambiguous =
+          isAmbiguous(results);
+        if(
+          confidence < .5
+        ){
+          addBotText(
+            'فاهم إنك بتدور على أداة، بس مش متأكد 100% إنت تقصد إيه 😅'
+          );
+          renderCandidates(
+            results
+          );
+          showMatchSuggestions(
+            results
+          );
+          finishBusy();
+          return;
+        }
+        if(
+          ambiguous &&
+          results.length >= 2
+        ){
+          addBotText(
+            'فاهمك، بس السؤال ده ممكن يروح لأكتر من أداة. اختار الأقرب ليك من دول 👇'
+          );
+          renderCandidates(
+            results
+          );
+          showMatchSuggestions(
+            results
+          );
+          finishBusy();
+          return;
+        }
+        var best =
+          results[0].item;
+        renderAnswer(
+          best
+        );
+        if(
+          results.length >= 2 &&
+          results[1].score >= 9
+        ){
+          var related =
+            results[1].item;
+          var relatedRow =
+            addBotBubble(
+              '<div class="understand-box">' +
+                '<strong>ولو كنت تقصد حاجة قريبة:</strong> ' +
+                escapeHtml(
+                  related.title
+                ) +
+              '</div>'
+            );
+          var relatedButton =
+            document.createElement(
+              'button'
+            );
+          relatedButton.type = 'button';
+          relatedButton.className =
+            'ans-related-btn';
+          relatedButton.textContent =
+            'اعرض الأداة دي';
+          relatedButton.style.marginTop =
+            '7px';
+          relatedButton.addEventListener(
+            'click',
+            function(){
+              renderAnswer(
+                related
+              );
+            }
+          );
+          relatedRow.querySelector(
+            '.bubble'
+          ).appendChild(
+            relatedButton
+          );
+        }
+        showMatchSuggestions(
+          results
+        );
+      }catch(error){
+        console.error(
+          '[Eto Robot] query error:',
+          error
+        );
+        addBotText(
+          'حصل خطأ صغير وأنا بفهم السؤال 😅\nجرب تكتبه بشكل أبسط.'
+        );
+        showDefaultSuggestions();
+      }
+      finishBusy();
+    },delay);
+  }
+  function finishBusy(){
+
+    isBusy = false;
+
+    els.send.disabled = false;
+
+    setTimeout(function(){
+
+      if(
+        document.activeElement !== els.input
+      ){
+
+        els.input.focus();
+
+      }
+
+    },40);
+
+  }
+
+
+  function cancelPendingResponse(){
+    if(responseTimer){
+      clearTimeout(
+        responseTimer
+      );
+      responseTimer = null;
+    }
+    removeTypingIndicator();
+    setMiniStatus(
+      '',
+      false
+    );
+    isBusy = false;
+    if(els.send){
+      els.send.disabled = false;
+    }
+  }
+  function setMiniStatus(text,show){
+    if(
+      !els.miniStatus
+    ){
+      return;
+    }
+    if(
+      !show ||
+      !text
+    ){
+      els.miniStatus.classList.remove(
+        'show'
+      );
+      els.miniStatus.textContent = '';
+      return;
+    }
+    els.miniStatus.textContent =
+      text;
+    els.miniStatus.classList.add(
+      'show'
+    );
+  }
+  function prepareData(json){
+    DATA = json || {};
+    TOOLS =
+      Array.isArray(DATA.tools)
+        ? DATA.tools
+        : [];
+    TOOL_MAP = {};
+    TOOLS.forEach(function(tool){
+      if(
+        !tool ||
+        !tool.id
+      ){
+        return;
+      }
+      prepareTool(tool);
+      TOOL_MAP[
+        String(tool.id)
+      ] = tool;
+    });
+    if(DATA.assistant){
+      prepareTool({
+        id:'assistant',
+        title:
+          DATA.assistant.title ||
+          'مساعد Eto.Edu',
+        category:'مساعد الموقع',
+        summary:
+          DATA.assistant.summary ||
+          '',
+        features:
+          DATA.assistant.features ||
+          [],
+        note:
+          DATA.assistant.note ||
+          '',
+        keywords:
+          DATA.assistant.keywords ||
+          []
+      });
+    }
+  }
+  function loadData(){
+    setMiniStatus(
+      'جاري تجهيز المساعد…',
+      true
+    );
+    var botPromise =
+      fetch(
+        'bot-data.json',
+        {
+          cache:'no-store'
+        }
+      )
+      .then(function(response){
+
+        if(
+          !response.ok
+        ){
+
+          throw new Error(
+            'bot-data.json HTTP ' +
+            response.status
+          );
+
+        }
+        return response.json();
+      });
+    var generalPromise =
+      fetch(
+        'general-chat.json',
+        {
+          cache:'no-store'
+        }
+      )
+      .then(function(response){
+        if(
+          !response.ok
+        ){
+          return {};
+        }
+        return response.json();
+      })
+      .catch(function(){
+
+        return {};
+      });
+    return Promise.all([
+      botPromise,
+      generalPromise
+    ]).then(function(values){
+      prepareData(
+        values[0]
+      );
+      GENERAL_DATA =
+        normalizeGeneralMap(
+          values[1]
+        );
+      setMiniStatus(
+        '',
+        false
+      );
+      return true;
+    }).catch(function(error){
+      console.error(
+        '[Eto Robot] data loading failed:',
+        error
+      );
+      DATA = {
+        tools:[]
+      };
+      TOOLS = [];
+      TOOL_MAP = {};
+      setMiniStatus(
+        '',
+        false
+      );
+      return false;
+    });
+  }
+  function showWelcome(){
+    var html = '';
+    html +=
+      '<div class="welcome-card">';
+    html +=
+      '<div class="welcome-title">' +
+        'أهلاً بيك' +
+      '</div>';
+    html +=
+      '<div class="welcome-text">' +
+        'أنا دكتور Eto، مساعدك التعليمي جوه الموقع. <b>قولي عايز تعمل إيه</b> وأنا أفهملك الدنيا ببساطة وأوصلك للمكان الصح.' +
+      '</div>';
+    html +=
+      '<div class="welcome-tip">' +
+        'مثال: "الملف عندي كبير" → ضغط PDF<br>' +
+        '"عايز أحول البي دي اف لوورد" → PDF إلى Word<br>' +
+        '"عايز أجمع كذا ملف" → دمج الملفات' +
+      '</div>';
+    html +=
+      '</div>';
+    addBotBubble(
+      html
+    );
+  }
+  if(
+    els.send
+  ){
+    els.send.addEventListener(
+      'click',
+      function(){
+        if(isBusy){
+          return;
+        }
+        var value =
+          els.input.value.trim();
+        if(value){
+          handleQuery(
+            value
+          );
+        }
+      }
+    );
+  }
+  if(
+    els.input
+  ){
+    els.input.addEventListener(
+      'keydown',
+      function(event){
+        if(
+          event.key === 'Enter'
+        ){
+          event.preventDefault();
+          if(isBusy){
+            return;
+          }
+          var value =
+            els.input.value.trim();
+          if(value){
+            handleQuery(
+              value
+            );
+          }
+        }
+      }
+    );
+  }
+  if(
+    els.close
+  ){
+    els.close.addEventListener(
+      'click',
+      function(){
+        cancelPendingResponse();
+        try{
+          if(
+            window.parent &&
+            window.parent !== window
+          ){
+            window.parent.postMessage(
+              'eto-robot-close-chat',
+              '*'
+            );
+          }
+        }catch(e){}
+      }
+    );
+  }
+  document.addEventListener(
+    'keydown',
+    function(event){
+      if(
+        event.key === 'Escape'
+      ){
+        try{
+          if(
+            window.parent &&
+            window.parent !== window
+          ){
+            window.parent.postMessage(
+              'eto-robot-close-chat',
+              '*'
+            );
+          }
+        }catch(e){}
+      }
+    }
+  );
+  window.addEventListener(
+    'pagehide',
+    function(){
+      cancelPendingResponse();
+    }
+  );
+  function init(){
+    showWelcome();
+    showDefaultSuggestions();
+    loadData()
+      .then(function(){
+        showDefaultSuggestions();
+        setTimeout(function(){
+          try{
+            els.input.focus();
+          }catch(e){}
+        },180);
+      });
+  }
+  init();
+})();
+</script>
+</body>
+</html>

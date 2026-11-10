@@ -1,0 +1,221 @@
+/* Eto.Edu Robot */
+#eto-robot-root{
+    position:fixed;
+    left:0;
+    bottom:18px;
+    width:96px;
+    height:96px;
+    z-index:120;
+    pointer-events:none;
+    user-select:none;
+    touch-action:none;
+    opacity:1;
+    will-change:left,transform,opacity;
+    contain:layout paint style;
+}
+
+#eto-robot-sprite{
+    position:absolute;
+    inset:0;
+    width:96px;
+    height:96px;
+    background-image:var(--eto-robot-sheet);
+    background-repeat:no-repeat;
+    background-size:192px 288px;
+    background-position:0 0;
+    image-rendering:pixelated;
+    image-rendering:crisp-edges;
+    transform-origin:center bottom;
+    will-change:background-position,transform;
+}
+
+#eto-robot-root #eto-robot-sprite{
+    transform:scaleX(-1);
+}
+
+#eto-robot-root.eto-robot-facing-left #eto-robot-sprite{
+    transform:scaleX(1);
+}
+
+#eto-robot-root.eto-robot-paused{
+    opacity:.96;
+}
+
+#eto-robot-root.eto-robot-hidden{
+    opacity:0;
+}
+
+@media(max-width:640px){
+    #eto-robot-root{
+        width:82px;
+        height:82px;
+        bottom:12px;
+    }
+
+    #eto-robot-sprite{
+        width:82px;
+        height:82px;
+        background-size:164px 246px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    #eto-robot-root{
+        transition:none !important;
+    }
+}
+#eto-robot-root.eto-robot-attention #eto-robot-sprite{
+    animation:etoRobotAttention .55s ease-in-out 0s 2 alternate;
+}
+
+#eto-robot-bubble{
+    position:absolute;
+    left:50%;
+    bottom:calc(100% + 9px);
+    transform:translate(-50%,7px) scale(.96);
+    transform-origin:center bottom;
+    width:max-content;
+    max-width:min(270px,calc(100vw - 34px));
+    padding:9px 11px;
+    border:1px solid #dbeafe;
+    border-radius:14px;
+    background:rgba(255,255,255,.97);
+    color:#0f172a;
+    box-shadow:0 12px 30px rgba(15,23,42,.16);
+    font-family:'Cairo',sans-serif;
+    font-size:9.5px;
+    font-weight:900;
+    line-height:1.65;
+    opacity:0;
+    pointer-events:none;
+    visibility:hidden;
+    transition:opacity .2s ease,transform .2s ease,visibility .2s;
+}
+
+#eto-robot-bubble:after{
+    content:'';
+    position:absolute;
+    left:50%;
+    bottom:-6px;
+    width:11px;
+    height:11px;
+    background:inherit;
+    border-right:1px solid #dbeafe;
+    border-bottom:1px solid #dbeafe;
+    transform:translateX(-50%) rotate(45deg);
+}
+
+#eto-robot-bubble.show{
+    opacity:1;
+    visibility:visible;
+    transform:translate(-50%,0) scale(1);
+}
+
+#eto-robot-bubble-text{
+    display:inline;
+}
+
+#eto-robot-bubble-key{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:20px;
+    height:20px;
+    margin-right:7px;
+    padding:0 5px;
+    border-radius:6px;
+    background:#0f172a;
+    color:#fff;
+    font-size:9px;
+    box-shadow:0 2px 5px rgba(15,23,42,.2);
+}
+
+#eto-robot-bubble-key[hidden]{
+    display:none !important;
+}
+
+.dark #eto-robot-bubble{
+    background:#0f172a;
+    border-color:#334155;
+    color:#f8fafc;
+}
+
+.dark #eto-robot-bubble:after{
+    border-color:#334155;
+}
+
+.dark #eto-robot-bubble-key{
+    background:#2563eb;
+}
+
+@keyframes etoRobotAttention{
+    from{
+        transform:translateY(0) rotate(0deg) scale(1);
+    }
+    to{
+        transform:translateY(-3px) rotate(-2deg) scale(1.025);
+    }
+}
+
+@media(max-width:640px){
+
+    #eto-robot-root{
+        pointer-events:auto;
+        cursor:default;
+        -webkit-tap-highlight-color:transparent;
+    }
+
+    #eto-robot-bubble{
+        max-width:190px;
+        padding:8px 10px;
+        font-size:8.5px;
+        border-radius:12px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    #eto-robot-root.eto-robot-attention #eto-robot-sprite{
+        animation:none !important;
+    }
+}
+#eto-robot-root.eto-robot-paused:before{
+    content:'👆';
+    position:absolute;
+    left:50%;
+    bottom:calc(100% + 2px);
+    transform:translateX(-50%);
+    font-size:17px;
+    line-height:1;
+    filter:drop-shadow(0 2px 3px rgba(15,23,42,.18));
+    opacity:.95;
+    animation:etoRobotIdleHand 1s ease-in-out infinite alternate;
+    pointer-events:none;
+}
+
+@keyframes etoRobotIdleHand{
+    from{
+        transform:translateX(-50%) translateY(0);
+        opacity:.72;
+    }
+
+    to{
+        transform:translateX(-50%) translateY(-4px);
+        opacity:1;
+    }
+}
+
+@media(max-width:640px){
+
+    #eto-robot-root.eto-robot-paused:before{
+        font-size:16px;
+        bottom:calc(100% + 3px);
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    #eto-robot-root.eto-robot-paused:before{
+        animation:none;
+    }
+}
