@@ -1,7 +1,7 @@
 {
-    "name": "PDF Manager By Eto",
-    "short_name": "PDF Manager",
-    "description": "منصة متكاملة لإدارة وتعديل وتحويل ملفات PDF",
+    "name": "ETO EDUCATION",
+    "short_name": "Eto.Edu",
+    "description": "كل الأدوات اللي ممكن تحتاجها للمذاكرة والتعامل مع الملفات في مكان واحد. أدوات للطالب والمعلم، شيتات وأسئلة، قوالب جاهزة، ملخصات وامتحانات، وأدوات متنوعة لملفات PDF والصور، وكل ده من المتصفح.",
     "start_url": "./index.html",
     "scope": "./",
     "display": "standalone",

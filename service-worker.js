@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pdf-manager-v15';
+const CACHE_NAME = 'ETO-v15';
 
 const APP_SHELL = [
     './',
