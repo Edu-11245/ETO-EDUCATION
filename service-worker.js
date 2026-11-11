@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pdf-manager-v13';
+const CACHE_NAME = 'pdf-manager-v15';
 
 const APP_SHELL = [
     './',

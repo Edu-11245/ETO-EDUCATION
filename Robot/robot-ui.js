@@ -27,7 +27,7 @@
         const text = document.getElementById('eto-robot-bubble-text');
         const key = document.getElementById('eto-robot-bubble-key');
 
-        bubble.addEventListener('pointerup', event => {
+        bubble.addEventListener('click', event => {
             event.stopPropagation();
             hideBubble();
             openChat();
@@ -184,31 +184,36 @@
         let overlay = null;
 
         function openChat(){
+            // الطريقة الأساسية: نفس نافذة الشات اللي في index.html
+            if(typeof window.navigate === 'function'){
+                window.navigate('assistant');
+                return;
+            }
+
+            // طريقة احتياطية لو الصفحة مفيهاش navigate
             if(!overlay){
                 overlay = document.createElement('div');
                 overlay.id = 'eto-robot-chat-overlay';
+                overlay.style.cssText =
+                    'position:fixed;inset:0;z-index:2147483000;display:flex;background:rgba(248,250,252,.92);';
 
                 const iframe = document.createElement('iframe');
 
                 iframe.src = 'Robot/robot-chat.html';
                 iframe.title = 'مساعد Eto.Edu';
+                iframe.style.cssText = 'width:100%;height:100%;border:0;background:#fff;';
 
                 overlay.appendChild(iframe);
                 document.body.appendChild(overlay);
-
-                overlay.addEventListener('click', event => {
-                    if(event.target === overlay) closeChat();
-                });
             }
 
-            requestAnimationFrame(() => {
-                overlay.classList.add('show');
-            });
+            overlay.style.display = 'flex';
+            window.dispatchEvent(new CustomEvent('eto-robot-chat-open'));
         }
 
         function closeChat(){
             if(overlay){
-                overlay.classList.remove('show');
+                overlay.style.display = 'none';
             }
         }
 

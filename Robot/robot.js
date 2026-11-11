@@ -42,6 +42,20 @@
         pathLine: null
     };
 
+    function openRobotChat(){
+        try{
+            if(window.EtoRobotUI && typeof window.EtoRobotUI.openChat === 'function'){
+                window.EtoRobotUI.openChat();
+                return;
+            }
+            if(typeof window.navigate === 'function'){
+                window.navigate('assistant');
+            }
+        }catch(error){
+            console.error('[Eto Robot] open chat failed:',error);
+        }
+    }
+
     function getSize(){
         return window.innerWidth <= 640
             ? ROBOT_CONFIG.mobileSize
@@ -261,8 +275,8 @@
             event.preventDefault();
             event.stopPropagation();
 
-            window.location.href =
-                './Robot/robot-chat.html';
+            if(state.thought) state.thought.classList.remove('show');
+            openRobotChat();
 
         });
 
@@ -293,17 +307,17 @@
                 left:0;
                 top:0;
                 width:max-content;
-                max-width:180px;
-                min-width:74px;
-                padding:7px 11px;
+                max-width:230px;
+                min-width:90px;
+                padding:9px 14px;
                 border:1px solid #e2cb59;
                 border-radius:6px 15px 15px 15px;
                 background:linear-gradient(135deg,#fffdf1 0%,#fff3a1 100%);
                 color:#202b44;
                 font-family:'Cairo',sans-serif;
-                font-size:9px;
+                font-size:13px;
                 font-weight:900;
-                line-height:1.55;
+                line-height:1.6;
                 text-align:center;
                 box-shadow:0 10px 24px rgba(15,23,42,.18),0 3px 8px rgba(15,23,42,.08);
                 z-index:2147483647 !important;
@@ -331,23 +345,6 @@
 
             #eto-robot-thought:active{
                 transform:translateY(0) rotate(-1deg) scale(.97);
-            }
-
-            #eto-robot-thought::before{
-                content:"✎";
-                position:absolute;
-                top:-8px;
-                left:7px;
-                width:19px;
-                height:19px;
-                border-radius:6px;
-                background:#2563eb;
-                color:#fff;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-size:8px;
-                box-shadow:0 3px 9px rgba(37,99,235,.28);
             }
 
             #eto-robot-thought::after{
@@ -399,10 +396,10 @@
 
             @media(max-width:640px){
                 #eto-robot-thought{
-                    max-width:150px;
-                    min-width:66px;
-                    padding:6px 9px;
-                    font-size:8.5px;
+                    max-width:190px;
+                    min-width:80px;
+                    padding:8px 11px;
+                    font-size:12px;
                 }
             }
         `;
@@ -420,6 +417,13 @@
             '<span class="eto-thought-dots">' +
             '<span></span><span></span><span></span>' +
             '</span>';
+
+        thought.addEventListener('click', function(event){
+            event.preventDefault();
+            event.stopPropagation();
+            thought.classList.remove('show');
+            openRobotChat();
+        });
 
         document.body.appendChild(thought);
 
@@ -894,6 +898,10 @@
             state.thought.classList.remove('show');
         }
     }
+
+    window.addEventListener('eto-robot-chat-open', function(){
+        hide();
+    });
 
     window.addEventListener('message', function(event){
 

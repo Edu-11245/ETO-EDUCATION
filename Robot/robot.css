@@ -11,7 +11,7 @@
     touch-action:none;
     opacity:1;
     will-change:left,transform,opacity;
-    contain:layout paint style;
+    contain:layout style;
 }
 
 #eto-robot-sprite{
@@ -75,20 +75,21 @@
     transform:translate(-50%,7px) scale(.96);
     transform-origin:center bottom;
     width:max-content;
-    max-width:min(270px,calc(100vw - 34px));
-    padding:9px 11px;
+    max-width:min(300px,calc(100vw - 34px));
+    padding:11px 14px;
     border:1px solid #dbeafe;
     border-radius:14px;
     background:rgba(255,255,255,.97);
     color:#0f172a;
     box-shadow:0 12px 30px rgba(15,23,42,.16);
     font-family:'Cairo',sans-serif;
-    font-size:9.5px;
+    font-size:13px;
     font-weight:900;
-    line-height:1.65;
+    line-height:1.7;
     opacity:0;
     pointer-events:none;
     visibility:hidden;
+    cursor:pointer;
     transition:opacity .2s ease,transform .2s ease,visibility .2s;
 }
 
@@ -106,6 +107,7 @@
 }
 
 #eto-robot-bubble.show{
+    pointer-events:auto;
     opacity:1;
     visibility:visible;
     transform:translate(-50%,0) scale(1);
@@ -119,14 +121,14 @@
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    min-width:20px;
-    height:20px;
+    min-width:26px;
+    height:26px;
     margin-right:7px;
     padding:0 5px;
     border-radius:6px;
     background:#0f172a;
     color:#fff;
-    font-size:9px;
+    font-size:12px;
     box-shadow:0 2px 5px rgba(15,23,42,.2);
 }
 
@@ -166,9 +168,9 @@
     }
 
     #eto-robot-bubble{
-        max-width:190px;
-        padding:8px 10px;
-        font-size:8.5px;
+        max-width:220px;
+        padding:9px 12px;
+        font-size:12px;
         border-radius:12px;
     }
 }
@@ -180,38 +182,32 @@
     }
 }
 #eto-robot-root.eto-robot-paused:before{
-    content:'👆';
+    content:'';
     position:absolute;
     left:50%;
-    bottom:calc(100% + 2px);
-    transform:translateX(-50%);
-    font-size:17px;
-    line-height:1;
-    filter:drop-shadow(0 2px 3px rgba(15,23,42,.18));
-    opacity:.95;
+    bottom:calc(100% + 4px);
+    width:9px;
+    height:9px;
+    margin-left:-4.5px;
+    border-radius:50%;
+    background:#2563eb;
+    box-shadow:0 0 0 4px rgba(37,99,235,.18);
     animation:etoRobotIdleHand 1s ease-in-out infinite alternate;
     pointer-events:none;
 }
 
 @keyframes etoRobotIdleHand{
     from{
-        transform:translateX(-50%) translateY(0);
-        opacity:.72;
+        transform:translateY(0);
+        opacity:.55;
     }
 
     to{
-        transform:translateX(-50%) translateY(-4px);
+        transform:translateY(-4px);
         opacity:1;
     }
 }
 
-@media(max-width:640px){
-
-    #eto-robot-root.eto-robot-paused:before{
-        font-size:16px;
-        bottom:calc(100% + 3px);
-    }
-}
 
 @media(prefers-reduced-motion:reduce){
 

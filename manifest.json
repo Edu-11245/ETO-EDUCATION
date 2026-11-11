@@ -1,7 +1,7 @@
 {
-    "name": "ETO EDUCATION",
-    "short_name": "ETO.EDU",
-    "description": "Eto.Edu منصة بتجمع أدوات الطالب والمعلم في مكان واحد، من التعامل مع ملفات PDF والصور والقوالب، لحد الشيتات والأسئلة والملخصات والامتحانات وتنظيم المذاكرة. اشتغل على ملفاتك ونظم مذاكرتك بسهولة من المتصفح، سواء من الكمبيوتر أو الموبايل.",
+    "name": "PDF Manager By Eto",
+    "short_name": "PDF Manager",
+    "description": "منصة متكاملة لإدارة وتعديل وتحويل ملفات PDF",
     "start_url": "./index.html",
     "scope": "./",
     "display": "standalone",

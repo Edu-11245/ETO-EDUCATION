@@ -1,0 +1,13 @@
+{
+ "version": 1,
+ "note": "لإضافة معرفة جديدة: حط ملف JSON جديد جوه فولدر knowledge وضيف اسمه هنا. شكل الملف: {\"entries\":[{id,title,keywords,questions,answer,more,goTo,goLabel,steps,related}]}",
+ "files": [
+  "style-guide.json",
+  "site-map.json",
+  "tools-howto.json",
+  "study-tips.json",
+  "moods.json",
+  "small-talk.json",
+  "troubleshooting.json"
+ ]
+}

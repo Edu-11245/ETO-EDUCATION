@@ -910,6 +910,83 @@
       scroll-behavior:auto !important;
     }
   }
+
+  /* =========================================================
+     BIGGER TEXT + CLEANER LOOK (v2)
+  ========================================================= */
+  #app{
+    max-width:880px;
+    margin:0 auto;
+    background:var(--bg);
+    box-shadow:0 0 0 1px var(--border);
+  }
+  #chat-header{
+    min-height:78px;
+    padding:12px 16px;
+    gap:14px;
+  }
+  #chat-avatar{
+    width:54px;
+    height:54px;
+    border-radius:16px;
+    background-size:108px 162px;
+  }
+  #chat-header-text b{ font-size:18px; }
+  #chat-header-text span{ font-size:13px; margin-top:2px; }
+  #chat-status-dot{ width:9px; height:9px; }
+  #chat-close{ width:42px; height:42px; border-radius:12px; }
+  #chat-body{ padding:20px 16px 14px; gap:16px; }
+  .msg-row{ gap:10px; }
+  .msg-avatar{ width:36px; height:36px; border-radius:11px; font-size:12px; }
+  .bubble{
+    max-width:min(88%,700px);
+    padding:14px 16px;
+    border-radius:18px;
+    font-size:16px;
+    line-height:2;
+    font-weight:600;
+  }
+  .welcome-card{ gap:12px; }
+  .welcome-title{ font-size:20px; }
+  .welcome-tip{ font-size:14px; padding:11px 13px; line-height:2; border-radius:12px; }
+  .ans-wrap{ gap:11px; }
+  .ans-tool-icon{ width:42px; height:42px; border-radius:12px; font-size:14px; }
+  .ans-category{ font-size:12px; padding:3px 10px; margin-bottom:4px; }
+  .ans-title{ font-size:18px; }
+  .ans-summary{ font-size:16px; }
+  .ans-steps{ gap:8px; }
+  .ans-steps li{ padding:11px 12px; border-radius:12px; gap:10px; }
+  .ans-steps b{ width:24px; height:24px; font-size:12px; border-radius:8px; }
+  .step-label{ font-size:15px; }
+  .step-text{ font-size:14.5px; line-height:1.9; margin-top:2px; }
+  .ans-note{ font-size:14px; padding-top:10px; }
+  .ans-actions{ gap:9px; }
+  .ans-go-btn,.ans-related-btn{ min-height:46px; padding:10px 16px; font-size:15px; border-radius:12px; }
+  .understand-box{ font-size:14.5px; }
+  .candidate-title{ font-size:15.5px; }
+  .candidate-desc{ font-size:13.5px; }
+  .candidate-icon{ width:38px; height:38px; font-size:13px; }
+  #chat-suggestions{ padding-top:8px; padding-bottom:8px; }
+  .chip{ min-height:40px; font-size:14px; padding:6px 14px; }
+  #chat-input-bar{ padding:10px 14px 14px; gap:10px; }
+  #chat-input{ height:52px; font-size:16px; border-radius:15px; padding:0 16px; }
+  #chat-send{ height:52px; width:52px; border-radius:15px; display:flex; align-items:center; justify-content:center; }
+  #chat-mini-status{ font-size:13px; }
+
+  @media(max-width:640px){
+    #app{ box-shadow:none; }
+    #chat-header{ min-height:70px; padding:10px 12px; }
+    #chat-header-text b{ font-size:16px; }
+    #chat-header-text span{ font-size:12px; }
+    .bubble{ max-width:92%; font-size:15px; padding:12px 13px; }
+    .welcome-title{ font-size:18px; }
+    .ans-title{ font-size:16.5px; }
+    .ans-summary{ font-size:15px; }
+    .step-label{ font-size:14.5px; }
+    .step-text{ font-size:14px; }
+    .msg-avatar{ width:32px; height:32px; }
+    #chat-input{ font-size:16px; }
+  }
 </style>
 </head>
 
@@ -935,7 +1012,7 @@
       type="button"
       title="إغلاق"
       aria-label="إغلاق المساعد"
-    >✕</button>
+    ><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </header>
 
   <!-- CHAT -->
@@ -965,7 +1042,7 @@
       type="button"
       title="إرسال"
       aria-label="إرسال"
-    >➤</button>
+    ><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="transform:scaleX(-1)"><path d="M3.4 20.4l17.4-8.1a.5.5 0 000-.9L3.4 3.3a.5.5 0 00-.7.6l2.2 6.6 8.6 1.5-8.6 1.5-2.2 6.6a.5.5 0 00.7.3z"/></svg></button>
 
   </div>
 
@@ -2028,33 +2105,33 @@
   }
   var BUILTIN_GENERAL = {
     "السلام عليكم":
-      "وعليكم السلام ورحمة الله وبركاته ❤️\nقولّي محتاج تعمل إيه وأنا أوجهك للأداة المناسبة.",
+      "وعليكم السلام ورحمة الله وبركاته\nقولّي محتاج تعمل إيه وأنا أوجهك للأداة المناسبة.",
     "السلام عليكم ورحمة الله":
-      "وعليكم السلام ورحمة الله وبركاته ❤️\nقولّي عايز تعمل إيه وأنا أساعدك.",
+      "وعليكم السلام ورحمة الله وبركاته\nقولّي عايز تعمل إيه وأنا أساعدك.",
     "اهلا":
-      "أهلاً بيك يا باشا 👋\nقولّي عايز تعمل إيه في Eto.Edu وأنا أدورلك على الأداة المناسبة.",
+      "أهلاً بيك يا باشا\nقولّي عايز تعمل إيه في Eto.Edu وأنا أدورلك على الأداة المناسبة.",
     "أهلا":
-      "أهلاً بيك يا باشا 👋\nقولّي عايز تعمل إيه في Eto.Edu وأنا أدورلك على الأداة المناسبة.",
+      "أهلاً بيك يا باشا\nقولّي عايز تعمل إيه في Eto.Edu وأنا أدورلك على الأداة المناسبة.",
     "هاي":
-      "هاي يا بطل 👋\nقولّي محتاج إيه.",
+      "هاي يا بطل\nقولّي محتاج إيه.",
     "hello":
-      "Hello 👋\nقولي محتاج تعمل إيه وأنا أساعدك.",
+      "Hello\nقولي محتاج تعمل إيه وأنا أساعدك.",
     "hi":
-      "أهلاً 👋\nقولّي محتاج إيه وأنا أوجهك للأداة المناسبة.",
+      "أهلاً\nقولّي محتاج إيه وأنا أوجهك للأداة المناسبة.",
     "شكرا":
-      "العفو يا باشا ❤️\nأنا موجود عشان أسهلهالك.",
+      "العفو يا باشا\nأنا موجود عشان أسهلهالك.",
     "ميرسي":
-      "العفو ❤️",
+      "العفو",
     "thank you":
-      "العفو يا باشا ❤️",
+      "العفو يا باشا",
     "ازيك":
-      "الحمدلله تمام 😄\nقولي محتاج تعمل إيه.",
+      "الحمدلله تمام\nقولي محتاج تعمل إيه.",
     "عامل ايه":
-      "الحمدلله تمام 😄\nجاهز أساعدك. قولّي عايز تعمل إيه.",
+      "الحمدلله تمام\nجاهز أساعدك. قولّي عايز تعمل إيه.",
     "مين انت":
-      "أنا مساعد Eto.Edu 🤖\nوظيفتي أفهم أنت عايز تعمل إيه وأوصلك للأداة المناسبة بدل ما تفضل تدور عليها بنفسك.",
+      "أنا مساعد Eto.Edu\nوظيفتي أفهم أنت عايز تعمل إيه وأوصلك للأداة المناسبة بدل ما تفضل تدور عليها بنفسك.",
     "بتعمل ايه":
-      "أنا بساعدك تلاقي وتفهم أدوات Eto.Edu 🤖\nمثلاً لو قلتلي: «عايز أصغر حجم PDF» هوجهك لأداة ضغط PDF."
+      "أنا بساعدك تلاقي وتفهم أدوات Eto.Edu\nمثلاً لو قلتلي: «عايز أصغر حجم PDF» هوجهك لأداة ضغط PDF."
   };
   var NORMALIZED_BUILTIN_GENERAL = normalizeGeneralMap(BUILTIN_GENERAL);
   function resolveGeneralReply(value){
@@ -2092,22 +2169,27 @@
       return resolveGeneralReply(NORMALIZED_BUILTIN_GENERAL[nq]);
     }
     var keys = Object.keys(GENERAL_DATA || {});
+    var padded = ' ' + nq + ' ';
+    var nqWords = nq.split(' ').length;
     for(
       var i=0;
       i<keys.length;
       i++
     ){
       var key = normalize(keys[i]);
-      if(
-        key &&
-        key.length >= 3 &&
-        (
-          nq.indexOf(key) !== -1 ||
-          key.indexOf(nq) !== -1
-        )
-      ){
+      if(!key || key.length < 3){
+        continue;
+      }
+      var keyWords = key.split(' ').length;
+      var phraseInside =
+        keyWords >= 2 &&
+        padded.indexOf(' ' + key + ' ') !== -1;
+      var shortQueryInside =
+        nqWords <= 2 &&
+        nq.length >= 4 &&
+        key.indexOf(nq) !== -1;
+      if(phraseInside || shortQueryInside){
         return resolveGeneralReply(GENERAL_DATA[keys[i]]);
-
       }
     }
     return null;
@@ -2181,6 +2263,14 @@
     {
       label:'امتحانات',
       query:'عايز امتحان جاهز'
+    },
+    {
+      label:'نصايح مذاكرة',
+      query:'ازاي ابدأ اذاكر'
+    },
+    {
+      label:'الموقع فيه ايه',
+      query:'الموقع فيه ايه'
     },
     {
       label:'جدول مذاكرة',
@@ -2485,7 +2575,7 @@
     if(item.note){
       html +=
         '<div class="ans-note">' +
-          '💡 ' +
+          ' ' +
           escapeHtml(item.note) +
         '</div>';
     }
@@ -2620,6 +2710,17 @@
       return;
     }
     try{
+      var parentDoc =
+        window.parent && window.parent.document;
+      if(
+        parentDoc &&
+        !parentDoc.getElementById('page-' + id)
+      ){
+        addBotText(
+          'الأداة دي لسه مش متوصلة بصفحة في الموقع، فمقدرش أفتحهالك دلوقتي.'
+        );
+        return;
+      }
       if(
         window.parent &&
         typeof window.parent.navigate === 'function'
@@ -2710,6 +2811,208 @@
     }
     return false;
   }
+  /* =========================================================
+     KNOWLEDGE BASE (Robot/knowledge/*.json)
+  ========================================================= */
+  var KB = [];
+  var KB_MAP = {};
+  var STYLE = { phrases:{} };
+  var LAST_KB = null;
+  var KB_HIGH = 16;
+  var KB_LOW = 8;
+  var FOLLOW_UP =
+    /^(كمان|اكتر|اكثر|وبعدين|طب وبعدين|كمل|وايه كمان|ايه كمان|فهمني اكتر|اشرح اكتر|تفاصيل اكتر|زود)$/;
+
+  function say(key,fallback){
+    var list = STYLE.phrases && STYLE.phrases[key];
+    if(Array.isArray(list) && list.length){
+      return list[Math.floor(Math.random() * list.length)];
+    }
+    return fallback;
+  }
+  function stemToken(t){
+    t = String(t || '').replace(/^(وال|بال|لل|ال)/,'');
+    if(t.length > 3){
+      t = t.replace(/^[وبلف]/,'');
+    }
+    return t;
+  }
+  function kbPrepare(e){
+    e._q = (e.questions || []).map(normalize).filter(Boolean);
+    e._k = (e.keywords || []).map(normalize).filter(Boolean);
+    e._kt = unique(tokenize(e._k.join(' ')).map(stemToken));
+    e._tt = unique(tokenize(e.title || '').map(stemToken));
+  }
+  function kbScore(nq,qStems,e){
+    var s = 0;
+    e._q.forEach(function(q){
+      if(q === nq){
+        s = Math.max(s,100);
+      }else if(q.length >= 8 && nq.indexOf(q) !== -1){
+        s = Math.max(s,45);
+      }
+    });
+    var padded = ' ' + nq + ' ';
+    e._k.forEach(function(k){
+      if(k.length < 2){
+        return;
+      }
+      if(padded.indexOf(' ' + k + ' ') !== -1){
+        s += 6 + Math.min(k.split(' ').length,3) * 3;
+      }
+    });
+    var hit = 0;
+    qStems.forEach(function(t){
+      if(e._kt.indexOf(t) !== -1){
+        hit += 1;
+      }
+      if(e._tt.indexOf(t) !== -1){
+        hit += .5;
+      }
+    });
+    return s + hit * 2.5;
+  }
+  function findKB(text){
+    var out = { best:null, list:[] };
+    if(!KB.length){
+      return out;
+    }
+    var nq = normalize(text);
+    var qStems = unique(tokenize(nq).map(stemToken));
+    var list = [];
+    KB.forEach(function(e){
+      var sc = kbScore(nq,qStems,e);
+      if(sc > 0){
+        list.push({ item:e, score:sc });
+      }
+    });
+    list.sort(function(a,b){
+      return b.score - a.score;
+    });
+    out.list = list;
+    out.best = list[0] || null;
+    return out;
+  }
+  function goToPage(id,force){
+    if(!id){
+      return;
+    }
+    try{
+      var pd = window.parent && window.parent.document;
+      if(!force && pd && !pd.getElementById('page-' + id)){
+        addBotText(
+          say('noPage','الأداة دي لسه مش متوصلة بصفحة في الموقع.')
+        );
+        return;
+      }
+      if(
+        window.parent &&
+        typeof window.parent.navigate === 'function'
+      ){
+        window.parent.navigate(id);
+      }
+    }catch(error){
+      console.error('[Eto Robot] navigate error:',error);
+    }
+    try{
+      if(window.parent && window.parent !== window){
+        window.parent.postMessage('eto-robot-close-chat','*');
+      }
+    }catch(e){}
+  }
+  function renderKB(e){
+    LAST_KB = e;
+    var plain = /^(mood|chat)-/.test(e.id) && !e.steps;
+    var html = '<div class="ans-wrap">';
+    if(!plain){
+      html += '<h3 class="ans-title">' + escapeHtml(e.title) + '</h3>';
+    }
+    html += '<p class="ans-summary">' + escapeHtml(e.answer) + '</p>';
+    if(Array.isArray(e.steps) && e.steps.length){
+      html += '<ol class="ans-steps">';
+      e.steps.forEach(function(step,i){
+        html +=
+          '<li><b>' + (i + 1) + '</b>' +
+          '<div class="step-content"><div class="step-label">' +
+          escapeHtml(step) +
+          '</div></div></li>';
+      });
+      html += '</ol>';
+    }
+    html += '<div class="ans-actions"></div></div>';
+    var row = addBotBubble(html);
+    var actions = row.querySelector('.ans-actions');
+    if(e.goTo){
+      var go = document.createElement('button');
+      go.type = 'button';
+      go.className = 'ans-go-btn';
+      go.textContent = 'افتح ' + (e.goLabel || e.title);
+      go.addEventListener('click',function(){
+        goToPage(e.goTo,!!e.force);
+      });
+      actions.appendChild(go);
+    }
+    (e.related || []).slice(0,3).forEach(function(id){
+      var r = KB_MAP[id];
+      if(!r){
+        return;
+      }
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'ans-related-btn';
+      b.textContent = r.title;
+      b.addEventListener('click',function(){
+        renderKB(r);
+      });
+      actions.appendChild(b);
+    });
+    if(!actions.children.length){
+      actions.parentNode.removeChild(actions);
+    }
+  }
+  function loadKnowledge(){
+    return fetch('knowledge/manifest.json',{ cache:'no-store' })
+      .then(function(r){
+        return r.ok ? r.json() : { files:[] };
+      })
+      .then(function(m){
+        var files = (m && m.files) || [];
+        return Promise.all(files.map(function(f){
+          return fetch('knowledge/' + f,{ cache:'no-store' })
+            .then(function(r){
+              return r.ok ? r.json() : null;
+            })
+            .catch(function(){
+              return null;
+            });
+        }));
+      })
+      .then(function(list){
+        list.forEach(function(d){
+          if(!d){
+            return;
+          }
+          if(d.phrases){
+            Object.keys(d.phrases).forEach(function(k){
+              STYLE.phrases[k] = d.phrases[k];
+            });
+          }
+          if(Array.isArray(d.entries)){
+            d.entries.forEach(function(e){
+              if(e && e.id && e.answer){
+                kbPrepare(e);
+                KB.push(e);
+                KB_MAP[e.id] = e;
+              }
+            });
+          }
+        });
+      })
+      .catch(function(error){
+        console.error('[Eto Robot] knowledge load failed:',error);
+      });
+  }
+
   function handleQuery(rawText){
     if(isBusy){
       return;
@@ -2723,7 +3026,7 @@
     }
     if(text.length > 700){
       addBotText(
-        'السؤال طويل شوية 😅\nاختصرهولي في جملة صغيرة، زي: "عايز ادمج PDF" أو "عايز اعمل كشف درجات".'
+        'السؤال طويل شوية\nاختصرهولي في جملة صغيرة، زي: "عايز ادمج PDF" أو "عايز اعمل كشف درجات".'
       );
       return;
     }
@@ -2745,6 +3048,16 @@
       removeTypingIndicator();
       setMiniStatus('',false);
       try{
+        if(FOLLOW_UP.test(normalize(text)) && LAST_KB){
+          if(LAST_KB.more){
+            addBotText(LAST_KB.more);
+          }else{
+            addBotText(say('noMore','ده كل اللي عندي في النقطة دي.'));
+          }
+          showDefaultSuggestions();
+          finishBusy();
+          return;
+        }
         var general =
           findGeneralReply(text);
         if(general){
@@ -2761,18 +3074,35 @@
           finishBusy();
           return;
         }
+        var kbRes = findKB(text);
+        if(kbRes.best && kbRes.best.score >= KB_HIGH){
+          renderKB(kbRes.best.item);
+          showDefaultSuggestions();
+          finishBusy();
+          return;
+        }
         if(!TOOLS.length){
           addBotText(
-            'حصلت مشكلة بسيطة في تحميل معلومات الأدوات 😕\nجرب تقفل المساعد وتفتحه تاني.'
+            say('dataError','حصلت مشكلة بسيطة في تحميل معلومات الأدوات. جرب تقفل المساعد وتفتحه تاني.')
           );
           finishBusy();
           return;
         }
         var results =
           findBestMatches(text);
+        if(
+          kbRes.best &&
+          kbRes.best.score >= KB_LOW &&
+          (!results.length || getConfidence(results) < .5)
+        ){
+          renderKB(kbRes.best.item);
+          showDefaultSuggestions();
+          finishBusy();
+          return;
+        }
         if(!results.length){
           addBotText(
-            'مش قادر أحدد قصدك بالظبط 🤔\n\nجرب تقولها بطريقة أبسط، زي:\n• عايز أضغط PDF\n• عايز أحول PDF لـ Word\n• عايز أدمج ملفات\n• عايز أعمل كشف درجات'
+            say('notUnderstood','مش قادر أحدد قصدك بالظبط.') + '\n\nجرب تقولها بطريقة أبسط، زي:\n• عايز أضغط PDF\n• عايز أحول PDF لـ Word\n• عايز أدمج ملفات\n• عايز أعمل كشف درجات\n• ازاي أنظم مذاكرتي'
           );
           showDefaultSuggestions();
           finishBusy();
@@ -2786,7 +3116,7 @@
           confidence < .5
         ){
           addBotText(
-            'فاهم إنك بتدور على أداة، بس مش متأكد 100% إنت تقصد إيه 😅'
+            say('unsure','فاهم إنك بتدور على أداة، بس مش متأكد 100% إنت تقصد إيه.')
           );
           renderCandidates(
             results
@@ -2802,7 +3132,7 @@
           results.length >= 2
         ){
           addBotText(
-            'فاهمك، بس السؤال ده ممكن يروح لأكتر من أداة. اختار الأقرب ليك من دول 👇'
+            say('ambiguous','فاهمك، بس السؤال ده ممكن يروح لأكتر من أداة. اختار الأقرب ليك من دول:')
           );
           renderCandidates(
             results
@@ -2867,7 +3197,7 @@
           error
         );
         addBotText(
-          'حصل خطأ صغير وأنا بفهم السؤال 😅\nجرب تكتبه بشكل أبسط.'
+          say('genericError','حصل خطأ صغير وأنا بفهم السؤال. جرب تكتبه بشكل أبسط.')
         );
         showDefaultSuggestions();
       }
@@ -3020,9 +3350,11 @@
 
         return {};
       });
+    var kbPromise = loadKnowledge();
     return Promise.all([
       botPromise,
-      generalPromise
+      generalPromise,
+      kbPromise
     ]).then(function(values){
       prepareData(
         values[0]
