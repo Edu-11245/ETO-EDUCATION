@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ETO-v15';
+const CACHE_NAME = 'ETO-v16';
 
 const APP_SHELL = [
     './',
