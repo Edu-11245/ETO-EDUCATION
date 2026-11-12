@@ -74,7 +74,12 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
           "group": "Biology"
         }
       ],
-      "summaries": [],
+      "summaries": [
+        {
+          "title": "Cell Biology - Lecture 1",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Summary/Biology/cell-biology-lecture-1.html"
+        }
+      ],
       "videos": []
     },
     "MAT101": {
