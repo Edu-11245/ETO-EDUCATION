@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Maths 1 Function — رسم الدوال</title>
-<!-- هذا الملف في Data/Edu_tools/Maths 1 Function/ -->
 <link rel="stylesheet" href="../../../css/animate.min.css">
 <style>
 :root{--bg:#eef2f9;--card:#fff;--tx:#0f172a;--mut:#64748b;--bd:#e2e8f0;--grid:#eef1f6;--grid2:#d5dce8;--ax:#334155;--pri:#6366f1;--cv:#fff;--in:#f8fafc;--animate-duration:.55s}
@@ -54,7 +53,6 @@ main{display:grid;grid-template-columns:370px 1fr;gap:14px;align-items:start}
 .bar{display:flex;gap:8px;flex-wrap:wrap}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chips .btn{direction:ltr;font-family:'Cambria Math','Segoe UI Symbol','Segoe UI',sans-serif;font-size:1.05rem}
-/* رموز سريعة: قيمة مطلقة / جذور / لوغاريتمات */
 .qs{display:flex;flex-wrap:wrap;gap:6px;direction:ltr}
 .qs .q{min-width:44px;padding:7px 10px;font:1.05rem 'Cambria Math','Segoe UI Symbol','Segoe UI',sans-serif;line-height:1.2}
 .qs .q sub,.qs .q sup{font-size:.62em}
@@ -73,7 +71,6 @@ canvas{width:100%;height:min(72vh,660px);min-height:340px;display:block;border-r
 .prm input[type=range]{width:100%;accent-color:var(--pri)}
 .prm .pn{width:100%;padding:6px 4px;border:1.5px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);font:13px Consolas,monospace;text-align:center;min-width:0}
 .prm .btn{padding:6px 0}
-/* نافذة المشاركة */
 .ov{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
 .ov[hidden]{display:none}
 .dlg{width:min(460px,100%);max-height:100%;overflow:auto;background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:16px;box-shadow:0 20px 60px rgba(15,23,42,.35);animation:pop .22s ease-out}
@@ -146,8 +143,6 @@ canvas{width:100%;height:min(72vh,660px);min-height:340px;display:block;border-r
     </section>
   </main>
 </div>
-
-<!-- نافذة المشاركة -->
 <div class="ov" id="ov" hidden>
   <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dt">
     <div class="dh"><span id="dt" data-i18n="shareTitle"></span><button class="btn" id="dx" data-i18n-title="close">✕</button></div>
@@ -169,14 +164,12 @@ canvas{width:100%;height:min(72vh,660px);min-height:340px;display:block;border-r
 </div>
 <div id="toast" role="status" aria-live="polite"></div>
 
-<script src="../../lib/math.js"></script>
+<script src="../../Lib/math.js"></script>
 <script>
 const $=s=>document.querySelector(s);
 const COL=['#6366f1','#ef4444','#10b981','#f59e0b','#06b6d4'];
-/* اسم الموقع اللي بيظهر في حقوق الصورة — عدّله هنا */
 const BRAND='ETO';
 
-/* ---------- اللغات: عربي كامل / إنجليزي كامل ---------- */
 const I18N={
 ar:{
   doc:'Maths 1 Function — رسم الدوال',title:'رسم الدوال',
@@ -241,7 +234,6 @@ en:{
 let LANG='ar';
 const L=(k,...a)=>{const v=I18N[LANG][k];return typeof v==='function'?v(...a):v};
 
-/* الدوال المدعومة فقط — أي اسم تاني بيتعتبر غلط. log = لوغاريتم أساس 10 (أو log(x,a) بأساس a)، ln = لوغاريتم طبيعي، root(n,x) = جذر نوني */
 const FN=['sin','cos','tan','cot','sec','csc','asin','acos','atan','sinh','cosh','tanh','sqrt','cbrt','root','abs','exp','ln','log','floor','ceil','round','sign'];
 const CONST=['pi','e'];
 const EX=['sin(x)','x^2','x^3-3x','1/x','sqrt(x)','|x-2|','root(3,x)','e^x','ln(x)','log(x,2)','tan(x)','sin(x)/x','ax^2+bx+c','a*sin(bx)'];
@@ -256,7 +248,6 @@ const cv=$('#cv'),g=cv.getContext('2d');
 let fns=[],view={cx:0,cy:0,s:60},prog=1,raf=0,hover=null,focusIn=null,W=0,H=0,dpr=1,tm=0;
 const calm=matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-/* ---------- فحص وتجميع الدالة ---------- */
 function check(node){
   let bad='';
   node.traverse((n,path,parent)=>{
@@ -270,7 +261,6 @@ function check(node){
   });
   return bad;
 }
-/* رموز مكتوبة: √x و √(x) و ∛x و |x| بتتحول لدوال عادية قبل التحليل */
 function norm(s){
   s=s.replace(/√\s*\(/g,'sqrt(').replace(/∛\s*\(/g,'cbrt(')
      .replace(/([√∛])\s*([a-z0-9.]+)/gi,(m,c,a)=>(c==='√'?'sqrt(':'cbrt(')+a+')');
@@ -293,16 +283,12 @@ function comp(f){
   }catch(e){f.code=null;f.err=L('bad')}
 }
 function ev(f,x){try{sc.x=x;const v=f.code.evaluate(sc);return typeof v==='number'?v:NaN}catch(e){return NaN}}
-
-/* ---------- الأُس: بيتكتب بحروف مرفوعة حقيقية (x² / eˣ / x⁻¹) ---------- */
 const SUP={'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','+':'⁺','-':'⁻','(':'⁽',')':'⁾','x':'ˣ','n':'ⁿ','/':'⁄','.':'˙'};
 const UNSUP=Object.fromEntries(Object.entries(SUP).map(([a,b])=>[b,a]));
 const SUPRE=/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁽⁾ˣⁿ⁄˙]+/g;
 const isSup=c=>!!c&&(c in UNSUP);
 const toSup=t=>[...t].map(c=>SUP[c]||c).join('');
 const disp=t=>t.replace(/\^(\([^()]*\)|[+-]?[0-9xn.]+)/g,(_,a)=>toSup(a));
-
-/* ---------- الإكمال التلقائي ---------- */
 function wordAt(i){const m=/[a-z]+$/i.exec(i.value.slice(0,i.selectionStart));return m?m[0].toLowerCase():''}
 function matches(w){return w.length>=2?FN.filter(n=>n.startsWith(w)&&n!==w):[]}
 function atWordEnd(i){return !/[a-z0-9]/i.test(i.value[i.selectionStart]||'')}
@@ -311,8 +297,6 @@ function accept(inp,name){
   inp.value=v.slice(0,c-w.length)+name+'()'+v.slice(c);
   inp.focus();inp.setSelectionRange(p,p);inp.dispatchEvent(new Event('input'));
 }
-
-/* ---------- رموز سريعة: |x| √ ⁿ√ log ln logₐ π ---------- */
 const QS={
   abs:['abs()',4,['abs(',')']],
   sqrt:['sqrt()',5,['sqrt(',')']],
@@ -335,8 +319,6 @@ function insertTpl(key){
   i.setSelectionRange(pos,pos);i.dispatchEvent(new Event('input'));
 }
 document.querySelectorAll('.q').forEach(b=>{b.onmousedown=e=>e.preventDefault();b.onclick=()=>insertTpl(b.dataset.q)});
-
-/* ---------- صفوف الدوال ---------- */
 function rows(){
   const box=$('#rows');box.innerHTML='';
   fns.forEach((f,i)=>{
@@ -407,8 +389,6 @@ function useExample(ex){
   let f=fns.find(f=>!f.expr.trim())||addFn()||fns[fns.length-1];
   f.expr=disp(ex);f.show=true;comp(f);rows();play();
 }
-
-/* ---------- الرسم ---------- */
 function size(){const r=cv.getBoundingClientRect();dpr=devicePixelRatio||1;W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;draw()}
 const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 function draw(){
@@ -472,8 +452,6 @@ function info(){
   el.innerHTML='';const b=document.createElement('b');b.textContent='x = '+fmt(hover);el.appendChild(b);
   fns.forEach((f,i)=>{if(!f.code)return;const y=ev(f,hover),s=document.createElement('span');s.style.color=COL[f.color];s.textContent='f'+(i+1)+' = '+(isFinite(y)?fmt(y):L('undef'))+(showDer||showTan?'   f′ = '+(isFinite(y)&&isFinite(dv(f,hover))?sl(dv(f,hover)):L('undef')):'');el.appendChild(s)});
 }
-
-/* ---------- التحريك والتكبير ---------- */
 function zoom(f,px,py){
   const s2=Math.min(Math.max(view.s*f,2),4000);
   const mx=view.cx+(px-W/2)/view.s,my=view.cy-(py-H/2)/view.s;
@@ -506,8 +484,6 @@ document.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{
   else if(a==='png'){prep();download();toast(L('saved'))}
   else if(a==='share')doShare();
 });
-
-/* ---------- المعاملات: a b c d k m بتظهر لها منزلقات تلقائي ---------- */
 let pkey='',praf=0,plast=0;
 function setP(p,v,from){
   const q=P[p];q.v=v;sc[p]=v;
@@ -545,8 +521,6 @@ function syncParams(){
   });
   if(u.some(p=>P[p].run))startP();
 }
-
-/* ---------- النقاط المهمة: جذور / قمم وقيعان / تقاطعات ---------- */
 let showKP=true,hpy=null,kpC={sig:'',pts:[]};
 const cl=v=>Math.abs(v)<1e-9?0:v;
 function kp(){
@@ -613,8 +587,6 @@ function kpLabel({p,px,py},C){
   g.fillStyle=C.ax;g.beginPath();g.roundRect?g.roundRect(x,y,w,26,8):g.rect(x,y,w,26);g.fill();
   g.fillStyle=C.cv;g.textAlign='left';g.fillText(t,x+8,y+18);g.direction='inherit';
 }
-
-/* ---------- المشتقة والمماس (مشتقة عددية، بتشتغل مع كل الدوال المدعومة) ---------- */
 let showDer=false,showTan=false;
 const dv=(f,x)=>{const h=1e-5*(1+Math.abs(x));return(ev(f,x+h)-ev(f,x-h))/(2*h)};
 const sl=m=>fmt(Math.round(m*1e6)/1e6);
@@ -639,8 +611,6 @@ function tangents(Y){
   });
   g.globalAlpha=1;
 }
-
-/* ---------- تصدير الصورة: الرسم زي ما هو + شريط نظيف تحته فيه الدوال والحقوق ---------- */
 function exportCanvas(){
   const h=hover,hp=hpy;hover=null;hpy=null;cancelAnimationFrame(raf);prog=1;draw();
   const C={card:cssv('--card'),tx:cssv('--tx'),mut:cssv('--mut')};
@@ -689,8 +659,6 @@ function download(){
   l.href=u;l.download='function-graph.png';document.body.appendChild(l);l.click();l.remove();
   setTimeout(()=>URL.revokeObjectURL(u),2000);
 }
-
-/* ---------- المشاركة: رابط فيه الدوال والعرض + صورة ---------- */
 function shareURL(){
   const p=new URLSearchParams();
   fns.forEach(f=>{if(f.expr.trim())p.append('f',f.expr.trim())});
@@ -722,7 +690,7 @@ async function copyText(s){
   }
 }
 async function doShare(){
-  prep();                       /* بنجهّز الصورة فوراً علشان المتصفح يسمح بالمشاركة */
+  prep();                      
   const d=shareData();
   if(shareFile&&navigator.canShare&&navigator.canShare({files:[shareFile]})){
     try{await navigator.share({files:[shareFile],title:L('title'),text:d.text+(d.url?'\n'+d.url:'')});return}
@@ -760,8 +728,6 @@ $('#s-ci').onclick=async()=>{
   try{await navigator.clipboard.write([new ClipboardItem({'image/png':shareBlob})]);toast(L('copied'))}
   catch(e){toast(L('copyFail'))}
 };
-
-/* ---------- الثيم: فاتح دايماً إلا لو اخترت الدارك بنفسك ---------- */
 function setTheme(d,save){
   document.documentElement.classList.toggle('dark',d);$('#theme').textContent=d?'☀️':'🌙';
   if(save){try{localStorage.setItem('eto-math-theme',d?'dark':'light')}catch(e){}}
@@ -769,8 +735,6 @@ function setTheme(d,save){
 }
 $('#theme').onclick=()=>setTheme(!document.documentElement.classList.contains('dark'),true);
 let saved='light';try{saved=localStorage.getItem('eto-math-theme')||'light'}catch(e){}
-
-/* ---------- تبديل اللغة ---------- */
 function applyLang(){
   const d=document.documentElement;d.lang=LANG;d.dir=LANG==='ar'?'rtl':'ltr';
   document.title=L('doc');
@@ -787,8 +751,6 @@ function setLang(l,save){
   else $('#info').textContent=L('nomath');
 }
 $('#lang').onclick=()=>setLang(LANG==='ar'?'en':'ar',true);
-
-/* ---------- تشغيل ---------- */
 $('#add').onclick=()=>{const f=addFn();if(f)f._row.querySelector('input').focus()};
 $('#pow').onclick=()=>{const i=focusIn&&document.body.contains(focusIn)?focusIn:[...document.querySelectorAll('#rows input')].pop();if(i){i.focus();i._pw()}};
 $('#back').onclick=()=>{if(history.length>1)history.back();else location.href='../../../index.html'};
