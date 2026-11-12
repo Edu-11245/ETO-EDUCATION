@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="only light">
+<title>ملخص Cell Biology – المحاضرة الأولى</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap">
+<style>
+:root{--bg:#EEF2F9;--ink:#1B1A4A;--soft:#4A4A78;--card:#FFFFFF;--line:#D3D7EA;--pink:#C13C7E;--pinkbg:#FBE4EF;--pur:#5A3E9B;--purbg:#E9E3F7;--hl:#FFE066;--hlink:#1B1A4A;--hero1:#2A1B6B;--hero2:#B43479;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Cairo","Segoe UI",Tahoma,Arial,sans-serif;font-size:21px;line-height:1.9}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.en{direction:ltr;unicode-bidi:isolate;font-weight:800;color:var(--pur)}
+mark{background:linear-gradient(transparent 38%,var(--hl) 38%);color:inherit;padding:0 .15em;border-radius:3px}
+header{background:linear-gradient(135deg,var(--hero1),var(--hero2));color:#fff;padding:64px 22px 70px;text-align:center}
+header small{display:block;font-size:22px;opacity:.85;font-weight:600}
+header h1{font-size:clamp(46px,11vw,96px);line-height:1.15;margin:.2em 0;font-weight:900}
+header p{font-size:24px;margin:.3em 0}
+.by{display:inline-block;margin-top:22px;background:#fff;color:#2A1B6B;border-radius:40px;padding:6px 26px;font-weight:800;font-size:22px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:2px solid var(--line);display:flex;gap:8px;overflow-x:auto;padding:10px 14px}
+nav a{flex:none;color:var(--ink);text-decoration:none;font-weight:700;font-size:17px;background:var(--card);border:2px solid var(--line);border-radius:30px;padding:2px 16px}
+nav a:hover,nav a:focus-visible{border-color:var(--pink);outline:none}
+main{max-width:900px;margin:0 auto;padding:10px 16px 80px}
+section{margin-top:56px}
+h2{font-size:clamp(34px,7vw,52px);line-height:1.25;font-weight:900;margin:0 0 18px;padding-right:18px;border-right:10px solid var(--pink)}
+h3{font-size:28px;font-weight:800;margin:28px 0 8px;color:var(--pur)}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:20px 24px;margin:16px 0}
+.card.p{border-color:var(--pink);background:var(--pinkbg)}
+.card.v{border-color:var(--pur);background:var(--purbg)}
+.big{font-size:27px;font-weight:700}
+ul{padding-right:1.3em;margin:8px 0}
+li{margin:6px 0}
+.star{display:inline-block;background:var(--pink);color:#fff;border-radius:8px;padding:0 12px;font-size:17px;font-weight:800;margin-left:8px;vertical-align:middle}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-weight:800;font-size:24px}
+.flow span{background:var(--pur);color:#fff;border-radius:14px;padding:2px 18px}
+.flow i{font-style:normal;color:var(--pink);font-size:28px}
+.scroll{overflow-x:auto;border-radius:18px;border:2px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:560px;background:var(--card);font-size:20px}
+th,td{padding:10px 14px;border-bottom:1px solid var(--line);text-align:right}
+th{background:var(--pur);color:#fff;font-size:22px}
+td:first-child{font-weight:800;color:var(--pink)}
+details{background:var(--card);border:2px solid var(--line);border-radius:18px;margin:12px 0;padding:10px 20px}
+summary{cursor:pointer;font-weight:800;font-size:23px}
+summary:focus-visible{outline:3px solid var(--pink)}
+details p{margin:8px 0;font-weight:700;color:var(--pink)}
+.q{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:18px 24px;margin:18px 0}
+.q>b{font-size:25px;display:block;margin-bottom:6px}
+.opts{direction:ltr;text-align:left;list-style:upper-alpha;padding:0 0 0 2em;margin:10px 0;font-weight:700;font-size:22px}
+.opts li{margin:6px 0;padding-left:6px}
+.opts li::marker{color:var(--pink);font-weight:900}
+.q details{border-width:0;border-top:2px dashed var(--line);border-radius:0;margin:12px 0 0;padding:10px 0 0}
+svg{width:100%;height:auto;display:block}
+footer{text-align:center;padding:30px;color:var(--soft);font-weight:700}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+<small>Cell and Molecular Biology</small>
+<h1>ملخص المحاضرة الأولى</h1>
+<p>Introduction – من الخلية لحد الـ <span style="font-weight:900">Endoplasmic Reticulum</span></p>
+<span class="by">by Mohammed Saad</span>
+</header>
+<nav>
+<a href="#s1">Cell Theory</a><a href="#s2">Prokaryote vs Eukaryote</a><a href="#s3">Body Organization</a><a href="#s4">The Cell</a><a href="#s5">Cell Membrane</a><a href="#s6">Transport</a><a href="#s7">ER</a><a href="#s8">Questions</a>
+</nav>
+<main>
+
+<div class="card p"><b>إزاي تذاكر الملخص:</b> الجمل المظلّلة <mark>بالأصفر</mark> هي اللي الدكتور معلّم عليها في السلايدات، والعلامة <span class="star">مهم</span> يعني ركّز فيها قوي. في الآخر أسئلة الدكتور بالإجابات.</div>
+
+<section id="s1">
+<h2>Biology والنظرية الخلوية <span class="en">(Cell Theory)</span></h2>
+<div class="card big"><span class="en">Biology</span> = علم الحياة <span class="en">(science of life)</span>. بيدرس كل الكائنات الحية <span class="en">(living organisms)</span> (<mark>نبات <span class="en">plants</span>، حيوان <span class="en">animals</span>، إنسان <span class="en">humans</span></mark>) من حيث <mark>التركيب structure</mark> و<mark>الوظائف functions</mark> و<mark>التفاعل مع البيئة</mark>.</div>
+<p class="big">الحياة بتبدأ بالخلية <span class="en">(Life begins with cells)</span>: من اتحاد <span class="en">egg + sperm</span> بيتكوّن جسم الإنسان.</p>
+<h3>The Cell Theory <span class="star">مهم</span></h3>
+<div class="grid">
+<div class="card v"><b class="en">Matthias Schleiden</b><br>كل النباتات مكوّنة من خلايا <span class="en">(all plants are made of cells)</span></div>
+<div class="card v"><b class="en">Theodore Schwann</b><br>كل الحيوانات مكوّنة من خلايا <span class="en">(all animals are made of cells)</span></div>
+<div class="card v"><b class="en">Rudolf Virchow</b><br>كل الخلايا جاية من <mark>خلايا موجودة قبلها</mark> (pre-existing)</div>
+</div>
+<div class="card"><b>نص النظرية:</b>
+<ul><li>كل الكائنات الحية مكوّنة من خلايا <span class="en">(all living things are made up of cells)</span>.</li><li>الخلية هي <mark>الوحدة الأساسية للتركيب والوظيفة</mark> (structural and functional unit).</li><li>الخلايا الجديدة بتنتج من خلايا موجودة <span class="en">(new cells are produced from existing cells)</span>.</li></ul></div>
+</section>
+
+<section id="s2">
+<h2>Prokaryotes vs Eukaryotes</h2>
+<p>الميكروسكوب الإلكتروني (EM) كشف إن فيه نمطين لتنظيم الخلية:</p>
+<div class="grid">
+<div class="card p"><h3 style="margin-top:0">1) <span class="en">Prokaryotes</span></h3>معناها «قبل النواة» <span class="en">(before nucleus)</span>. أبسط <span class="en">(simpler)</span>، <mark>مفيش nuclear envelope ولا organelles</mark>.<br>أمثلة: <span class="en">bacteria, cyanobacteria, mycoplasmas</span></div>
+<div class="card v"><h3 style="margin-top:0">2) <span class="en">Eukaryotes</span></h3>معناها «نواة حقيقية» <span class="en">(true nucleus)</span>. أعقد <span class="en">(more complex)</span>، فيها <mark>nuclear envelope</mark> و<span class="en">organelles</span>. كل خلايا الحيوان والنبات <span class="en">(animal and plant cells)</span> منهم.</div>
+</div>
+<div class="scroll"><table>
+<tr><th></th><th class="en" style="color:#fff">Prokaryotes</th><th class="en" style="color:#fff">Eukaryotes</th></tr>
+<tr><td>حجم الخلية <span class="en">Cell size</span></td><td>0.2 – 2 µm</td><td>10 – 100 µm</td></tr>
+<tr><td>النواة <span class="en">Nucleus</span></td><td>غايبة <span class="en">absent</span></td><td>موجودة <span class="en">present</span> بغشاء نووي حقيقي <span class="en">(true nuclear membrane)</span></td></tr>
+<tr><td>Organelles</td><td>غايبة <span class="en">absent</span></td><td>موجودة <span class="en">present</span> (mitochondria, Golgi, ER…)</td></tr>
+<tr><td>DNA</td><td>كروموسوم واحد <span class="en">(single chromosome)</span> <b>دائري</b> <span class="en">circular</span>، من غير histones <span class="en">(not complexed with histones)</span></td><td>كروموسومات <span class="en">(chromosomes)</span> <b>خطية</b> <span class="en">linear</span> متكثفة جداً <span class="en">(highly condensed)</span> مع histones</td></tr>
+<tr><td>Ribosomes</td><td>أصغر <span class="en">smaller</span> <b>70S</b></td><td>أكبر <span class="en">larger</span> <b>80S</b></td></tr>
+</table></div>
+<div class="grid" style="margin-top:16px">
+<div class="card"><b>موجود في الاتنين <span class="en">(in both)</span>:</b> Cell membrane، DNA، Ribosomes، Cytoplasm.</div>
+<div class="card"><b>Eukaryotes بس:</b> Nucleus، ER، Golgi، Lysosomes، Vacuoles، Mitochondria، Cytoskeleton.</div>
+</div>
+<h3>Animal cell vs Plant cell</h3>
+<div class="grid">
+<div class="card p"><b>خلية حيوانية بس <span class="en">(Animal cell only)</span>:</b> <span class="en">Centrioles</span></div>
+<div class="card v"><b>خلية نباتية بس <span class="en">(Plant cell only)</span>:</b> <mark><span class="en">Cell wall</span> + <span class="en">Chloroplasts</span></mark></div>
+</div>
+<p>والباقي مشترك بينهم: membrane, ribosomes, nucleus, ER, Golgi, lysosomes, vacuoles, mitochondria, cytoskeleton.</p>
+<h3>Central Dogma of Biology <span class="star">مهم</span></h3>
+<p>اتجاه «سريان المعلومات» في الخلية:</p>
+<div class="flow"><span>DNA</span><i>◀</i><em style="font-style:normal">transcription</em><i>◀</i><span>RNA</span><i>◀</i><em style="font-style:normal">translation</em><i>◀</i><span>Protein</span></div>
+</section>
+
+<section id="s3">
+<h2>تنظيم جسم الإنسان <span class="en">(Organization of the Human Body)</span></h2>
+<div class="flow"><span>1 Cell</span><i>◀</i><span>2 Tissue</span><i>◀</i><span>3 Organ</span><i>◀</i><span>4 Organ system</span><i>◀</i><span>Human body</span></div>
+<p>الترتيب ده ممكن يجي في سؤال: الخلية <span class="en">(Cell)</span> هي الأصغر، وبعدها نسيج <span class="en">(Tissue)</span>، عضو <span class="en">(Organ)</span>، جهاز <span class="en">(Organ system)</span>، وفي الآخر الجسم <span class="en">(Human body)</span>.</p>
+</section>
+
+<section id="s4">
+<h2>الخلية The Cell</h2>
+<div class="card big">الخلايا مختلفة في <mark>الشكل والحجم</mark> <span class="en">(variable in shapes and sizes)</span>. كل خلية حيوانية فيها جزئين رئيسيين: <mark><span class="en">1. Cytoplasm</span> و <span class="en">2. Nucleus</span></mark></div>
+<h3>الـ Cytoplasm بيتكوّن من 3 حاجات <span class="en">(Consists of)</span> <span class="star">مهم</span></h3>
+<div class="grid">
+<div class="card p"><b class="en">Organelles</b><ul><li>تراكيب <mark>حيّة</mark> <span class="en">(living structures)</span></li><li>أساسية لحياة الخلية <span class="en">(essential for life of each cell)</span></li><li>نشطة أيضياً (metabolically active)</li></ul></div>
+<div class="card"><b class="en">Inclusions</b><ul><li>تراكيب <mark>غير حيّة</mark> <span class="en">(nonliving structures)</span></li><li><mark>مش أساسية</mark> لحياة الخلية <span class="en">(not essential for life of cells)</span></li><li>خاملة أيضياً (metabolically inert)</li></ul></div>
+<div class="card v"><b class="en">Cytosol</b><ul><li>سائل لزج <span class="en">(viscous fluid)</span> فيه enzymes, ions, O₂, CO₂, metabolites</li><li>بيدعم <span class="en">(supports)</span> الـ organelles</li></ul></div>
+</div>
+<h3>تصنيف الـ Organelles حسب وجود الغشاء <span class="en">(classified by presence or absence of membrane)</span> <span class="star">مهم</span></h3>
+<div class="grid">
+<div class="card p"><b class="en">Membranous</b><ul class="en" style="direction:ltr"><li>Cell membrane</li><li>Mitochondria</li><li>Endoplasmic reticulum</li><li>Golgi apparatus</li><li>Lysosomes</li></ul></div>
+<div class="card v"><b class="en">Non-membranous</b><ul class="en" style="direction:ltr"><li>Ribosomes</li><li>Microtubules ┐</li><li>Microfilaments ├ <u>Cytoskeleton</u></li><li>Intermediate filaments ┘</li></ul></div>
+</div>
+</section>
+
+<section id="s5">
+<h2>1) الـ Cell Membrane</h2>
+<p>اسمها كمان <span class="en">plasma membrane</span> أو <span class="en">plasmalemma</span>. <b>التعريف <span class="en">(Definition)</span>:</b> الغشاء اللي بيغلّف <span class="en">(envelops)</span> الخلية الحيوانية <span class="en">(animal cell)</span>.</p>
+<h3>التركيب بالـ Light Microscope (LM)</h3>
+<div class="card p big">صعب تتشاف <span class="en">(difficult to be seen)</span>. ليه؟ لأن سُمكها <span class="en">(thickness)</span> <mark>7.5 – 10 nm</mark> بس، فهي <mark>too thin</mark> للـ LM. <span class="star">سؤال امتحان</span></div>
+<h3>التركيب بالـ Electron Microscope (EM)</h3>
+<ul>
+<li><b>Low magnification:</b> تظهر كـ <mark>خط واحد كثيف للإلكترونات</mark> (single electron dense line).</li>
+<li><b>High magnification:</b> تظهر <mark>trilaminar</mark> (= trilamellar = <b>unit membrane</b>): <mark>طبقتين electron dense</mark> بينهم <mark>طبقة electron lucent</mark> في النص.</li>
+<li>السطح الخارجي <span class="en">(outer surface)</span> مغطى بـ <mark>cell coat = glycocalyx</mark> وشكله <mark>fuzzy</mark> (زغبي).</li>
+</ul>
+<h3>التركيب الجزيئي: 3 مكونات <span class="star">مهم</span></h3>
+<div class="grid">
+<div class="card p"><b>Lipids</b><br><span class="en">Phospholipids + Cholesterol</span></div>
+<div class="card v"><b>Proteins</b><br><span class="en">Integral + Peripheral</span></div>
+<div class="card"><b>Carbohydrates</b><br><span class="en">Glycoproteins + Glycolipids</span></div>
+</div>
+<h3>1- Lipids</h3>
+<div class="card"><b class="en">a) Phospholipids</b>: مترتبين في <mark>طبقتين (lipid bilayer)</mark>. كل جزيء له طرفين:
+<ul><li><b>الرأس Head (polar):</b> <mark>hydrophilic</mark> وبيواجه المحلول المائي، فالرؤوس على السطح الخارجي والداخلي (cytoplasmic) للغشاء.</li>
+<li><b>الذيل Tail (non-polar):</b> <mark>hydrophobic</mark> وبيتجه <mark>لجوه</mark> بعيد عن الماء.</li></ul>
+<b class="en">b) Cholesterol</b>: بيدخل بين الذيول الـ hydrophobic و<mark>بيقلّل حركتها</mark> (restricting their movement).</div>
+<h3>2- Proteins</h3>
+<div class="grid">
+<div class="card p"><b class="en">a) Integral (intrinsic)</b><ul><li>بعضها بيعدّي الغشاء من جنب للتاني = <mark>transmembrane protein</mark></li><li>والباقي مدفون <mark>جزئياً</mark> <span class="en">(partially embedded)</span> في الـ bilayer</li><li>وظايفها: <mark>channels, carriers, receptors, enzymes</mark></li></ul></div>
+<div class="card v"><b class="en">b) Peripheral (extrinsic)</b><ul><li>مربوطة <mark>بشكل ضعيف</mark> <span class="en">(loosely bound)</span> بالجهة <mark>cytoplasmic</mark> من الـ bilayer</li></ul></div>
+</div>
+<h3>3- Carbohydrates</h3>
+<div class="card">سلاسل سكر مرتبطة بالـ <b>proteins</b> فتكوّن <span class="en">glycoproteins</span>، وبالـ <b>lipids</b> فتكوّن <span class="en">glycolipids</span>. موجودة على <mark>السطح الخارجي</mark> <span class="en">(external surface)</span> للغشاء. وهما مع بعض بيكوّنوا <mark>الـ glycocalyx</mark>.</div>
+<h3>Glycocalyx <span class="star">مهم</span></h3>
+<div class="card p">متكوّن من glycoproteins و glycolipids، <mark>fuzzy بالـ EM</mark>.<br><b>وظايفه:</b> <mark>Cell recognition</mark> (تعرّف الخلايا على بعض) و <mark>Intercellular adhesions</mark> (التصاق الخلايا).</div>
+<h3>وظايف الـ Cell Membrane</h3>
+<ol><li>بتحافظ على <b>التكامل التركيبي</b> للخلية (structural integrity).</li><li>بتتحكم في حركة المواد داخل وخارج الخلية عن طريق <b>نظام نقل (transport system)</b>.</li></ol>
+</section>
+
+<section id="s6">
+<h2>النقل عبر الغشاء <span class="en">(Transport across Cell Membrane)</span></h2>
+<p>3 أنواع: <b class="en">Passive</b> – <b class="en">Active</b> – <b class="en">Vesicular</b>.</p>
+<div class="grid">
+<div class="card v"><h3 style="margin-top:0">I) Passive transport</h3><ul><li>حركة الجزيئات <mark>مع تدرّج التركيز</mark> (down the concentration gradient)</li><li><mark>مش محتاج طاقة</mark> <span class="en">(do not need energy)</span></li><li><b class="en">Simple diffusion</b>: زي O₂ و CO₂</li><li><b class="en">Facilitated diffusion</b>: عن طريق <mark>transporter proteins</mark> زي نقل الـ glucose</li></ul></div>
+<div class="card p"><h3 style="margin-top:0">II) Active transport</h3><ul><li>حركة الجزيئات <mark>عكس تدرّج التركيز</mark> (against the gradient)</li><li><mark>محتاج طاقة</mark> <span class="en">(need energy)</span> (ATP ◀ ADP + Pi)</li><li>مثال: <mark>Sodium-potassium pump</mark></li></ul></div>
+</div>
+<div class="card"><h3 style="margin-top:0">III) Vesicular transport</h3>نقل الجزيئات <b>الكبيرة</b> <span class="en">(large molecules)</span> عن طريق تكوين <span class="en">vesicles</span>. نوعين: <b class="en">Endocytosis</b> و <b class="en">Exocytosis</b>.</div>
+<div class="grid">
+<div class="card v"><b class="en">Endocytosis</b> = دخول مواد للخلية <span class="en">(uptake of materials into the cell)</span> عبر الغشاء. فيه 3 أنواع:
+<ul><li><b class="en">Phagocytosis</b> (cell eating): بلع مواد <mark>صلبة</mark> <span class="en">(solid)</span> زي البكتيريا <span class="en">(bacteria)</span>، في <span class="en">phagocytic vesicles</span></li><li><b class="en">Pinocytosis</b> (cell drinking): بلع مواد <mark>سائلة</mark> <span class="en">(fluid)</span>، في <span class="en">pinocytotic vesicles</span></li><li><b class="en">Receptor-mediated endocytosis</b>: مواد معينة <mark>محتاجة receptors</mark> عشان تدخل</li></ul></div>
+<div class="card p"><b class="en">Exocytosis</b> = <mark>خروج</mark> <span class="en">(release)</span> مواد من الخلية عبر الغشاء.<br>مثال: إفراز <mark>secretory proteins</mark>.</div>
+</div>
+</section>
+
+<section id="s7">
+<h2>2) الـ Endoplasmic Reticulum (ER)</h2>
+<div class="card">نظام من التراكيب الغشائية، <mark>غالباً متصل بالـ plasma membrane وبالـ nuclear membrane</mark>. موجود في شكلين: <b class="en">RER</b> و <b class="en">SER</b>.<br>الـ tubules بتاعة SER متصلة بـ cisternae بتاعة RER، وده خلّى العلماء يقترحوا إن <mark>الـ SER بتتكوّن من الـ RER</mark> وإن بروتينات SER بتتصنّع في RER.</div>
+<h3>أ) Rough ER (RER)</h3>
+<div class="card p"><b>التركيب:</b>
+<ul><li>شكلها المألوف <mark>أكياس مفلطحة كبيرة <span class="en">(large flattened sacs)</span> اسمها cisternae</mark>.</li><li><mark>الـ Ribosomes ملتصقة <span class="en">(attached)</span></mark> بالسطح الخارجي للغشاء (الناحية اللي بتواجه الـ cytosol).</li><li><mark>متصلة كتير بالغشاء الخارجي للـ nuclear envelope</mark>، فجوّة الـ RER متصلة بالـ perinuclear space.</li></ul></div>
+<div class="card"><b>الوظيفة: تصنيع الـ secretory proteins</b> <span class="star">مهم</span>
+<ol><li>الـ ribosome بيبدأ تصنيع البروتين، وبيظهر <b class="en">signal peptide</b>.</li><li>الـ <b class="en">Signal Recognition Protein (SRP)</b> بيربط الـ signal ويعمل <mark>وقف مؤقت للتصنيع</mark>. بيكمّل بس لما الـ <mark>SRP-ribosome complex يلتصق بالـ ER</mark> (عن طريق docking protein).</li><li>الـ ribosome الكبير بيتفاعل مباشرة مع <mark>2 integral proteins في غشاء الـ RER اسمهم ribophorins I و II</mark>.</li><li>السلسلة البروتينية بتدخل جوه الـ cisterna، والـ <b class="en">signal peptidase</b> بيقطع الـ signal peptide.</li><li>الـ ribosome بينفصل عن غشاء الـ ER والـ mRNA.</li><li>البروتين بيتضاف له سكر (glycosylation) فيبقى glycoprotein، وبعدين <mark>transport vesicle بتتبرعم</mark> شايلة الـ secretory protein.</li></ol></div>
+<h3>ب) Smooth ER (SER)</h3>
+<div class="card v"><b>التركيب:</b>
+<ul><li><mark>مفيهوش ribosomes</mark> عشان كده اسمه smooth.</li><li>عناصره <mark>أنبوبية tubular أكتر من cisternal</mark>، شبكة أنابيب بتلف في الـ cytoplasm.</li><li>في خلايا زي <b>عضلات الهيكل</b> <span class="en">(skeletal muscle cells)</span> و <b>الخلايا الصماء اللي بتصنع الستيرويدات</b> <span class="en">(steroid-producing endocrine cells)</span> بيبقى SER واسع جداً <span class="en">(extensive)</span> و RER قليل <span class="en">(greatly reduced)</span>.</li></ul></div>
+<h3>وظايف الـ SER <span class="star">مهم</span></h3>
+<div class="card"><b>1) تصنيع الدهون Lipid synthesis</b>
+<ul><li>إنتاج <b>lipoprotein particles</b> للتصدير في خلايا الكبد (hepatocytes).</li><li>الـ triglycerides بتتكسر لـ <b>monoglycerides + fatty acids</b> بإنزيمات في تجويف الأمعاء <span class="en">(intestinal lumen)</span> عشان تعدّي الـ apical plasma membrane لخلايا الامتصاص <span class="en">(absorptive cells)</span>، وبعدين <mark>بتتعاد صناعتها <span class="en">(resynthesized)</span> لـ triglycerides في الـ SER</mark>.</li><li><mark>Biosynthesis of cholesterol and steroid hormones</mark>: كتير في <b>Leydig cells</b> في الخصية <span class="en">(testis)</span> (بتصنع testosterone) وفي <b>adrenal cortex</b>.</li><li><mark>الـ Phospholipids</mark> بتاعة تركيب الأغشية <span class="en">(membrane structure)</span> بتتصنع في الـ SER كمان.</li></ul></div>
+<div class="card p"><b>2) إزالة السموم Detoxification</b>
+<ul><li>الـ SER في خلايا الكبد <span class="en">(liver cells)</span> مهم في <b>drug detoxification</b>: بيكسّر أو يعدّل كيميائياً المواد السامة <span class="en">(toxic substances)</span> اللي جاية من الدم <span class="en">(bloodstream)</span> أو الناتجة من الأيض <span class="en">(metabolism)</span>.</li><li>معظم التفاعلات بيحفزها إنزيم <mark>Cytochrome P450</mark>.</li><li>بيحوّل السموم الذائبة في الدهون <span class="en">(lipid-soluble toxins)</span> لمواد <b>ذائبة في الماء</b> <span class="en">(water-soluble metabolites)</span> عشان تتخلص منها <span class="en">(excretion)</span>.</li><li>أمثلة: أدوية <span class="en">(drugs: barbiturates, antibiotics)</span>، كحول <span class="en">(alcohol)</span>، سموم كيميائية <span class="en">(chemical toxins)</span>، ammonia, bilirubin.</li><li>التعرض الطويل للأدوية أو الكحول بيخلّي الـ SER <b>يتكاثر</b> <span class="en">(proliferation)</span>.</li></ul></div>
+<div class="card v"><b>4) استخدام الجليكوجين Glycogen utilization</b> (في الكبد <span class="en">in liver</span>)<br>
+<div class="flow" style="font-size:20px;margin-top:8px"><span>Glycogen</span><i>◀</i><span>Glucose-1-P</span><i>◀</i><span>Glucose-6-P</span><i>◀</i><span>Glucose</span><i>◀</i><span>Blood</span></div>
+بإنزيم <b>phosphorylase</b> ثم <mark>glucose-6-phosphatase</mark> (موجود في الـ SER).</div>
+<div class="card"><b>5) نقل الأيونات Ion transport</b><br>في العضلات المخططة <span class="en">(striated muscle)</span> فيه SER متخصص جداً اسمه <mark>Sarcoplasmic reticulum</mark> حوالين كل <b>myofibril</b>، وده <mark>بينظّم مستوى الكالسيوم</mark> <span class="en">(regulates calcium level)</span> حوالين الـ myofibrils.</div>
+<p style="color:var(--soft)">ملحوظة: السلايدات نفسها بتنط من 2 لـ 4 (مفيش وظيفة 3 مكتوبة)، فاسأل الدكتور لو عايز تتأكد.</p>
+</section>
+
+<section id="s8">
+<h2>أسئلة الدكتور بالإجابات <span class="en">(MCQs)</span></h2>
+<p>جاوب في دماغك الأول وبعدين افتح الإجابة.</p>
+<div class="q"><b>1) إيه المميز لتركيب الـ cell membrane؟</b><ol class="opts"><li>2 to 3 nm</li><li>Lined from inside by glycocalyx</li><li>Appears bilayer by EM high magnification</li><li>Its phospholipids are arranged in 2 rows</li></ol><details><summary>الإجابة</summary><p>D) Its phospholipids are arranged in 2 rows. (السمك 7.5–10 nm مش 2–3، والـ glycocalyx من برّه مش من جوه، وبالـ EM بتظهر trilaminar)</p></details></div>
+<div class="q"><b>2) أنهي عملية بتمثل امتصاص السوائل خارج الخلية؟</b><ol class="opts"><li>Exocytosis</li><li>Pinocytosis</li><li>Autophagy</li><li>Phagocytosis</li></ol><details><summary>الإجابة</summary><p>B) Pinocytosis (cell drinking)</p></details></div>
+<div class="q"><b>3) الوحدة التركيبية والوظيفية للكائنات الحية؟</b><ol class="opts"><li>Organ</li><li>Tissue</li><li>Cell</li><li>System</li></ol><details><summary>الإجابة</summary><p>C) Cell</p></details></div>
+<div class="q"><b>4) أنهي مكوّن غير حي في الـ cytoplasm؟</b><ol class="opts"><li>Organelles</li><li>Ribosomes</li><li>Inclusions</li><li>Mitochondria</li></ol><details><summary>الإجابة</summary><p>C) Inclusions</p></details></div>
+<div class="q"><b>5) ……… بينظّم مستوى الكالسيوم حوالين الـ myofibrils</b><ol class="opts"><li>SER</li><li>Ribosomes</li><li>RER</li><li>Cell membrane</li></ol><details><summary>الإجابة</summary><p>A) SER (الـ sarcoplasmic reticulum)</p></details></div>
+<div class="q"><b>6) أول خطوة في protein glycosylation بتحصل في؟</b><ol class="opts"><li>Mitochondria</li><li>Ribosomes</li><li>SER</li><li>RER</li></ol><details><summary>الإجابة</summary><p>D) RER</p></details></div>
+<div class="q"><b>7) أنهي واحد شكله fuzzy بالـ EM؟</b><ol class="opts"><li>Cytochromes</li><li>Glycocalyx</li><li>Cholesterol</li><li>Sarcoplas</li></ol><details><summary>الإجابة</summary><p>B) Glycocalyx</p></details></div>
+<div class="q"><b>8) مين وسّع النظرية الخلوية واقترح إن كل الخلايا بتيجي من خلايا موجودة قبلها؟</b><ol class="opts"><li>T. Schwann</li><li>J. E. Purkinje</li><li>M. Schleiden</li><li>Rudolf Virchow</li></ol><details><summary>الإجابة</summary><p>D) Rudolf Virchow</p></details></div>
+<div class="q"><b>9) الخلايا النباتية فيها ____ والحيوانية مفيهاش</b><ol class="opts"><li>Carbohydrates</li><li>Cell wall</li><li>Protein</li><li>Fat</li></ol><details><summary>الإجابة</summary><p>B) Cell wall</p></details></div>
+</section>
+
+</main>
+<footer>بالتوفيق يا دكتور المستقبل ❤️ – Mohammed Saad</footer>
+</body>
+</html>
