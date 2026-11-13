@@ -1,4 +1,4 @@
-/* ETO Lang Learning — Español. CEFR/PCIC-informed scope; units without vocab stay locked. */
+
 function esLesson(id, level, title, sub, goals, words, lines, notes, quiz) {
     return {
         id: id, level: level, icon: 'fa-book-open', title: title, sub: sub, goals: goals,
