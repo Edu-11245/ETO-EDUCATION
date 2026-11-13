@@ -1,23 +1,24 @@
 <div align="center">
 
-# Bio Labs | معمل العملي
+# ETO.Edu | منصة إيتو التعليمية
 
-**مكتبة عينات العملي بالصور والرسومات الأصلية من ملفات المحاضرات، بالعربي والإنجليزي، في صفحة مستقلة لكل عينة.**
+**منصة عربية في ملف `index.html` واحد: أدوات الطالب والمعلم، أدوات PDF والصوت، امتحانات أونلاين، ملخصات، مواد الكليات، وكورسات لغات، وروبوت بيمشي فوق الصفحة ويرد على أسئلتك.**
 
-*An illustrated practical-lab reference: 60 specimens, 7 labs, original lecture images, Arabic and English, one shareable page per specimen.*
+*An Arabic-first education platform: student and teacher tools, PDF and audio utilities, online exams, summaries, college subjects, language courses, an assistant robot, and an installable PWA.*
 
-![Specimens](https://img.shields.io/badge/specimens-60-2563eb?style=flat-square)
-![Labs](https://img.shields.io/badge/labs-7-6366f1?style=flat-square)
-![Languages](https://img.shields.io/badge/AR%20%7C%20EN-bilingual-06b6d4?style=flat-square)
-![Stack](https://img.shields.io/badge/stack-vanilla%20JS-f7df1e?style=flat-square&logoColor=black)
-![Dependencies](https://img.shields.io/badge/dependencies-0-16a34a?style=flat-square)
-![RTL](https://img.shields.io/badge/RTL-supported-0b2545?style=flat-square)
+[![Live](https://img.shields.io/badge/live-edu--11245.github.io%2FETO--EDUCATION-2563eb?style=flat-square)](https://edu-11245.github.io/ETO-EDUCATION/)
+![PWA](https://img.shields.io/badge/PWA-installable-5a0fc8?style=flat-square)
+![Stack](https://img.shields.io/badge/stack-vanilla%20JS%20%2B%20Tailwind-38bdf8?style=flat-square)
+![Backend](https://img.shields.io/badge/hosting-GitHub%20Pages-0b2545?style=flat-square)
+![RTL](https://img.shields.io/badge/RTL-Arabic%20first-16a34a?style=flat-square)
+![UI](https://img.shields.io/badge/UI-AR%20%7C%20EN%20%7C%20ES%20%7C%20FR%20%7C%20DE-f59e0b?style=flat-square)
 
+[الأقسام](#الأقسام-الرئيسية) ·
+[الأدوات](#الأدوات) ·
+[التقنيات](#التقنيات) ·
 [التشغيل](#التشغيل-محليًا) ·
-[المميزات](#المميزات) ·
 [هيكل المشروع](#هيكل-المشروع) ·
-[إضافة عينة](#إضافة-عينة-جديدة) ·
-[بريفيو المشاركة](#بريفيو-المشاركة-open-graph) ·
+[إضافة أداة تعليمية](#إضافة-أداة-تعليمية-edu_tools) ·
 [English](#english-summary)
 
 </div>
@@ -26,203 +27,226 @@
 
 ## نظرة عامة
 
-**Bio Labs** أداة جوه منصة **ETO.Edu** بتجمع كل عينات العملي (الخلايا، الميكروسكوب، العضيات، النواة والانقسام، الأجنة، الأوليات، اللافقاريات) في مكان واحد. كل عينة ليها:
+**ETO.Edu** موقع واحد بيجمع كل اللي الطالب والمدرس بيحتاجه: أدوات لملفات الـ PDF والصوت، شيتات وشهادات وكشف درجات للمدرسين، امتحانات أونلاين بلينك، جدول مذاكرة وتايمر وحاسبة للطالب، ملخصات وامتحانات مرتبة حسب المرحلة، وصفحات مواد للكليات، وكورسات لتعلّم اللغات.
 
-- صورة أو أكتر من المصدر الأصلي (لوحات المحاضرات وصور المجهر) من غير إعادة رسم.
-- اسم عربي وإنجليزي واسم علمي.
-- نقاط سريعة من المحاضرة، والأجزاء والمصطلحات المسمّاة.
-- دليل فهم وتعرّف بيربط الصورة بالمعلومة عشان تعرف العينة في الامتحان العملي.
-- صفحة مستقلة بلينك ثابت تتشارك على واتساب وتليجرام بصورة العينة واسمها.
+- **الواجهة بالعربي أولًا (RTL)**، ومعاها دعم الإنجليزي والإسباني والفرنسي والألماني في صفحات اللغات.
+- **أغلب الأدوات بتشتغل جوه المتصفح** من غير ما الملفات تتبعت لأي سيرفر (الدمج، الضغط، التحويل، الحماية، التنظيف).
+- **قابل للتثبيت** كتطبيق على الموبايل والكمبيوتر (PWA).
+- **استضافة ثابتة** على GitHub Pages، ومفيش خطوة build.
 
-المشروع **Vanilla JavaScript** بالكامل: مفيش build ولا framework ولا حزم تتثبّت.
+## الأقسام الرئيسية
 
-## المميزات
+البوابة (`#page-portal`) فيها أربع بطاقات كبيرة:
 
-| الميزة | التفاصيل |
+| القسم | الوصف |
 |---|---|
-| ثنائي اللغة | تبديل فوري بين العربي (RTL) والإنجليزي (LTR) والاختيار بيتحفظ في `localStorage` |
-| وضع فاتح وداكن | تبديل بزرار واحد والاختيار بيتحفظ |
-| بحث شامل | بيدور في الاسم، الاسم العلمي، الملخص، النقاط، الأجزاء، دليل الفهم، واسم اللاب |
-| فلترة باللاب | أزرار اختيار اللاب، واللاب المختار بيتحدّث في الـ URL (`?lab=`) |
-| صفحة لكل عينة | معرض صور بالحجم الكامل، ملخص، نقاط سريعة، أجزاء مسمّاة، دليل فهم مرقّم |
-| تنقّل بين العينات | العينة السابقة والتالية جوه نفس اللاب |
-| مشاركة | زرار مشاركة بيستخدم `navigator.share` وبيرجع لنسخ اللينك لو مش متاح |
-| بريفيو غني | كل عينة ليها صفحة ثابتة فيها وسوم Open Graph وTwitter Card |
-| تكامل مع بوابة ETO | بيشتغل جوه `iframe` ويبلّغ البوابة بزرار الرجوع عن طريق `postMessage` |
-| بياناتك في ملف واحد | كل المحتوى في `labs-data.js`، والإضافة والتعديل من غير لمس الكود |
+| **EDUCATION** | الدخول للمنصة: أدوات الطالب والمعلم وملفات PDF والشيتات والامتحانات وتنظيم المذاكرة |
+| **TOOLS** | أدوات سريعة للتحويل والملفات والتنظيم |
+| **COLLEGE SUBJECTS** | صفحة لكل كلية ومعهد، وكل مادة فيها شرح وملفات وملخصات |
+| **LANG LEARNING** | تعلّم لغة جديدة خطوة بخطوة (الصفحات بتتبني من `lang/core.js`) |
 
-## اللابات
+وجوه قسم الأدوات ثلاث فئات: **أدوات المعلم** و**أدوات الطالب** و**أدوات إضافية**، ومعاهم مساعد الموقع (الروبوت).
 
-| اللاب | المعرّف (`id`) | عدد العينات |
-|---|---|:-:|
-| Lab 1 — عينات الخلايا | `lab1-specimens` | 4 |
-| Cytology — الميكروسكوب | `cyto-microscope` | 9 |
-| Cell Biology — العضيات | `cell-biology` | 12 |
-| Cytology — النواة والانقسام | `nucleus-mitosis` | 12 |
-| Embryology — الأجنة | `embryology` | 14 |
-| Zoology Lab 3 — الأوليات | `zoology-3` | 4 |
-| Zoology Lab 5 — اللافقاريات | `zoology-5` | 5 |
-| **الإجمالي** | | **60** |
+## الأدوات
+
+### أدوات المعلم
+
+| الأداة | بتعمل إيه |
+|---|---|
+| كشف الدرجات | تكتب الأسامي والدرجات وتطلع المتوسط والتقديرات وكشف الأوائل PDF أو Excel |
+| إنشاء امتحان أونلاين | ترفع ملف الأسئلة وملف الإجابات (JSON)، تحدد الوقت والمدة، وتنشر بلينك للطلاب مع رسالة جاهزة للواتساب |
+| نتائج الامتحانات | درجات الطلاب ونِسَب النجاح وتفاصيل الأسئلة الغلط في الامتحانات المنشورة |
+| ملف الإجابات | تحدد الإجابة الصح ودرجة كل سؤال وتطلّع JSON للامتحان الأونلاين وPDF للنسخة الورقية |
+| شهادة تقدير | 50 قالب جاهز، خطوط جوجل، توقيعك، وشهادة لكل طالب في الفصل مرة واحدة |
+| الشيتات | تصميم شيتات وأسئلة بأستايلات مختلفة مع صور وخطوط إجابة |
+| القوالب | قوالب للمذاكرة والتنظيم والكتابة والطباعة مع تخصيص الـ PDF |
+| تنظيف صور المحاضرات | معالجة الصور الملتقطة بالكاميرا وتبييضها |
+| مقارنة نسختين PDF | عرض الفرق بين ملفين صفحة بصفحة |
+
+### أدوات الطالب
+
+| الأداة | بتعمل إيه |
+|---|---|
+| مدرسيني ومنصاتي | المدرسين والمنصات التعليمية مترتبة حسب النوع والمجال مع بحث وفلاتر |
+| ملخصات الطلاب | تصفح ملخصات معتمدة حسب المرحلة ونوع الدراسة (عام أو لغات) وإرسال ملخص جديد للمراجعة |
+| الامتحانات | بنك امتحانات ومراجعات للمعاينة والتحميل مع تقييم الملف |
+| جدولي | جدول مذاكرة أسبوعي قابل للتعديل ويتحمّل PDF ويتفتح تاني للتعديل |
+| تايمر (بومودورو) | جلسات تركيز واستراحات بإعدادات محفوظة وتنبيه صوتي وتنبيه المتصفح |
+| احسبلي كام % | نسبتك المئوية من درجتك والمجموع |
+| آلة حاسبة علمية | حسابات ومعادلات ودوال مثلثية مع سجل العمليات |
+| ترجملي | ترجمة بين العربي والإنجليزي والفرنسي والألماني والإسباني والتركي مع إعادة صياغة بالمصري |
+| مكتبتي | أرشيف ملفات شخصي حسب المادة والترم، **محفوظ على جهازك فقط** (IndexedDB) |
+| قارئ صوتي | قراءة ملف PDF بصوت ولد أو بنت، عربي أو إنجليزي |
+| تلوين PDF وتظليل | ثيمات لراحة العين وتظليل الكلمات المهمة |
+
+### أدوات PDF
+
+دمج الملفات، استخراج وحذف صفحات، تدوير وقص الحواف، تحويل صور إلى PDF واستخراج الصور، تحويل PDF إلى Word (كل صفحة بنفس شكلها)، استخراج النصوص وتحويل النص إلى PDF، علامة مائية، إعادة ترتيب بالسحب والإفلات، حماية بكلمة مرور (تشفير حقيقي)، وضغط الملفات، وتنظيف الصور.
+
+### أدوات الصوت
+
+تحويل بين **MP3 / MP4 / WAV / OGG** واستخراج الصوت من الفيديو وتحويل الصوت لفيديو بصورة غلاف أو بارات صوتية متحركة، مع اختيار الجودة ومعدل العينات والقنوات.
+
+### أدوات تعليمية
+
+أدوات تفاعلية للمواد العلمية بتتسجل في `Data/Edu_tools/tools-registry.js`:
+
+| الأداة | المعرّف |
+|---|---|
+| رسم الدوال — Maths 1 | `maths-function` |
+| الجدول الدوري — Periodic Table | `periodic-table` |
+| Bio Labs (عينات العملي) | `bio-labs` |
+
+### الروبوت (مساعد الموقع)
+
+روبوت بيمشي فوق الصفحة (`Robot/robot.js` و`Robot/robot.css`) وبيساعدك تعرف الأدوات وتوصل لها، وتفتح محادثته في نافذة مستقلة (`Robot/robot-chat.html`).
+
+## التقنيات
+
+| الجزء | المستخدم |
+|---|---|
+| الواجهة | HTML5 + JavaScript (بدون framework) + Tailwind (CDN) + CSS مخصص + وضع داكن (`dark.css`) |
+| الأيقونات والخطوط | Font Awesome (محلي)، خطوط Cairo وAmiri وTajawal وAref Ruqaa وReem Kufi |
+| PDF | pdf.js، jsPDF، pdf-lib، pdf-encrypt-lite، html2canvas |
+| OCR | Tesseract.js 4.1.1 |
+| ملفات أخرى | SheetJS (Excel)، PptxGenJS، Sortable.js |
+| الصوت والنطق | Web Speech API (`speechSynthesis`) |
+| الامتحانات الأونلاين | Firebase (Auth بتسجيل الدخول بجوجل + Realtime Database) |
+| التثبيت والعمل أوفلاين | `manifest.json` + `service-worker.js` |
+| اللغات | `lang/core.js` + `es.js` + `fr.js` + `de.js` + `boot.js` |
+| الاستضافة | GitHub Pages |
 
 ## التشغيل محليًا
 
-مفيش حاجة تتثبّت. شغّل أي سيرفر ثابت جوه الفولدر:
+مفيش حاجة تتثبّت. شغّل أي سيرفر ثابت من جذر المشروع:
 
 ```bash
 git clone https://github.com/Edu-11245/ETO-EDUCATION.git
-cd "ETO-EDUCATION/Data/Edu_tools/Bio Labs"
+cd ETO-EDUCATION
 
 python3 -m http.server 8000
 ```
 
 وافتح `http://localhost:8000/`.
 
-> افتح المشروع من سيرفر وليس بدبل كليك على الملف، لأن صفحات العينات بتحمّل الملفات بمسارات نسبية.
+> لازم يتفتح من سيرفر وليس بدبل كليك على `index.html`، لأن الـ Service Worker وتحميل الملفات بمسارات نسبية ومكتبات الـ PDF مش بتشتغل من `file://`.
 
 ## هيكل المشروع
 
+الهيكل ده مبني على الملفات اللي `index.html` بيحمّلها، راجعه مع الفولدرات الفعلية عندك:
+
 ```text
-Bio Labs/
-├── index.html                 الصفحة الرئيسية (مكتبة العينات)
-├── styles.css                 كل التصميم (الوضعين الفاتح والداكن، RTL/LTR)
-├── labs-data.js               كل المحتوى: window.BIO_LABS
-├── bio-labs.js                المنطق: الرسم، البحث، الفلترة، المشاركة، التنقّل
-├── assets/                    الصور الأصلية من المحاضرات
-│   ├── zoology-3/
-│   ├── microscope/
-│   └── ...
-├── specimen-pages/            صفحة HTML ثابتة لكل عينة (60 صفحة)
-│   └── <lab-id>/<specimen-id>/index.html
-└── tools/
-    └── generate_share_pages.py   بيولّد صفحات specimen-pages من labs-data.js
+ETO-EDUCATION/
+├── index.html                  كل صفحات الموقع (sections) في ملف واحد
+├── manifest.json               إعدادات التثبيت كتطبيق (PWA)
+├── service-worker.js           الكاش والعمل بدون إنترنت
+├── dark.css                    الوضع الداكن
+├── css/
+│   ├── main.css                التصميم الأساسي
+│   ├── courses.css             صفحات الكورسات
+│   ├── animate.min.css         الحركات
+│   └── fontawesome.min.css
+├── js/
+│   └── main.js                 منطق الموقع: التنقّل، الأدوات، الامتحانات، المشاركة
+├── lang/                       واجهة وكورسات اللغات (core, boot, es, fr, de, lang.css)
+├── courses/                    courses.js و summaries.js: الكورسات والملخصات
+├── Robot/                      الروبوت: robot.js, robot.css, robot-chat.html
+├── Trns_Data/Data.js           بيانات صفحة الترجمة
+└── Data/
+    ├── Lib/                    مكتبات محلية (pdf.js, jsPDF, pdf-lib, xlsx, ...)
+    ├── Tools/                  محوّلات الصوت (mp3-to-wav, wav-to-mp3, ...)
+    ├── Edu/CNU/F.SCIENCE/      محتوى مواد الكلية (content.js)
+    ├── Edu_tools/              الأدوات التعليمية التفاعلية
+    │   ├── tools-registry.js
+    │   └── <folder>/index.html لكل أداة (مثلًا Bio Labs وperiodic table)
+    ├── icons/                  أيقونات التطبيق (icon-192.png, icon-512.png)
+    └── Img/
 ```
 
 ## إزاي بيشتغل
 
-1. `index.html` وصفحات العينات كلها بتحمّل نفس الملفين: `labs-data.js` ثم `bio-labs.js`.
-2. `bio-labs.js` بيقرا `window.BIO_LABS` وبيحدد المسار:
-   - لو الـ `<body>` فيه `data-specimen-id` (صفحات العينات) بيرسم صفحة العينة.
-   - غير كده بيرسم المكتبة، وبيقرا `?lab=` من الـ URL لو موجود.
-3. صفحة العينة الثابتة فيها `data-lab-id` و`data-specimen-id` على الـ `<body>`، وكل المحتوى بيتبني من البيانات.
-4. وسوم المشاركة موجودة في `<head>` صفحة العينة نفسها لأن تطبيقات المشاركة مبتشغّلش JavaScript.
+- **صفحة واحدة بأقسام:** كل شاشة هي `<section id="page-...">`، والتنقّل بيبدّل الظاهر منها من غير تحميل صفحة جديدة، ورابط الصفحة بيتغير بـ hash عشان زرار الرجوع يشتغل.
+- **الأدوات التعليمية:** بتتفتح جوه `iframe` في `#page-tool-view` على رابط بالشكل `index.html#tool/<id>`، وبتبلّغ الصفحة الأم بالإغلاق عن طريق `postMessage` (`eto-tool-close`).
+- **الامتحانات الأونلاين:** المدرس بينشر الامتحان وبياخد لينك `?exam=<id>` يبعته للطلاب، وبيتعرض بكارت معاينة في واتساب. النتائج بتتجمع في صفحة "امتحانات طلابي".
+- **مكتبتي:** الملفات بتتخزن في المتصفح بس (IndexedDB) ومبتتبعتش لأي مكان.
+- **ملفاتك في الأدوات:** عمليات الـ PDF والصوت بتتنفذ في المتصفح باستخدام المكتبات المحلية.
 
-## شكل البيانات
+## إضافة أداة تعليمية (Edu_tools)
 
-كل شيء في `labs-data.js`:
+1. اعمل فولدر جوه `Data/Edu_tools/` باسم الأداة، وحط فيه `index.html` (تتحمّل جوه `iframe`).
+2. سجّلها في `Data/Edu_tools/tools-registry.js`:
 
-```js
-window.BIO_LABS = [
-  {
-    "id": "lab1-specimens",
-    "title":  { "ar": "Lab 1 — عينات الخلايا", "en": "Lab 1 — Cell specimens" },
-    "source": "اسم ملف المصدر",
-    "intro":  { "ar": "...", "en": "..." },
-    "specimens": [
-      {
-        "id": "bacteria",                                  // بيبقى جزء من اللينك، حروف إنجليزي صغيرة وشرطات
-        "name":       { "ar": "البكتيريا", "en": "Bacteria" },
-        "scientific": "Escherichia coli (E. coli)",
-        "kind":       "مرجع عملي",                         // الشارة اللي فوق الكارت
-        "summary":    { "ar": "...", "en": "..." },         // بيظهر كوصف في بريفيو المشاركة
-        "facts":      { "ar": ["نقطة"], "en": ["point"] },
-        "parts":      { "ar": ["جزء"],  "en": ["part"] },
-        "studySections": {
-          "ar": [ { "title": "عنوان القسم", "items": ["بند", "بند"] } ],
-          "en": [ { "title": "Section title", "items": ["item"] } ]
-        },
-        "cover":      "assets/lab1/bacteria-800.jpg",       // صورة الكارت وبريفيو المشاركة
-        "sourcePage": "Lab 1 p.3",
-        "images": [
-          { "src": "assets/lab1/bacteria.jpg", "caption": { "ar": "...", "en": "..." }, "page": "p.3" }
-        ]
-      }
-    ]
-  }
-];
-```
-
-الحقول المهمة: `id` و`name` و`summary` و`images` و`cover`. لو الحقل `cover` مش موجود بيتاخد أول صورة من `images`.
-
-## إضافة عينة جديدة
-
-1. حط الصورة في `assets/<lab>/` (يُفضّل JPG أقل من **300KB** عشان البريفيو).
-2. ضيف العينة جوه `specimens` للاب المناسب في `labs-data.js` حسب الشكل اللي فوق.
-3. ولّد صفحات المشاركة:
-
-   ```bash
-   python3 tools/generate_share_pages.py
+   ```js
+   {
+     id: 'my-tool',                         // بيبقى في الرابط: #tool/my-tool
+     folder: 'My Tool',                     // اسم الفولدر بالظبط (يحتمل مسافات)
+     title: 'اسم الأداة — My Tool',
+     short: 'اسم قصير',
+     desc: 'وصف في جملة أو اتنين.',
+     gradient: 'linear-gradient(135deg,#0b2545,#6366f1 70%,#06b6d4)',
+     preview: 'preview.jpg',               // صورة معاينة جوه فولدر الأداة
+     cardImage: 'https://...'               // اختياري: صورة الكارت
+   }
    ```
 
-4. اعمل commit لـ `labs-data.js` و`assets/` و`specimen-pages/` وارفع.
+3. **بريفيو المشاركة:** المنصة بتشارك لينك الأداة بالشكل `Data/Edu_tools/<folder>/`، فلازم `index.html` الخاص بالفولدر يكون فيه وسوم Open Graph (`og:title` و`og:description` و`og:image` بلينك كامل `https://`) لأن واتساب وتليجرام مبيشغّلوش JavaScript.
+4. زرار الرجوع جوه الأداة بيبعت `window.parent.postMessage('eto-tool-close', window.location.origin)`.
 
-لإضافة لاب جديد: ضيف كائن جديد في مصفوفة `window.BIO_LABS` بـ `id` جديد، وهيظهر تلقائيًا في الفلاتر وبعد توليد الصفحات هيبقى ليه صفحاته.
+## النشر على GitHub Pages
 
-## بريفيو المشاركة (Open Graph)
+1. ارفع المشروع على فرع `main`.
+2. من **Settings > Pages** اختار الفرع `main` والمجلد الجذر.
+3. الموقع هيتنشر على `https://<user>.github.io/<repo>/`.
+4. لو غيّرت `service-worker.js` غيّر اسم الكاش جواه عشان المستخدمين ياخدوا النسخة الجديدة.
 
-واتساب وتليجرام وفيسبوك وX بيقروا الـ HTML الخام للينك من غير ما يشغّلوا JavaScript. عشان كده كل عينة ليها صفحة ثابتة في `specimen-pages/` فيها:
-
-```html
-<meta property="og:title"       content="البكتيريا | Bio Labs">
-<meta property="og:description" content="ملخص العينة...">
-<meta property="og:image"       content="https://.../assets/lab1/bacteria-800.jpg">
-<meta property="og:url"         content="https://.../specimen-pages/lab1-specimens/bacteria/index.html">
-<meta name="twitter:card"       content="summary_large_image">
-```
-
-السكريبت `tools/generate_share_pages.py` بيطبّق كل ده من `labs-data.js`. لو نشرت المشروع على دومين تاني:
-
-```bash
-python3 tools/generate_share_pages.py --base "https://your-domain.com/path/Bio%20Labs/"
-```
-
-### لو البريفيو مش ظاهر
+## مشاكل شائعة
 
 | المشكلة | الحل |
 |---|---|
-| ظهر من غير صورة بعد التعديل | واتساب وتليجرام بيحفظوا البريفيو القديم، جرّب عينة ماتشاركتش قبل كده أو ضيف `?v=2` في آخر اللينك |
-| الصورة مش بتظهر أبدًا | تأكد إن الصورة أقل من 300KB وإن `og:image` لينك كامل يبدأ بـ `https://` |
-| صور Wikimedia مبتظهرش | لينكات `Special:FilePath` بتعمل redirect وبعض التطبيقات مبتتبعهوش، نزّل الصورة في `assets/` واستخدم مسارها |
-| اللينك بيفتح 404 | اتأكد إن فولدر `specimen-pages` كله اترفع وإن اسم الفولدر `Bio Labs` بمسافة متكتوب `Bio%20Labs` في اللينك |
-| الصفحة اتنشرت ومفيش تغيير | استنى دقيقة أو اتنين لحد ما GitHub Pages يخلّص النشر |
+| تعديلاتي مش بتظهر بعد النشر | الـ Service Worker محتفظ بنسخة قديمة، غيّر اسم الكاش أو اعمل Hard Reload وامسح بيانات الموقع |
+| أدوات الـ PDF مش بتفتح محليًا | شغّل من سيرفر (`python3 -m http.server`) مش من `file://` |
+| بريفيو الواتساب مش ظاهر | واتساب بيحفظ البريفيو القديم، جرّب لينك جديد أو ضيف `?v=2`، وتأكد إن `og:image` لينك كامل وحجم الصورة أقل من 300KB |
+| أداة تعليمية مش بتظهر | تأكد من تسجيلها في `tools-registry.js` وإن `folder` مطابق لاسم الفولدر بالحرف |
+| الامتحان الأونلاين مش بينشر | محتاج تسجيل دخول بجوجل وملفي الأسئلة والإجابات JSON صحيحين |
 
-## التكامل مع منصة ETO.Edu
+## الأمان والخصوصية
 
-- الأداة متسجلة في `tools-registry.js` الخاص بالمنصة بـ `id: 'bio-labs'` و`folder: 'Bio Labs'`.
-- بتتفتح من البوابة جوه `iframe` على المسار `#tool/bio-labs`.
-- زرار "الرجوع للموقع" بيبعت `eto-tool-close` للصفحة الأم عن طريق `postMessage`، ولو الصفحة اتفتحت لوحدها بيرجع للبوابة.
-- المنصة بتشارك لينك الأداة نفسها من `Data/Edu_tools/Bio Labs/`، ولينك العينة من `specimen-pages/`.
+- ملفات الـ PDF والصوت بتتعالج في المتصفح ومبتترفعش.
+- مكتبتك الشخصية محفوظة على جهازك فقط.
+- مفاتيح Firebase الخاصة بالواجهة بتبقى ظاهرة في كود أي موقع ثابت، فالحماية الفعلية تتظبط من **قواعد Firebase (Security Rules)** وليس من إخفاء المفاتيح. راجع القواعد قبل أي نشر عام.
 
-## التقنيات
+## المساهمة
 
-- HTML5 وCSS3 (متغيرات CSS للثيمات، Grid وFlexbox)
-- JavaScript بدون مكتبات (ES2018+)
-- خط **Cairo** من Google Fonts
-- Python 3 لسكريبت توليد الصفحات (مكتبة قياسية فقط)
+1. اعمل Fork وفرع جديد لكل تعديل.
+2. حافظ على نفس الأسلوب: عربي أولًا، وبدون إيموجي في الواجهة.
+3. جرّب على الموبايل والكمبيوتر، وفي الوضعين الفاتح والداكن.
+4. افتح Pull Request بوصف واضح وصور قبل وبعد لو التعديل في الشكل.
 
-## المصادر والحقوق
+## الحقوق
 
-- الرسومات وصور المجهر مأخوذة من ملفات المحاضرات والعملي المرفوعة، والتسميات محفوظة كما هي في المصدر.
-- بعض الصور (البكتيريا، خلية النبات، الخلية الحيوانية) من **Wikimedia Commons** ولكل صورة رخصتها الخاصة عند صفحتها الأصلية.
-- المحتوى تعليمي للمراجعة وليس بديلًا عن المحاضرة أو دكتور المادة.
+- مؤسس ومطوّر المنصة: **Mohammed Saad (ETO)**.
+- الملخصات والامتحانات المنشورة ملك لأصحابها، ولا تُنشر مواد فيها حقوق ملكية لغيرهم.
+- مكتبات الطرف الثالث (pdf.js, jsPDF, pdf-lib, Tesseract.js, SheetJS, PptxGenJS, Sortable, Tailwind, Font Awesome, Firebase) لكل منها رخصتها الخاصة.
+- أضف ملف `LICENSE` يوضح رخصة المشروع نفسه.
 
 ---
 
 ## English Summary
 
-**Bio Labs** is a dependency-free, bilingual (Arabic RTL / English LTR) practical-lab reference built with vanilla JavaScript. It ships 60 specimens across 7 labs, each with original lecture images, labeled parts, quick lecture notes, a study guide, and its own shareable static page.
+**ETO.Edu** is a static, Arabic-first (RTL) education platform served from a single `index.html`: PDF tools (merge, split, convert, watermark, password-protect, compress), audio converters (MP3, MP4, WAV, OGG), teacher tools (grade sheets, certificates, worksheet builder, online exams with shareable links), student tools (weekly planner, Pomodoro, scientific calculator, translator, text-to-speech PDF reader, local file library), summaries and exam banks, college subject pages, language courses, interactive science tools (function plotter, periodic table, Bio Labs), and an assistant robot. It installs as a PWA and runs on GitHub Pages with no build step.
 
 ```bash
-cd "Bio Labs"
+git clone https://github.com/Edu-11245/ETO-EDUCATION.git
+cd ETO-EDUCATION
 python3 -m http.server 8000     # open http://localhost:8000/
 ```
 
-- **Data-driven:** everything lives in `labs-data.js` (`window.BIO_LABS`).
-- **Share previews:** `python3 tools/generate_share_pages.py` generates one static page per specimen with Open Graph and Twitter Card tags, because link-preview crawlers do not execute JavaScript.
-- **Adding content:** drop the image in `assets/`, add the specimen to `labs-data.js`, rerun the generator, commit.
-- **Keep preview images under about 300KB** and use absolute `https://` URLs for `og:image`.
+- **Adding a tool:** create `Data/Edu_tools/<folder>/index.html`, register it in `tools-registry.js`, and add Open Graph tags to the folder's `index.html` so shared links show a preview.
+- **Privacy:** PDF and audio processing happens in the browser; the personal library is stored locally in IndexedDB.
+- **Security:** Firebase client keys are public by design, so protect data with Firebase Security Rules.
 
 <div align="center">
 
-بالتوفيق يارب
+صل ع النبي. بالتوفيق يارب
 
 </div>
