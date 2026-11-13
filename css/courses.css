@@ -1,3 +1,9 @@
+/* =====================================================================
+   ETO | المواد الدراسية  (css/courses.css)
+   لازم يتحمّل بعد الـ <style> الأساسي (قبل </head> مباشرة)
+   ===================================================================== */
+
+/* ---------- 1) توسيع الكروت في صفحة البوابة (Portal) ---------- */
 body .eto-portal{padding:58px 28px 46px}
 body .eto-portal-modules{width:min(1340px,100%);margin-top:58px;gap:32px}
 body .eto-portal-bottom{width:min(1340px,100%);margin-top:44px;padding-top:16px;font-size:9px}
@@ -10,6 +16,8 @@ body .eto-module p{font-size:11.5px;line-height:1.85;min-height:3.7em}
 body .eto-module-footer{margin:0 22px;padding:14px 0 18px;font-size:10.5px}
 body .eto-module-number{font-size:9px;padding:6px 10px}
 body .eto-module-icon{width:50px;height:50px;font-size:20px}
+
+/* كارت المواد الدراسية الجديد (من غير صورة خارجية) */
 .eto-module-courses .eto-module-icon{color:#7c3aed}
 .eto-module-image-courses{
     background:
@@ -39,6 +47,8 @@ body .eto-module-icon{width:50px;height:50px;font-size:20px}
     body .eto-module-image{height:190px}
     body .eto-module p{min-height:0}
 }
+
+/* ---------- 2) توسيع الكروت في صفحة Home (Eto.Edu) ---------- */
 body .home-tools-wrap .max-w-6xl{max-width:1280px}
 body .home-tools-grid{gap:34px;padding-bottom:84px}
 body .home-section-heading{padding-top:54px;padding-bottom:22px}
@@ -50,8 +60,11 @@ body .home-category-link{margin-top:20px;font-size:11px}
     body .home-tools-grid{gap:20px;padding-bottom:60px}
     body .home-category-card{padding:22px 18px;min-height:0}
 }
+
+/* ---------- 3) صفحات المواد الدراسية ---------- */
 .cs-page{padding:0!important;max-width:none!important}
 .cs-wrap{max-width:1180px;margin:0 auto;padding:0 18px 100px}
+
 .cs-hero{
     position:relative;overflow:hidden;isolation:isolate;text-align:center;color:#fff;
     padding:44px 20px 66px;margin-bottom:42px;border-radius:0 0 38px 38px;
@@ -93,6 +106,8 @@ body .home-category-link{margin-top:20px;font-size:11px}
 .cs-section-title p{margin:4px 0 0;font-size:12px;font-weight:700;color:#64748b}
 .dark .cs-section-title h2{color:#f8fafc}
 .dark .cs-section-title p{color:#94a3b8}
+
+/* تابات السنين */
 .cs-tabs{display:inline-flex;gap:6px;padding:6px;border-radius:18px;background:#eef2f7;border:1px solid #e2e8f0;flex-wrap:wrap}
 .cs-tab{border:0;cursor:pointer;padding:10px 18px;border-radius:13px;font:inherit;font-size:12px;font-weight:900;color:#475569;background:transparent;transition:all .25s}
 .cs-tab:hover{color:#0f172a}
@@ -100,10 +115,13 @@ body .home-category-link{margin-top:20px;font-size:11px}
 .dark .cs-tabs{background:#0f172a;border-color:#334155}
 .dark .cs-tab{color:#94a3b8}
 .dark .cs-tab.is-on{background:#1e293b;color:#93c5fd;box-shadow:none}
+
+/* الشبكة والكروت */
 .cs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:30px}
 .cs-grid-3{grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}
 @media(max-width:900px){.cs-grid-3{grid-template-columns:1fr;gap:22px}}
 @media(max-width:600px){.cs-grid{gap:20px;grid-template-columns:1fr}}
+
 .cs-card{
     position:relative;display:flex;flex-direction:column;gap:14px;overflow:hidden;text-decoration:none;color:inherit;
     padding:26px 24px 22px;border-radius:26px;background:#fff;border:1px solid #e2e8f0;
@@ -146,11 +164,16 @@ body .home-category-link{margin-top:20px;font-size:11px}
 .cs-card:hover .cs-card-go i{transform:translateX(-5px)}
 .cs-card.is-soon{cursor:default;opacity:.85;border-style:dashed}
 .cs-card.is-soon:hover{transform:none;box-shadow:0 8px 26px rgba(15,23,42,.06);border-color:#cbd5e1}
+
 .cs-count{position:absolute!important;top:20px;left:20px;min-width:34px;height:34px;padding:0 10px;border-radius:12px;display:flex;align-items:center;justify-content:center;
     font-size:12px;font-weight:900;color:#fff;background:linear-gradient(135deg,var(--c,#2563eb),var(--c2,#6366f1));box-shadow:0 8px 18px var(--cs,rgba(37,99,235,.25))}
+
+/* كروت الصفحات الداخلية للمادة (3 كروت كبيرة) */
 .cs-big .cs-card{padding:34px 28px 26px;min-height:270px}
 .cs-big .cs-card-icon{width:72px;height:72px;font-size:30px;border-radius:24px}
 .cs-big .cs-card h3{font-size:23px}
+
+/* قايمة الملفات */
 .cs-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
 .cs-item{
     display:flex;align-items:center;gap:14px;padding:18px 18px;border-radius:20px;background:#fff;border:1px solid #e2e8f0;text-decoration:none;color:inherit;
@@ -163,6 +186,8 @@ body .home-category-link{margin-top:20px;font-size:11px}
 .dark .cs-item b{color:#f8fafc}
 .cs-item small{display:block;margin-top:2px;font-size:11px;font-weight:700;color:#94a3b8}
 .cs-item > i.fa-arrow-up-right-from-square,.cs-item > i.cs-open{margin-right:auto;color:#94a3b8;font-size:12px}
+
+/* حالة الفراغ / قريبًا */
 .cs-empty{
     text-align:center;padding:64px 24px;border-radius:30px;border:2px dashed #cbd5e1;background:rgba(255,255,255,.6)
 }
@@ -182,6 +207,7 @@ body .home-category-link{margin-top:20px;font-size:11px}
     box-shadow:0 10px 22px var(--cs,rgba(37,99,235,.28));transition:transform .2s
 }
 .cs-btn:hover{transform:translateY(-3px)}
+
 @media(max-width:640px){
     .cs-hero{padding:32px 14px 52px;border-radius:0 0 28px 28px;margin-bottom:30px}
     .cs-hero-icon{width:72px;height:72px;font-size:30px;border-radius:23px}
@@ -194,6 +220,8 @@ body .home-category-link{margin-top:20px;font-size:11px}
     .cs-page .animate__animated{animation:none!important}
     .cs-card,.cs-card:after,.cs-card-icon,.cs-item,.cs-btn{transition:none!important}
 }
+
+/* ---------- عارض الملفات (Google Drive / YouTube) ---------- */
 .cs-viewer{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,23,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .cs-viewer.hidden{display:none}
 .cs-viewer-box{width:min(1100px,100%);height:min(92vh,100%);display:flex;flex-direction:column;overflow:hidden;border-radius:24px;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.45)}
@@ -211,10 +239,14 @@ body .home-category-link{margin-top:20px;font-size:11px}
 .cs-viewer-frame iframe{position:relative;z-index:1;width:100%;height:100%;border:0;background:transparent}
 .cs-viewer-load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:30px;color:#94a3b8}
 @media(max-width:640px){.cs-viewer{padding:0}.cs-viewer-box{border-radius:0;height:100%}.cs-viewer-btn span{display:none}}
+
+/* أقسام الملفات (group) */
 .cs-group{margin-bottom:40px}
 .cs-group-title{display:flex;align-items:center;gap:12px;margin:0 0 18px;padding-bottom:12px;border-bottom:2px solid var(--cs,rgba(37,99,235,.14))}
 .cs-group-title h3{margin:0;font-size:20px;font-weight:900;color:#0f172a;letter-spacing:-.01em}
 .dark .cs-group-title h3{color:#f8fafc}
+
+/* مجلدات */
 .cs-hide{display:none!important}
 button.cs-folder{font:inherit;text-align:right;width:100%}
 .cs-folder{min-height:230px}
@@ -225,6 +257,8 @@ button.cs-folder{font:inherit;text-align:right;width:100%}
 .cs-panel-head h3{flex:1;min-width:0;margin:0;font-size:22px;font-weight:900;color:#0f172a;display:flex;align-items:center;gap:10px}
 .cs-panel-head h3 i{color:var(--c)}
 .dark .cs-panel-head h3{color:#f8fafc}
+
+/* إخفاء الروبوت (الأرضية + فقاعة الكلام) في صفحات المواد الدراسية */
 body.eto-no-robot #eto-robot-ground,
 body.eto-no-robot #eto-robot-root,
 body.eto-no-robot #eto-robot-thought{display:none!important}

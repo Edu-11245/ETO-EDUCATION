@@ -1,7 +1,4 @@
-/* ETO main.js — كل الأكواد اللي كانت جوه index.html (بنفس الترتيب الأصلي بالظبط).
-   كل بلوك فيه رقم السطر اللي كان بادئ منه في index.html القديم. */
 
-/* ===== بلوك 1 (كان في index.html من سطر 3856) ===== */
 ;
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast'), msg = document.getElementById('toast-msg'), icon = document.getElementById('toast-icon');
@@ -346,6 +343,16 @@
 
             const target = document.getElementById('page-' + pageId);
             if (!target) return;
+            const toolPageIds = new Set([
+                'extra-tools', 'pdf-tools', 'audio-tools', 'edu-tools', 'tool-view',
+                'teacher-tools', 'student-tools', 'translate', 'calculator', 'calculator-history',
+                'mp4-to-mp3', 'mp3-to-mp4', 'mp3-to-wav', 'wav-to-mp3', 'mp3-to-ogg', 'ogg-to-mp3',
+                'cleaner', 'image-cleaner', 'compress', 'merge', 'compare', 'extract', 'editor',
+                'convert', 'text', 'pdf-to-word', 'reader', 'watermark', 'reorder', 'protect',
+                'grades', 'certificate', 'templates', 'template-settings', 'answers-key',
+                'exam-maker', 'percentage', 'pomodoro', 'teacher'
+            ]);
+            document.body.classList.toggle('eto-hide-robot', toolPageIds.has(pageId));
 
             if (pageId === 'portal') {
                 navigationStack = ['portal'];
