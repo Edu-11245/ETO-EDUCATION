@@ -1,11 +1,4 @@
-/* سجل الأدوات التعليمية — أداة جديدة = عنصر جديد هنا (والباقي أوتوماتيك: الكارت + الفتح جوا السايت + اللينك)
-   id      : اسم قصير إنجليزي بدون مسافات (بيظهر في اللينك: index.html#tool/ID)
-   folder  : اسم فولدر الأداة جوا Data/Edu_tools
-   title   : العنوان الكامل (في شريط الأداة وعنوان البريفيو)
-   short   : العنوان على الكارت
-   desc    : الوصف (على الكارت وفي بريفيو واتساب/ديسكورد)
-   preview : صورة البريفيو جوا فولدر الأداة (1200×630)
-   cardImage (اختياري): صورة الكارت لو عايز صورة غير preview */
+
 window.EDU_TOOLS = [
   {
     id: 'maths-function',
@@ -26,5 +19,14 @@ window.EDU_TOOLS = [
     gradient: 'linear-gradient(135deg,#0b2545,#1d4e89 70%,#2563eb)',
     preview: 'preview.jpg',
     cardImage: 'https://media.istockphoto.com/id/2208288018/photo/close-up-periodic-table-of-the-elements-lead-bismuth-thallium-antimony-tin.webp?a=1&b=1&s=612x612&w=0&k=20&c=pj_DzlirMYtUBhsdSO3IEWhG9TQRpqMi-SHSL0Gr0AA='
+  },
+  {
+    id: 'bio-labs',
+    folder: 'Bio Labs',
+    title: '  Bio Labs',
+    short: 'Bio Labs',
+    desc: 'استكشف عينات المعمل بالصور والرسومات والمعلومات بالعربي والإنجليزي.',
+    gradient: 'linear-gradient(135deg,#0b2545,#6366f1 70%,#06b6d4)',
+    preview: 'preview.jpg'
   }
 ];
