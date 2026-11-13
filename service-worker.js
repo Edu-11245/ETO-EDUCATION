@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ETO-v16';
+const CACHE_NAME = 'ETO-v21';
 
 const APP_SHELL = [
     './',
@@ -6,10 +6,22 @@ const APP_SHELL = [
     './dark.css',
     './manifest.json'
 ];
+
+/* ملفات إضافية بتتخزن مع التثبيت، لو واحد فيهم فشل التثبيت مش بيفشل */
+const EXTRA_SHELL = [
+    './css/main.css?v=3',
+    './css/courses.css',
+    './css/fontawesome.min.css',
+    './js/main.js?v=2',
+    './courses/courses.js?v=6',
+    './courses/summaries.js?v=3'
+];
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then((cache) => cache.addAll(APP_SHELL))
+            .then((cache) => cache.addAll(APP_SHELL).then(() =>
+                Promise.all(EXTRA_SHELL.map((url) => cache.add(url).catch(() => {})))
+            ))
             .then(() => self.skipWaiting())
     );
 });
