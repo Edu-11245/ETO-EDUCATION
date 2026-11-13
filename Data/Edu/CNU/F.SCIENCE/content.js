@@ -1,5 +1,4 @@
-// ETO content - كلية العلوم (جامعة القاهرة الأهلية)
-// بيتعدل من admin/content-editor.html. متمسحش علامتين DATA اللي حوالين البيانات.
+
 window.ETO_CONTENT = window.ETO_CONTENT || {};
 window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
   "faculty": "كلية العلوم - جامعة القاهرة الأهلية",
@@ -56,6 +55,12 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
           "group": "Lab"
         },
         {
+          "title": "Lab 6",
+          "url": "https://drive.google.com/file/d/13evXzXl24dLqOBxwuRy0mvluveY5ekpM/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "Lab"
+        },
+        {
           "title": "Biology 1",
           "url": "https://docs.google.com/presentation/d/1Ne23Ttk1Uyz2UTpvn2HxbN2tFgdDvq8T/edit?usp=drive_link",
           "kind": "ppt",
@@ -70,6 +75,12 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
         {
           "title": "Biology 3",
           "url": "https://drive.google.com/file/d/1ubocLDMo9Zby72ethkU8b0QequqxEQvN/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "Biology"
+        },
+        {
+          "title": "Biology 7",
+          "url": "https://drive.google.com/file/d/1pe2icqS3_Ln6u0WQZmMT3ZS5NZeBuGI8/view?usp=drive_link",
           "kind": "pdf",
           "group": "Biology"
         }
