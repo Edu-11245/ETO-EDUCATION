@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quadratic and Absolute Inequalities (1–53)</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --primary: #1e3a8a;
+      --primary-light: #eff6ff;
+      --accent: #0f766e;
+      --accent-light: #f0fdfa;
+      --yes-bg: #ecfdf5;
+      --yes-border: #6ee7b7;
+      --yes-text: #065f46;
+      --no-bg: #fef2f2;
+      --no-border: #fca5a5;
+      --no-text: #991b1b;
+      --border: #dbe3f0;
+      --text: #1e293b;
+      --muted: #64748b;
+      --shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, "Noto Sans Arabic", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      padding-bottom: 60px;
+    }
+
+    header.hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #0f766e 100%);
+      color: #ffffff;
+      padding: 36px 20px 30px;
+      text-align: center;
+      box-shadow: 0 6px 24px rgba(15, 23, 42, 0.18);
+    }
+
+    header.hero h1 {
+      font-size: 1.95rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+
+    header.hero p.subtitle {
+      font-size: 1.05rem;
+      color: #cbd5e1;
+      max-width: 780px;
+      margin: 0 auto 18px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    nav.sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+    }
+
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      transition: all 0.18s ease;
+    }
+
+    .nav-links a:hover {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .nav-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .jump-input {
+      width: 115px;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .jump-input:focus {
+      border-color: var(--primary);
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 6px 13px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.18s;
+    }
+
+    .btn:hover {
+      background: var(--surface-alt);
+      border-color: var(--primary);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: #0d9488;
+    }
+
+    main.container {
+      max-width: 1120px;
+      margin: 28px auto 0;
+      padding: 0 16px;
+    }
+
+    section.chapter-sec {
+      margin-bottom: 42px;
+      scroll-margin-top: 84px;
+    }
+
+    .sec-header {
+      background: var(--surface);
+      border-inline-start: 6px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sec-header h2 {
+      font-size: 1.38rem;
+      color: var(--primary);
+    }
+
+    .sec-header .en-title {
+      direction: ltr;
+      font-family: "Cambria Math", "Times New Roman", serif;
+      font-size: 1.1rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .group-banner {
+      background: #e2e8f0;
+      color: #0f172a;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin: 18px 0 14px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .group-banner span.en {
+      direction: ltr;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .problems-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      box-shadow: var(--shadow);
+      scroll-margin-top: 86px;
+      transition: border-color 0.15s ease;
+    }
+
+    .card:hover {
+      border-color: #93c5fd;
+    }
+
+    .card-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed var(--border);
+      margin-bottom: 12px;
+    }
+
+    .prob-num {
+      background: var(--primary);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.92rem;
+      padding: 4px 12px;
+      border-radius: 8px;
+      direction: ltr;
+    }
+
+    .prob-expr {
+      direction: ltr;
+      font-size: 1.22rem;
+      font-weight: 600;
+      color: #0f172a;
+      background: var(--surface-alt);
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .steps-box {
+      padding: 4px 2px;
+    }
+
+    .step-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .step-line:last-child {
+      border-bottom: none;
+    }
+
+    .step-note {
+      color: #475569;
+      font-size: 0.94rem;
+    }
+
+    .math {
+      direction: ltr;
+      unicode-bidi: isolate;
+      font-family: "Cambria Math", "Times New Roman", Georgia, serif;
+      font-size: 1.16rem;
+      display: inline-block;
+      color: #0f172a;
+    }
+
+    .math sup {
+      font-size: 0.74em;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+      top: -0.55em;
+      margin-left: 1px;
+    }
+
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 3px;
+      line-height: 1.15;
+    }
+
+    .frac > span.num {
+      padding: 0 5px 2px;
+      border-bottom: 1.5px solid currentColor;
+      text-align: center;
+    }
+
+    .frac > span.den {
+      padding: 2px 5px 0;
+      text-align: center;
+    }
+
+    .paren-tall {
+      font-size: 1.65em;
+      font-weight: 300;
+      line-height: 1;
+      vertical-align: middle;
+    }
+
+    .final-answer {
+      margin-top: 12px;
+      background: var(--accent-light);
+      border: 1.5px solid #99f6e4;
+      border-inline-start: 5px solid var(--accent);
+      border-radius: 10px;
+      padding: 10px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .final-answer.yes-box {
+      background: var(--yes-bg);
+      border-color: var(--yes-border);
+      border-inline-start-color: #059669;
+    }
+
+    .final-answer.yes-box .final-label {
+      color: var(--yes-text);
+    }
+
+    .final-answer.no-box {
+      background: var(--no-bg);
+      border-color: var(--no-border);
+      border-inline-start-color: #dc2626;
+    }
+
+    .final-answer.no-box .final-label {
+      color: var(--no-text);
+    }
+
+    .final-label {
+      font-weight: 800;
+      color: var(--accent);
+      font-size: 0.96rem;
+    }
+
+    .notation-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      direction: ltr;
+    }
+
+    .notation-chip {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 5px 12px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .notation-tag {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #0f766e;
+      background: #ccfbf1;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .no-box .notation-tag {
+      color: #991b1b;
+      background: #fee2e2;
+    }
+
+    body.hide-steps .steps-box {
+      display: none;
+    }
+
+    @media print {
+      nav.sticky-nav, .nav-controls {
+        display: none !important;
+      }
+      body {
+        background: #ffffff;
+        padding-bottom: 0;
+      }
+      .card {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+    }
+  
+    html[lang="en"] [data-l="ar"], html[lang="ar"] [data-l="en"] { display: none !important; }
+    html[lang="en"] body { font-family: "Segoe UI", Roboto, Arial, sans-serif; }
+    .step-note bdi { unicode-bidi: isolate; }
+    .btn-lang { background: #1e3a8a; color: #fff; border-color: #1e3a8a; }
+    .btn-lang:hover { background: #1d4ed8; color: #fff; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1><span data-l="en">Sheet 3 — Complete Worked Solutions</span><span data-l="ar">الحل النموذجي الكامل لشيت الجبر الثالث</span></h1>
+  <p class="subtitle"><span data-l="en">Quadratic and Absolute Inequalities</span><span data-l="ar">المتباينات التربيعية ومعادلات ومتباينات القيمة المطلقة</span></p>
+  <div class="badge-row">
+    <span class="badge"><span data-l="en">Two parts (Part 1 &amp; Part 2)</span><span data-l="ar">جزآن كاملان (الجزء 1 والجزء 2)</span></span>
+    <span class="badge"><span data-l="en">53 problems with detailed steps</span><span data-l="ar">53 مسألة محلولة بالخطوات التفصيلية</span></span>
+    <span class="badge"><span data-l="en">All answers re-checked</span><span data-l="ar">كل الإجابات تمت مراجعتها</span></span>
+  </div>
+</header>
+
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <div class="nav-links">
+      <a href="#part-1"><span data-l="en">Part 1: Quadratic Inequalities (1–32)</span><span data-l="ar">الجزء 1: المتباينات التربيعية (1–32)</span></a>
+      <a href="#part-2-eq"><span data-l="en">Part 2A: Absolute Equations (33–41)</span><span data-l="ar">الجزء 2أ: معادلات القيمة المطلقة (33–41)</span></a>
+      <a href="#part-2-ineq"><span data-l="en">Part 2B: Absolute Inequalities (42–53)</span><span data-l="ar">الجزء 2ب: متباينات القيمة المطلقة (42–53)</span></a>
+    </div>
+    <div class="nav-controls">
+      <input type="number" id="jumpNum" class="jump-input" min="1" max="53" data-ph-en="Problem no. (1-53)" data-ph-ar="رقم المسألة (1-53)" placeholder="Problem no. (1-53)" onkeydown="if(event.key==='Enter') jumpToProb()" />
+      <button class="btn" onclick="jumpToProb()"><span data-l="en">Go</span><span data-l="ar">اذهب</span></button>
+      <button class="btn" onclick="document.body.classList.toggle('hide-steps')"><span data-l="en">Show / hide steps</span><span data-l="ar">إظهار / إخفاء الخطوات</span></button>
+      <button class="btn btn-primary" onclick="window.print()"><span data-l="en">Print / Save PDF</span><span data-l="ar">طباعة / حفظ PDF</span></button>
+      <button class="btn btn-lang" id="langBtn" onclick="toggleLang()">العربية</button>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- ==================== PART 1 ==================== -->
+  <section id="part-1" class="chapter-sec">
+    <div class="sec-header"><h2><span data-l="en">Part 1: Quadratic Inequalities (Problems 1–32)</span><span data-l="ar">الجزء الأول: المتباينات التربيعية (المسائل 1 – 32)</span></h2></div>
+
+    <div class="group-banner"><span><span data-l="en">Problems 1–32: solve each quadratic inequality and write the answer in inequality and interval notation</span><span data-l="ar">المسائل (1 – 32): حلّ كل متباينة تربيعية واكتب مجموعة الحل بصورتي المتباينة والفترة</span></span></div>
+
+    <div class="problems-grid">
+      <!-- Problem 1 -->
+      <div class="card" id="prob-1">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #1</span><span data-l="ar">مسألة #1</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 1 &lt; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the difference of two squares to find the roots (critical points):</span><span data-l="ar">نحلل الفرق بين مربعين لإيجاد الجذور (النقاط الحرجة):</span></span>
+            <span class="math">(x &minus; 1)(x + 1) = 0 &nbsp;&rArr;&nbsp; x = &minus;1, &nbsp; x = 1</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Check the sign: the coefficient of x<sup>2</sup> is positive (parabola opens upward), so the expression is negative (&lt; 0) between the roots:</span><span data-l="ar">ندرس الإشارة: معامل x<sup>2</sup> موجب (القطع لأعلى)، فتكون الدالة سالبة <bdi dir="ltr">(&lt; 0)</bdi> بين الجذرين:</span></span>
+            <span class="math">&minus;1 &lt; x &lt; 1</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;1 &lt; x &lt; 1</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;1, 1)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 2 -->
+      <div class="card" id="prob-2">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #2</span><span data-l="ar">مسألة #2</span></span>
+          <div class="prob-expr"><span class="math">&minus;x<sup>2</sup> &minus; 5x + 6 &gt; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Multiply both sides by &minus;1 and reverse the inequality sign so the coefficient of x<sup>2</sup> is positive:</span><span data-l="ar">نضرب طرفي المتباينة في <bdi dir="ltr">&minus;1</bdi> مع عكس اتجاه علامة التباين لجعل معامل x<sup>2</sup> موجباً:</span></span>
+            <span class="math">x<sup>2</sup> + 5x &minus; 6 &lt; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the roots:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد الجذور:</span></span>
+            <span class="math">(x + 6)(x &minus; 1) = 0 &nbsp;&rArr;&nbsp; x = &minus;6, &nbsp; x = 1</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&lt; 0) holds on the open interval between the roots:</span><span data-l="ar">المتباينة <bdi dir="ltr">(&lt; 0)</bdi> تتحقق في الفترة المفتوحة بين الجذرين:</span></span>
+            <span class="math">&minus;6 &lt; x &lt; 1</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;6 &lt; x &lt; 1</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;6, 1)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 3 -->
+      <div class="card" id="prob-3">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #3</span><span data-l="ar">مسألة #3</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 5x &minus; 6 &lt; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the critical points:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد النقاط الحرجة:</span></span>
+            <span class="math">(x &minus; 6)(x + 1) = 0 &nbsp;&rArr;&nbsp; x = &minus;1, &nbsp; x = 6</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Since the sign is (&lt; 0) and the coefficient of x<sup>2</sup> is positive, take the open interval between the roots:</span><span data-l="ar">بما أن علامة التباين <bdi dir="ltr">(&lt; 0)</bdi> ومعامل x<sup>2</sup> موجب، نأخذ الفترة المفتوحة بين الجذرين:</span></span>
+            <span class="math">&minus;1 &lt; x &lt; 6</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;1 &lt; x &lt; 6</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;1, 6)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 4 -->
+      <div class="card" id="prob-4">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #4</span><span data-l="ar">مسألة #4</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> + 4x &minus; 5 &gt; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the critical points:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد النقاط الحرجة:</span></span>
+            <span class="math">(x + 5)(x &minus; 1) = 0 &nbsp;&rArr;&nbsp; x = &minus;5, &nbsp; x = 1</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Since the sign is (&gt; 0) and the coefficient of x<sup>2</sup> is positive, take the two regions outside the roots:</span><span data-l="ar">بما أن علامة التباين <bdi dir="ltr">(&gt; 0)</bdi> ومعامل x<sup>2</sup> موجب، نأخذ الفترتين خارج الجذرين:</span></span>
+            <span class="math">x &lt; &minus;5 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; 1</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &lt; &minus;5 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; 1</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;5) &cup; (1, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 5 -->
+      <div class="card" id="prob-5">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #5</span><span data-l="ar">مسألة #5</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 2x &minus; 3 &ge; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the critical points:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد النقاط الحرجة:</span></span>
+            <span class="math">(x &minus; 3)(x + 1) = 0 &nbsp;&rArr;&nbsp; x = &minus;1, &nbsp; x = 3</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Since the sign is (&ge; 0), take the two closed regions outside the roots:</span><span data-l="ar">بما أن علامة التباين <bdi dir="ltr">(&ge; 0)</bdi>، نأخذ الفترتين المغلقتين خارج الجذرين:</span></span>
+            <span class="math">x &le; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 3</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &le; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 3</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;1] &cup; [3, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 6 -->
+      <div class="card" id="prob-6">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #6</span><span data-l="ar">مسألة #6</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &gt; 5x + 6</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Move all terms to the left side so the right side is zero:</span><span data-l="ar">ننقل جميع الحدود إلى الطرف الأيسر لتصفير المتباينة:</span></span>
+            <span class="math">x<sup>2</sup> &minus; 5x &minus; 6 &gt; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the roots:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد الجذور:</span></span>
+            <span class="math">(x &minus; 6)(x + 1) = 0 &nbsp;&rArr;&nbsp; x = &minus;1, &nbsp; x = 6</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Since the sign is (&gt; 0), take the two open regions outside the roots:</span><span data-l="ar">بما أن علامة التباين <bdi dir="ltr">(&gt; 0)</bdi>، نأخذ الفترتين المفتوحتين خارج الجذرين:</span></span>
+            <span class="math">x &lt; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; 6</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &lt; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; 6</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;1) &cup; (6, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 7 -->
+      <div class="card" id="prob-7">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #7</span><span data-l="ar">مسألة #7</span></span>
+          <div class="prob-expr"><span class="math">&minus;x<sup>2</sup> &minus; 12x &minus; 11 &le; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Multiply both sides by &minus;1 and reverse the inequality sign:</span><span data-l="ar">نضرب الطرفين في <bdi dir="ltr">&minus;1</bdi> مع عكس علامة التباين:</span></span>
+            <span class="math">x<sup>2</sup> + 12x + 11 &ge; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the critical points:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد النقاط الحرجة:</span></span>
+            <span class="math">(x + 11)(x + 1) = 0 &nbsp;&rArr;&nbsp; x = &minus;11, &nbsp; x = &minus;1</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&ge; 0) holds outside the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&ge; 0)</bdi> تتحقق خارج الجذرين:</span></span>
+            <span class="math">x &le; &minus;11 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; &minus;1</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &le; &minus;11 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; &minus;1</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;11] &cup; [&minus;1, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 8 -->
+      <div class="card" id="prob-8">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #8</span><span data-l="ar">مسألة #8</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 2x &minus; 8 &ge; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the roots:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد الجذور:</span></span>
+            <span class="math">(x &minus; 4)(x + 2) = 0 &nbsp;&rArr;&nbsp; x = &minus;2, &nbsp; x = 4</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&ge; 0) holds outside the roots, including the endpoints:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&ge; 0)</bdi> تتحقق خارج الجذرين مع إغلاق الأطراف:</span></span>
+            <span class="math">x &le; &minus;2 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 4</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &le; &minus;2 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 4</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;2] &cup; [4, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 9 -->
+      <div class="card" id="prob-9">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #9</span><span data-l="ar">مسألة #9</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 5x &minus; 6 &ge; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the roots:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد الجذور:</span></span>
+            <span class="math">(x &minus; 6)(x + 1) = 0 &nbsp;&rArr;&nbsp; x = &minus;1, &nbsp; x = 6</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&ge; 0) holds outside the roots, including the endpoints:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&ge; 0)</bdi> تتحقق خارج الجذرين مع إغلاق الأطراف:</span></span>
+            <span class="math">x &le; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 6</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &le; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 6</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;1] &cup; [6, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 10 -->
+      <div class="card" id="prob-10">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #10</span><span data-l="ar">مسألة #10</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> + 7x + 10 &lt; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the roots:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد الجذور:</span></span>
+            <span class="math">(x + 5)(x + 2) = 0 &nbsp;&rArr;&nbsp; x = &minus;5, &nbsp; x = &minus;2</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&lt; 0) holds on the open interval between the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&lt; 0)</bdi> تتحقق في الفترة المفتوحة بين الجذرين:</span></span>
+            <span class="math">&minus;5 &lt; x &lt; &minus;2</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;5 &lt; x &lt; &minus;2</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;5, &minus;2)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 11 -->
+      <div class="card" id="prob-11">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #11</span><span data-l="ar">مسألة #11</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> + 9x + 20 &gt; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the roots:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد الجذور:</span></span>
+            <span class="math">(x + 5)(x + 4) = 0 &nbsp;&rArr;&nbsp; x = &minus;5, &nbsp; x = &minus;4</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&gt; 0) holds outside the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&gt; 0)</bdi> تتحقق خارج الجذرين:</span></span>
+            <span class="math">x &lt; &minus;5 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; &minus;4</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &lt; &minus;5 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; &minus;4</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;5) &cup; (&minus;4, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 12 -->
+      <div class="card" id="prob-12">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #12</span><span data-l="ar">مسألة #12</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 8x + 16 &gt; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor as a perfect square:</span><span data-l="ar">نحلل المقدار كمربع كامل:</span></span>
+            <span class="math">(x &minus; 4)<sup>2</sup> &gt; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">A square of any real number is always positive (&gt; 0) except when it equals zero (at x = 4):</span><span data-l="ar">مربع أي عدد حقيقي يكون دائماً موجباً <bdi dir="ltr">(&gt; 0)</bdi> ما عدا عندما يساوي الصفر (عند <bdi dir="ltr">x = 4</bdi>):</span></span>
+            <span class="math">x &ne; 4</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &lt; 4 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; 4</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, 4) &cup; (4, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 13 -->
+      <div class="card" id="prob-13">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #13</span><span data-l="ar">مسألة #13</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 8x + 12 &le; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the roots:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد الجذور:</span></span>
+            <span class="math">(x &minus; 2)(x &minus; 6) = 0 &nbsp;&rArr;&nbsp; x = 2, &nbsp; x = 6</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&le; 0) holds on the closed interval between the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&le; 0)</bdi> تتحقق في الفترة المغلقة بين الجذرين:</span></span>
+            <span class="math">2 &le; x &le; 6</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">2 &le; x &le; 6</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">[2, 6]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 14 -->
+      <div class="card" id="prob-14">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #14</span><span data-l="ar">مسألة #14</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 11x + 30 &le; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the roots:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد الجذور:</span></span>
+            <span class="math">(x &minus; 5)(x &minus; 6) = 0 &nbsp;&rArr;&nbsp; x = 5, &nbsp; x = 6</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&le; 0) holds on the closed interval between the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&le; 0)</bdi> تتحقق في الفترة المغلقة بين الجذرين:</span></span>
+            <span class="math">5 &le; x &le; 6</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">5 &le; x &le; 6</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">[5, 6]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 15 -->
+      <div class="card" id="prob-15">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #15</span><span data-l="ar">مسألة #15</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 12x + 27 &ge; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the roots:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد الجذور:</span></span>
+            <span class="math">(x &minus; 3)(x &minus; 9) = 0 &nbsp;&rArr;&nbsp; x = 3, &nbsp; x = 9</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&ge; 0) holds outside the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&ge; 0)</bdi> تتحقق خارج الجذرين:</span></span>
+            <span class="math">x &le; 3 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 9</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &le; 3 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 9</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, 3] &cup; [9, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 16 -->
+      <div class="card" id="prob-16">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #16</span><span data-l="ar">مسألة #16</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 16x + 64 &ge; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor as a perfect square:</span><span data-l="ar">نحلل المقدار كمربع كامل:</span></span>
+            <span class="math">(x &minus; 8)<sup>2</sup> &ge; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">A square of any real number is always greater than or equal to zero, for every real value of x:</span><span data-l="ar">مربع أي عدد حقيقي يكون دائماً أكبر من أو يساوي الصفر لجميع قيم x الحقيقية:</span></span>
+            <span class="math">&minus;&infin; &lt; x &lt; &infin; &nbsp;<span data-l="en">(All Real Numbers)</span><span data-l="ar">(جميع الأعداد الحقيقية)</span></span>
+          </div>
+        </div>
+        <div class="final-answer yes-box">
+          <span class="final-label"><span data-l="en">Solution set (all real numbers):</span><span data-l="ar">مجموعة الحل (جميع الأعداد الحقيقية):</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Set</span><span data-l="ar">المجموعة</span></span>
+              <span class="math">x &isin; &#8477;</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 17 -->
+      <div class="card" id="prob-17">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #17</span><span data-l="ar">مسألة #17</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 36 &le; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the difference of two squares to find the roots:</span><span data-l="ar">نحلل الفرق بين مربعين لإيجاد الجذور:</span></span>
+            <span class="math">(x &minus; 6)(x + 6) = 0 &nbsp;&rArr;&nbsp; x = &minus;6, &nbsp; x = 6</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&le; 0) holds on the closed interval between the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&le; 0)</bdi> تتحقق في الفترة المغلقة بين الجذرين:</span></span>
+            <span class="math">&minus;6 &le; x &le; 6</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;6 &le; x &le; 6</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">[&minus;6, 6]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 18 -->
+      <div class="card" id="prob-18">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #18</span><span data-l="ar">مسألة #18</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 13x + 36 &ge; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the roots:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد الجذور:</span></span>
+            <span class="math">(x &minus; 4)(x &minus; 9) = 0 &nbsp;&rArr;&nbsp; x = 4, &nbsp; x = 9</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&ge; 0) holds outside the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&ge; 0)</bdi> تتحقق خارج الجذرين:</span></span>
+            <span class="math">x &le; 4 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 9</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &le; 4 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 9</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, 4] &cup; [9, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 19 -->
+      <div class="card" id="prob-19">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #19</span><span data-l="ar">مسألة #19</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> + 15x + 36 &le; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial to find the roots:</span><span data-l="ar">نحلل المقدار الثلاثي لإيجاد الجذور:</span></span>
+            <span class="math">(x + 12)(x + 3) = 0 &nbsp;&rArr;&nbsp; x = &minus;12, &nbsp; x = &minus;3</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&le; 0) holds on the closed interval between the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&le; 0)</bdi> تتحقق في الفترة المغلقة بين الجذرين:</span></span>
+            <span class="math">&minus;12 &le; x &le; &minus;3</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;12 &le; x &le; &minus;3</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">[&minus;12, &minus;3]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 20 -->
+      <div class="card" id="prob-20">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #20</span><span data-l="ar">مسألة #20</span></span>
+          <div class="prob-expr"><span class="math">4x<sup>2</sup> &minus; 6x &minus; 9 &gt; x<sup>2</sup></span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Subtract x<sup>2</sup> from both sides, then divide by 3 to simplify:</span><span data-l="ar">نطرح x<sup>2</sup> من الطرفين ثم نقسم على 3 للتبسيط:</span></span>
+            <span class="math">3x<sup>2</sup> &minus; 6x &minus; 9 &gt; 0 &nbsp;&rArr;&nbsp; x<sup>2</sup> &minus; 2x &minus; 3 &gt; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial:</span><span data-l="ar">نحلل المقدار الثلاثي:</span></span>
+            <span class="math">(x &minus; 3)(x + 1) = 0 &nbsp;&rArr;&nbsp; x = &minus;1, &nbsp; x = 3</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&gt; 0) holds outside the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&gt; 0)</bdi> تتحقق خارج الجذرين:</span></span>
+            <span class="math">x &lt; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; 3</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &lt; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; 3</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;1) &cup; (3, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 21 -->
+      <div class="card" id="prob-21">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #21</span><span data-l="ar">مسألة #21</span></span>
+          <div class="prob-expr"><span class="math">5x<sup>2</sup> &minus; 15x + 10 &lt; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Divide all terms by 5 (a positive number, so the inequality sign does not change):</span><span data-l="ar">نقسم جميع الحدود على 5 (عدد موجب فلا تتغير علامة التباين):</span></span>
+            <span class="math">x<sup>2</sup> &minus; 3x + 2 &lt; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial:</span><span data-l="ar">نحلل المقدار الثلاثي:</span></span>
+            <span class="math">(x &minus; 1)(x &minus; 2) = 0 &nbsp;&rArr;&nbsp; x = 1, &nbsp; x = 2</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&lt; 0) holds between the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&lt; 0)</bdi> تتحقق بين الجذرين:</span></span>
+            <span class="math">1 &lt; x &lt; 2</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">1 &lt; x &lt; 2</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(1, 2)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 22 -->
+      <div class="card" id="prob-22">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #22</span><span data-l="ar">مسألة #22</span></span>
+          <div class="prob-expr"><span class="math">3x<sup>2</sup> &minus; 5x &ge; 4x<sup>2</sup> + 6</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Move all terms to the right side so the coefficient of x<sup>2</sup> is positive:</span><span data-l="ar">ننقل جميع الحدود إلى الطرف الأيمن ليصبح معامل x<sup>2</sup> موجباً:</span></span>
+            <span class="math">0 &ge; x<sup>2</sup> + 5x + 6 &nbsp;&hArr;&nbsp; x<sup>2</sup> + 5x + 6 &le; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial:</span><span data-l="ar">نحلل المقدار الثلاثي:</span></span>
+            <span class="math">(x + 3)(x + 2) = 0 &nbsp;&rArr;&nbsp; x = &minus;3, &nbsp; x = &minus;2</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&le; 0) holds on the closed interval between the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&le; 0)</bdi> تتحقق في الفترة المغلقة بين الجذرين:</span></span>
+            <span class="math">&minus;3 &le; x &le; &minus;2</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;3 &le; x &le; &minus;2</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">[&minus;3, &minus;2]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 23 -->
+      <div class="card" id="prob-23">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #23</span><span data-l="ar">مسألة #23</span></span>
+          <div class="prob-expr"><span class="math">4x<sup>2</sup> &minus; 12 &gt; 3x<sup>2</sup> + x</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Move all terms to the left side:</span><span data-l="ar">ننقل جميع الحدود إلى الطرف الأيسر:</span></span>
+            <span class="math">x<sup>2</sup> &minus; x &minus; 12 &gt; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial:</span><span data-l="ar">نحلل المقدار الثلاثي:</span></span>
+            <span class="math">(x &minus; 4)(x + 3) = 0 &nbsp;&rArr;&nbsp; x = &minus;3, &nbsp; x = 4</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&gt; 0) holds outside the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&gt; 0)</bdi> تتحقق خارج الجذرين:</span></span>
+            <span class="math">x &lt; &minus;3 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; 4</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &lt; &minus;3 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; 4</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;3) &cup; (4, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 24 -->
+      <div class="card" id="prob-24">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #24</span><span data-l="ar">مسألة #24</span></span>
+          <div class="prob-expr"><span class="math">x<sup>2</sup> &minus; 2x &ge; x<sup>2</sup> &minus; 6x + 12</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Subtract x<sup>2</sup> from both sides (the inequality becomes linear):</span><span data-l="ar">نطرح x<sup>2</sup> من الطرفين (تتحول المتباينة إلى متباينة خطية):</span></span>
+            <span class="math">&minus;2x &ge; &minus;6x + 12</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Add 6x to both sides, then divide by 4:</span><span data-l="ar">نضيف 6x للطرفين ثم نقسم على 4:</span></span>
+            <span class="math">4x &ge; 12 &nbsp;&rArr;&nbsp; x &ge; 3</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &ge; 3</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">[3, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 25 -->
+      <div class="card" id="prob-25">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #25</span><span data-l="ar">مسألة #25</span></span>
+          <div class="prob-expr"><span class="math">2x<sup>2</sup> + 2x &minus; 8 &gt; x<sup>2</sup></span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Subtract x<sup>2</sup> from both sides:</span><span data-l="ar">نطرح x<sup>2</sup> من الطرفين:</span></span>
+            <span class="math">x<sup>2</sup> + 2x &minus; 8 &gt; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial:</span><span data-l="ar">نحلل المقدار الثلاثي:</span></span>
+            <span class="math">(x + 4)(x &minus; 2) = 0 &nbsp;&rArr;&nbsp; x = &minus;4, &nbsp; x = 2</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&gt; 0) holds outside the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&gt; 0)</bdi> تتحقق خارج الجذرين:</span></span>
+            <span class="math">x &lt; &minus;4 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; 2</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &lt; &minus;4 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; 2</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;4) &cup; (2, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 26 -->
+      <div class="card" id="prob-26">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #26</span><span data-l="ar">مسألة #26</span></span>
+          <div class="prob-expr"><span class="math">4x<sup>2</sup> + 20x &minus; 11 &lt; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial by splitting the middle term:</span><span data-l="ar">نحلل المقدار الثلاثي بالمقص:</span></span>
+            <span class="math">(2x + 11)(2x &minus; 1) = 0 &nbsp;&rArr;&nbsp; x = &minus;<span class="frac"><span class="num">11</span><span class="den">2</span></span>, &nbsp; x = <span class="frac"><span class="num">1</span><span class="den">2</span></span></span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&lt; 0) holds on the open interval between the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&lt; 0)</bdi> تتحقق في الفترة المفتوحة بين الجذرين:</span></span>
+            <span class="math">&minus;<span class="frac"><span class="num">11</span><span class="den">2</span></span> &lt; x &lt; <span class="frac"><span class="num">1</span><span class="den">2</span></span></span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;<span class="frac"><span class="num">11</span><span class="den">2</span></span> &lt; x &lt; <span class="frac"><span class="num">1</span><span class="den">2</span></span></span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math"><span class="paren-tall">(</span>&minus;<span class="frac"><span class="num">11</span><span class="den">2</span></span>, <span class="frac"><span class="num">1</span><span class="den">2</span></span><span class="paren-tall">)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 27 -->
+      <div class="card" id="prob-27">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #27</span><span data-l="ar">مسألة #27</span></span>
+          <div class="prob-expr"><span class="math">&minus;9x<sup>2</sup> + 29x &minus; 6 &ge; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Multiply both sides by &minus;1 and reverse the inequality sign:</span><span data-l="ar">نضرب الطرفين في <bdi dir="ltr">&minus;1</bdi> مع عكس علامة التباين:</span></span>
+            <span class="math">9x<sup>2</sup> &minus; 29x + 6 &le; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial:</span><span data-l="ar">نحلل المقدار الثلاثي:</span></span>
+            <span class="math">(9x &minus; 2)(x &minus; 3) = 0 &nbsp;&rArr;&nbsp; x = <span class="frac"><span class="num">2</span><span class="den">9</span></span>, &nbsp; x = 3</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&le; 0) holds on the closed interval between the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&le; 0)</bdi> تتحقق في الفترة المغلقة بين الجذرين:</span></span>
+            <span class="math"><span class="frac"><span class="num">2</span><span class="den">9</span></span> &le; x &le; 3</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math"><span class="frac"><span class="num">2</span><span class="den">9</span></span> &le; x &le; 3</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math"><span class="paren-tall">[</span><span class="frac"><span class="num">2</span><span class="den">9</span></span>, 3<span class="paren-tall">]</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 28 -->
+      <div class="card" id="prob-28">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #28</span><span data-l="ar">مسألة #28</span></span>
+          <div class="prob-expr"><span class="math">&minus;8x<sup>2</sup> + 6x &minus; 1 &le; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Multiply both sides by &minus;1 and reverse the inequality sign:</span><span data-l="ar">نضرب الطرفين في <bdi dir="ltr">&minus;1</bdi> مع عكس علامة التباين:</span></span>
+            <span class="math">8x<sup>2</sup> &minus; 6x + 1 &ge; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial:</span><span data-l="ar">نحلل المقدار الثلاثي:</span></span>
+            <span class="math">(4x &minus; 1)(2x &minus; 1) = 0 &nbsp;&rArr;&nbsp; x = <span class="frac"><span class="num">1</span><span class="den">4</span></span>, &nbsp; x = <span class="frac"><span class="num">1</span><span class="den">2</span></span></span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&ge; 0) holds outside the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&ge; 0)</bdi> تتحقق خارج الجذرين:</span></span>
+            <span class="math">x &le; <span class="frac"><span class="num">1</span><span class="den">4</span></span> &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; <span class="frac"><span class="num">1</span><span class="den">2</span></span></span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &le; <span class="frac"><span class="num">1</span><span class="den">4</span></span> &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; <span class="frac"><span class="num">1</span><span class="den">2</span></span></span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math"><span class="paren-tall">(</span>&minus;&infin;, <span class="frac"><span class="num">1</span><span class="den">4</span></span><span class="paren-tall">]</span> &cup; <span class="paren-tall">[</span><span class="frac"><span class="num">1</span><span class="den">2</span></span>, &infin;<span class="paren-tall">)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 29 -->
+      <div class="card" id="prob-29">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #29</span><span data-l="ar">مسألة #29</span></span>
+          <div class="prob-expr"><span class="math">12x<sup>2</sup> + 10x &minus; 12 &gt; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Divide all terms by 2 to simplify:</span><span data-l="ar">نقسم جميع الحدود على 2 للتبسيط:</span></span>
+            <span class="math">6x<sup>2</sup> + 5x &minus; 6 &gt; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial:</span><span data-l="ar">نحلل المقدار الثلاثي:</span></span>
+            <span class="math">(2x + 3)(3x &minus; 2) = 0 &nbsp;&rArr;&nbsp; x = &minus;<span class="frac"><span class="num">3</span><span class="den">2</span></span>, &nbsp; x = <span class="frac"><span class="num">2</span><span class="den">3</span></span></span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&gt; 0) holds outside the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&gt; 0)</bdi> تتحقق خارج الجذرين:</span></span>
+            <span class="math">x &lt; &minus;<span class="frac"><span class="num">3</span><span class="den">2</span></span> &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; <span class="frac"><span class="num">2</span><span class="den">3</span></span></span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &lt; &minus;<span class="frac"><span class="num">3</span><span class="den">2</span></span> &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; <span class="frac"><span class="num">2</span><span class="den">3</span></span></span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math"><span class="paren-tall">(</span>&minus;&infin;, &minus;<span class="frac"><span class="num">3</span><span class="den">2</span></span><span class="paren-tall">)</span> &cup; <span class="paren-tall">(</span><span class="frac"><span class="num">2</span><span class="den">3</span></span>, &infin;<span class="paren-tall">)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 30 -->
+      <div class="card" id="prob-30">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #30</span><span data-l="ar">مسألة #30</span></span>
+          <div class="prob-expr"><span class="math">18x<sup>2</sup> + 23x + 5 &le; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial:</span><span data-l="ar">نحلل المقدار الثلاثي:</span></span>
+            <span class="math">(x + 1)(18x + 5) = 0 &nbsp;&rArr;&nbsp; x = &minus;1, &nbsp; x = &minus;<span class="frac"><span class="num">5</span><span class="den">18</span></span></span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&le; 0) holds on the closed interval between the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&le; 0)</bdi> تتحقق في الفترة المغلقة بين الجذرين:</span></span>
+            <span class="math">&minus;1 &le; x &le; &minus;<span class="frac"><span class="num">5</span><span class="den">18</span></span></span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;1 &le; x &le; &minus;<span class="frac"><span class="num">5</span><span class="den">18</span></span></span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math"><span class="paren-tall">[</span>&minus;1, &minus;<span class="frac"><span class="num">5</span><span class="den">18</span></span><span class="paren-tall">]</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 31 -->
+      <div class="card" id="prob-31">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #31</span><span data-l="ar">مسألة #31</span></span>
+          <div class="prob-expr"><span class="math">17x<sup>2</sup> + 15x &minus; 2 &ge; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Factor the trinomial:</span><span data-l="ar">نحلل المقدار الثلاثي:</span></span>
+            <span class="math">(x + 1)(17x &minus; 2) = 0 &nbsp;&rArr;&nbsp; x = &minus;1, &nbsp; x = <span class="frac"><span class="num">2</span><span class="den">17</span></span></span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The inequality (&ge; 0) holds outside the roots:</span><span data-l="ar">علامة التباين <bdi dir="ltr">(&ge; 0)</bdi> تتحقق خارج الجذرين:</span></span>
+            <span class="math">x &le; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; <span class="frac"><span class="num">2</span><span class="den">17</span></span></span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &le; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; <span class="frac"><span class="num">2</span><span class="den">17</span></span></span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;1] &cup; <span class="paren-tall">[</span><span class="frac"><span class="num">2</span><span class="den">17</span></span>, &infin;<span class="paren-tall">)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 32 -->
+      <div class="card" id="prob-32">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #32</span><span data-l="ar">مسألة #32</span></span>
+          <div class="prob-expr"><span class="math">3x<sup>2</sup> + 7x &le; 5x<sup>2</sup> + 3x &minus; 6</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Move all terms to the right side so the coefficient of x<sup>2</sup> is positive:</span><span data-l="ar">ننقل جميع الحدود إلى الطرف الأيمن ليصبح معامل x<sup>2</sup> موجباً:</span></span>
+            <span class="math">0 &le; 2x<sup>2</sup> &minus; 4x &minus; 6 &nbsp;&hArr;&nbsp; 2x<sup>2</sup> &minus; 4x &minus; 6 &ge; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Divide by 2, then factor the trinomial:</span><span data-l="ar">نقسم على 2 ثم نحلل المقدار الثلاثي:</span></span>
+            <span class="math">x<sup>2</sup> &minus; 2x &minus; 3 &ge; 0 &nbsp;&rArr;&nbsp; (x &minus; 3)(x + 1) &ge; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The roots are x = &minus;1, 3 and the inequality (&ge; 0) holds outside the roots:</span><span data-l="ar">الجذور هي <bdi dir="ltr">x = &minus;1, 3</bdi> وعلامة التباين <bdi dir="ltr">(&ge; 0)</bdi> تتحقق خارج الجذرين:</span></span>
+            <span class="math">x &le; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 3</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &le; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 3</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;1] &cup; [3, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PART 2A: EQUATIONS ==================== -->
+  <section id="part-2-eq" class="chapter-sec">
+    <div class="sec-header"><h2><span data-l="en">Part 2A: Absolute Value Equations (Problems 33–41)</span><span data-l="ar">الجزء الثاني (أ): معادلات القيمة المطلقة (المسائل 33 – 41)</span></h2></div>
+
+    <div class="group-banner"><span><span data-l="en">Problems 33–41: find the solution set of each absolute value equation</span><span data-l="ar">المسائل (33 – 41): أوجد مجموعة حل كل معادلة قيمة مطلقة</span></span></div>
+
+    <div class="problems-grid">
+      <!-- Problem 33 -->
+      <div class="card" id="prob-33">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #33</span><span data-l="ar">مسألة #33</span></span>
+          <div class="prob-expr"><span class="math">|x &minus; 4| = 9</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Split the absolute value equation into two cases (positive and negative):</span><span data-l="ar">نفصل معادلة القيمة المطلقة إلى حالتين (موجب وسالب):</span></span>
+            <span class="math">x &minus; 4 = 9 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; x &minus; 4 = &minus;9</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Solve each equation by adding 4 to both sides:</span><span data-l="ar">نحل كل معادلة بإضافة 4 للطرفين:</span></span>
+            <span class="math">x = 13 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; x = &minus;5</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math">{&minus;5, 13}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 34 -->
+      <div class="card" id="prob-34">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #34</span><span data-l="ar">مسألة #34</span></span>
+          <div class="prob-expr"><span class="math">|3x + 6| = 15</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Split the absolute value equation into two cases:</span><span data-l="ar">نفصل معادلة القيمة المطلقة إلى حالتين:</span></span>
+            <span class="math">3x + 6 = 15 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; 3x + 6 = &minus;15</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Subtract 6 from both sides:</span><span data-l="ar">نطرح 6 من الطرفين:</span></span>
+            <span class="math">3x = 9 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; 3x = &minus;21</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Divide by 3:</span><span data-l="ar">نقسم على 3:</span></span>
+            <span class="math">x = 3 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; x = &minus;7</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math">{&minus;7, 3}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 35 -->
+      <div class="card" id="prob-35">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #35</span><span data-l="ar">مسألة #35</span></span>
+          <div class="prob-expr"><span class="math">2|x + 5| &minus; 3 = 11</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Isolate the absolute value (add 3, then divide by 2):</span><span data-l="ar">نعزل القيمة المطلقة في طرف واحد (نضيف 3 ثم نقسم على 2):</span></span>
+            <span class="math">2|x + 5| = 14 &nbsp;&rArr;&nbsp; |x + 5| = 7</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Split into two cases:</span><span data-l="ar">نفصل إلى حالتين:</span></span>
+            <span class="math">x + 5 = 7 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; x + 5 = &minus;7</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Subtract 5 from both sides:</span><span data-l="ar">نطرح 5 من الطرفين:</span></span>
+            <span class="math">x = 2 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; x = &minus;12</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math">{&minus;12, 2}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 36 -->
+      <div class="card" id="prob-36">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #36</span><span data-l="ar">مسألة #36</span></span>
+          <div class="prob-expr"><span class="math">|4x + 9| = &minus;3</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The absolute value of any real number is always non-negative (&ge; 0), so it cannot equal &minus;3:</span><span data-l="ar">القيمة المطلقة لأي عدد حقيقي تكون دائماً غير سالبة <bdi dir="ltr">(&ge; 0)</bdi>، لذا لا يمكن أن تساوي <bdi dir="ltr">&minus;3</bdi>:</span></span>
+            <span class="math">|4x + 9| &ge; 0 &ne; &minus;3</span>
+          </div>
+        </div>
+        <div class="final-answer no-box">
+          <span class="final-label"><span data-l="en">No solution to the equation:</span><span data-l="ar">لا يوجد حل للمعادلة:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math"><span data-l="en">No Solution (&empty;)</span><span data-l="ar">لا يوجد حل (&empty;)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 37 -->
+      <div class="card" id="prob-37">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #37</span><span data-l="ar">مسألة #37</span></span>
+          <div class="prob-expr"><span class="math">3|x &minus; 5| + 14 = 2</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Isolate the absolute value (subtract 14, then divide by 3):</span><span data-l="ar">نعزل القيمة المطلقة في طرف واحد (نطرح 14 ثم نقسم على 3):</span></span>
+            <span class="math">3|x &minus; 5| = &minus;12 &nbsp;&rArr;&nbsp; |x &minus; 5| = &minus;4</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Since an absolute value cannot equal a negative number, there is no solution:</span><span data-l="ar">بما أن القيمة المطلقة لا يمكن أن تساوي عدداً سالباً، فلا يوجد حل:</span></span>
+            <span class="math">|x &minus; 5| &ge; 0 &ne; &minus;4</span>
+          </div>
+        </div>
+        <div class="final-answer no-box">
+          <span class="final-label"><span data-l="en">No solution to the equation:</span><span data-l="ar">لا يوجد حل للمعادلة:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math"><span data-l="en">No Solution (&empty;)</span><span data-l="ar">لا يوجد حل (&empty;)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 38 -->
+      <div class="card" id="prob-38">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #38</span><span data-l="ar">مسألة #38</span></span>
+          <div class="prob-expr"><span class="math">&minus;2|7x &minus; 1| = &minus;10</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Divide both sides by &minus;2 to isolate the absolute value:</span><span data-l="ar">نقسم الطرفين على <bdi dir="ltr">&minus;2</bdi> لعزل القيمة المطلقة:</span></span>
+            <span class="math">|7x &minus; 1| = 5</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Split into two cases:</span><span data-l="ar">نفصل إلى حالتين:</span></span>
+            <span class="math">7x &minus; 1 = 5 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; 7x &minus; 1 = &minus;5</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Add 1, then divide by 7:</span><span data-l="ar">نضيف 1 ثم نقسم على 7:</span></span>
+            <span class="math">7x = 6 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; 7x = &minus;4 &nbsp;&rArr;&nbsp; x = <span class="frac"><span class="num">6</span><span class="den">7</span></span> &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x = &minus;<span class="frac"><span class="num">4</span><span class="den">7</span></span></span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math">{&minus;<span class="frac"><span class="num">4</span><span class="den">7</span></span>, <span class="frac"><span class="num">6</span><span class="den">7</span></span>}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 39 -->
+      <div class="card" id="prob-39">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #39</span><span data-l="ar">مسألة #39</span></span>
+          <div class="prob-expr"><span class="math">|5x &minus; 3| + 10 = 4</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Subtract 10 from both sides to isolate the absolute value:</span><span data-l="ar">نطرح 10 من الطرفين لعزل القيمة المطلقة:</span></span>
+            <span class="math">|5x &minus; 3| = &minus;6</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">An absolute value cannot equal a negative number, so the equation has no solution:</span><span data-l="ar">القيمة المطلقة لا يمكن أن تساوي عدداً سالباً، إذن المعادلة مستحيلة الحل:</span></span>
+            <span class="math">|5x &minus; 3| &ge; 0 &ne; &minus;6</span>
+          </div>
+        </div>
+        <div class="final-answer no-box">
+          <span class="final-label"><span data-l="en">No solution to the equation:</span><span data-l="ar">لا يوجد حل للمعادلة:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math"><span data-l="en">No Solution (&empty;)</span><span data-l="ar">لا يوجد حل (&empty;)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 40 -->
+      <div class="card" id="prob-40">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #40</span><span data-l="ar">مسألة #40</span></span>
+          <div class="prob-expr"><span class="math">|2x &minus; 5| = x + 1</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The right side must be non-negative: x + 1 &ge; 0 &rArr; x &ge; &minus;1. Split into two cases:</span><span data-l="ar">شرط الحل أن يكون الطرف الأيمن غير سالب: <bdi dir="ltr">x + 1 &ge; 0 &rArr; x &ge; &minus;1</bdi>. نفصل إلى حالتين:</span></span>
+            <span class="math">2x &minus; 5 = x + 1 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; 2x &minus; 5 = &minus;(x + 1)</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Case 1:</span><span data-l="ar">الحالة الأولى:</span></span>
+            <span class="math">2x &minus; x = 1 + 5 &nbsp;&rArr;&nbsp; x = 6 &nbsp;(&#10003; <span data-l="en">satisfies the condition</span><span data-l="ar">يحقق الشرط</span>)</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Case 2:</span><span data-l="ar">الحالة الثانية:</span></span>
+            <span class="math">2x &minus; 5 = &minus;x &minus; 1 &nbsp;&rArr;&nbsp; 3x = 4 &nbsp;&rArr;&nbsp; x = <span class="frac"><span class="num">4</span><span class="den">3</span></span> &nbsp;(&#10003; <span data-l="en">satisfies the condition</span><span data-l="ar">يحقق الشرط</span>)</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math">{<span class="frac"><span class="num">4</span><span class="den">3</span></span>, 6}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 41 -->
+      <div class="card" id="prob-41">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #41</span><span data-l="ar">مسألة #41</span></span>
+          <div class="prob-expr"><span class="math">|2x &minus; 3| = &minus;|x + 4|</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The left side |2x &minus; 3| &ge; 0 always, and the right side &minus;|x + 4| &le; 0 always:</span><span data-l="ar">الطرف الأيسر <bdi dir="ltr">|2x &minus; 3| &ge; 0</bdi> دائماً، والطرف الأيمن <bdi dir="ltr">&minus;|x + 4| &le; 0</bdi> دائماً:</span></span>
+            <span class="math">|2x &minus; 3| &ge; 0 &nbsp;<span data-l="en">and</span><span data-l="ar">و</span>&nbsp; &minus;|x + 4| &le; 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">They can be equal only if both are zero at the same time:</span><span data-l="ar">لا يتساويان إلا إذا ساوى كل منهما الصفر في آنٍ واحد:</span></span>
+            <span class="math">2x &minus; 3 = 0 &rArr; x = <span class="frac"><span class="num">3</span><span class="den">2</span></span> &nbsp;&ne;&nbsp; x + 4 = 0 &rArr; x = &minus;4</span>
+          </div>
+        </div>
+        <div class="final-answer no-box">
+          <span class="final-label"><span data-l="en">No solution to the equation:</span><span data-l="ar">لا يوجد حل للمعادلة:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math"><span data-l="en">No Solution (&empty;)</span><span data-l="ar">لا يوجد حل (&empty;)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PART 2B: INEQUALITIES ==================== -->
+  <section id="part-2-ineq" class="chapter-sec">
+    <div class="sec-header"><h2><span data-l="en">Part 2B: Absolute Value Inequalities (Problems 42–53)</span><span data-l="ar">الجزء الثاني (ب): متباينات القيمة المطلقة (المسائل 42 – 53)</span></h2></div>
+
+    <div class="group-banner"><span><span data-l="en">Problems 42–53: solve each absolute value inequality and write the answer in inequality and interval notation</span><span data-l="ar">المسائل (42 – 53): حلّ كل متباينة قيمة مطلقة واكتب الناتج بصورتي المتباينة والفترة</span></span></div>
+
+    <div class="problems-grid">
+      <!-- Problem 42 -->
+      <div class="card" id="prob-42">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #42</span><span data-l="ar">مسألة #42</span></span>
+          <div class="prob-expr"><span class="math">|x + 3| &le; 8</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">An absolute value inequality (&le;) becomes a compound (bounded) inequality:</span><span data-l="ar">متباينة القيمة المطلقة <bdi dir="ltr">(&le;)</bdi> تُكتب كمتباينة مركبة محصورة:</span></span>
+            <span class="math">&minus;8 &le; x + 3 &le; 8</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Subtract 3 from all parts:</span><span data-l="ar">نطرح 3 من جميع الأطراف:</span></span>
+            <span class="math">&minus;11 &le; x &le; 5</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;11 &le; x &le; 5</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">[&minus;11, 5]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 43 -->
+      <div class="card" id="prob-43">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #43</span><span data-l="ar">مسألة #43</span></span>
+          <div class="prob-expr"><span class="math">|2x &minus; 5| &gt; 7</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">An absolute value inequality (&gt;) splits into two separate inequalities:</span><span data-l="ar">متباينة القيمة المطلقة <bdi dir="ltr">(&gt;)</bdi> تنفصل إلى متباينتين منفصلتين:</span></span>
+            <span class="math">2x &minus; 5 &lt; &minus;7 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; 2x &minus; 5 &gt; 7</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Add 5 to all parts:</span><span data-l="ar">نضيف 5 لجميع الأطراف:</span></span>
+            <span class="math">2x &lt; &minus;2 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; 2x &gt; 12</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Divide by 2:</span><span data-l="ar">نقسم على 2:</span></span>
+            <span class="math">x &lt; &minus;1 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; x &gt; 6</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &lt; &minus;1 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &gt; 6</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;1) &cup; (6, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 44 -->
+      <div class="card" id="prob-44">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #44</span><span data-l="ar">مسألة #44</span></span>
+          <div class="prob-expr"><span class="math">|4x + 1| &lt; 13</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Write the compound (bounded) inequality:</span><span data-l="ar">نكتب المتباينة المركبة المحصورة:</span></span>
+            <span class="math">&minus;13 &lt; 4x + 1 &lt; 13</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Subtract 1 from all parts:</span><span data-l="ar">نطرح 1 من جميع الأطراف:</span></span>
+            <span class="math">&minus;14 &lt; 4x &lt; 12</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Divide all parts by 4 and simplify the fractions:</span><span data-l="ar">نقسم جميع الأطراف على 4 ونختصر الكسر:</span></span>
+            <span class="math">&minus;<span class="frac"><span class="num">14</span><span class="den">4</span></span> &lt; x &lt; <span class="frac"><span class="num">12</span><span class="den">4</span></span> &nbsp;&rArr;&nbsp; &minus;<span class="frac"><span class="num">7</span><span class="den">2</span></span> &lt; x &lt; 3</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;<span class="frac"><span class="num">7</span><span class="den">2</span></span> &lt; x &lt; 3</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math"><span class="paren-tall">(</span>&minus;<span class="frac"><span class="num">7</span><span class="den">2</span></span>, 3<span class="paren-tall">)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 45 -->
+      <div class="card" id="prob-45">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #45</span><span data-l="ar">مسألة #45</span></span>
+          <div class="prob-expr"><span class="math">3|x &minus; 2| + 4 &ge; 19</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Isolate the absolute value (subtract 4, then divide by 3):</span><span data-l="ar">نعزل القيمة المطلقة (نطرح 4 ثم نقسم على 3):</span></span>
+            <span class="math">3|x &minus; 2| &ge; 15 &nbsp;&rArr;&nbsp; |x &minus; 2| &ge; 5</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Split the inequality (&ge;) into two branches:</span><span data-l="ar">نفصل المتباينة <bdi dir="ltr">(&ge;)</bdi> إلى فرعين:</span></span>
+            <span class="math">x &minus; 2 &le; &minus;5 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; x &minus; 2 &ge; 5</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Add 2:</span><span data-l="ar">نضيف 2:</span></span>
+            <span class="math">x &le; &minus;3 &nbsp;&nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp;&nbsp; x &ge; 7</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">x &le; &minus;3 &nbsp;<span data-l="en">or</span><span data-l="ar">أو</span>&nbsp; x &ge; 7</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &minus;3] &cup; [7, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 46 -->
+      <div class="card" id="prob-46">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #46</span><span data-l="ar">مسألة #46</span></span>
+          <div class="prob-expr"><span class="math">&minus;2|3x + 1| &minus; 5 &gt; &minus;15</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Add 5 to both sides:</span><span data-l="ar">نضيف 5 للطرفين:</span></span>
+            <span class="math">&minus;2|3x + 1| &gt; &minus;10</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Divide both sides by &minus;2 and reverse the inequality sign:</span><span data-l="ar">نقسم الطرفين على <bdi dir="ltr">&minus;2</bdi> مع عكس علامة التباين:</span></span>
+            <span class="math">|3x + 1| &lt; 5</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Write the compound inequality and solve for x:</span><span data-l="ar">نكتب المتباينة المركبة ونحل لإيجاد x:</span></span>
+            <span class="math">&minus;5 &lt; 3x + 1 &lt; 5 &nbsp;&rArr;&nbsp; &minus;6 &lt; 3x &lt; 4 &nbsp;&rArr;&nbsp; &minus;2 &lt; x &lt; <span class="frac"><span class="num">4</span><span class="den">3</span></span></span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;2 &lt; x &lt; <span class="frac"><span class="num">4</span><span class="den">3</span></span></span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math"><span class="paren-tall">(</span>&minus;2, <span class="frac"><span class="num">4</span><span class="den">3</span></span><span class="paren-tall">)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 47 -->
+      <div class="card" id="prob-47">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #47</span><span data-l="ar">مسألة #47</span></span>
+          <div class="prob-expr"><span class="math">5|2x &minus; 7| + 12 &le; 2</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Isolate the absolute value (subtract 12, then divide by 5):</span><span data-l="ar">نعزل القيمة المطلقة (نطرح 12 ثم نقسم على 5):</span></span>
+            <span class="math">5|2x &minus; 7| &le; &minus;10 &nbsp;&rArr;&nbsp; |2x &minus; 7| &le; &minus;2</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Since an absolute value is always &ge; 0, it cannot be less than or equal to &minus;2:</span><span data-l="ar">بما أن القيمة المطلقة دائماً <bdi dir="ltr">&ge; 0</bdi>، فلا يمكن أن تكون أقل من أو تساوي <bdi dir="ltr">&minus;2</bdi>:</span></span>
+            <span class="math">|2x &minus; 7| &ge; 0 &nle; &minus;2</span>
+          </div>
+        </div>
+        <div class="final-answer no-box">
+          <span class="final-label"><span data-l="en">No solution to the inequality:</span><span data-l="ar">لا يوجد حل للمتباينة:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math"><span data-l="en">No Solution (&empty;)</span><span data-l="ar">لا يوجد حل (&empty;)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 48 -->
+      <div class="card" id="prob-48">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #48</span><span data-l="ar">مسألة #48</span></span>
+          <div class="prob-expr"><span class="math">|3x + 1| &lt; &minus;5</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">The absolute value of any real number is always non-negative (&ge; 0), so it cannot be less than &minus;5:</span><span data-l="ar">القيمة المطلقة لأي عدد حقيقي دائماً غير سالبة <bdi dir="ltr">(&ge; 0)</bdi>، فلا يمكن أن تكون أصغر من <bdi dir="ltr">&minus;5</bdi>:</span></span>
+            <span class="math">|3x + 1| &ge; 0 &nlt; &minus;5</span>
+          </div>
+        </div>
+        <div class="final-answer no-box">
+          <span class="final-label"><span data-l="en">No solution to the inequality:</span><span data-l="ar">لا يوجد حل للمتباينة:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math"><span data-l="en">No Solution (&empty;)</span><span data-l="ar">لا يوجد حل (&empty;)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 49 -->
+      <div class="card" id="prob-49">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #49</span><span data-l="ar">مسألة #49</span></span>
+          <div class="prob-expr"><span class="math">|6x &minus; 2| &le; 0</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Since |6x &minus; 2| &ge; 0 always, the condition |6x &minus; 2| &le; 0 holds only when it equals zero:</span><span data-l="ar">بما أن <bdi dir="ltr">|6x &minus; 2| &ge; 0</bdi> دائماً، فإن الشرط <bdi dir="ltr">|6x &minus; 2| &le; 0</bdi> يتحقق فقط عند المساواة بالصفر:</span></span>
+            <span class="math">|6x &minus; 2| = 0</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Solve the equation:</span><span data-l="ar">نحل المعادلة:</span></span>
+            <span class="math">6x &minus; 2 = 0 &nbsp;&rArr;&nbsp; 6x = 2 &nbsp;&rArr;&nbsp; x = <span class="frac"><span class="num">1</span><span class="den">3</span></span></span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set (a single point):</span><span data-l="ar">مجموعة الحل (نقطة وحيدة):</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math">{<span class="frac"><span class="num">1</span><span class="den">3</span></span>}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 50 -->
+      <div class="card" id="prob-50">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #50</span><span data-l="ar">مسألة #50</span></span>
+          <div class="prob-expr"><span class="math">&minus;4|x + 8| &minus; 7 &ge; 9</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Add 7 to both sides:</span><span data-l="ar">نضيف 7 للطرفين:</span></span>
+            <span class="math">&minus;4|x + 8| &ge; 16</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Divide both sides by &minus;4 and reverse the inequality sign:</span><span data-l="ar">نقسم الطرفين على <bdi dir="ltr">&minus;4</bdi> مع عكس علامة التباين:</span></span>
+            <span class="math">|x + 8| &le; &minus;4</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">An absolute value is always &ge; 0, so it cannot be &le; &minus;4:</span><span data-l="ar">القيمة المطلقة دائماً <bdi dir="ltr">&ge; 0</bdi>، لذا يستحيل أن تكون <bdi dir="ltr">&le; &minus;4</bdi>:</span></span>
+            <span class="math">|x + 8| &ge; 0 &nle; &minus;4</span>
+          </div>
+        </div>
+        <div class="final-answer no-box">
+          <span class="final-label"><span data-l="en">No solution to the inequality:</span><span data-l="ar">لا يوجد حل للمتباينة:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Solution Set</span><span data-l="ar">مجموعة الحل</span></span>
+              <span class="math"><span data-l="en">No Solution (&empty;)</span><span data-l="ar">لا يوجد حل (&empty;)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 51 -->
+      <div class="card" id="prob-51">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #51</span><span data-l="ar">مسألة #51</span></span>
+          <div class="prob-expr"><span class="math">|2x + 5| &gt; &minus;4</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Since an absolute value is always non-negative (|2x + 5| &ge; 0), it is always greater than &minus;4 for any real x:</span><span data-l="ar">بما أن القيمة المطلقة دائماً غير سالبة (<bdi dir="ltr">|2x + 5| &ge; 0</bdi>)، فهي دائماً أكبر من <bdi dir="ltr">&minus;4</bdi> لأي عدد حقيقي x:</span></span>
+            <span class="math">|2x + 5| &ge; 0 &gt; &minus;4 &nbsp;<span data-l="en">(Always True)</span><span data-l="ar">(صحيحة دائماً)</span></span>
+          </div>
+        </div>
+        <div class="final-answer yes-box">
+          <span class="final-label"><span data-l="en">Solution set (all real numbers):</span><span data-l="ar">مجموعة الحل (جميع الأعداد الحقيقية):</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Set</span><span data-l="ar">المجموعة</span></span>
+              <span class="math">x &isin; &#8477;</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 52 -->
+      <div class="card" id="prob-52">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #52</span><span data-l="ar">مسألة #52</span></span>
+          <div class="prob-expr"><span class="math">|x &minus; 7| + 9 &ge; 4</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Subtract 9 from both sides:</span><span data-l="ar">نطرح 9 من الطرفين:</span></span>
+            <span class="math">|x &minus; 7| &ge; &minus;5</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Since |x &minus; 7| &ge; 0 always, it is always greater than &minus;5 for every real x:</span><span data-l="ar">بما أن <bdi dir="ltr">|x &minus; 7| &ge; 0</bdi> دائماً، فهي دائماً أكبر من <bdi dir="ltr">&minus;5</bdi> لجميع قيم x الحقيقية:</span></span>
+            <span class="math">|x &minus; 7| &ge; 0 &ge; &minus;5 &nbsp;<span data-l="en">(Always True)</span><span data-l="ar">(صحيحة دائماً)</span></span>
+          </div>
+        </div>
+        <div class="final-answer yes-box">
+          <span class="final-label"><span data-l="en">Solution set (all real numbers):</span><span data-l="ar">مجموعة الحل (جميع الأعداد الحقيقية):</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Set</span><span data-l="ar">المجموعة</span></span>
+              <span class="math">x &isin; &#8477;</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math">(&minus;&infin;, &infin;)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem 53 -->
+      <div class="card" id="prob-53">
+        <div class="card-top">
+          <span class="prob-num"><span data-l="en">Problem #53</span><span data-l="ar">مسألة #53</span></span>
+          <div class="prob-expr"><span class="math">2|4x + 3| + 1 &lt; 15</span></div>
+        </div>
+        <div class="steps-box">
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Isolate the absolute value (subtract 1, then divide by 2):</span><span data-l="ar">نعزل القيمة المطلقة (نطرح 1 ثم نقسم على 2):</span></span>
+            <span class="math">2|4x + 3| &lt; 14 &nbsp;&rArr;&nbsp; |4x + 3| &lt; 7</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Write the compound (bounded) inequality:</span><span data-l="ar">نكتب المتباينة المركبة المحصورة:</span></span>
+            <span class="math">&minus;7 &lt; 4x + 3 &lt; 7</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Subtract 3 from all parts:</span><span data-l="ar">نطرح 3 من جميع الأطراف:</span></span>
+            <span class="math">&minus;10 &lt; 4x &lt; 4</span>
+          </div>
+          <div class="step-line">
+            <span class="step-note"><span data-l="en">Divide by 4 and simplify to lowest terms:</span><span data-l="ar">نقسم على 4 ونختصر لأبسط صورة:</span></span>
+            <span class="math">&minus;<span class="frac"><span class="num">10</span><span class="den">4</span></span> &lt; x &lt; <span class="frac"><span class="num">4</span><span class="den">4</span></span> &nbsp;&rArr;&nbsp; &minus;<span class="frac"><span class="num">5</span><span class="den">2</span></span> &lt; x &lt; 1</span>
+          </div>
+        </div>
+        <div class="final-answer">
+          <span class="final-label"><span data-l="en">Solution set:</span><span data-l="ar">مجموعة الحل:</span></span>
+          <div class="notation-group">
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Inequality</span><span data-l="ar">متباينة</span></span>
+              <span class="math">&minus;<span class="frac"><span class="num">5</span><span class="den">2</span></span> &lt; x &lt; 1</span>
+            </div>
+            <div class="notation-chip">
+              <span class="notation-tag"><span data-l="en">Interval</span><span data-l="ar">فترة</span></span>
+              <span class="math"><span class="paren-tall">(</span>&minus;<span class="frac"><span class="num">5</span><span class="den">2</span></span>, 1<span class="paren-tall">)</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  function jumpToProb() {
+    const n = parseInt(document.getElementById('jumpNum').value, 10);
+    if (n >= 1 && n <= 53) {
+      const el = document.getElementById('prob-' + n);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        el.style.borderColor = '#0f766e';
+        setTimeout(() => { el.style.borderColor = ''; }, 1600);
+      }
+    }
+  }
+  function setLang(l) {
+    const h = document.documentElement;
+    h.lang = l;
+    h.dir = l === 'ar' ? 'rtl' : 'ltr';
+    const inp = document.getElementById('jumpNum');
+    inp.placeholder = l === 'ar' ? inp.dataset.phAr : inp.dataset.phEn;
+    document.getElementById('langBtn').textContent = l === 'ar' ? 'English' : 'العربية';
+    document.title = l === 'ar' ? 'المتباينات التربيعية ومتباينات القيمة المطلقة (1–53)' : 'Quadratic and Absolute Inequalities (1–53)';
+    try { localStorage.setItem('sheet3-lang', l); } catch (e) {}
+  }
+  function toggleLang() {
+    setLang(document.documentElement.lang === 'ar' ? 'en' : 'ar');
+  }
+  (function () {
+    let l = 'en';
+    try { l = localStorage.getItem('sheet3-lang') || 'en'; } catch (e) {}
+    setLang(l === 'ar' ? 'ar' : 'en');
+  })();
+</script>
+
+</body>
+</html>
