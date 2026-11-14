@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Embryology Question Bank | By Mohammed Saad</title>
+<style>
+:root{--bg:#f3f4fb;--bg2:#e4e0fb;--card:#fff;--tx:#1b2033;--mu:#6b7189;--ac:#6246ea;--ac2:#8f6bff;--ok:#16a765;--no:#e5484d;--bd:#e2e5f2;--sh:0 8px 28px rgba(60,50,140,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141d;--bg2:#1c1840;--card:#1c2030;--tx:#eef0fa;--mu:#9ba2bd;--ac:#9b86ff;--ac2:#6f9bff;--ok:#3ecf8e;--no:#ff6b73;--bd:#30355100;--bd:#303551;--sh:0 8px 28px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#12141d;--bg2:#1c1840;--card:#1c2030;--tx:#eef0fa;--mu:#9ba2bd;--ac:#9b86ff;--ac2:#6f9bff;--ok:#3ecf8e;--no:#ff6b73;--bd:#303551;--sh:0 8px 28px rgba(0,0,0,.4)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(160deg,var(--bg) 40%,var(--bg2));color:var(--tx);font-family:system-ui,"Segoe UI",Tahoma,sans-serif;line-height:1.65;-webkit-tap-highlight-color:transparent}
+.w{max-width:720px;margin:0 auto;padding:18px 14px 40px}
+h1{font-size:clamp(1.25rem,4.5vw,1.7rem);margin:.3rem 0 .1rem;text-align:center}
+.sub{text-align:center;color:var(--mu);margin:0 0 14px;font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:18px;box-shadow:var(--sh)}
+.in{animation:in .38s cubic-bezier(.2,.8,.3,1) both}
+.out{animation:out .26s ease-in both}
+@keyframes in{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes out{to{opacity:0;transform:translateX(-36px) scale(.98)}}
+@keyframes pop{40%{transform:scale(1.035)}}
+@keyframes shake{20%{transform:translateX(-7px)}60%{transform:translateX(7px)}}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 14px}
+.st{background:var(--bg);border-radius:14px;padding:12px 6px;text-align:center}
+.st b{display:block;font-size:1.6rem;color:var(--ac)}.st span{font-size:.8rem;color:var(--mu)}
+.bar{height:10px;background:var(--bd);border-radius:10px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:10px;transition:width .6s cubic-bezier(.2,.8,.3,1)}
+button{font:inherit;color:var(--tx);cursor:pointer;border:1px solid var(--bd);background:var(--card);border-radius:14px;padding:11px 16px;transition:transform .15s,box-shadow .2s,background .2s,border-color .2s}
+button:active:not(:disabled){transform:scale(.97)}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible{outline:3px solid var(--ac2);outline-offset:2px}
+.p{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:0;font-weight:700;box-shadow:0 6px 16px rgba(98,70,234,.35)}
+.btns{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.chip{display:inline-block;padding:3px 12px;border-radius:99px;background:var(--bg);color:var(--ac);font-size:.8rem;font-weight:600;direction:ltr}
+.q{font-size:clamp(1rem,3.8vw,1.15rem);font-weight:700;direction:ltr;text-align:left;margin:12px 0}
+.o{display:flex;align-items:center;gap:12px;width:100%;text-align:left;direction:ltr;margin:9px 0;padding:12px 14px;animation:in .4s both}
+.o b{flex:none;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--bg);color:var(--ac);font-size:.85rem}
+@media(hover:hover){.o:hover:not(:disabled){border-color:var(--ac);transform:translateX(4px)}}
+.o:disabled{opacity:1;cursor:default}
+.o.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,var(--card));animation:pop .45s}
+.o.ok b{background:var(--ok);color:#fff}
+.o.no{border-color:var(--no);background:color-mix(in srgb,var(--no) 14%,var(--card));animation:shake .4s}
+.o.no b{background:var(--no);color:#fff}
+.o.dim{opacity:.55}
+.ex{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+.ex.on{grid-template-rows:1fr}
+.ex>div{overflow:hidden}
+.exb{margin-top:10px;padding:12px 14px;border-radius:14px;background:var(--bg);border-inline-start:4px solid var(--ac)}
+.ov{position:fixed;inset:0;display:none;place-items:center;padding:16px;background:rgba(10,10,30,.5);z-index:9}
+.ov.on{display:grid;animation:fade .25s both}
+@keyframes fade{from{opacity:0}}
+.dlg{width:min(420px,100%);max-height:86vh;overflow:auto;background:var(--card);border-radius:22px;padding:22px;text-align:center;box-shadow:var(--sh);animation:in .35s cubic-bezier(.2,.8,.3,1) both}
+.em{font-size:3rem;display:inline-block;animation:bob 1.4s ease-in-out infinite}
+.dlg h2{margin:.2rem 0}
+.rl{text-align:start;margin-top:10px}.rl div{padding:10px;border-radius:12px;background:var(--bg);margin:8px 0;font-size:.9rem}
+.rl b{direction:ltr;display:block;text-align:left}.rl em{direction:ltr;display:block;text-align:left;color:var(--ok);font-style:normal}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;background:var(--ac);color:#fff;padding:9px 18px;border-radius:99px;font-weight:700;transition:.35s;z-index:10;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+
+.hd{text-align:center;margin:6px 0 18px}
+h1{font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{display:inline-block;padding:3px 14px;border-radius:99px;background:var(--card);border:1px solid var(--bd);font-size:.85rem}
+#home .sub{display:block;border:0;background:none;text-align:center}
+.card{position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,var(--ac),var(--ac2))}
+.st{border:1px solid var(--bd)}
+.p{padding:13px 18px;font-size:1rem;letter-spacing:.01em}
+.q{line-height:1.55;margin:14px 0 8px}
+.o{border-radius:16px;font-size:.98rem}
+.o b{border-radius:50%;width:32px;height:32px}
+.exb strong{display:block;margin-bottom:2px}.exb .g{color:var(--ok)}.exb .r{color:var(--no)}
+.exb span{display:block;line-height:1.6}
+.rl{text-align:left}.exb{border-inline-start-width:5px}
+.em{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;display:grid;place-items:center;margin:0 auto 8px;animation:bob 1.8s ease-in-out infinite;font-size:0}
+.dlg h2{margin:.3rem 0 .5rem}
+.top button{padding:8px 14px}
+</style></head><body><main class="w">
+<header class="hd"><h1>Embryology Question Bank</h1><p class="sub">By Mohammed Saad</p></header>
+
+<section id="home" class="card in">
+<div class="stats"><div class="st"><b id="sd">0</b><span>Answered</span></div><div class="st"><b id="sc">0</b><span>Correct</span></div><div class="st"><b id="sn">0</b><span>Total</span></div></div>
+<div class="bar"><i id="pb"></i></div>
+<div class="btns"><button class="p" id="go">Start</button><button id="rv" hidden>Review mistakes</button><button id="rs" hidden>Start over</button></div>
+<p class="sub" style="margin-top:14px">Your progress is saved automatically on this device. Answered questions will not appear again.</p>
+</section>
+
+<section id="quiz" hidden>
+<div class="top"><button id="bk">Home</button><span class="chip" id="ct"></span></div>
+<div class="card" id="card"><span class="chip" id="ch"></span><p class="q" id="qt"></p><div id="opts"></div>
+<div class="ex" id="ex"><div><div class="exb" id="eb"></div></div></div>
+<div class="btns"><button class="p" id="nx" hidden>Next question</button></div></div>
+</section>
+</main>
+<div class="ov" id="ov"><div class="dlg"><div class="em" id="me"></div><h2 id="mt"></h2><div id="mx"></div><div class="btns" id="mb"></div></div></div>
+<div class="toast" id="ts"></div>
+<script>
+const T=["Intro & Stages","Spermatogenesis","Sperm Structure","Oogenesis","Fertilization","Cleavage & Blastula","Gastrulation","Organogenesis","Apoptosis","Integrated"];
+const B=[[0, "A child is born with a congenital malformation that originated before birth. Which branch of biology studies the origin of such disorders?", "Embryology", "Histology", "Cytology", "Genetics only"],
+[0, "Which sequence correctly orders the early developmental stages?", "Gametogenesis → Fertilization → Cleavage → Gastrulation → Organogenesis", "Fertilization → Gametogenesis → Gastrulation → Cleavage → Organogenesis", "Gametogenesis → Cleavage → Fertilization → Organogenesis → Gastrulation", "Cleavage → Fertilization → Gastrulation → Gametogenesis → Organogenesis"],
+[0, "During which process are the primary germ layers established?", "Gastrulation", "Cleavage", "Fertilization", "Gametogenesis"],
+[0, "A pregnancy is at week 12. The developing human is best called a:", "Fetus", "Zygote", "Embryo", "Blastula"],
+[0, "Which statement best distinguishes the fetal stage from the embryonic stage?", "Fetal: rapid growth and a more human appearance; embryonic: systems and organs begin to form", "Fetal: organ systems first appear; embryonic: rapid growth", "Both are identical in timing", "Fetal stage ends at week 10"],
+[0, "The single-celled product of sperm–egg union is the:", "Zygote", "Morula", "Blastocyst", "Gastrula"],
+[0, "Morula and blastocyst are both outcomes of which process?", "Cleavage", "Gastrulation", "Organogenesis", "Spermiogenesis"],
+[1, "Spermatogenesis takes place in the:", "Seminiferous tubules of the testes", "Head of epididymis", "Vas deferens", "Tunica albuginea"],
+[1, "Approximately how long from a germ cell to a fully matured sperm (spermatogenesis + epididymal maturation)?", "About 74–86 days", "About 10–14 days", "About 64–72 days only", "About 120 days"],
+[1, "Which statement about the onset of gamete production is correct?", "Spermatogenesis begins at puberty, while oogenesis begins in the fetal period", "Both begin at puberty", "Both begin in the fetal period", "Spermatogenesis begins fetal, oogenesis at puberty"],
+[1, "A toxin in the blood threatens developing sperm. Which cell type normally shields them while also supplying nutrients?", "Sertoli cells", "Primary spermatocytes", "Spermatogonia", "Spermatids"],
+[1, "Which is the correct sequence of cell types in spermatogenesis?", "Spermatogonium → primary spermatocyte → secondary spermatocyte → spermatid → spermatozoon", "Primary spermatocyte → spermatogonium → spermatid → secondary spermatocyte → spermatozoon", "Spermatogonium → secondary spermatocyte → primary spermatocyte → spermatozoon → spermatid", "Spermatid → spermatogonium → primary spermatocyte → spermatozoon → secondary spermatocyte"],
+[1, "How many mature sperm result from one primary spermatocyte?", "4", "1", "2", "8"],
+[1, "What are the ploidy states of spermatogonium and secondary spermatocyte, respectively?", "2n and n", "n and n", "2n and 2n", "n and 2n"],
+[1, "Meiosis I in a primary spermatocyte directly yields:", "Two haploid secondary spermatocytes", "Four spermatids", "Two diploid spermatogonia", "One spermatozoon"],
+[1, "Round, non-motile spermatids acquire a head and tail during:", "Spermiogenesis", "Folliculogenesis", "Cleavage", "Invagination"],
+[1, "Which relation between the two terms is correct?", "Spermiogenesis is the final stage of spermatogenesis", "Spermatogenesis is the final stage of spermiogenesis", "They are synonyms", "Spermiogenesis occurs in the ovary"],
+[1, "During spermiogenesis, the acrosomal vesicle arises in association with the:", "Golgi apparatus", "Centriole", "Flagellum", "Excess cytoplasm"],
+[1, "Which structure provides the final 10–14 days of sperm maturation?", "Epididymis", "Seminiferous tubule", "Vas deferens", "Fallopian tube"],
+[2, "Which sperm region contains hydrolytic enzymes for penetrating the egg membrane?", "Acrosome at the anterior end of the nucleus", "Mid-piece", "Neck", "Tail"],
+[2, "A man’s sperm cannot swim effectively; electron microscopy shows deficient mitochondria. Which region is affected?", "Mid-piece", "Head", "Acrosome", "Nucleus"],
+[2, "The neck of a spermatozoon contains:", "Centrioles", "Mitochondria", "Hydrolytic enzymes", "Nucleus"],
+[2, "The head of a spermatozoon is composed of:", "Nucleus and acrosome", "Nucleus and mitochondria", "Acrosome and centrioles", "Mitochondria and flagellum"],
+[2, "Sperm with a normal head but a paralysed tail would most likely fail to:", "Propel towards the egg", "Carry genetic material", "Contain an acrosome", "Have a nucleus"],
+[2, "A sperm with an acrosome defect would most likely be able to reach the egg but unable to:", "Penetrate the egg membrane", "Move through the tubes", "Produce energy", "Carry a haploid nucleus"],
+[2, "Where must sperm arrive in order to fertilize the egg?", "Fallopian tube", "Cervix", "Vagina", "Uterine cavity only"],
+[3, "Oogenesis occurs in the:", "Ovaries", "Uterus", "Fallopian tube", "Cervix"],
+[3, "Oogenesis starts in the fetal period and then:", "Is arrested until puberty", "Continues without pause", "Starts only at ovulation", "Occurs only after fertilization"],
+[3, "The primary oocyte is arrested in which phase before birth?", "Prophase I", "Metaphase II", "Anaphase I", "Telophase II"],
+[3, "The secondary oocyte is arrested in:", "Metaphase II", "Prophase I", "Anaphase II", "Interphase"],
+[3, "Oogonium gives primary oocyte by which type of division, and at which time?", "Mitosis, before birth", "Meiosis, after puberty", "Mitosis, after puberty", "Meiosis, before birth"],
+[3, "Oogenesis is continuous with which process?", "Folliculogenesis", "Spermiogenesis", "Gastrulation", "Apoptosis only"],
+[3, "Which gives the correct ploidy pair for primary oocyte and secondary oocyte?", "2n and n", "n and 2n", "2n and 2n", "n and n"],
+[3, "Which ovarian structure secretes progesterone and maintains early pregnancy?", "Corpus luteum", "Corpus albicans", "Primordial follicle", "Atretic follicle"],
+[3, "Which is the correct order of follicular development leading to ovulation?", "Primordial → primary → secondary → mature Graafian", "Primary → primordial → Graafian → secondary", "Graafian → primordial → secondary → primary", "Secondary → Graafian → primary → primordial"],
+[3, "After ovulation, the ruptured follicle becomes the corpus luteum, which later degenerates into the:", "Corpus albicans", "Graafian follicle", "Primary follicle", "Polar body"],
+[4, "Fertilization has two functions. Which pair is correct?", "Transmit parental genes; initiate egg cytoplasmic reactions for development", "Produce gametes; form germ layers", "Divide the zygote; form the blastocoel", "Form the archenteron; form the notochord"],
+[4, "Which best defines fertilization?", "Fusion of two gametes to form a new individual with genes from both parents", "Division of a zygote into blastomeres", "Movement of cells into the embryo", "Formation of organs"],
+[5, "Cleavage consists of:", "Successive mitotic divisions", "Successive meiotic divisions", "A single large division", "Cell death"],
+[5, "Cells produced by cleavage are called:", "Blastomeres", "Gametes", "Somites", "Spermatids"],
+[5, "Cleavage ends with formation of a multicellular structure called the:", "Blastula", "Gastrula", "Zygote", "Notochord"],
+[5, "A blastula is best described as:", "A hollow sphere of ~200 cells enclosing a fluid-filled blastocoel", "A solid ball with no cavity", "A two-layered sac with archenteron", "A single cell"],
+[5, "The single epithelial layer forming the blastula wall is the:", "Blastoderm", "Archenteron", "Blastopore", "Notochord"],
+[5, "Within the blastoderm, larger cells are located in the ___ and smaller cells in the ___.", "Vegetal hemisphere; animal hemisphere", "Animal hemisphere; vegetal hemisphere", "Dorsal side; ventral side", "Anterior; posterior"],
+[5, "Which feature distinguishes the morula from the early blastula?", "Morula is a compact mass with no visible cavity", "Morula has a large blastocoel", "Morula has 3 germ layers", "Morula is a single cell"],
+[5, "A researcher counts 16 blastomeres. Which cleavage has just occurred?", "Fourth", "Second", "Third", "Fifth"],
+[5, "Which three planes of holoblastic cleavage are shown in the lecture?", "Meridional, transverse, latitudinal", "Dorsal, ventral, lateral", "Sagittal, coronal, axial", "Animal, vegetal, equatorial only"],
+[6, "Gastrulation begins:", "As soon as cleavage is completed", "Before fertilization", "After organogenesis", "During spermiogenesis"],
+[6, "Gastrulation is mainly concerned with:", "Arrangement and movement of embryonic cells to their future regions", "Production of gametes", "Increase of blastocoel size", "Egg cytoplasm activation"],
+[6, "The first visible event of gastrulation is:", "Flattening of the vegetal area to form the vegetal plate", "Appearance of the notochord", "Formation of somites", "Disappearance of the archenteron"],
+[6, "Invagination is the inward bending of the vegetal plate into the:", "Blastocoel, which gradually disappears", "Archenteron, which enlarges", "Blastopore", "Neural plate"],
+[6, "The archenteron is also known as the:", "Primitive gut", "Primitive streak", "Future brain", "Polar body"],
+[6, "According to the lecture, the blastopore develops into the future opening of the:", "Anus", "Mouth", "Neural tube", "Blastocoel"],
+[6, "Micromeres at the animal pole become ___, and macromeres at the vegetal pole become ___.", "Ectoderm; endoderm", "Endoderm; ectoderm", "Mesoderm; ectoderm", "Ectoderm; mesoderm"],
+[7, "Organogenesis is the phase in which:", "Germ layers differentiate into organs and organ systems", "Gametes fuse", "Zygote starts cleaving", "Blastocoel forms"],
+[7, "Which tissue derives from ectoderm?", "Epidermis of skin and neurons", "Pancreatic cells", "Cardiac muscle", "Red blood cells"],
+[7, "Lung alveolar cells, thyroid cells and pancreatic cells arise from:", "Endoderm", "Mesoderm", "Ectoderm", "Notochord"],
+[7, "Which set is entirely mesodermal?", "Cardiac muscle, skeletal muscle, kidney tubule cells, red blood cells", "Neurons, skin epidermis, pigment cells", "Lung cells, thyroid cells, smooth muscle", "Epidermis, kidney tubules, thyroid"],
+[7, "The notochord arises from the mesendodermal band at which position?", "Mid-dorsally", "Ventrally", "At the blastopore only", "At the animal pole"],
+[7, "After the gastrula rotates, the animal pole is considered the ___ and the vegetal pole the ___ of the embryo.", "Anterior; posterior", "Posterior; anterior", "Dorsal; ventral", "Left; right"],
+[7, "The flattened dorsal part of the ectoderm forms the:", "Neural plate", "Notochordal plate", "Mesodermal plate", "Gut"],
+[7, "According to the lecture, the two mesodermal plates on either side of the notochordal plate form:", "Muscles and skeleton", "Gut", "Neural plate", "Epidermis"],
+[7, "Per the lecture, the rest of the endoderm (not forming notochordal or mesodermal plates) forms the:", "Gut", "Epidermis", "Neural plate", "Somites"],
+[8, "Apoptosis is best defined as:", "Programmed cell death", "Uncontrolled cell division", "Cell fusion", "Accidental injury death"],
+[8, "Which is NOT a characteristic of apoptosis?", "Cell swelling and bursting", "Cell shrinkage", "Membrane blebbing", "Nucleus fragmenting into membrane-wrapped pieces"],
+[8, "Excess and deficient apoptosis are linked to which diseases, respectively?", "Neurodegenerative diseases; cancer", "Cancer; neurodegenerative diseases", "Both cancer", "Both neurodegenerative"],
+[8, "Which is a developmental role of apoptosis?", "Immune system maturation, morphogenesis, neural development", "Gamete fusion", "Blastocoel formation", "Acrosome formation"],
+[0, "Which term refers to sex cells?", "Gametes", "Somites", "Blastomeres", "Macromeres"],
+[0, "Which stage is described as formation of the organ rudiments?", "Organogenesis", "Cleavage", "Gastrulation", "Fertilization"],
+[0, "Which stage is the segmentation of the fertilized egg?", "Cleavage", "Gametogenesis", "Gastrulation", "Organogenesis"],
+[0, "Which pair of germ layers is correctly listed as part of the three primary layers?", "Ectoderm and endoderm", "Ectoderm and notochord", "Endoderm and somite", "Mesoderm and blastoderm"],
+[0, "Which statement about embryology’s scope is FALSE?", "It studies disorders that occur after adulthood", "It studies gamete development", "It studies fertilization", "It studies congenital disorders before birth"],
+[1, "Seminiferous tubules are described as:", "Coiled tubules within the testes", "Straight ducts outside the testes", "Part of the ovary", "Part of the epididymis tail"],
+[1, "Which of these is NOT a region of the epididymis shown in the lecture?", "Neck", "Head", "Body", "Tail"],
+[1, "The vas deferens in the diagram is connected to the:", "Tail of the epididymis", "Head of the epididymis only", "Tunica albuginea", "Seminiferous tubules directly"],
+[1, "The tough outer covering of the testis labelled in the diagram is the:", "Tunica albuginea", "Sertoli cell", "Acrosome", "Blastoderm"],
+[1, "Spermatogonia lie closest to which part of the tubule?", "The basal region (outer wall)", "The lumen only", "The tail of epididymis", "The vas deferens"],
+[1, "Which cell is haploid and still round, non-motile?", "Spermatid", "Primary spermatocyte", "Spermatogonium", "Spermatozoon"],
+[1, "During spermiogenesis, excess cytoplasm is:", "Shed from the developing sperm", "Added to the head", "Converted into the acrosome", "Retained as the tail"],
+[1, "Which organelle gives rise to the flagellum’s microtubule axis near the centrioles in spermiogenesis?", "Centrioles", "Golgi", "Lysosome", "Nucleolus"],
+[1, "Which is the best way to describe the relation of Sertoli cells to sperm production?", "Support and nourish, protect from blood toxins", "Produce haploid gametes by meiosis", "Store mature sperm", "Secrete progesterone"],
+[1, "Which of the following is diploid?", "Primary spermatocyte", "Secondary spermatocyte", "Spermatid", "Mature sperm"],
+[2, "Which part of the sperm contains the genetic material?", "Nucleus in the head", "Mid-piece", "Tail", "Neck"],
+[2, "The spiral-shaped mitochondrion is found in the:", "Middle piece", "Head", "Acrosome", "End of tail only"],
+[2, "The correct order of sperm regions from front to back is:", "Head → neck → middle piece → tail", "Tail → middle piece → neck → head", "Head → middle piece → neck → tail", "Neck → head → tail → middle piece"],
+[2, "A cap-like structure at the anterior end of the nucleus is the:", "Acrosome", "Centriole", "Neck", "Flagellum"],
+[2, "Which structure is surrounded by the plasma membrane along the entire sperm?", "All regions of the sperm", "Only the head", "Only the tail", "Only the neck"],
+[3, "The ovary is where oogenesis occurs. The tube that catches the ovulated egg through fimbriae is the:", "Fallopian tube", "Cervix", "Vagina", "Vas deferens"],
+[3, "What is the final ploidy of the mature ovum?", "Haploid", "Diploid", "Triploid", "Tetraploid"],
+[3, "Germinal cell is described as:", "Diploid", "Haploid", "Polar body", "Mature ovum"],
+[3, "Meiosis I in oogenesis yields a secondary oocyte and a:", "First polar body", "Second oogonium", "Spermatid", "Zygote"],
+[3, "Meiosis II in an oocyte is completed upon:", "Sperm entry / fertilization", "Birth", "Puberty only", "Follicle atresia"],
+[3, "Polar bodies differ from the ovum in that they are:", "Small and haploid, non-functional", "Large and diploid", "Functional gametes", "Zygotes"],
+[3, "Which follicle stage contains the secondary oocyte just before ovulation?", "Mature (Graafian) follicle", "Primordial follicle", "Primary follicle", "Corpus albicans"],
+[3, "A follicle that degenerates without ovulating is described as:", "Follicle atresia", "Corpus luteum", "Graafian follicle", "Primordial follicle"],
+[3, "One oogonium finally gives how many functional ova?", "One", "Two", "Three", "Four"],
+[3, "Progesterone from the corpus luteum helps to:", "Maintain early pregnancy", "Start spermatogenesis", "Form the blastocoel", "Make the acrosome"],
+[4, "Which cellular component of the egg is activated by fertilization?", "Egg cytoplasm reactions", "Polar body cytoplasm", "Sperm tail", "Epididymis"],
+[4, "Combination of genes from two parents is the ___ function of fertilization.", "First", "Second", "Third", "Not a function"],
+[4, "Fertilization results in a cell with genetic potential from:", "Both parents", "Mother only", "Father only", "Neither"],
+[5, "The 2-cell stage is formed by the:", "First cleavage", "Second cleavage", "Third cleavage", "Fifth cleavage"],
+[5, "How many blastomeres exist after the second cleavage?", "4", "2", "8", "16"],
+[5, "Which stage forms after the fifth cleavage?", "32-cell stage", "8-cell stage", "4-cell stage", "Gastrula"],
+[5, "In the expanded late blastula, the blastoderm is:", "A single layer of cells", "Several layers", "Absent", "Solid mass"],
+[5, "Micromeres are located in which hemisphere?", "Animal", "Vegetal", "Both equally", "Neither"],
+[5, "Cleavage starts:", "Soon after fertilization", "After organogenesis", "Before gametogenesis", "After apoptosis"],
+[5, "Holoblastic cleavage planes include which pair?", "Meridional and latitudinal", "Sagittal and axial", "Oblique and spiral only", "Dorsal and ventral"],
+[6, "Which cells move to the embryo’s inside during gastrulation?", "Some cells, while others stay outside", "All cells", "No cells", "Only polar bodies"],
+[6, "How deep does the vegetal plate invaginate into the blastocoel in the lecture?", "One-third", "One-half", "Completely", "One-tenth"],
+[6, "Which germ layer is the outer one?", "Ectoderm", "Endoderm", "Mesoderm", "Notochord"],
+[6, "Which is the inner layer according to the lecture?", "Endoderm", "Ectoderm", "Blastoderm", "Neural plate"],
+[6, "The middle layer is the:", "Mesoderm", "Ectoderm", "Endoderm", "Blastocoel"],
+[6, "The opening of the gastrula to the outside is the:", "Blastopore", "Blastocoel", "Archenteron", "Notochord"],
+[7, "Which cells arise from ectoderm: pigment cells or digestive cells?", "Pigment cells", "Digestive cells", "Both", "Neither"],
+[7, "Somites are associated with which layer?", "Mesoderm", "Ectoderm", "Endoderm", "None"],
+[7, "The notochord is derived from:", "Mesendodermal band", "Neural plate", "Polar body", "Acrosome"],
+[7, "Smooth muscle in gut is derived from:", "Mesoderm", "Endoderm", "Ectoderm", "Notochord"],
+[7, "Pancreatic cells are listed under which layer?", "Endoderm", "Mesoderm", "Ectoderm", "Notochord"],
+[8, "Which feature is characteristic of apoptosis?", "Phagocyte signals attract cell removal", "Cell swells", "Membrane rupture with inflammation", "Nucleus enlarges"],
+[8, "Apoptosis in the adult functions in:", "DNA damage and wound repair", "Gamete fusion", "Cleavage", "Blastocoel formation"],
+[8, "Deficient apoptosis can lead to:", "Cancer", "Neurodegeneration", "Normal development", "Fertilization"],
+[8, "Excess apoptosis is linked to:", "Neurodegenerative diseases", "Cancer", "Normal growth", "Cleavage"],
+[1, "A patient’s developing sperm are damaged by a toxin circulating in the blood. Failure of which cell’s protective role is the most plausible explanation?", "Sertoli cells", "Primary oocytes", "Spermatids", "Corpus luteum cells"],
+[1, "A drug selectively blocks the conversion of round spermatids into cells with heads and tails. Which process is directly affected?", "Spermiogenesis", "Meiosis I", "Folliculogenesis", "Fertilization"],
+[1, "A cell in the testis is diploid but has already started meiosis. It is a:", "Primary spermatocyte", "Spermatogonium", "Secondary spermatocyte", "Spermatid"],
+[1, "Compare the final output of one primary spermatocyte and one primary oocyte after completing meiosis:", "4 sperm vs 1 functional ovum", "1 sperm vs 4 ova", "2 sperm vs 2 ova", "4 sperm vs 4 ova"],
+[3, "Which feature is common to spermatogenesis and oogenesis?", "Both produce haploid gametes through meiosis", "Both begin at puberty", "Both take place in the testes", "Both produce four functional gametes"],
+[3, "Which statement contrasting the timing of gamete production is correct?", "Oocytes are arrested from the fetal period until puberty, whereas sperm production starts at puberty", "Sperm production begins before birth", "Oocyte development begins at puberty", "Both are arrested until puberty"],
+[3, "An ovulated secondary oocyte that is never penetrated by a sperm remains arrested in:", "Metaphase II", "Prophase I", "Telophase I", "Anaphase II"],
+[3, "A woman’s ovulated cell is best described as:", "Haploid secondary oocyte arrested in metaphase II", "Diploid primary oocyte arrested in prophase I", "Mature haploid ovum with 2 polar bodies", "Diploid zygote"],
+[3, "After ovulation, which structure sustains early pregnancy by secreting progesterone?", "Corpus luteum", "Primordial follicle", "Polar body", "Follicle atresia"],
+[3, "In the oogenesis diagram, where is the second polar body produced?", "At meiosis II, upon fertilization", "Before birth", "At ovulation, before meiosis", "During mitosis of oogonium"],
+[3, "At birth, oocytes in the ovary are mostly:", "Primary oocytes arrested in prophase I", "Secondary oocytes", "Mature ova", "Polar bodies"],
+[3, "Fully correct order of ovarian structures after ovulation is:", "Early corpus luteum → corpus luteum → corpus albicans", "Corpus albicans → corpus luteum → follicle", "Corpus luteum → primordial follicle", "Graafian follicle → primary follicle"],
+[3, "Which listing is the correct sequence of follicles?", "Primary → secondary → later-stage secondary → mature Graafian", "Secondary → primary → Graafian", "Graafian → later secondary → primary", "Primary → Graafian → secondary"],
+[4, "Ploidy of a fertilized egg is:", "2n", "n", "3n", "4n"],
+[4, "A mutation prevents the egg cytoplasm from responding to fertilization. Which fertilization function is lost?", "Initiating reactions in egg cytoplasm that proceed development", "Transmitting parental genes", "Producing sperm", "Forming polar bodies"],
+[4, "Where does fertilization take place?", "Fallopian tube", "Vagina", "Cervix", "Seminiferous tubule"],
+[4, "Gametogenesis is best defined as:", "Diploid cells dividing and differentiating into mature haploid gametes", "Fusion of two gametes", "Segmentation of the zygote", "Formation of germ layers"],
+[5, "A drug blocks mitosis immediately after fertilization. Which stage fails first?", "Cleavage", "Gametogenesis", "Spermiogenesis", "Oogenesis"],
+[5, "Which observation shows an embryo is a morula and not a blastula?", "Compact cell mass with no visible cavity", "Fluid-filled blastocoel", "Single layer blastoderm", "Hollow sphere"],
+[5, "A hollow sphere of about 200 cells with a single epithelial layer is a:", "Blastula", "Morula", "Zygote", "Gastrula"],
+[5, "Blastomeres are:", "Cells produced by cleavage", "Gametes", "Germ layers", "Polar bodies"],
+[5, "Vegetal hemisphere of the blastula contains:", "Larger cells (macromeres)", "Smaller cells (micromeres)", "Only polar bodies", "No cells"],
+[5, "Cleavage 3 produces how many blastomeres?", "8", "4", "16", "32"],
+[6, "If invagination of the vegetal plate failed, which structure would not form?", "Archenteron", "Blastocoel", "Blastoderm", "Zygote"],
+[6, "During normal invagination the blastocoel:", "Decreases gradually until it disappears", "Enlarges", "Remains unchanged", "Becomes the notochord"],
+[6, "Archenteron differs from blastocoel in that the archenteron:", "Forms by invagination and becomes the primitive gut", "Is present in the morula", "Is the cavity of the blastula", "Opens as the mouth only"],
+[6, "Which structure of the gastrula opens to the outside?", "Blastopore", "Blastocoel", "Notochord", "Neural plate"],
+[6, "Which statement about gastrulation is correct?", "It changes the external shape of the embryo", "It occurs before cleavage", "It produces gametes", "It forms polar bodies"],
+[6, "Macromeres of the vegetal pole give rise to:", "Endoderm (inner layer)", "Ectoderm", "Notochord only", "Neural plate"],
+[7, "A baby is born with defective skin epidermis and neural tissue. Which germ layer is the origin?", "Ectoderm", "Endoderm", "Mesoderm", "Blastoderm"],
+[7, "Defective gut lining suggests failure of:", "Endoderm", "Ectoderm", "Notochord", "Neural plate"],
+[7, "Heart muscle, skeletal muscle and kidney tubule defects point to:", "Mesoderm", "Ectoderm", "Endoderm", "Polar body"],
+[7, "Which tissue–layer pair is mismatched?", "Red blood cells – endoderm", "Neurons – ectoderm", "Thyroid cells – endoderm", "Cardiac muscle – mesoderm"],
+[7, "After rotation of the gastrula, the animal pole becomes the:", "Anterior part", "Posterior part", "Dorsal part", "Ventral part"],
+[7, "According to the lecture, the neural plate arises from:", "Flattened dorsal ectoderm", "Endoderm", "Mesoderm", "Archenteron"],
+[7, "Organogenesis differs from gastrulation in that organogenesis:", "Differentiates germ layers into organs and organ systems", "Forms the germ layers", "Forms the blastocoel", "Produces gametes"],
+[7, "Gastrulation ends with a gastrula that has:", "Ectoderm and endoderm with an opening called blastopore", "A solid mass of cells", "No layers", "A single epithelium with blastocoel only"],
+[8, "Blebbing, cell shrinkage and nuclear fragments wrapped in membrane indicate:", "Apoptosis", "Fertilization", "Cleavage", "Spermiogenesis"],
+[8, "The loss of a tadpole’s tail or shaping of the fetal hand is an example of apoptosis in:", "Morphogenesis", "Wound repair", "Cancer", "Fertilization"],
+[8, "A tumour cell that avoids programmed cell death shows:", "Deficient apoptosis", "Excess apoptosis", "Normal apoptosis", "Spermiogenesis"],
+[8, "Loss of neurons in a degenerative disease reflects:", "Excess apoptosis", "Deficient apoptosis", "Cleavage", "Fertilization"],
+[0, "An embryo at week 8 is called:", "Embryo", "Fetus", "Zygote", "Gamete"],
+[0, "Which stage is characterized by rapid growth and a more human-like appearance?", "Fetal stage", "Cleavage", "Gastrulation", "Gametogenesis"],
+[2, "Which defect would most directly prevent transmission of genes from sperm to egg?", "Absence of nuclear genetic material in the head", "Short tail", "Reduced mitochondria", "Abnormal neck only"],
+[2, "Which organelle supplies energy for sperm movement, and where is it?", "Mitochondria in the mid-piece", "Acrosome in the head", "Centrioles in the tail", "Nucleus in the neck"],
+[2, "A sperm that reaches only the uterus but not the fallopian tube is:", "Unable to fertilize", "Fertilizing normally", "Producing the egg", "Becoming a zygote"],
+[0, "Which stage-process pair is INCORRECT?", "Gastrulation – formation of organ rudiments", "Fertilization – union of gametes", "Cleavage – segmentation of fertilized egg", "Gametogenesis – formation of gametes"],
+[0, "Which feature of embryology links it to prenatal health problems?", "It studies congenital disorders occurring before birth", "It studies only adult tissues", "It studies only sperm", "It studies only the placenta"],
+[0, "In the embryo-vs-fetus slide, which timing is stated for the fetus?", "From end of week 10 until birth", "From week 1 to week 5", "From week 5 to week 10", "Only at birth"],
+[0, "The multicellular cluster produced by cleavage is called:", "Morula then blastocyst", "Gastrula then somite", "Zygote then gamete", "Neural plate then notochord"],
+[0, "In the embryo development cycle shown, which stage comes immediately before the morula?", "4-cell embryo", "Blastocyst", "Zygote", "Fertilization"],
+[0, "In that cycle, the stage immediately after the morula is the:", "Blastocyst", "Zygote", "4-cell stage", "Fertilization"],
+[1, "Which sequence gives correct ploidy: spermatogonium, primary spermatocyte, secondary spermatocyte, spermatid?", "2n, 2n, n, n", "n, n, n, n", "2n, n, n, 2n", "2n, 2n, 2n, n"],
+[1, "Which statement about the stages of sperm formation is correct?", "Meiosis II converts secondary spermatocytes into spermatids", "Meiosis II converts spermatogonia into primary spermatocytes", "Meiosis I produces spermatozoa", "Spermiogenesis precedes meiosis"],
+[1, "Which location is the site of final sperm maturation?", "Epididymis", "Seminiferous tubules", "Ovary", "Fallopian tube"],
+[1, "Which part of the male system is shown as a long tube continuing from the epididymis tail?", "Vas deferens", "Seminiferous tubule", "Tunica albuginea", "Fimbriae"],
+[1, "Which is true of spermiogenesis, unlike meiosis?", "It involves no further reduction in chromosome number", "It halves the chromosome number", "It produces four cells from one", "It forms oocytes"],
+[1, "Which statement about Sertoli cells is NOT stated in the lecture?", "They secrete progesterone", "They produce nutrients supporting sperm production", "They protect developing sperm from toxins", "They lie within seminiferous tubules"],
+[1, "The total duration for spermatogenesis within the tubules is:", "About 64 to 72 days", "About 10 to 14 days", "About 9 months", "About 24 hours"],
+[2, "Which statement about the acrosome is correct?", "Contains hydrolytic enzymes that help penetrate the egg membrane", "Supplies energy", "Contains centrioles", "Propels the sperm"],
+[2, "Which sequence matches function to region (head, neck, mid-piece, tail)?", "Genes and enzymes; centrioles; energy; movement", "Energy; centrioles; genes; movement", "Movement; genes; energy; centrioles", "Centrioles; energy; movement; genes"],
+[2, "Whip-like back and forth movement belongs to the sperm:", "Tail", "Head", "Acrosome", "Nucleus"],
+[2, "Which cell structure would be most abundant in the sperm mid-piece?", "Mitochondria", "Lysosomes", "Rough ER", "Chloroplasts"],
+[3, "Which cells does oogenesis start from?", "Female germ cells (oogonia)", "Spermatogonia", "Sertoli cells", "Blastomeres"],
+[3, "Which statement about oogenesis timing is correct?", "It begins before birth and is arrested until puberty", "It begins at puberty", "It begins at fertilization", "It never arrests"],
+[3, "The diagram shows meiosis continuing after puberty in the primary oocyte to give:", "Secondary oocyte and first polar body", "Two ova", "Oogonium and zygote", "Spermatid"],
+[3, "Sperm entry triggers completion of meiosis II and gives:", "A fertilized egg and a second polar body", "A primary oocyte", "An oogonium", "Two spermatids"],
+[3, "Which ovarian structure results from a ruptured follicle?", "Corpus luteum", "Primordial follicle", "Primary oocyte", "Polar body"],
+[3, "Which structure secretes progesterone?", "Corpus luteum", "Fimbriae", "Cervix", "Primordial follicle"],
+[3, "Folliculogenesis is:", "Follicle development continuous with oogenesis", "Sperm tail formation", "Germ layer formation", "Cell death"],
+[3, "Fimbriae are part of the:", "Fallopian tube", "Testis", "Epididymis", "Blastula"],
+[3, "The uterus, cervix and vagina in the diagram belong to the:", "Female reproductive tract", "Male reproductive tract", "Blastula", "Gastrula"],
+[4, "Fertilization has two separate activities. They are:", "Combining parental genes and creating a new organism", "Producing gametes and shedding polar bodies", "Forming blastomeres and germ layers", "Mitosis and meiosis"],
+[4, "Which statement about the fertilized egg is correct?", "It is single-celled and diploid", "It is haploid", "It has 2 nuclei of n only", "It is already a gastrula"],
+[5, "The first division of the zygote gives:", "Two equal blastomeres", "Four unequal cells", "Eight cells", "A blastula"],
+[5, "At the 4-cell stage the blastomeres are:", "Of similar size", "Very different in size", "Absent", "Polar bodies"],
+[5, "Which stage shows a blastocoel inside a ring of blastoderm cells?", "Blastula", "Morula", "Zygote", "Fertilization"],
+[5, "In the late expanded blastula, the blastocoel:", "Enlarges", "Disappears", "Becomes archenteron", "Is filled by cells"],
+[5, "The size of cleavage cells relative to the embryo is that blastomeres:", "Become smaller with each division as the embryo is divided", "Grow larger each division", "Remain constant and the embryo grows", "Disappear"],
+[5, "The first and second polar bodies shown with the 2-cell embryo are located near:", "The subzonal space", "The nucleus of a blastomere", "The cell membrane away from cells", "The blastopore"],
+[5, "Cleavage planes labelled meridional, transverse and latitudinal belong to which cleavage type?", "Holoblastic", "Meroblastic", "None", "Apoptotic"],
+[5, "Animal pole and vegetal pole are differentiated in the blastula by:", "Cell size: smaller animal, larger vegetal", "Cell size: larger animal, smaller vegetal", "Number of nuclei", "Ploidy"],
+[6, "Which event happens first in gastrulation?", "Flattening of the vegetal area", "Formation of the notochord", "Formation of somites", "Fertilization"],
+[6, "The vegetal plate invaginates into the:", "Blastocoel", "Archenteron", "Blastopore", "Neural plate"],
+[6, "Which statement is true regarding the archenteron?", "It is the primitive gut", "It is the future skin", "It is the neural plate", "It is a polar body"],
+[6, "The ectoderm is formed from:", "Micromeres of the animal pole", "Macromeres of the vegetal pole", "Polar bodies", "Sertoli cells"],
+[6, "Why does gastrulation change the external shape of the embryo?", "Some cells move inward while others remain on the surface", "All cells divide", "Cells die", "Gametes fuse"],
+[6, "After gastrulation, which cavity has disappeared completely?", "Blastocoel", "Archenteron", "Blastopore", "Gut"],
+[7, "The three primary germ layers are established during:", "Gastrulation", "Gametogenesis", "Fertilization", "Cleavage"],
+[7, "Which germ layer forms the epidermis and neural plate?", "Ectoderm", "Endoderm", "Mesoderm", "Notochord"],
+[7, "The inner lining of the archenteron forms the:", "Gut / digestive tract", "Epidermis", "Neural plate", "Muscle"],
+[7, "Notochord appears mid-dorsally, and lateral to it form:", "Mesodermal pouches / somites", "Neural plate", "Gut lining", "Epidermis"],
+[7, "Which is correct for skin and neurons?", "Ectoderm derivatives", "Endoderm derivatives", "Mesoderm derivatives", "Notochord derivatives"],
+[7, "Which are all endoderm derivatives in the lecture figure?", "Lung, thyroid and pancreatic cells", "Heart, skeletal muscle and RBCs", "Neurons, skin and pigment cells", "Smooth muscle, kidney tubules and RBCs"],
+[7, "Which is a mesoderm derivative?", "Red blood cells", "Neurons", "Pigment cells", "Pancreatic cells"],
+[7, "Which pair of layers is described as external and internal in the organogenesis figure?", "Ectoderm external, endoderm internal", "Mesoderm external, ectoderm internal", "Endoderm external, mesoderm internal", "Notochord external, neural internal"],
+[8, "Apoptosis is important for which developmental process?", "Neural development", "Fertilization", "Spermiogenesis", "Ovulation"],
+[8, "Which phrase describes apoptosis: programmed or accidental?", "Programmed cell death", "Accidental cell death", "Cell division", "Cell fusion"],
+[8, "Phagocytes are involved in apoptosis because they:", "Receive signals to remove the dying cell", "Divide the cell", "Form gametes", "Make the blastocoel"],
+[8, "Immune system maturation is listed as a role of apoptosis in:", "Development", "Adult wound repair only", "Cancer only", "Fertilization"],
+[8, "Which pairing is correct?", "Deficient apoptosis – cancer", "Excess apoptosis – cancer", "Deficient apoptosis – neurodegeneration", "Normal apoptosis – cancer"],
+[1, "A researcher blocks Meiosis I but not mitosis in the tubules. Which cells accumulate?", "Spermatogonia and primary spermatocytes", "Spermatids and spermatozoa", "Secondary spermatocytes only", "Polar bodies"],
+[1, "Starting from 100 primary spermatocytes completing meiosis, how many spermatids form?", "400", "100", "200", "800"],
+[1, "Starting from 100 primary oocytes completing meiosis, how many functional ova form?", "100", "400", "200", "50"],
+[1, "A man develops normal sperm counts but sperm lack tails. Which stage is most likely defective?", "Spermiogenesis", "Meiosis I", "Mitosis of spermatogonia", "Epididymal storage only"],
+[1, "A cell contains 2n DNA, sits near the tubule wall, and divides by mitosis. It is a:", "Spermatogonium", "Secondary spermatocyte", "Spermatid", "Sertoli cell producing gametes"],
+[2, "A sperm has intact head and tail but the neck is defective. Which structure is directly affected?", "Centrioles", "Acrosome", "Nucleus", "Mitochondria"],
+[2, "Which defect would allow normal swimming but prevent egg-membrane penetration?", "Acrosome enzyme deficiency", "Mid-piece mitochondrial loss", "Tail paralysis", "Centriole loss only"],
+[2, "A sperm swims weakly yet carries a normal nucleus and acrosome. Which region is most suspect?", "Mid-piece", "Head", "Acrosome", "Nucleus"],
+[3, "Which statement about a primary oocyte is correct?", "Diploid, arrested in prophase I from fetal life", "Haploid, arrested in metaphase II", "Diploid, arrested in metaphase II", "Haploid, arrested in prophase I"],
+[3, "What happens to the secondary oocyte if fertilization does NOT occur, according to the lecture diagram?", "It stays arrested in metaphase II", "It completes meiosis II anyway", "It becomes a primary oocyte", "It turns into a polar body of spermatogenesis"],
+[3, "Which comparison of arrest points is correct (primary oocyte vs secondary oocyte)?", "Prophase I vs metaphase II", "Metaphase II vs prophase I", "Prophase I vs prophase I", "Anaphase I vs telophase II"],
+[3, "After ovulation without pregnancy, the corpus luteum is expected to end as the:", "Corpus albicans", "Primordial follicle", "Primary oocyte", "Graafian follicle"],
+[4, "Which fertilization outcome shows both functions were successful?", "Zygote with combined parental genes that starts developing", "Zygote with only maternal genes", "Haploid egg that stops", "Two polar bodies only"],
+[4, "Why is fertilization more than a genetic event?", "It also triggers egg cytoplasm reactions that proceed development", "It only gives sperm energy", "It forms germ layers directly", "It forms the acrosome"],
+[5, "An embryo of 32 blastomeres with no cavity is best called:", "Morula (compact mass)", "Late blastula", "Gastrula", "Zygote"],
+[5, "Which sequence of stages is correct?", "Zygote → 2-cell → 4-cell → 8-cell → 16-cell → 32-cell → morula → blastula", "Zygote → blastula → morula → 2-cell", "2-cell → zygote → 8-cell → morula", "Morula → 2-cell → 4-cell → blastula"],
+[5, "Which statement distinguishes blastoderm from blastocoel?", "Blastoderm is the cell layer; blastocoel is the fluid-filled cavity", "Blastoderm is the cavity; blastocoel is the layer", "Both are cavities", "Both are cell layers"],
+[5, "If cleavage proceeds normally for several divisions, the embryo ends up as:", "A hollow blastula of about 200 cells", "A single cell", "Three-layered embryo", "A notochord"],
+[6, "Which describes gastrulation correctly?", "Cells are rearranged, creating archenteron and three layers", "Cells stop dividing and die", "Gametes fuse", "Cells form polar bodies"],
+[6, "Which cavity is lost and which new cavity appears during gastrulation?", "Blastocoel lost; archenteron appears", "Archenteron lost; blastocoel appears", "Neither changes", "Blastopore lost; blastocoel appears"],
+[6, "In the invagination diagram, yellow macromeres at the vegetal pole move:", "Inward toward the blastocoel", "Outward", "Away from the embryo", "To the animal pole only"],
+[7, "Which germ layer arrangement is correct from outside to inside in the gastrula figure?", "Ectoderm, mesoderm, endoderm", "Endoderm, mesoderm, ectoderm", "Mesoderm, ectoderm, endoderm", "Endoderm, ectoderm, mesoderm"],
+[7, "A patient has defects in lung, thyroid and pancreas only. Which layer is the common origin?", "Endoderm", "Ectoderm", "Mesoderm", "Notochord"],
+[7, "A baby has abnormal skin pigment cells and brain neurons. Which layer is the common origin?", "Ectoderm", "Endoderm", "Mesoderm", "Blastoderm"],
+[8, "Which scenario best illustrates excess apoptosis?", "Progressive loss of neurons in a neurodegenerative disease", "A tumour that keeps growing", "Normal limb shaping", "Wound repair"],
+[8, "Which scenario best illustrates deficient apoptosis?", "A tumour whose cells fail to die", "Loss of neurons", "Immune system maturation", "Shaping of fetal hands"],
+[9, "Which cell is both haploid and arrested in its division?", "Secondary oocyte", "Primary oocyte", "Secondary spermatocyte", "Spermatid"],
+[9, "Which two cells share the same ploidy and the same position in meiosis (before Meiosis I ends)?", "Primary spermatocyte and primary oocyte", "Spermatid and primary oocyte", "Ovum and primary spermatocyte", "Spermatogonium and spermatid"],
+[9, "Which pair is haploid in both sexes after Meiosis I?", "Secondary spermatocyte and secondary oocyte", "Primary spermatocyte and primary oocyte", "Spermatogonium and oogonium", "Zygote and spermatid"],
+[9, "What do a spermatid and a polar body have in common, and how do they differ?", "Both haploid; the spermatid becomes a functional gamete, the polar body does not", "Both diploid; both become gametes", "Both haploid; both become zygotes", "Both diploid; only the polar body becomes a gamete"],
+[9, "Which cells divide by mitosis before entering meiosis?", "Spermatogonia and oogonia", "Primary spermatocytes and primary oocytes", "Spermatids and polar bodies", "Secondary spermatocytes and secondary oocytes"],
+[9, "Which event restores the diploid number in the life cycle?", "Fertilization", "Meiosis I", "Spermiogenesis", "Polar body formation"],
+[9, "Which listing contains ONLY mitotic processes?", "Cleavage and division of spermatogonia", "Meiosis I and cleavage", "Meiosis II and gastrulation", "Spermiogenesis and meiosis I"],
+[9, "The correct sequence from sperm entry to the first cleavage is:", "Sperm entry → meiosis II completes → zygote → cleavage", "Cleavage → sperm entry → zygote", "Zygote → sperm entry → meiosis II", "Meiosis II → cleavage → sperm entry"],
+[9, "Fertilization occurs in the same organ that is reached by the ovary’s fimbriae. That organ is the:", "Fallopian tube", "Uterus", "Cervix", "Vagina"],
+[9, "After ovulation, which structure secretes the hormone that maintains early pregnancy, and what was it before?", "Corpus luteum (progesterone), formed from the ruptured follicle", "Corpus albicans (estrogen), formed from the oocyte", "Graafian follicle (progesterone), before the zygote", "Corpus luteum (progesterone), formed from the polar body"],
+[9, "Which cavity disappears during gastrulation, and which structure takes over as the internal cavity?", "Blastocoel disappears; archenteron forms", "Archenteron disappears; blastocoel forms", "Blastopore disappears; archenteron forms", "Blastocoel enlarges; archenteron disappears"],
+[9, "Large vegetal cells that move inward during gastrulation will mostly form:", "Endoderm", "Ectoderm", "Epidermis", "Neural plate"],
+[9, "A blastomere in the animal hemisphere of the blastula will most likely contribute to:", "Ectoderm derivatives such as epidermis and neural plate", "Gut lining", "Notochord only", "Lung and thyroid"],
+[9, "A vegetal-pole cell will most likely end up lining which organ system?", "Digestive tract", "Skin", "Brain", "Skeletal muscle"],
+[9, "All of the following are haploid EXCEPT:", "Primary oocyte", "Spermatid", "Secondary spermatocyte", "Mature ovum"],
+[9, "All of the following occur in the seminiferous tubules EXCEPT:", "The final 10–14 days of sperm maturation", "Meiosis I", "Spermiogenesis", "Division of spermatogonia"],
+[9, "All of the following derive from ectoderm EXCEPT:", "Pancreatic cells", "Epidermis", "Neurons", "Pigment cells"],
+[9, "All of the following are true of the blastula EXCEPT:", "It contains an archenteron", "It is hollow", "It contains a blastocoel", "It has a blastoderm"],
+[9, "All of the following are true of oogenesis EXCEPT:", "One oocyte produces four equal functional ova", "It occurs in the ovaries", "It begins before birth", "It is continuous with folliculogenesis"],
+[9, "All of the following are true of spermatogenesis EXCEPT:", "It begins in the fetal period", "It occurs in seminiferous tubules", "It begins at puberty", "Maturation completes in the epididymis"],
+[9, "All of the following are features of gastrulation EXCEPT:", "Division of the zygote into blastomeres", "Invagination of the vegetal plate", "Formation of the archenteron", "Formation of three germ layers"],
+[9, "The correct path of sperm after leaving the seminiferous tubules is:", "Epididymis → vas deferens", "Vas deferens → epididymis", "Epididymis → tunica albuginea", "Fallopian tube → epididymis"],
+[9, "Which sequence of structures leads from the morula to the three-layer embryo?", "Morula → blastula → gastrula → organogenesis", "Gastrula → morula → blastula", "Blastula → morula → gastrula", "Morula → gastrula → blastula"],
+[9, "In the cleavage image series, which stage immediately precedes the early blastula?", "Morula", "32-cell stage", "Gastrula", "Zygote"],
+[9, "Which statement about organogenesis timing is correct?", "It follows gastrulation and uses the germ layers", "It precedes fertilization", "It occurs during cleavage", "It produces the zygote"],
+[9, "Organs begin to form during which prenatal stage?", "Embryonic stage", "Fetal stage", "Before fertilization", "After birth"],
+[9, "The notochord, somites and neural plate arise respectively from:", "Mesendodermal band, mesoderm, ectoderm", "Ectoderm, endoderm, mesoderm", "Endoderm, ectoderm, mesoderm", "Neural plate, notochord, gut"],
+[9, "Which process involves cell death rather than cell movement or division?", "Apoptosis", "Gastrulation", "Cleavage", "Spermiogenesis"],
+[9, "A sperm uses three structures in sequence while reaching and entering the egg. Which order is correct?", "Tail propels, mitochondria supply energy, acrosome enzymes penetrate", "Acrosome propels, tail supplies energy, mitochondria penetrate", "Mitochondria penetrate, acrosome propels, tail supplies energy", "Centrioles propel, nucleus supplies energy, tail penetrates"],
+[9, "Which statement links oogenesis with folliculogenesis correctly?", "The oocyte develops within follicles that mature as oogenesis proceeds", "Folliculogenesis occurs in the testis", "Folliculogenesis follows ovulation only", "They are unrelated processes"],
+[9, "Which statement about progesterone and the follicle is correct?", "The ruptured follicle becomes the corpus luteum, which secretes progesterone", "Progesterone is secreted by polar bodies", "Progesterone forms the acrosome", "The primordial follicle secretes progesterone"],
+[9, "If a drug prevents formation of the blastocoel, which later process is most affected?", "Invagination into the blastocoel during gastrulation", "Spermiogenesis", "Corpus luteum formation", "Meiosis I"],
+[9, "A drug blocks invagination. Which two structures fail to develop normally?", "Archenteron and the inner layer (endoderm)", "Acrosome and tail", "Corpus luteum and follicle", "Neural plate and epidermis only"],
+[9, "Which statement about the blastopore and gut is correct per the lecture?", "The archenteron is the primitive gut and the blastopore is its opening to the outside", "The blastopore is the primitive gut", "The archenteron is the opening to the outside", "Both are polar bodies"],
+[9, "Which developmental concept connects Sertoli cells and apoptosis?", "Both are involved in maintaining healthy cell populations: Sertoli cells protect developing sperm, apoptosis removes unwanted cells", "Both form the acrosome", "Both produce progesterone", "Both form germ layers"],
+[9, "Which of the following is a correct comparison of embryo and fetus?", "Embryo: weeks 5–10, systems forming; fetus: after week 10, rapid growth", "Embryo: after week 10; fetus: weeks 5–10", "Both end at week 5", "Both begin at birth"],
+[9, "Spermatogenesis is described as producing haploid cells from germ cells. Which stage in that process is first haploid?", "Secondary spermatocyte", "Spermatogonium", "Primary spermatocyte", "Zygote"],
+[9, "The first cell in oogenesis that is haploid is the:", "Secondary oocyte", "Oogonium", "Primary oocyte", "Fertilized egg"],
+[9, "Which feature separates a zygote from a gamete?", "Zygote is diploid and single-celled; gamete is haploid", "Zygote is haploid", "Gamete is diploid", "They are identical"],
+[9, "In a lecture figure, which labelled structure marks the opening that will become the anus per the slide?", "Blastopore", "Blastocoel", "Archenteron", "Neural plate"],
+[9, "A researcher stains the layers of a gastrula. Which layer lines the archenteron?", "Endoderm", "Ectoderm", "Neural plate", "Epidermis"],
+[9, "Which cells would you expect to be eliminated by apoptosis during normal development?", "Cells not needed, for example during limb shaping or immune maturation", "All gametes", "All blastomeres", "All cells of the epidermis"],
+[9, "Which pairing between process and its main product is correct?", "Gastrulation – three germ layers; organogenesis – organs", "Cleavage – organs; gastrulation – gametes", "Fertilization – germ layers; organogenesis – zygote", "Gametogenesis – germ layers; cleavage – organs"],
+[9, "Which chain correctly connects ploidy changes from spermatogonium to zygote?", "2n → n (sperm) → 2n (zygote with ovum)", "n → 2n → n", "2n → 2n → 2n", "n → n → n"],
+[9, "If sperm formation is normal but acrosome enzymes are absent, which step of fertilization fails?", "Penetration of the egg membrane", "Meiosis in spermatogonia", "Production of progesterone", "Formation of the notochord"],
+[9, "If oocytes could never complete meiosis II, which event is most likely blocked?", "Formation of a haploid ovum that can unite with sperm", "Spermiogenesis", "Blastocoel formation", "Apoptosis"],
+[9, "The cell types in order of decreasing ploidy from a spermatogonium to a spermatid are:", "2n, 2n, n, n", "n, n, 2n, 2n", "2n, n, 2n, n", "n, 2n, n, 2n"],
+[9, "The correct order of germ-layer positions (outside → inside) in the organogenesis figure is:", "Ectoderm → mesoderm → endoderm", "Mesoderm → ectoderm → endoderm", "Endoderm → mesoderm → ectoderm", "Ectoderm → endoderm → mesoderm"],
+[9, "Which cell type would be found in the ovary of a newborn girl?", "Primary oocyte arrested in prophase I", "Secondary oocyte arrested in metaphase II", "Mature ovum", "Polar body"],
+[9, "A 5-year-old girl and a 5-year-old boy are compared. Which statement is correct?", "Her ovary already holds arrested primary oocytes, while his testis has not started spermatogenesis", "Both have mature gametes", "Her ovary has no oocytes, his testis has mature sperm", "Both have started meiosis II"],
+[9, "Which process occurs in the testis but has no equivalent mature-gamete remodelling step in the ovary lecture?", "Spermiogenesis", "Meiosis I", "Mitosis of germ cells", "Reduction of chromosome number"],
+[9, "A zygote undergoes five successive cleavages with every blastomere dividing each time. How many blastomeres result?", "32", "16", "64", "10"],
+[9, "Which observation indicates a blastula rather than a gastrula?", "A fluid-filled blastocoel with a single layer of cells and no archenteron", "An archenteron opening through a blastopore", "Three distinct germ layers", "A notochord"],
+[9, "Which observation indicates a gastrula rather than a blastula?", "An archenteron with a blastopore and inward-moved cells", "A hollow sphere with a large blastocoel", "A compact ball with no cavity", "A single-celled zygote"],
+[9, "Which stage has blastomeres but not yet germ layers?", "Blastula", "Gastrula", "Organogenesis", "Fetal stage"],
+[9, "Which stage has germ layers but not yet organs?", "Gastrula", "Zygote", "Morula", "Fetal stage"],
+[9, "Which pair correctly matches germ layer and a derivative system?", "Ectoderm – nervous system; endoderm – digestive tract", "Ectoderm – digestive tract; endoderm – nervous system", "Mesoderm – epidermis; ectoderm – muscle", "Endoderm – skin; mesoderm – neural plate"],
+[9, "A newborn has abnormal red blood cells, while skin, neurons and gut are normal. Which germ layer is most likely involved?", "Mesoderm", "Ectoderm", "Endoderm", "Blastoderm"],
+[9, "Which statement about the epididymis is correct?", "It receives sperm from the tubules, completes their maturation in 10–14 days, and continues as the vas deferens", "It produces oocytes", "It forms the acrosome of spermatids", "It is part of the ovary"],
+[9, "Which structure is NOT part of the male reproductive system shown in the lecture?", "Fimbriae", "Epididymis", "Vas deferens", "Seminiferous tubules"],
+[9, "Which structure powers the only flagellated gamete, and where is it located?", "Mitochondria in the mid-piece of the sperm", "Acrosome in the head of the egg", "Centrioles in the polar body", "Golgi in the tail tip"],
+[9, "Gastrulation versus organogenesis: which is the first to start after cleavage is completed?", "Gastrulation", "Organogenesis", "Fertilization", "Gametogenesis"],
+[9, "Which is NOT a role of apoptosis in development?", "Fusion of gametes at fertilization", "Immune system maturation", "Morphogenesis", "Neural development"],
+[9, "In the embryo development cycle diagram, which stage immediately follows fertilization?", "Zygote", "Morula", "Blastocyst", "Embryo"],
+[9, "How many cleavage divisions have occurred by the 4-cell stage?", "Two", "One", "Three", "Four"],
+[9, "If all Sertoli cells of the seminiferous tubules are lost, what is the most likely effect?", "Impaired sperm production due to loss of nutrient support and protection", "Failure of ovulation", "Loss of acrosome only", "No effect"],
+[9, "Which two cell layers does the gastrula figure label together with the blastocoel and blastopore?", "Ectoderm and endoderm", "Mesoderm and notochord", "Epidermis and neural plate", "Blastoderm and zygote"],
+[9, "Which sequence correctly describes spermatogenesis from tubule to storage?", "Spermatogonium → … → spermatid → spermiogenesis → epididymis → vas deferens", "Epididymis → spermatogonium → spermatid", "Vas deferens → tubule → spermatid", "Spermatid → spermatogonium → epididymis"],
+[9, "Which developmental event first requires the blastocoel?", "Invagination of the vegetal plate", "Spermiogenesis", "Ovulation", "Meiosis I"]];
+const E=["Embryology covers gamete development, fertilization, embryo and fetus development, and congenital disorders arising before birth. Histology and cytology study tissues and cells, not prenatal origins.", "Gametes form first and fuse at fertilization, the zygote then cleaves, cells are arranged into germ layers at gastrulation, and organs form last in organogenesis.", "Gastrulation rearranges blastula cells into ectoderm, mesoderm and endoderm. Cleavage only produces more cells; it does not create layers.", "The embryonic stage ends at the end of week 10. From then until birth the developing human is a fetus.", "The embryonic stage is when systems and organs begin to form; the fetal stage is mainly rapid growth with an increasingly human appearance.", "Union of sperm and egg gives a single-celled zygote. Morula and blastocyst appear later, through cleavage.", "Rapid mitotic divisions (cleavage) turn the zygote into a multicellular cluster, first the morula and then the blastocyst.", "Sperm are made in the coiled seminiferous tubules of the testes. The epididymis only completes their maturation.", "Spermatogenesis takes 64 to 72 days and epididymal maturation adds 10 to 14 days, giving 74 to 86 days in total.", "Spermatogenesis starts at puberty, whereas oogenesis begins in fetal life and is then arrested until puberty.", "Sertoli cells nourish developing sperm and shield them from toxins in the blood, so their failure exposes sperm to damage.", "Cells follow the order spermatogonium, primary spermatocyte, secondary spermatocyte, spermatid, spermatozoon, with meiosis between the primary spermatocyte and spermatid stages.", "Meiosis I gives two secondary spermatocytes and meiosis II divides each into two spermatids, so one primary spermatocyte yields four sperm.", "Spermatogonia are diploid (2n). Meiosis I halves the chromosome number, so secondary spermatocytes are haploid (n).", "Meiosis I is the reductional division and produces two haploid secondary spermatocytes. Spermatids appear only after meiosis II.", "Spermiogenesis is the remodelling of round, non-motile spermatids into spermatozoa with a head and tail. No further division occurs.", "Spermatogenesis is the whole process; spermiogenesis is its last stage, the transformation of spermatids into sperm.", "In the spermatid the Golgi apparatus forms the acrosomal vesicle, which becomes the acrosome.", "The epididymis provides the final 10 to 14 days of sperm maturation after sperm leave the tubules.", "The acrosome, a cap at the front of the nucleus, holds hydrolytic enzymes that help the sperm penetrate the egg membrane.", "Mitochondria in the mid-piece supply the energy for movement, so a mitochondrial deficiency impairs swimming.", "The neck contains the centrioles. Mitochondria are in the mid-piece and the nucleus is in the head.", "The head is the nucleus (genetic material) capped by the acrosome (enzymes).", "The tail beats in whip-like movements that propel the sperm toward the egg, so a paralysed tail impairs propulsion.", "Without acrosomal enzymes the sperm can still swim to the egg but cannot digest its way through the egg membrane.", "Sperm must reach the fallopian tube because fertilization takes place there.", "Oogenesis, the production of the ovum, takes place in the ovaries.", "Oogenesis begins in fetal life, then stops (arrest) and resumes at puberty.", "Before birth the primary oocyte stops in prophase I and stays there until puberty.", "After meiosis I the secondary oocyte arrests in metaphase II and completes meiosis II only if a sperm enters.", "Oogonia multiply by mitosis and become primary oocytes before birth; meiosis starts afterwards.", "Oogenesis is continuous with folliculogenesis, the maturation of the follicle that surrounds the developing oocyte.", "The primary oocyte is diploid (2n); after meiosis I the secondary oocyte is haploid (n), the extra set being discarded in the polar body.", "The corpus luteum, formed from the ruptured follicle, secretes progesterone, which maintains early pregnancy.", "Follicles mature from primordial to primary to secondary to the mature Graafian follicle, which then ovulates.", "After ovulation the follicle becomes the corpus luteum, which later regresses into the corpus albicans.", "Fertilization transmits genes from both parents and also triggers reactions in the egg cytoplasm that start development.", "Fertilization is the fusion of two gametes, creating a new individual with genetic potential from both parents.", "Cleavage is a series of mitotic divisions, starting soon after fertilization, that divide the zygote into smaller cells.", "The cells formed by cleavage are called blastomeres (cleavage cells).", "Cleavage continues until a multicellular, hollow structure called the blastula forms.", "The blastula is a hollow sphere of about 200 cells surrounding a fluid-filled cavity, the blastocoel.", "The blastoderm is the single epithelial layer of cells that forms the wall of the blastula.", "Large macromeres sit in the vegetal hemisphere and small micromeres in the animal hemisphere.", "A morula is a compact cell mass without a cavity, whereas the early blastula has a blastocoel inside.", "Cleavage doubles the cell number: 2, 4, 8, 16, 32. Sixteen cells therefore follow the fourth division.", "The holoblastic cleavage planes shown are meridional, transverse and latitudinal.", "Gastrulation starts as soon as cleavage ends, using the cells that cleavage produced.", "Gastrulation is the arrangement and movement of embryonic cells to the regions where they will be used.", "Gastrulation starts when the vegetal area flattens into the vegetal plate, which then invaginates.", "The vegetal plate bends inward into the blastocoel, which shrinks until it disappears.", "The archenteron is the internal cavity formed by invagination; it is also called the primitive gut.", "According to the lecture, the blastopore is the archenteron's opening to the outside and becomes the future anus.", "Micromeres at the animal pole form the outer ectoderm and macromeres at the vegetal pole form the inner endoderm.", "Organogenesis is when ectoderm, mesoderm and endoderm differentiate into organs and organ systems.", "Ectoderm forms the epidermis and nervous tissue, so skin epidermis and neurons derive from it.", "Endoderm forms the gut lining and derivatives such as lung, thyroid and pancreatic cells.", "Mesoderm gives cardiac and skeletal muscle, kidney tubule cells and red blood cells; the other sets mix in ectodermal or endodermal cells.", "The notochord separates from the mesendodermal band along the mid-dorsal line.", "After the gastrula rotates, the animal pole is the anterior end and the vegetal pole is the posterior end.", "The dorsal ectoderm flattens into the neural plate, the precursor of the nervous system.", "Per the lecture, the mesodermal plates beside the notochordal plate form the muscles and skeleton.", "The remaining endoderm, not used for the notochordal or mesodermal plates, forms the gut.", "Apoptosis is programmed, orderly cell death that is built into normal development and physiology.", "Apoptotic cells shrink, bleb and fragment, whereas swelling and bursting is typical of necrosis, not apoptosis.", "Too much apoptosis destroys needed cells (neurodegeneration); too little lets damaged cells survive (cancer).", "In development, apoptosis is needed for immune system maturation, morphogenesis and neural development.", "Gametes are the sex cells (sperm and egg).", "Organogenesis is the formation of organ rudiments from the germ layers.", "Cleavage is the segmentation of the fertilized egg into blastomeres.", "The three primary germ layers are ectoderm, mesoderm and endoderm, so ectoderm and endoderm are both correct.", "Embryology concerns development before birth, including congenital disorders; disorders arising in adulthood fall outside it.", "Seminiferous tubules are coiled tubules inside the testes, where spermatogenesis occurs.", "The epididymis has a head, body and tail; the neck is part of the sperm, not the epididymis.", "The vas deferens continues from the tail of the epididymis and carries mature sperm onward.", "The tunica albuginea is the tough capsule surrounding the testis.", "Spermatogonia, the least mature germ cells, lie at the base of the tubule wall; more mature cells are nearer the lumen.", "The spermatid is haploid but still round and non-motile; it becomes a sperm during spermiogenesis.", "During spermiogenesis the spermatid sheds excess cytoplasm as it streamlines into a sperm.", "The centrioles are involved in forming the microtubule axis of the flagellum (tail).", "Sertoli cells support and nourish developing sperm and protect them from toxins; they do not undergo meiosis.", "The primary spermatocyte is diploid because it has not yet completed meiosis I; the other cells listed are haploid.", "The nucleus in the head carries the sperm's DNA.", "The spiral mitochondrion lies in the middle piece and supplies energy for movement.", "From front to back a sperm has head, neck, middle piece and tail.", "The acrosome is the cap-like structure covering the front of the nucleus.", "The plasma membrane encloses the whole sperm cell from head to tail.", "The fallopian tube, whose fringed end (fimbriae) lies near the ovary, receives the ovulated egg.", "The mature ovum is haploid; fusion with a haploid sperm restores the diploid number.", "The germinal cell at the start of oogenesis is diploid, as shown in the diagram.", "Meiosis I divides the primary oocyte unequally into a large secondary oocyte and a small first polar body.", "The secondary oocyte finishes meiosis II only when a sperm enters (fertilization).", "Polar bodies are small, haploid cells with little cytoplasm and do not function as gametes.", "The mature Graafian follicle holds the secondary oocyte that is ovulated.", "A follicle that degenerates instead of ovulating undergoes follicle atresia.", "Because of unequal division, one oocyte gives a single functional ovum plus polar bodies.", "Progesterone from the corpus luteum helps maintain the uterine lining and early pregnancy.", "Fertilization activates reactions in the egg cytoplasm that allow development to proceed.", "The first function of fertilization is combining and transmitting genes from both parents; the second is activating development.", "A fertilized egg receives genetic material from both the sperm and the egg, so from both parents.", "The first cleavage divides the zygote into two blastomeres, the 2-cell stage.", "Each division doubles the cell number, so the second cleavage gives 4 blastomeres.", "Five rounds of division (2, 4, 8, 16, 32) produce the 32-cell stage.", "In the expanded late blastula a large blastocoel is surrounded by a blastoderm that is a single cell layer.", "Micromeres are the small cells of the animal hemisphere; macromeres are in the vegetal hemisphere.", "Cleavage begins soon after fertilization, once the zygote has formed.", "Meridional, transverse and latitudinal are the holoblastic cleavage planes in the lecture, so a pair of these is correct.", "In gastrulation some cells move into the embryo while others stay on the surface, which changes the embryo's shape.", "The vegetal plate bends inward about one-third of the way into the blastocoel.", "The outer germ layer is the ectoderm.", "The inner germ layer is the endoderm, which lines the archenteron.", "The middle germ layer is the mesoderm.", "The blastopore is the opening that connects the archenteron to the outside.", "Pigment cells come from ectoderm; digestive cells come from endoderm.", "Somites form from the mesoderm, lateral to the notochord.", "The notochord arises from the dorsal part of the mesendodermal band.", "Smooth muscle, including that of the gut wall, is a mesoderm derivative; only the gut lining is endodermal.", "Pancreatic cells arise from endoderm, like the other digestive-tract derivatives.", "Apoptotic cells signal phagocytes, which then remove the cell fragments neatly.", "In adults apoptosis helps remove cells with DNA damage and takes part in wound repair.", "If apoptosis is deficient, abnormal cells escape death and can form cancer.", "Excessive apoptosis removes too many cells, as in neurodegenerative diseases.", "Sertoli cells protect developing sperm from toxins in the blood, so their failure would expose sperm to damage.", "Turning round spermatids into sperm with head and tail is spermiogenesis, so blocking that conversion affects spermiogenesis.", "A diploid cell that has started meiosis is the primary spermatocyte, because meiosis I is not yet complete.", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+const ic=p=>'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">'+p+"</svg>";
+const ICON={done:ic('<path d="M5 13l4 4L19 7"/>'),reset:ic('<path d="M4 4v6h6"/><path d="M5.5 15a8 8 0 1 0 2-8.5L4 10"/>'),list:ic('<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>'),star:ic('<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>')};
+const $=s=>document.querySelector(s),K="embq1";
+const shuf=a=>{a=a.slice();for(let i=a.length;i>1;){const j=Math.random()*i--|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+let S={},cur,streak=0,busy=0,tt;
+try{S=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+B.forEach(q=>{let x=5381,s=q.slice(1,6).join("|");for(let i=0;i<s.length;i++)x=(x*33^s.charCodeAt(i))>>>0;q.id=x.toString(36)});
+B.forEach((q,i)=>{q[6]=E[i]||("Correct answer: "+q[2]+".")});
+const stat=()=>{let d=0,c=0;B.forEach(q=>{if(q.id in S){d++;c+=S[q.id]}});return{d,c,n:B.length}};
+function view(v){$("#home").hidden=v!=="h";$("#quiz").hidden=v!=="q";if(v==="h"){const{d,c,n}=stat();$("#sd").textContent=d;$("#sc").textContent=c;$("#sn").textContent=n;$("#pb").style.width=d/n*100+"%";$("#go").textContent=d>=n?"All questions answered":d?"Continue":"Start";$("#go").disabled=d>=n;$("#rv").hidden=d==c;$("#rv").textContent="Review mistakes ("+(d-c)+")";$("#rs").hidden=!d;$("#home").className="card in"}}
+function modal(e,t,h,bs){$("#me").innerHTML=ICON[e]||"";$("#mt").textContent=t;$("#mx").innerHTML=h;const m=$("#mb");m.innerHTML="";bs.forEach(b=>{const x=document.createElement("button");x.textContent=b[0];x.className=b[2]||"";x.onclick=()=>{$("#ov").classList.remove("on");b[1]&&b[1]()};m.append(x)});$("#ov").classList.add("on")}
+function toast(t){const e=$("#ts");e.textContent=t;e.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>e.classList.remove("on"),1600)}
+function finish(){const{c,n}=stat();view("h");modal("done","Bank completed","<p>You answered "+c+" of "+n+" correctly.</p>",[["Review mistakes",review,"p"],["Start over",askReset],["Close"]])}
+function review(){const w=B.filter(q=>S[q.id]===0);if(!w.length)return modal("star","No mistakes","<p>Every answer so far is correct.</p>",[["OK","","p"]]);modal("list","Mistakes ("+w.length+")",'<div class="rl">'+w.map(q=>"<div><b>"+esc(q[1])+"</b><em>Correct answer: "+esc(q[2])+"</em>"+esc(q[6])+"</div>").join("")+"</div>",[["Close","","p"]])}
+function askReset(){modal("reset","Start over?","<p>All saved answers will be deleted.</p>",[["Yes, start over",()=>{S={};save();streak=0;view("h")},"p"],["Cancel"]])}
+function next(){const L=B.filter(q=>!(q.id in S));if(!L.length)return finish();cur=L[Math.random()*L.length|0];const o=shuf(cur.slice(2,6));
+$("#ch").textContent=T[cur[0]];$("#qt").textContent=cur[1];$("#ct").textContent=stat().d+" / "+B.length;$("#ex").classList.remove("on");$("#nx").hidden=true;
+const ob=$("#opts");ob.innerHTML="";o.forEach((x,i)=>{const b=document.createElement("button");b.className="o";b.style.animationDelay=i*70+"ms";b.innerHTML="<b>"+"ABCD"[i]+"</b><span></span>";b.lastChild.textContent=x;b.onclick=()=>pick(b,x);ob.append(b)});
+$("#card").className="card in";busy=0}
+function pick(b,x){if(busy)return;busy=1;const r=x===cur[2];S[cur.id]=r?1:0;save();
+document.querySelectorAll(".o").forEach(e=>{e.disabled=true;const t=e.lastChild.textContent;if(t===cur[2])e.classList.add("ok");else if(e===b)e.classList.add("no");else e.classList.add("dim")});
+streak=r?streak+1:0;if(r&&streak>=3&&streak%3==0)toast(streak+" correct in a row");
+$("#eb").innerHTML='<strong class="'+(r?"g":"r")+'">'+(r?"Correct":"Incorrect")+'</strong><span>'+esc(cur[6])+"</span>";$("#ex").classList.add("on");$("#nx").hidden=false;$("#ct").textContent=stat().d+" / "+B.length}
+$("#nx").onclick=()=>{$("#card").className="card out";setTimeout(next,260)};
+$("#go").onclick=()=>{view("q");next()};
+$("#bk").onclick=()=>view("h");$("#rv").onclick=review;$("#rs").onclick=askReset;
+view("h");
+</script></body></html>
