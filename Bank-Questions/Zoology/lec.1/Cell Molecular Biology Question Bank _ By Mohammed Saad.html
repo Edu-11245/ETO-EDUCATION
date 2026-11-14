@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cell &amp; Molecular Biology Question Bank | By Mohammed Saad</title>
+<style>
+:root{--bg:#f3f4fb;--bg2:#e4e0fb;--card:#fff;--tx:#1b2033;--mu:#6b7189;--ac:#6246ea;--ac2:#8f6bff;--ok:#16a765;--no:#e5484d;--bd:#e2e5f2;--sh:0 8px 28px rgba(60,50,140,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141d;--bg2:#1c1840;--card:#1c2030;--tx:#eef0fa;--mu:#9ba2bd;--ac:#9b86ff;--ac2:#6f9bff;--ok:#3ecf8e;--no:#ff6b73;--bd:#30355100;--bd:#303551;--sh:0 8px 28px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#12141d;--bg2:#1c1840;--card:#1c2030;--tx:#eef0fa;--mu:#9ba2bd;--ac:#9b86ff;--ac2:#6f9bff;--ok:#3ecf8e;--no:#ff6b73;--bd:#303551;--sh:0 8px 28px rgba(0,0,0,.4)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(160deg,var(--bg) 40%,var(--bg2));color:var(--tx);font-family:system-ui,"Segoe UI",Tahoma,sans-serif;line-height:1.65;-webkit-tap-highlight-color:transparent}
+.w{max-width:720px;margin:0 auto;padding:18px 14px 40px}
+h1{font-size:clamp(1.25rem,4.5vw,1.7rem);margin:.3rem 0 .1rem;text-align:center}
+.sub{text-align:center;color:var(--mu);margin:0 0 14px;font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:18px;box-shadow:var(--sh)}
+.in{animation:in .38s cubic-bezier(.2,.8,.3,1) both}
+.out{animation:out .26s ease-in both}
+@keyframes in{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes out{to{opacity:0;transform:translateX(-36px) scale(.98)}}
+@keyframes pop{40%{transform:scale(1.035)}}
+@keyframes shake{20%{transform:translateX(-7px)}60%{transform:translateX(7px)}}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 14px}
+.st{background:var(--bg);border-radius:14px;padding:12px 6px;text-align:center}
+.st b{display:block;font-size:1.6rem;color:var(--ac)}.st span{font-size:.8rem;color:var(--mu)}
+.bar{height:10px;background:var(--bd);border-radius:10px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:10px;transition:width .6s cubic-bezier(.2,.8,.3,1)}
+button{font:inherit;color:var(--tx);cursor:pointer;border:1px solid var(--bd);background:var(--card);border-radius:14px;padding:11px 16px;transition:transform .15s,box-shadow .2s,background .2s,border-color .2s}
+button:active:not(:disabled){transform:scale(.97)}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible{outline:3px solid var(--ac2);outline-offset:2px}
+.p{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:0;font-weight:700;box-shadow:0 6px 16px rgba(98,70,234,.35)}
+.btns{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.chip{display:inline-block;padding:3px 12px;border-radius:99px;background:var(--bg);color:var(--ac);font-size:.8rem;font-weight:600;direction:ltr}
+.q{font-size:clamp(1rem,3.8vw,1.15rem);font-weight:700;direction:ltr;text-align:left;margin:12px 0}
+.o{display:flex;align-items:center;gap:12px;width:100%;text-align:left;direction:ltr;margin:9px 0;padding:12px 14px;animation:in .4s both}
+.o b{flex:none;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--bg);color:var(--ac);font-size:.85rem}
+@media(hover:hover){.o:hover:not(:disabled){border-color:var(--ac);transform:translateX(4px)}}
+.o:disabled{opacity:1;cursor:default}
+.o.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,var(--card));animation:pop .45s}
+.o.ok b{background:var(--ok);color:#fff}
+.o.no{border-color:var(--no);background:color-mix(in srgb,var(--no) 14%,var(--card));animation:shake .4s}
+.o.no b{background:var(--no);color:#fff}
+.o.dim{opacity:.55}
+.ex{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+.ex.on{grid-template-rows:1fr}
+.ex>div{overflow:hidden}
+.exb{margin-top:10px;padding:12px 14px;border-radius:14px;background:var(--bg);border-inline-start:4px solid var(--ac)}
+.ov{position:fixed;inset:0;display:none;place-items:center;padding:16px;background:rgba(10,10,30,.5);z-index:9}
+.ov.on{display:grid;animation:fade .25s both}
+@keyframes fade{from{opacity:0}}
+.dlg{width:min(420px,100%);max-height:86vh;overflow:auto;background:var(--card);border-radius:22px;padding:22px;text-align:center;box-shadow:var(--sh);animation:in .35s cubic-bezier(.2,.8,.3,1) both}
+.em{font-size:3rem;display:inline-block;animation:bob 1.4s ease-in-out infinite}
+.dlg h2{margin:.2rem 0}
+.rl{text-align:start;margin-top:10px}.rl div{padding:10px;border-radius:12px;background:var(--bg);margin:8px 0;font-size:.9rem}
+.rl b{direction:ltr;display:block;text-align:left}.rl em{direction:ltr;display:block;text-align:left;color:var(--ok);font-style:normal}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;background:var(--ac);color:#fff;padding:9px 18px;border-radius:99px;font-weight:700;transition:.35s;z-index:10;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+
+.hd{text-align:center;margin:6px 0 18px}
+h1{font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{display:inline-block;padding:3px 14px;border-radius:99px;background:var(--card);border:1px solid var(--bd);font-size:.85rem}
+#home .sub{display:block;border:0;background:none;text-align:center}
+.card{position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,var(--ac),var(--ac2))}
+.st{border:1px solid var(--bd)}
+.p{padding:13px 18px;font-size:1rem;letter-spacing:.01em}
+.q{line-height:1.55;margin:14px 0 8px}
+.o{border-radius:16px;font-size:.98rem}
+.o b{border-radius:50%;width:32px;height:32px}
+.exb strong{display:block;margin-bottom:2px}.exb .g{color:var(--ok)}.exb .r{color:var(--no)}
+.exb span{display:block;line-height:1.6}
+.rl{text-align:left}.exb{border-inline-start-width:5px}
+.em{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;display:grid;place-items:center;margin:0 auto 8px;animation:bob 1.8s ease-in-out infinite;font-size:0}
+.dlg h2{margin:.3rem 0 .5rem}
+.top button{padding:8px 14px}
+</style></head><body><main class="w">
+<header class="hd"><h1>Cell &amp; Molecular Biology Question Bank</h1><p class="sub">By Mohammed Saad</p></header>
+
+<section id="home" class="card in">
+<div class="stats"><div class="st"><b id="sd">0</b><span>Answered</span></div><div class="st"><b id="sc">0</b><span>Correct</span></div><div class="st"><b id="sn">0</b><span>Total</span></div></div>
+<div class="bar"><i id="pb"></i></div>
+<div class="btns"><button class="p" id="go">Start</button><button id="rv" hidden>Review mistakes</button><button id="rs" hidden>Start over</button></div>
+<p class="sub" style="margin-top:14px">Your progress is saved automatically on this device. Answered questions will not appear again.</p>
+</section>
+
+<section id="quiz" hidden>
+<div class="top"><button id="bk">Home</button><span class="chip" id="ct"></span></div>
+<div class="card" id="card"><span class="chip" id="ch"></span><p class="q" id="qt"></p><div id="opts"></div>
+<div class="ex" id="ex"><div><div class="exb" id="eb"></div></div></div>
+<div class="btns"><button class="p" id="nx" hidden>Next question</button></div></div>
+</section>
+</main>
+<div class="ov" id="ov"><div class="dlg"><div class="em" id="me"></div><h2 id="mt"></h2><div id="mx"></div><div class="btns" id="mb"></div></div></div>
+<div class="toast" id="ts"></div>
+<script>
+const T=["Biology & Cell Theory", "Prokaryotes vs Eukaryotes", "The Cell & Organelles", "Cell Membrane (LM & EM)", "Membrane Molecules", "Transport Across Membrane", "Rough ER", "Smooth ER", "Integrated"];
+
+const B=[[0, "Biology is best defined as:", "The science of life, dealing with the structure, functions and environmental interactions of living organisms", "The study of the chemical composition of non-living matter", "The study of human diseases only", "The study of cells isolated from their environment"],
+[0, "Which group of organisms falls within the scope of biology according to the lecture?", "Plants, animals and humans", "Animals only", "Humans only", "Plants and bacteria only"],
+[0, "Biology deals with all of the following EXCEPT:", "The orbits of planets around the sun", "The structure of living organisms", "The functions of living organisms", "The interactions of organisms with their environment"],
+[0, "According to the lecture, life begins with:", "Cells", "Organs", "Organ systems", "Hormones"],
+[0, "From the union of an egg and a sperm will arise:", "The human body", "Only a tissue", "Only a single organelle", "A virus"],
+[0, "Who stated that all plants are made of cells?", "Matthias Schleiden", "Theodore Schwann", "Rudolf Virchow", "J. E. Purkinje"],
+[0, "Who stated that all animals are made of cells?", "Theodore Schwann", "Matthias Schleiden", "Rudolf Virchow", "Robert Brown"],
+[0, "Who suggested that all cells come from pre-existing cells?", "Rudolf Virchow", "Theodore Schwann", "Matthias Schleiden", "J. E. Purkinje"],
+[0, "Which statement is NOT part of the cell theory?", "Cells arise spontaneously from non-living matter", "All living things are made up of cells", "Cells are the basic units of structure and function in an organism", "New cells are produced from existing cells"],
+[0, "The cell theory states that cells are the basic units of:", "Structure and function in an organism", "Structure only", "Function only", "Heredity only"],
+[0, "Which scientist–statement pair is correctly matched?", "Schleiden – all plants are made of cells", "Schwann – all plants are made of cells", "Virchow – all animals are made of cells", "Schleiden – all cells came from pre-existing ones"],
+[0, "A researcher watches a cell divide into two daughter cells. Which part of the cell theory does this support?", "New cells are produced from existing cells", "All plants are made of cells", "All animals are made of cells", "Organelles are non-living"],
+[0, "The three scientists whose ideas formed the cell theory are:", "Schleiden, Schwann and Virchow", "Schleiden, Schwann and Purkinje", "Schwann, Virchow and Brown", "Virchow, Purkinje and Brown"],
+[0, "The structural and functional unit of living organisms is the:", "Cell", "Tissue", "Organ", "Organ system"],
+[0, "The central dogma of biology describes:", "The flow of information in biology", "The classification of organelles", "The transport of ions across membranes", "The structure of the cell membrane"],
+[0, "The correct order of the central dogma is:", "DNA → RNA → Protein", "Protein → RNA → DNA", "RNA → DNA → Protein", "DNA → Protein → RNA"],
+[0, "The process by which DNA information is copied into RNA is:", "Transcription", "Translation", "Exocytosis", "Phagocytosis"],
+[0, "The process by which RNA information is used to build a protein is:", "Translation", "Transcription", "Pinocytosis", "Detoxification"],
+[0, "In the eukaryotic cell shown in the lecture, mRNA transcription takes place in the:", "Nucleus", "Cell membrane", "Smooth ER lumen", "Lysosome"],
+[0, "After transcription, mature mRNA is transported to the cytoplasm for:", "Protein synthesis (translation)", "DNA replication", "Lipid synthesis", "Detoxification"],
+[0, "Which of the following is NOT part of the central dogma?", "Conversion of protein back into DNA", "Transcription of DNA into RNA", "Translation of RNA into protein", "Flow of information from DNA to protein"],
+[0, "The correct hierarchy of organization of the human body is:", "Cell → tissue → organ → organ system → human body", "Tissue → cell → organ → organ system → human body", "Cell → organ → tissue → organ system → human body", "Organ → tissue → cell → organ system → human body"],
+[0, "In the organization of the human body shown in the lecture, level 2 is the:", "Tissue", "Cell", "Organ", "Organ system"],
+[0, "The stomach is an example of a(n):", "Organ", "Tissue", "Organ system", "Cell"],
+[0, "The liver, stomach and intestines together, as in the lecture figure, represent a(n):", "Organ system", "Cell", "Tissue", "Organelle"],
+[0, "A group of similar cells performing a common function forms a:", "Tissue", "Organ", "Organ system", "Organelle"],
+[0, "The lowest level of organization of the human body is the:", "Cell", "Tissue", "Organ", "Organ system"],
+[0, "Which level lies between a tissue and an organ system?", "Organ", "Cell", "Human body", "Organelle"],
+[1, "The term 'prokaryote' means:", "Before the nucleus", "True nucleus", "Many organelles", "Circular cell"],
+[1, "The term 'eukaryote' means:", "True nucleus", "Before the nucleus", "Without membrane", "Small cell"],
+[1, "Which of the following is a prokaryotic cell?", "Bacterium", "Human liver cell", "Plant leaf cell", "Mammalian muscle cell"],
+[1, "Blue-green algae (cyanobacteria) are classified as:", "Prokaryotes", "Eukaryotes", "Animal cells", "Viruses"],
+[1, "Mycoplasmas are examples of:", "Prokaryotes", "Eukaryotes", "Plant cells", "Animal cells"],
+[1, "Which technique revealed the two basic plans of cellular organization?", "Electron microscopy (EM)", "Light microscopy only", "Paper chromatography", "Simple dissection"],
+[1, "Essentially all animal and plant cells are:", "Eukaryotic", "Prokaryotic", "Acellular", "Mycoplasma-like"],
+[1, "The typical size of a prokaryotic cell is:", "0.2 – 2 micrometer", "10 – 100 micrometer", "1 – 2 millimeter", "7.5 – 10 nanometer"],
+[1, "The typical size of a eukaryotic cell is:", "10 – 100 micrometer", "0.2 – 2 micrometer", "1 – 5 nanometer", "7.5 – 10 nanometer"],
+[1, "Which statement about cell size is correct?", "Eukaryotic cells are generally larger than prokaryotic cells", "Prokaryotic cells are generally larger than eukaryotic cells", "Both have identical size ranges", "Size does not differ between them"],
+[1, "A feature that distinguishes prokaryotes from eukaryotes is that prokaryotes lack:", "A true nucleus with a nuclear envelope", "Ribosomes", "DNA", "A cell membrane"],
+[1, "Membrane-enclosed organelles such as mitochondria and Golgi apparatus are:", "Absent in prokaryotes and present in eukaryotes", "Present in prokaryotes and absent in eukaryotes", "Present in both", "Absent in both"],
+[1, "The DNA of prokaryotes is:", "A single circular chromosome not complexed with histones", "Linear chromosomes complexed with histones", "Absent", "Found inside a nuclear envelope"],
+[1, "The DNA of eukaryotes is organized as:", "Linear, highly condensed chromosomes complexed with histones", "A single circular chromosome", "Free RNA only", "A plasmid only"],
+[1, "Histones are found complexed with DNA in:", "Eukaryotes", "Prokaryotes", "Both equally", "Neither"],
+[1, "Ribosomes of prokaryotes are:", "Smaller (70S)", "Larger (80S)", "Absent", "Identical to eukaryotic ribosomes"],
+[1, "Ribosomes of eukaryotes are:", "Larger (80S)", "Smaller (70S)", "Absent", "Membrane-bound organelles"],
+[1, "Which pair of ribosome sizes is correct (prokaryote vs eukaryote)?", "70S vs 80S", "80S vs 70S", "60S vs 40S", "40S vs 60S"],
+[1, "A cell is 60 micrometers wide, has linear chromosomes complexed with histones and 80S ribosomes. It is:", "Eukaryotic", "Prokaryotic", "A virus", "A mycoplasma"],
+[1, "A cell lacks a nuclear envelope and organelles and contains circular DNA and 70S ribosomes. It is:", "Prokaryotic", "Eukaryotic", "An animal cell", "A plant cell"],
+[1, "In the bacterial cell diagram, the region containing the circular DNA is the:", "Nucleoid", "Nucleolus", "Chromatin", "Nuclear envelope"],
+[1, "Which structure labelled in the prokaryotic diagram is absent from the mammalian cell diagram?", "Capsule", "Ribosomes", "Plasma membrane", "Cytoplasm"],
+[1, "Which set of structures is present in BOTH prokaryotes and eukaryotes?", "Cell membrane, DNA, ribosomes, cytoplasm", "Nucleus, ER, Golgi, lysosomes", "Mitochondria, vacuoles, cytoskeleton, Golgi", "Nuclear envelope, ER, ribosomes, cytoskeleton"],
+[1, "Which organelle is present in eukaryotes but absent in prokaryotes?", "Mitochondria", "Ribosomes", "Cell membrane", "Cytoplasm"],
+[1, "According to the lecture, the cytoskeleton is listed among the structures of:", "Eukaryotic cells", "Prokaryotic cells only", "Neither cell type", "Viruses"],
+[1, "All of the following are found in prokaryotic cells EXCEPT:", "Endoplasmic reticulum", "Ribosomes", "Cell membrane", "Cytoplasm"],
+[1, "Which structures are present in plant cells but not in animal cells in the lecture's Venn diagram?", "Cell wall and chloroplasts", "Centrioles and lysosomes", "Nucleus and ribosomes", "Mitochondria and Golgi apparatus"],
+[1, "Which organelle is listed as present in animal cells but not in plant cells?", "Centrioles", "Chloroplasts", "Cell wall", "Nucleus"],
+[2, "Each animal cell is composed of two main parts, which are:", "Cytoplasm and nucleus", "Cell wall and nucleus", "Organelles and inclusions only", "Cytosol and chloroplasts"],
+[2, "The cytoplasm consists of:", "Organelles, inclusions and cytosol", "Nucleus, nucleolus and chromatin", "Membrane, wall and capsule", "Organelles, nucleus and cytosol"],
+[2, "Which description fits cytoplasmic organelles?", "Living, essential for the life of the cell and metabolically active", "Nonliving and metabolically inert", "Viscous fluid supporting other structures", "Not essential for cell life"],
+[2, "Which description fits cytoplasmic inclusions?", "Nonliving, not essential for life of cells, metabolically inert", "Living and metabolically active", "Viscous fluid containing enzymes", "Essential for cell life"],
+[2, "The cytosol is best described as:", "A viscous fluid containing enzymes, ions, O2, CO2 and metabolites that supports the organelles", "A nonliving structure", "A membranous organelle", "A part of the nucleus"],
+[2, "Which of the following is a non-living cytoplasmic component?", "Inclusions", "Organelles", "Ribosomes", "Mitochondria"],
+[2, "Which cytoplasmic component is metabolically active?", "Organelles", "Inclusions", "Both equally", "Neither"],
+[2, "A cytoplasmic component that is not essential for the life of the cell and is metabolically inert is a(n):", "Inclusion", "Organelle", "Cytosol enzyme", "Ribosome"],
+[2, "Organelles are classified according to:", "The presence or absence of a membrane", "Their colour", "Their position relative to the nucleus", "Their size only"],
+[2, "Which of the following is a membranous organelle?", "Mitochondria", "Ribosomes", "Microtubules", "Intermediate filaments"],
+[2, "Which of the following is a non-membranous organelle?", "Ribosomes", "Golgi apparatus", "Lysosomes", "Endoplasmic reticulum"],
+[2, "Which set contains ONLY membranous organelles?", "Cell membrane, mitochondria, endoplasmic reticulum, Golgi apparatus, lysosomes", "Ribosomes, microtubules, microfilaments, Golgi apparatus", "Mitochondria, ribosomes, lysosomes, microtubules", "Cell membrane, ribosomes, ER, intermediate filaments"],
+[2, "The cytoskeleton includes:", "Microtubules, microfilaments and intermediate filaments", "Mitochondria, ER and Golgi", "Ribosomes and lysosomes", "Cell membrane and nucleus"],
+[2, "Which non-membranous organelle is NOT part of the cytoskeleton?", "Ribosomes", "Microtubules", "Microfilaments", "Intermediate filaments"],
+[2, "All of the following are non-membranous organelles EXCEPT:", "Lysosomes", "Ribosomes", "Microtubules", "Microfilaments"],
+[2, "The cell membrane is classified as a:", "Membranous organelle", "Non-membranous organelle", "Cytoplasmic inclusion", "Part of the nucleus"],
+[2, "Cells of the body are:", "Variable in shapes and sizes", "All spherical and equal in size", "All cubical", "All identical"],
+[2, "The fluid that supports the organelles inside the cell is the:", "Cytosol", "Glycocalyx", "Perinuclear space", "Capsule"],
+[2, "A nonliving, metabolically inert deposit in the cytoplasm that the cell can live without is a(n):", "Inclusion", "Mitochondrion", "Ribosome", "Lysosome"],
+[2, "Microtubules, microfilaments and intermediate filaments together form the:", "Cytoskeleton", "Glycocalyx", "Cytosol", "Nuclear envelope"],
+[2, "The number of main parts of an animal cell, according to the lecture, is:", "Two", "Three", "Four", "Five"],
+[2, "Which of the following is NOT a component of the cytoplasm according to the lecture?", "Nucleus", "Organelles", "Inclusions", "Cytosol"],
+[2, "Which statement about organelles and inclusions is correct?", "Organelles are living and essential; inclusions are nonliving and inert", "Both are living and essential", "Inclusions are essential; organelles are not", "Both are metabolically inert"],
+[2, "Which one of the following is bounded by a membrane?", "Lysosomes", "Microfilaments", "Ribosomes", "Intermediate filaments"],
+[3, "Another name for the cell membrane is:", "Plasma membrane (plasmalemma)", "Glycocalyx", "Nuclear envelope", "Cytoskeleton"],
+[3, "The cell membrane is defined as the membrane that:", "Envelops the animal cell", "Surrounds only the nucleus", "Lines the endoplasmic reticulum", "Surrounds only the mitochondria"],
+[3, "The thickness of the cell membrane is about:", "7.5 – 10 nm", "0.2 – 2 µm", "10 – 100 µm", "1 – 2 mm"],
+[3, "Why is the cell membrane difficult to see by the light microscope?", "It is too thin (7.5–10 nm)", "It is transparent to electrons", "It lacks lipids", "It is covered by cytoplasm"],
+[3, "By light microscopy, the cell membrane is:", "Difficult to be seen", "Seen as a trilaminar structure", "Seen as two electron-dense layers", "Seen as a thick fuzzy coat"],
+[3, "By electron microscopy at LOW magnification, the cell membrane appears as:", "A single electron-dense line", "Three distinct layers", "A fuzzy coat only", "A thick band"],
+[3, "By electron microscopy at HIGH magnification, the cell membrane appears:", "Trilaminar", "As a single line", "Invisible", "As a fuzzy cloud only"],
+[3, "The trilaminar appearance of the cell membrane is also called:", "Trilamellar or unit membrane", "Glycocalyx", "Perinuclear space", "Cell coat"],
+[3, "The trilaminar membrane is formed of:", "Two electron-dense layers separated by an electron-lucent intermediate layer", "Two electron-lucent layers separated by an electron-dense layer", "Three electron-dense layers", "One electron-dense layer only"],
+[3, "In the trilaminar membrane, the intermediate layer is:", "Electron lucent", "Electron dense", "Absent", "Made of glycocalyx"],
+[3, "How many electron-dense layers are seen in the unit membrane?", "Two", "One", "Three", "Four"],
+[3, "The outer surface of the cell membrane is covered by the:", "Cell coat (glycocalyx)", "Capsule", "Nuclear envelope", "Cytosol"],
+[3, "By EM, the glycocalyx has a:", "Fuzzy appearance", "Smooth, dense appearance", "Trilaminar appearance", "Tubular appearance"],
+[3, "Which microscope is needed to see the trilaminar structure of the cell membrane?", "Electron microscope", "Light microscope", "Magnifying glass", "Dissecting microscope"],
+[3, "A micrograph shows two dark lines separated by a light zone at the cell surface. This is the appearance of:", "The unit membrane at high magnification", "The nuclear pores", "The glycocalyx only", "The cytoskeleton"],
+[3, "The 'surface coat' labelled on the lecture diagram of the membrane corresponds to the:", "Glycocalyx", "Cytosol", "Intermediate layer", "Electron-lucent layer"],
+[3, "Which statement about the cell membrane thickness is TRUE?", "It is only 7.5–10 nm thick", "It is about 2 µm thick", "It is about 100 µm thick", "It is thicker than the cell wall of bacteria"],
+[3, "All of the following describe the EM appearance of the cell membrane EXCEPT:", "Easily seen as a thick band by light microscope", "Single electron-dense line at low magnification", "Trilaminar at high magnification", "Covered by a fuzzy cell coat"],
+[3, "The electron-lucent layer of the unit membrane lies between:", "The two electron-dense layers", "The glycocalyx and the cytosol", "The nucleus and the cytoplasm", "Two cells"],
+[3, "The outer surface of the membrane is easily distinguished by EM because it carries the:", "Fuzzy glycocalyx", "Ribosomes", "Cisternae", "Nucleolus"],
+[3, "The lecture discusses the structure of the cell membrane by:", "Light microscopy (L.M.) and electron microscopy (E.M.)", "Chromatography only", "Centrifugation only", "X-ray only"],
+[3, "The term 'unit membrane' refers to:", "The trilaminar appearance of the cell membrane by EM", "A membrane of one single molecule", "The nuclear envelope only", "The glycocalyx"],
+[3, "Which of the following is found on the outer surface of the cell membrane?", "Cell coat", "Cytosol", "Ribosomes of the RER", "Nucleoplasm"],
+[4, "The molecular components of the cell membrane are:", "Lipids, proteins and carbohydrates", "Lipids and nucleic acids", "Proteins and vitamins", "Carbohydrates and minerals only"],
+[4, "The lipid component of the cell membrane includes:", "Phospholipids and cholesterol", "Glycoproteins and glycolipids", "Integral and peripheral proteins", "Histones and DNA"],
+[4, "The protein component of the cell membrane includes:", "Integral and peripheral proteins", "Phospholipids and cholesterol", "Glycoproteins and glycolipids", "Cisternae and tubules"],
+[4, "The carbohydrate component of the cell membrane is present as:", "Glycoproteins and glycolipids", "Phospholipids and cholesterol", "Integral and peripheral proteins", "Free sugars inside the bilayer"],
+[4, "Phospholipid molecules of the cell membrane are arranged in:", "Two layers (lipid bilayer)", "A single layer", "Three layers", "Random clumps"],
+[4, "The polar end (head) of a phospholipid is:", "Hydrophilic", "Hydrophobic", "Neutral to water", "Always directed inwards"],
+[4, "The non-polar end (tail) of a phospholipid is:", "Hydrophobic", "Hydrophilic", "Positively charged only", "Directed toward the cytosol"],
+[4, "The hydrophilic heads of the phospholipids are directed:", "Towards the aqueous solution", "Away from aqueous solutions", "Into the middle of the bilayer", "Towards the nucleus only"],
+[4, "The hydrophobic tails of the phospholipids are directed:", "Inwards, away from aqueous solutions", "Outwards, towards the extracellular fluid", "Towards the cytosol", "Towards the glycocalyx"],
+[4, "The phospholipid heads are found on:", "Both the outer and the inner (cytoplasmic) surfaces of the membrane", "The outer surface only", "The inner surface only", "The middle of the bilayer"],
+[4, "Cholesterol molecules are inserted:", "Among the hydrophobic tails of phospholipids", "On the outer surface only", "Among the hydrophilic heads only", "Inside the nucleus"],
+[4, "The function of cholesterol in the membrane is to:", "Restrict the movement of the hydrophobic tails", "Transport glucose", "Act as a receptor", "Form the glycocalyx"],
+[4, "Integral (intrinsic) membrane proteins are:", "Embedded in the lipid bilayer, some extending all the way across", "Loosely bound to the cytoplasmic side", "Found only in the cytosol", "Found only in the glycocalyx"],
+[4, "A protein that extends from one side of the membrane to the other is a:", "Transmembrane (integral) protein", "Peripheral protein", "Glycolipid", "Phospholipid"],
+[4, "Some integral proteins are only:", "Partially embedded in the lipid bilayer", "Attached to the nuclear envelope", "Free in the cytosol", "Present in the glycocalyx"],
+[4, "Integral membrane proteins act as:", "Channels, carriers, receptors and enzymes", "Only structural supports", "Lipid stores", "DNA carriers"],
+[4, "Peripheral (extrinsic) membrane proteins are:", "Loosely bound to the cytoplasmic side of the lipid bilayer", "Spanning the whole bilayer", "Located on the outer surface only", "Part of the glycocalyx"],
+[4, "Extrinsic membrane proteins are also called:", "Peripheral proteins", "Integral proteins", "Transmembrane proteins", "Glycoproteins"],
+[4, "Sugar chains linked to membrane proteins form:", "Glycoproteins", "Glycolipids", "Phospholipids", "Cholesterol"],
+[4, "Sugar chains linked to membrane lipids form:", "Glycolipids", "Glycoproteins", "Peripheral proteins", "Histones"],
+[4, "The carbohydrate chains of the cell membrane are found at the:", "External surface", "Cytoplasmic surface", "Middle of the bilayer", "Nuclear envelope"],
+[4, "The cell coat (glycocalyx) is formed by:", "Glycoproteins and glycolipids", "Phospholipids and cholesterol", "Integral and peripheral proteins", "Microtubules"],
+[4, "The functions of the glycocalyx include:", "Cell recognition and intercellular adhesion", "Lipid synthesis and detoxification", "Protein synthesis and glycosylation", "Calcium storage"],
+[4, "Cells of a tissue lose the ability to recognize and adhere to each other. Which membrane component is most likely defective?", "Glycocalyx", "Hydrophobic tails", "Cholesterol only", "Ribosomes"],
+[4, "Phospholipid tails face inwards because they are:", "Hydrophobic and avoid the aqueous solution", "Hydrophilic and attracted to water", "Positively charged", "Attached to cholesterol heads"],
+[4, "A phospholipid molecule is described as having:", "Both a polar and a non-polar end", "Only a polar end", "Only a non-polar end", "No defined ends"],
+[4, "Which membrane molecules act as channels and carriers?", "Integral proteins", "Peripheral proteins", "Cholesterol", "Glycolipids"],
+[4, "Which of the following is NOT a type of membrane protein?", "Glycolipid", "Integral protein", "Peripheral protein", "Transmembrane protein"],
+[4, "If cholesterol were removed from a membrane, the hydrophobic tails would most likely:", "Move more freely", "Become fixed in place", "Face the cytosol", "Convert into proteins"],
+[4, "Which pair is correctly matched?", "Carbohydrate component – glycolipids", "Lipid component – integral proteins", "Protein component – cholesterol", "Carbohydrate component – phospholipids"],
+[5, "The two main functions of the cell membrane are:", "Maintaining structural integrity and controlling movement of substances", "Protein synthesis and lipid synthesis", "Detoxification and glycogen storage", "DNA replication and transcription"],
+[5, "The three types of transport across the cell membrane are:", "Passive, active and vesicular", "Simple, complex and mixed", "Nuclear, cytoplasmic and extracellular", "Osmotic, thermal and electrical"],
+[5, "Passive transport is the movement of molecules:", "Down the concentration gradient", "Against the concentration gradient", "Only by vesicles", "Only into the nucleus"],
+[5, "Passive transport:", "Does not need energy", "Needs ATP", "Needs vesicles only", "Always moves molecules against the gradient"],
+[5, "An example of simple diffusion is the movement of:", "O2 and CO2", "Glucose through a transporter", "Na+ against its gradient", "Bacteria into the cell"],
+[5, "Facilitated diffusion occurs:", "Through transporter proteins", "Directly through the lipid bilayer only", "By vesicle formation", "By ATP-driven pumps"],
+[5, "The transport of glucose through transporter proteins down its gradient is an example of:", "Facilitated diffusion", "Simple diffusion", "Active transport", "Phagocytosis"],
+[5, "Active transport is the movement of molecules:", "Against the concentration gradient", "Down the concentration gradient", "Without any protein", "Without energy"],
+[5, "Active transport:", "Needs energy", "Needs no energy", "Occurs only by diffusion", "Is limited to gases"],
+[5, "A classic example of active transport is the:", "Sodium–potassium pump", "Diffusion of O2", "Diffusion of CO2", "Phagocytosis of bacteria"],
+[5, "In the lecture diagram of active transport, the energy comes from:", "ATP converted to ADP + Pi", "Light", "The concentration gradient", "Glucose diffusion"],
+[5, "Vesicular transport is the transport of:", "Large molecules by formation of vesicles", "Gases only", "Ions only through channels", "Small molecules through lipid bilayer"],
+[5, "Vesicular transport includes:", "Endocytosis and exocytosis", "Simple and facilitated diffusion", "Pumps and channels", "Osmosis and filtration"],
+[5, "Endocytosis is the:", "Uptake of materials across the cell membrane into the cytoplasm", "Release of materials outside the cell", "Movement of ions through channels", "Synthesis of lipids"],
+[5, "Exocytosis is the:", "Release of substances across the cell membrane outside the cell", "Uptake of materials into the cell", "Diffusion of gases", "Movement of ions by pumps"],
+[5, "Release of secretory proteins from the cell is an example of:", "Exocytosis", "Phagocytosis", "Pinocytosis", "Facilitated diffusion"],
+[5, "Phagocytosis is also known as:", "Cell eating", "Cell drinking", "Cell secretion", "Cell division"],
+[5, "Phagocytosis is the uptake of:", "Solid materials such as bacteria", "Fluid materials", "Gases", "Ions only"],
+[5, "Pinocytosis is also known as:", "Cell drinking", "Cell eating", "Cell secretion", "Cell fusion"],
+[5, "Pinocytosis is the uptake of:", "Fluid materials in pinocytotic vesicles", "Solid materials such as bacteria", "Only large cells", "Only DNA"],
+[5, "Which of the following describes receptor-mediated endocytosis?", "Specific substances need receptors to enter the cell", "Uptake of any solid material by pseudopods", "Release of vesicle contents outside", "Diffusion through the bilayer"],
+[5, "A macrophage engulfs a bacterium using pseudopods. This process is:", "Phagocytosis", "Pinocytosis", "Exocytosis", "Facilitated diffusion"],
+[5, "A cell takes in small droplets of extracellular fluid. This process is:", "Pinocytosis", "Phagocytosis", "Exocytosis", "Active transport"],
+[5, "A substance first binds to receptors in a coated pit and then enters in a coated vesicle. This is:", "Receptor-mediated endocytosis", "Phagocytosis", "Simple diffusion", "Exocytosis"],
+[5, "Oxygen crossing the lipid bilayer directly is an example of:", "Simple diffusion", "Facilitated diffusion", "Active transport", "Endocytosis"],
+[5, "Sodium is pumped out of the cell against its gradient using ATP. This is:", "Active transport", "Simple diffusion", "Facilitated diffusion", "Phagocytosis"],
+[5, "Which type of transport needs ATP directly?", "Active transport", "Simple diffusion", "Facilitated diffusion", "Passive transport of gases"],
+[5, "All of the following are passive transport EXCEPT:", "Sodium–potassium pump", "Simple diffusion", "Facilitated diffusion", "Diffusion of CO2"],
+[5, "All of the following are types of endocytosis EXCEPT:", "Exocytosis", "Phagocytosis", "Pinocytosis", "Receptor-mediated endocytosis"],
+[5, "Which of the following is NOT a vesicular transport process?", "Facilitated diffusion", "Phagocytosis", "Pinocytosis", "Exocytosis"],
+[5, "Which process does NOT require a membrane transporter protein?", "Simple diffusion", "Facilitated diffusion", "Sodium–potassium pump", "Active transport"],
+[5, "Facilitated diffusion and active transport are similar in that both:", "Use transporter proteins", "Need ATP", "Move molecules against the gradient", "Use vesicles"],
+[5, "In passive transport, molecules move from a region of:", "Higher to lower concentration", "Lower to higher concentration", "Equal concentration only", "Any concentration using ATP"],
+[5, "The type of transport used for large molecules is:", "Vesicular transport", "Simple diffusion", "Facilitated diffusion", "Sodium–potassium pump"],
+[5, "The transport that moves molecules against the concentration gradient and requires energy is:", "Active transport", "Passive transport", "Simple diffusion", "Facilitated diffusion"],
+[5, "In exocytosis, the vesicle membrane:", "Fuses with the plasma membrane to release its contents outside", "Releases contents into the nucleus", "Forms an organelle", "Digests the plasma membrane"],
+[6, "The endoplasmic reticulum is:", "A system of membranous structures", "A non-membranous filament network", "A single large vesicle", "A part of the cell wall"],
+[6, "The endoplasmic reticulum is often continuous with:", "The plasma membrane and the nuclear membrane", "The Golgi cisternae only", "The mitochondrial membrane only", "The glycocalyx"],
+[6, "The endoplasmic reticulum exists in two forms, which are:", "Rough ER and smooth ER", "Cisternal ER and nuclear ER", "Membranous ER and non-membranous ER", "Inner ER and outer ER"],
+[6, "The most familiar form of the RER consists of:", "Large flattened sacs called cisternae", "Branching tubules only", "Small round vesicles", "Filaments"],
+[6, "Ribosomes in the RER are attached to:", "The outer surface of its membranes facing the cytosolic space", "The inner surface facing the cisternal space", "The nuclear pores", "The glycocalyx"],
+[6, "The rough ER is frequently connected to the:", "Outer membrane of the nuclear envelope", "Inner mitochondrial membrane", "Cell wall", "Lysosomal membrane"],
+[6, "The interior of the rough ER is continuous with the:", "Perinuclear space", "Cytosol", "Extracellular fluid", "Mitochondrial matrix"],
+[6, "The rough ER is called 'rough' because:", "Ribosomes are attached to its surface", "It is covered by glycocalyx", "It has many nuclear pores", "It contains cholesterol"],
+[6, "The main function of the RER is the synthesis of:", "Secretory proteins", "Steroid hormones", "Triglycerides", "Glycogen"],
+[6, "The 'signal sequence' of mRNA codes for a:", "Signal peptide", "Phospholipid", "Cholesterol molecule", "Sugar chain"],
+[6, "The signal peptide is recognised by the:", "Signal recognition protein (SRP)", "Cytochrome P450", "Phosphorylase", "Glucose-6-phosphatase"],
+[6, "Binding of the SRP to the signal peptide causes:", "A temporary stop of protein synthesis", "Permanent degradation of the mRNA", "Immediate release of the ribosome", "Start of lipid synthesis"],
+[6, "Protein synthesis paused by the SRP is resumed only if:", "The SRP–ribosome complex attaches to the ER", "The mRNA enters the nucleus", "The ribosome binds the Golgi", "The glycocalyx is removed"],
+[6, "The docking protein of the ER membrane:", "Binds the SRP–ribosome complex to the ER", "Cleaves the signal peptide", "Synthesises phospholipids", "Detoxifies drugs"],
+[6, "The large ribosomal subunit interacts directly with two integral proteins of the RER membrane called:", "Ribophorins I and II", "Cytochromes P450", "Histones", "Glycophorins I and II"],
+[6, "The signal peptide is removed by the enzyme:", "Signal peptidase", "Phosphorylase", "Glucose-6-phosphatase", "Cytochrome P450"],
+[6, "The growing polypeptide chain enters the:", "Intracisternal space (lumen of the RER)", "Nucleus", "Cytosol only", "Mitochondrial matrix"],
+[6, "At the end of synthesis of a secretory protein, the ribosome:", "Detaches from the ER membrane and the mRNA", "Stays permanently attached to the ER", "Enters the lumen", "Becomes a lysosome"],
+[6, "The first step of protein glycosylation takes place in the:", "RER", "SER", "Mitochondria", "Ribosomes in the cytosol"],
+[6, "Secretory proteins leave the RER in:", "Transport vesicles that bud off", "Direct fusion with the plasma membrane", "Microtubules", "Nuclear pores"],
+[6, "A cell specialised in secreting large amounts of protein is expected to contain:", "An abundant RER", "A scarce RER and extensive SER", "No ribosomes", "Only inclusions"],
+[6, "The ribosomes that make secretory proteins are the ones:", "Attached to the RER", "Free in the nucleus", "Inside mitochondria only", "Attached to the SER"],
+[6, "The flattened sacs of the RER are called:", "Cisternae", "Tubules", "Microvilli", "Cristae"],
+[6, "It was suggested that the SER is derived from the RER because:", "SER tubules are connected to the cisternae of the RER", "SER has ribosomes", "SER is larger than RER", "SER lies inside the nucleus"],
+[6, "All of the following are functions of the RER EXCEPT:", "Biosynthesis of steroid hormones", "Synthesis of secretory proteins", "First step of protein glycosylation", "Receiving polypeptides into its lumen"],
+[6, "If the SRP–ribosome complex could not attach to the ER, protein synthesis would:", "Remain temporarily stopped", "Continue normally into the lumen", "Occur inside the nucleus", "Convert to lipid synthesis"],
+[6, "Which statement about the RER is correct?", "It bears ribosomes on its cytosolic surface and is linked to the nuclear envelope", "It lacks ribosomes and is tubular", "It synthesises steroids", "It is found only in prokaryotes"],
+[6, "The correct order of events in synthesis of a secretory protein is:", "SRP binds signal peptide → synthesis pauses → docking at ER → synthesis resumes → signal peptide cleaved → ribosome detaches", "Ribosome detaches → SRP binds → docking → synthesis begins", "Signal peptide cleaved → SRP binds → synthesis pauses → docking", "Docking → ribosome detaches → SRP binds → synthesis resumes"],
+[6, "A defect in signal peptidase would most directly prevent:", "Removal of the signal peptide from the polypeptide", "Binding of the SRP to the signal peptide", "Attachment of ribosomes to mRNA", "Synthesis of cholesterol"],
+[7, "The smooth ER is called 'smooth' because it:", "Does not bear ribosomes", "Is covered by glycocalyx", "Lacks a membrane", "Contains many nuclear pores"],
+[7, "The elements of the SER are:", "More tubular than cisternal", "More cisternal than tubular", "Spherical vesicles only", "Filaments"],
+[7, "An extensive SER with a greatly reduced RER is found in:", "Skeletal muscle cells and steroid-producing endocrine cells", "Cells that secrete large amounts of protein", "Bacteria", "Mature red blood cells"],
+[7, "The SER is the site of:", "Lipid synthesis", "Secretory protein synthesis", "DNA replication", "Glycosylation initiation"],
+[7, "In hepatocytes, the SER produces:", "Lipoprotein particles for export", "Secretory proteins", "Chromosomes", "Ribosomes"],
+[7, "In the intestinal lumen, triglycerides are broken down into:", "Monoglycerides and fatty acids", "Glucose and amino acids", "Glycogen and cholesterol", "Phospholipids and proteins"],
+[7, "Monoglycerides and fatty acids cross the apical plasma membrane of:", "Absorptive cells (enterocytes)", "Hepatocytes", "Leydig cells", "Muscle cells"],
+[7, "Inside the absorptive cell, monoglycerides and fatty acids are:", "Resynthesised into triglycerides in the SER", "Broken into glucose in the RER", "Stored as glycogen", "Degraded in the nucleus"],
+[7, "Biosynthesis of cholesterol and steroid hormones takes place in the:", "SER", "RER", "Free ribosomes", "Plasma membrane"],
+[7, "The SER is very abundant in the Leydig cells of the testis because they synthesise:", "Testosterone", "Insulin", "Lipase", "Collagen"],
+[7, "The SER is also very abundant in cells of the:", "Adrenal cortex", "Pancreatic acini", "Red blood cells", "Neurons only"],
+[7, "Phospholipids involved in membrane structure are synthesised in the:", "SER", "Lysosomes", "Nucleolus", "Cytosol only"],
+[7, "The SER of liver cells plays an important role in:", "Drug detoxification", "Secretory protein synthesis", "DNA transcription", "Phagocytosis"],
+[7, "Most detoxification reactions of the SER are catalysed by:", "Cytochrome P450", "Signal peptidase", "Phosphorylase", "Docking protein"],
+[7, "Cytochrome P450 converts lipid-soluble toxins into:", "Water-soluble metabolites for excretion", "Triglycerides", "Glycogen", "Secretory proteins"],
+[7, "The detoxification reactions of the SER include:", "Oxidation, reduction, hydrolysis and conjugation", "Only phagocytosis", "Only transcription", "Only exocytosis"],
+[7, "Which of the following is detoxified by the SER?", "Barbiturates, alcohol and bilirubin", "Oxygen and carbon dioxide", "Water and glucose", "Cholesterol only"],
+[7, "Prolonged exposure to drugs or alcohol induces:", "Proliferation of the SER", "Proliferation of the RER", "Loss of the SER", "Formation of a cell wall"],
+[7, "A chronic alcohol drinker is expected to show in hepatocytes:", "Increased SER", "Decreased SER", "No SER", "Increased glycocalyx only"],
+[7, "In the liver, the SER takes part in glycogen utilization by converting glycogen to glucose that enters the:", "Bloodstream", "Nucleus", "Lysosome", "Mitochondrion"],
+[7, "In glycogen utilization, the enzyme that converts glycogen to glucose-1-phosphate is:", "Phosphorylase", "Glucose-6-phosphatase", "Cytochrome P450", "Signal peptidase"],
+[7, "In the liver SER, glucose-6-phosphate is converted to glucose by:", "Glucose-6-phosphatase", "Phosphorylase", "Cytochrome P450", "Lipase"],
+[7, "A defect in glucose-6-phosphatase of the liver SER would impair:", "Release of glucose from glycogen into the blood", "Synthesis of secretory proteins", "Transcription of mRNA", "Phagocytosis"],
+[7, "In striated muscle cells, the SER is called the:", "Sarcoplasmic reticulum", "Perinuclear space", "Cisterna magna", "Glycocalyx"],
+[7, "The sarcoplasmic reticulum is distributed around each:", "Myofibril", "Nucleus", "Mitochondrion only", "Lysosome"],
+[7, "Each myofibril is composed of several:", "Myofilaments", "Ribosomes", "Nuclei", "Cisternae"],
+[7, "The SER regulates which ion in the environment surrounding the myofibrils?", "Calcium", "Chloride", "Iron", "Zinc"],
+[7, "Which cell is expected to have the MOST extensive SER?", "Leydig cell of the testis", "Cell secreting digestive enzymes", "Bacterial cell", "Mature red blood cell"],
+[7, "Which of the following is NOT a function of the SER?", "Synthesis of secretory proteins", "Lipid synthesis", "Detoxification", "Calcium regulation in muscle"],
+[7, "Which pair correctly matches the organelle and its function?", "RER – secretory proteins; SER – lipid synthesis", "RER – lipid synthesis; SER – secretory proteins", "RER – detoxification; SER – glycosylation", "RER – steroid hormones; SER – signal peptidase"],
+[7, "Which pair correctly matches the cell and the main SER activity?", "Hepatocyte – drug detoxification", "Enterocyte – steroid synthesis", "Leydig cell – glycosylation of secretory proteins", "Muscle cell – lipoprotein export"],
+[7, "Which of the following is NOT an example of substances detoxified by the SER?", "Oxygen", "Drugs such as antibiotics", "Alcohol", "Bilirubin"],
+[8, "A secretory protein made in the RER leaves the cell by:", "Transport vesicles and exocytosis", "Simple diffusion", "Passive channels", "Active pumps"],
+[8, "The sugar chains of membrane glycoproteins are located on the:", "External surface of the cell membrane", "Cytoplasmic surface of the membrane", "Inner nuclear membrane", "Cisternal surface of the SER only"],
+[8, "Which statement about the cell membrane is TRUE?", "Phospholipid heads face both surfaces and the tails face inwards", "Phospholipid tails face both surfaces", "Cholesterol lies among the heads only", "Carbohydrates face the cytoplasm"],
+[8, "Which transport process involves a membrane pump, a transporter protein and ATP?", "Active transport", "Simple diffusion", "Facilitated diffusion", "Pinocytosis"],
+[8, "A muscle cell shows impaired calcium regulation around its myofibrils. Which organelle is most likely affected?", "Smooth ER (sarcoplasmic reticulum)", "Rough ER", "Golgi apparatus", "Ribosomes"],
+[8, "A patient's liver cells fail to modify and excrete a drug. Which organelle and enzyme are most likely involved?", "SER and cytochrome P450", "RER and signal peptidase", "Mitochondria and histones", "Lysosome and phosphorylase"],
+[8, "A cell lacks glycocalyx. Which functions are most impaired?", "Cell recognition and intercellular adhesion", "Lipid synthesis and detoxification", "Transcription and translation", "Calcium regulation"],
+[8, "Translation of a secretory protein occurs on:", "Ribosomes attached to the RER", "Ribosomes inside the nucleus", "The SER", "The glycocalyx"],
+[8, "A researcher compares a bacterium and a hepatocyte. Which feature would be found ONLY in the hepatocyte?", "Smooth ER", "Cell membrane", "Ribosomes", "DNA"],
+[8, "Which statement is TRUE regarding ER?", "SER tubules are connected to RER cisternae, suggesting SER derives from RER", "RER is tubular and SER is cisternal", "SER bears ribosomes", "RER synthesises steroids"],
+[8, "Which of the following is a non-membranous organelle located in the cytoplasm of eukaryotic cells?", "Ribosomes", "Mitochondria", "Lysosomes", "Golgi apparatus"],
+[8, "A protein that spans the whole membrane and works as a channel is a(n):", "Integral (transmembrane) protein", "Peripheral protein", "Glycolipid", "Phospholipid"],
+[8, "Fat absorption in the small intestine requires:", "Resynthesis of triglycerides in the SER of absorptive cells", "Synthesis of secretory proteins in the RER", "Detoxification by cytochrome P450", "Calcium release by the sarcoplasmic reticulum"],
+[8, "Which sequence correctly orders the information flow and its site in a eukaryotic cell?", "DNA in nucleus → mRNA → ribosome → protein", "Protein → ribosome → mRNA → DNA", "mRNA → DNA → ribosome → protein", "Ribosome → DNA → protein → mRNA"],
+[8, "Which pair of terms is NOT correctly matched?", "Phagocytosis – cell drinking", "Pinocytosis – cell drinking", "Phagocytosis – solid particles", "Exocytosis – release outside the cell"],
+[8, "All of the following are membranous organelles EXCEPT:", "Microtubules", "Mitochondria", "Lysosomes", "Golgi apparatus"],
+[8, "Which statement correctly contrasts organelles and inclusions?", "Organelles are living and metabolically active; inclusions are nonliving and inert", "Inclusions are living and essential; organelles are inert", "Both are essential for life", "Both are nonliving"],
+[8, "A cell has a nucleus, RER, Golgi, and is 50 micrometers wide. Which statement is correct?", "It is eukaryotic and its ribosomes are 80S", "It is prokaryotic with 70S ribosomes", "It is a virus", "It lacks DNA"],
+[8, "Cholesterol, phospholipids and integral proteins are all:", "Components of the cell membrane", "Components of the nucleus only", "Non-membranous organelles", "Cytoplasmic inclusions"],
+[8, "Which sequence correctly follows a secretory protein in the cell?", "RER ribosome → RER lumen → transport vesicle → release by exocytosis", "SER → nucleus → cytosol → plasma membrane", "Mitochondria → SER → lysosome", "Nucleus → plasma membrane → RER"]];
+
+const E=["Biology is the science of life; it studies structure, functions and interactions of living organisms with their environment.", "The lecture lists plants, animals and humans as the living organisms that biology studies.", "Biology studies living organisms (structure, function, environment), not planetary orbits.", "Life begins with cells; every organism develops from them.", "The lecture states that the human body arises from the union of an egg and a sperm.", "Schleiden concluded that all plants are made of cells.", "Schwann extended the idea to animals: all animals are made of cells.", "Virchow added that cells arise only from pre-existing cells.", "The cell theory says new cells come from existing cells, which excludes spontaneous generation.", "Cells are the basic units of both structure and function.", "Schleiden: plants; Schwann: animals; Virchow: cells from pre-existing cells.", "Division of an existing cell producing new cells illustrates the third statement of the theory.", "The lecture credits Schleiden (plants), Schwann (animals) and Virchow (cells from cells).", "The cell is the basic structural and functional unit of life.", "The central dogma is the 'flow of information in biology'.", "Information flows from DNA to RNA (transcription) to protein (translation).", "DNA → RNA is transcription.", "RNA → protein is translation.", "DNA is in the nucleus, so mRNA is transcribed there.", "Mature mRNA leaves the nucleus to be translated into protein.", "The central dogma goes DNA → RNA → protein; protein does not return information to DNA.", "The lecture figure numbers the levels 1 cell, 2 tissue, 3 organ, 4 organ system.", "Level 1 is the cell and level 2 is the tissue.", "In the figure the stomach is level 3, the organ.", "Several organs working together form an organ system (level 4).", "Similar cells with a common function form a tissue.", "The cell is level 1.", "Tissues form organs, and organs form organ systems.", "Prokaryote = 'before nucleus'; eukaryote = 'true nucleus'.", "Eukaryotic cells have a true nucleus enclosed by a nuclear envelope.", "Bacteria are prokaryotes; animal and plant cells are eukaryotic.", "The lecture lists cyanobacteria among the prokaryotes.", "Bacteria, cyanobacteria and mycoplasmas are the lecture's prokaryote examples.", "The lecture says EM revealed the two plans: prokaryotic and eukaryotic.", "Animal and plant cells have a nuclear envelope and organelles, so they are eukaryotic.", "Prokaryotes are small (0.2–2 µm).", "Eukaryotic cells are larger (10–100 µm).", "Eukaryotes: 10–100 µm; prokaryotes: 0.2–2 µm.", "Prokaryotes have no nuclear envelope and no compartmentalization.", "Only eukaryotes have membrane-enclosed organelles.", "Prokaryotic DNA is a single circular chromosome without histones.", "Eukaryotic chromosomes are linear and associated with histones.", "Eukaryotic chromosomes are complexed with histones; prokaryotic DNA is not.", "Prokaryotic ribosomes are 70S, smaller than the 80S eukaryotic ones.", "Eukaryotic ribosomes are 80S.", "Prokaryote 70S; eukaryote 80S.", "Large size, histones and 80S ribosomes are eukaryotic features.", "These are prokaryotic features.", "The nucleoid holds the circular DNA of the prokaryote.", "The capsule, cell wall, pili, plasmid and bacterial flagellum are bacterial features in the figure.", "The Venn diagram shares cell membrane, DNA, ribosomes and cytoplasm.", "Mitochondria are membrane-enclosed organelles found only in eukaryotes.", "The cytoskeleton appears with the eukaryote-only structures.", "The ER is a membrane-enclosed organelle, absent in prokaryotes.", "Plant cells have a cell wall and chloroplasts.", "The Venn diagram lists centrioles under animal cells only.", "An animal cell consists of the cytoplasm and the nucleus.", "The cytoplasm is made of organelles, inclusions and cytosol.", "Organelles are living, essential and metabolically active.", "Inclusions are nonliving, non-essential and metabolically inert.", "The cytosol is the viscous fluid that supports organelles.", "Inclusions are the nonliving structures of the cytoplasm.", "Organelles are metabolically active, inclusions are inert.", "This is the definition of inclusions.", "The lecture classifies them as membranous or non-membranous.", "Mitochondria are membranous.", "Ribosomes, microtubules, microfilaments and intermediate filaments are non-membranous.", "These five are the membranous organelles listed in the lecture.", "The three non-membranous filament systems form the cytoskeleton.", "Ribosomes are non-membranous but are not cytoskeletal elements.", "Lysosomes are membranous organelles.", "The lecture lists the cell membrane first among membranous organelles.", "The lecture states that cells vary in shapes and sizes.", "The cytosol supports the organelles.", "Such a deposit fits the definition of an inclusion.", "These three filament types form the cytoskeleton.", "The cytoplasm and the nucleus.", "The nucleus is the second main part of the cell, separate from the cytoplasm.", "This contrast is stated directly in the lecture.", "Lysosomes are membranous; the other three are non-membranous.", "The cell membrane is also called the plasma membrane or plasmalemma.", "It is the membrane that envelops the animal cell.", "The membrane is only 7.5–10 nm thick.", "Its thickness is below the resolution of the light microscope.", "The lecture states it is difficult to see by L.M.", "At low magnification a single electron-dense line is seen.", "At high magnification it appears as a trilaminar (trilamellar) unit membrane.", "The lecture names it the trilamellar or unit membrane.", "Dense–lucent–dense gives the trilaminar appearance.", "The two outer layers are dense; the middle layer is lucent.", "Two electron-dense layers surround one lucent layer.", "The outer surface carries the cell coat, the glycocalyx.", "The cell coat appears fuzzy.", "The trilaminar structure is an EM finding.", "Dark–light–dark is the trilaminar unit membrane.", "The surface coat is the cell coat or glycocalyx.", "The membrane is extremely thin: 7.5–10 nm.", "Light-microscope visibility is not an EM feature; the membrane is too thin for it.", "It is the intermediate layer between the two dense layers.", "The fuzzy cell coat marks the external surface.", "The outline lists structure by L.M. and E.M.", "Unit membrane = trilaminar (trilamellar) appearance.", "Glycocalyx covers the outer surface.", "Membrane = lipids + proteins + carbohydrates.", "Lipids: phospholipids and cholesterol.", "Proteins are integral (intrinsic) or peripheral (extrinsic).", "Sugar chains are linked to proteins and lipids.", "They form a lipid bilayer.", "The head is hydrophilic.", "The tail is hydrophobic.", "Heads face the aqueous environment.", "Tails face each other inside the bilayer.", "The bilayer has heads on both surfaces and tails in the centre.", "Cholesterol lies between the hydrophobic tails.", "Cholesterol limits tail movement.", "Integral proteins are embedded; some span the whole membrane.", "Transmembrane proteins are a type of integral protein.", "Others are only partially embedded.", "Integral proteins serve as channels, carriers, receptors and enzymes.", "Peripheral proteins are loosely attached to the cytoplasmic side.", "Extrinsic = peripheral; intrinsic = integral.", "Sugar + protein = glycoprotein.", "Sugar + lipid = glycolipid.", "Carbohydrates lie on the external surface.", "Glycoproteins and glycolipids make up the glycocalyx.", "The lecture lists cell recognition and intercellular adhesions.", "Recognition and adhesion are glycocalyx functions.", "Hydrophobic tails move away from water.", "Each molecule has a hydrophilic head and a hydrophobic tail.", "Channels and carriers are integral proteins.", "Glycolipids are carbohydrate–lipid molecules, not proteins.", "Cholesterol restricts tail movement, so removing it increases mobility.", "Glycolipids belong to the carbohydrate component; integral proteins to proteins.", "The membrane maintains the cell's integrity and controls substance movement via transport.", "Passive, active and vesicular transport.", "Passive transport follows the concentration gradient.", "Passive transport requires no energy.", "Small gases such as O2 and CO2 diffuse directly.", "It uses transporter proteins.", "Glucose uses facilitated diffusion in the lecture.", "Active transport goes against the gradient.", "It requires energy (ATP).", "The Na+/K+ pump is the lecture's example.", "ATP → ADP + Pi powers the pump.", "Vesicular transport moves large molecules in vesicles.", "Endocytosis and exocytosis are the two forms.", "Endocytosis brings materials into the cell.", "Exocytosis releases substances out of the cell.", "Secretory proteins are released by exocytosis.", "Phagocytosis = cell eating.", "Phagocytosis takes up solids in phagocytic vesicles.", "Pinocytosis = cell drinking.", "Pinocytosis takes up fluid.", "It is selective: specific substances bind receptors first.", "Engulfing solid particles = phagocytosis.", "Fluid uptake = pinocytosis.", "Coated pits and vesicles characterise receptor-mediated endocytosis.", "O2 diffuses directly down its gradient.", "Against the gradient with ATP = active transport.", "Only active transport uses ATP directly.", "The Na+/K+ pump is active transport.", "Exocytosis is the opposite process.", "Facilitated diffusion uses transporter proteins, not vesicles.", "Simple diffusion crosses the bilayer directly.", "Both use membrane transporter proteins; only active transport needs ATP.", "Passive movement follows the concentration gradient.", "Large molecules are moved in vesicles.", "This is the definition of active transport.", "The vesicle fuses with the cell membrane and discharges its contents.", "The ER is a system of membranous structures.", "The lecture states it is often continuous with the plasma and nuclear membranes.", "RER and SER.", "RER is typically seen as flattened cisternae.", "Ribosomes sit on the cytosolic face of the RER membrane.", "The RER often connects to the outer nuclear membrane.", "Because of its link to the outer nuclear membrane, the RER lumen is continuous with the perinuclear space.", "The attached ribosomes give it a rough appearance.", "The RER synthesises secretory proteins.", "The signal sequence is translated into the signal peptide.", "SRP binds the signal peptide.", "Synthesis pauses until the complex reaches the ER.", "Synthesis resumes after the complex attaches to the ER membrane.", "The docking protein anchors the SRP–ribosome complex to the ER.", "Ribophorins I and II bind the large subunit.", "Signal peptidase cleaves the signal peptide in the cisternal space.", "The polypeptide is threaded into the RER lumen.", "The ribosome detaches from both the ER membrane and mRNA.", "Sugar chains are first added in the RER.", "Transport vesicles bud off from the RER.", "Protein secretion requires extensive RER.", "Secretory proteins are made on RER-bound ribosomes.", "Cisternae are flattened sacs.", "The connection led to the suggestion that SER derives from RER.", "Steroid hormone synthesis is a function of the SER.", "Synthesis is resumed only after attachment to the ER.", "RER: ribosomes on cytosolic face, connected to the outer nuclear membrane.", "This follows the lecture's figure from SRP binding to ribosome release.", "Signal peptidase cleaves the signal peptide.", "The SER has no ribosomes on its surface.", "SER forms interconnecting tubular pipelines.", "The lecture names these cells as examples.", "The SER is involved in lipid synthesis, detoxification, glycogen utilization and ion transport.", "Hepatocyte SER produces lipoprotein particles for export.", "Enzymes split triglycerides into monoglycerides and fatty acids.", "They diffuse into the absorptive cells of the intestine.", "Triglycerides are resynthesised in the SER.", "The SER synthesises cholesterol and steroids.", "Leydig cells make the steroid hormone testosterone.", "Adrenal cortex cells synthesise steroid hormones.", "Membrane phospholipids are made in the SER.", "Liver SER detoxifies drugs and toxins.", "Cytochrome P450 enzymes catalyse most detoxification reactions.", "This conversion allows their excretion.", "These reaction types are listed in the lecture.", "Drugs, alcohol and metabolic waste such as ammonia and bilirubin.", "This is the adaptation of SER to chronic exposure.", "Chronic exposure induces SER proliferation.", "Glucose produced in the SER is released to the blood.", "Glycogen phosphorylase produces glucose-1-phosphate.", "Glucose-6-phosphatase releases free glucose.", "Free glucose cannot be produced from glucose-6-phosphate.", "Muscle SER is the sarcoplasmic reticulum.", "It surrounds each myofibril.", "Myofibrils consist of myofilaments.", "The SER regulates calcium level around myofibrils.", "Steroid-producing cells have extensive SER.", "Secretory protein synthesis is carried out by the RER.", "RER makes secretory proteins; SER makes lipids and detoxifies.", "Hepatocyte SER detoxifies drugs.", "Oxygen is not a toxin handled by SER detoxification.", "Vesicles carry it out and exocytosis releases it.", "Carbohydrates face the extracellular side.", "Heads are hydrophilic; tails are hydrophobic and inward.", "Pumps use ATP to move substances against the gradient.", "Calcium regulation is a SER function in striated muscle.", "SER cytochrome P450 detoxifies drugs.", "These are glycocalyx functions.", "Secretory proteins are translated on RER-bound ribosomes.", "Smooth ER is a membrane-enclosed organelle of eukaryotes.", "This connection is stated in the lecture.", "Ribosomes are non-membranous.", "Channels are integral proteins.", "Monoglycerides and fatty acids are rebuilt into triglycerides in the SER.", "Transcription happens in the nucleus and translation on ribosomes.", "Phagocytosis is cell eating; pinocytosis is cell drinking.", "Microtubules are part of the non-membranous cytoskeleton.", "This contrast is taken directly from the lecture.", "Nucleus, organelles and size indicate a eukaryote with 80S ribosomes.", "These are membrane components.", "This is the secretory route described in the lecture."];
+
+const ic=p=>'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">'+p+"</svg>";
+const ICON={done:ic('<path d="M5 13l4 4L19 7"/>'),reset:ic('<path d="M4 4v6h6"/><path d="M5.5 15a8 8 0 1 0 2-8.5L4 10"/>'),list:ic('<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>'),star:ic('<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>')};
+const $=s=>document.querySelector(s),K="cellbio1";
+const shuf=a=>{a=a.slice();for(let i=a.length;i>1;){const j=Math.random()*i--|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+let S={},cur,streak=0,busy=0,tt;
+try{S=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+B.forEach(q=>{let x=5381,s=q.slice(1,6).join("|");for(let i=0;i<s.length;i++)x=(x*33^s.charCodeAt(i))>>>0;q.id=x.toString(36)});
+B.forEach((q,i)=>{q[6]=E[i]||("Correct answer: "+q[2]+".")});
+const stat=()=>{let d=0,c=0;B.forEach(q=>{if(q.id in S){d++;c+=S[q.id]}});return{d,c,n:B.length}};
+function view(v){$("#home").hidden=v!=="h";$("#quiz").hidden=v!=="q";if(v==="h"){const{d,c,n}=stat();$("#sd").textContent=d;$("#sc").textContent=c;$("#sn").textContent=n;$("#pb").style.width=d/n*100+"%";$("#go").textContent=d>=n?"All questions answered":d?"Continue":"Start";$("#go").disabled=d>=n;$("#rv").hidden=d==c;$("#rv").textContent="Review mistakes ("+(d-c)+")";$("#rs").hidden=!d;$("#home").className="card in"}}
+function modal(e,t,h,bs){$("#me").innerHTML=ICON[e]||"";$("#mt").textContent=t;$("#mx").innerHTML=h;const m=$("#mb");m.innerHTML="";bs.forEach(b=>{const x=document.createElement("button");x.textContent=b[0];x.className=b[2]||"";x.onclick=()=>{$("#ov").classList.remove("on");b[1]&&b[1]()};m.append(x)});$("#ov").classList.add("on")}
+function toast(t){const e=$("#ts");e.textContent=t;e.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>e.classList.remove("on"),1600)}
+function finish(){const{c,n}=stat();view("h");modal("done","Bank completed","<p>You answered "+c+" of "+n+" correctly.</p>",[["Review mistakes",review,"p"],["Start over",askReset],["Close"]])}
+function review(){const w=B.filter(q=>S[q.id]===0);if(!w.length)return modal("star","No mistakes","<p>Every answer so far is correct.</p>",[["OK","","p"]]);modal("list","Mistakes ("+w.length+")",'<div class="rl">'+w.map(q=>"<div><b>"+esc(q[1])+"</b><em>Correct answer: "+esc(q[2])+"</em>"+esc(q[6])+"</div>").join("")+"</div>",[["Close","","p"]])}
+function askReset(){modal("reset","Start over?","<p>All saved answers will be deleted.</p>",[["Yes, start over",()=>{S={};save();streak=0;view("h")},"p"],["Cancel"]])}
+function next(){const L=B.filter(q=>!(q.id in S));if(!L.length)return finish();cur=L[Math.random()*L.length|0];const o=shuf(cur.slice(2,6));
+$("#ch").textContent=T[cur[0]];$("#qt").textContent=cur[1];$("#ct").textContent=stat().d+" / "+B.length;$("#ex").classList.remove("on");$("#nx").hidden=true;
+const ob=$("#opts");ob.innerHTML="";o.forEach((x,i)=>{const b=document.createElement("button");b.className="o";b.style.animationDelay=i*70+"ms";b.innerHTML="<b>"+"ABCD"[i]+"</b><span></span>";b.lastChild.textContent=x;b.onclick=()=>pick(b,x);ob.append(b)});
+$("#card").className="card in";busy=0}
+function pick(b,x){if(busy)return;busy=1;const r=x===cur[2];S[cur.id]=r?1:0;save();
+document.querySelectorAll(".o").forEach(e=>{e.disabled=true;const t=e.lastChild.textContent;if(t===cur[2])e.classList.add("ok");else if(e===b)e.classList.add("no");else e.classList.add("dim")});
+streak=r?streak+1:0;if(r&&streak>=3&&streak%3==0)toast(streak+" correct in a row");
+$("#eb").innerHTML='<strong class="'+(r?"g":"r")+'">'+(r?"Correct":"Incorrect")+'</strong><span>'+esc(cur[6])+"</span>";$("#ex").classList.add("on");$("#nx").hidden=false;$("#ct").textContent=stat().d+" / "+B.length}
+$("#nx").onclick=()=>{$("#card").className="card out";setTimeout(next,260)};
+$("#go").onclick=()=>{view("q");next()};
+$("#bk").onclick=()=>view("h");$("#rv").onclick=review;$("#rs").onclick=askReset;
+view("h");
+</script></body></html>
