@@ -91,32 +91,115 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
           "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Summary/Biology/cell-biology-lecture-1.html"
         }
       ],
+      "assignments": [
+        {
+          "title": "Assignment 1 - Animal classification history",
+          "url": "https://drive.google.com/file/d/1zr6eWfmzNW9ZBk0rM1cuOWaI_Ol8E3ew/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الواجبات"
+        },
+        {
+          "title": "Assignment 2 - Define the following terms",
+          "url": "https://drive.google.com/file/d/1BEP61zDPXOPSf_SbjFdLTNSCyzmFItnm/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الواجبات"
+        },
+        {
+          "title": "Assignment 3 - Types of nutrition",
+          "url": "https://drive.google.com/file/d/132KuBlmH9NIOlfOtQY6wIZifsWkY9bBY/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الواجبات"
+        },
+        {
+          "title": "Assignment 4 - Modes of life",
+          "url": "https://drive.google.com/file/d/1ibYPi3-1RpOsm2_kuhDZGIRlY1ZExnI2/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الواجبات"
+        },
+        {
+          "title": "Assignment 5 - Define the following terms (Porifera/Cnidaria)",
+          "url": "https://drive.google.com/file/d/18aP49k51ikC9NRuXi4VJZKLCU2EH-R4w/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الواجبات"
+        },
+        {
+          "title": "Assignment 6 - Water canal systems in sponges",
+          "url": "https://drive.google.com/file/d/1r6cJb8rGZqD3EcszUQYBKOfpNdbnv1XZ/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الواجبات"
+        },
+        {
+          "title": "Assignment - Membranous organelles",
+          "url": "https://drive.google.com/file/d/1hue-x3UU0UvA6EOhVfZUXmJp9-HXGUKW/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الواجبات"
+        },
+        {
+          "title": "Assignment 1 - Animal classification history",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/assigmensts/Biology/assignment-1.html",
+          "kind": "html",
+          "group": "الحلول"
+        },
+        {
+          "title": "Assignment 2 - Define the following terms",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/assigmensts/Biology/assignment-2.html",
+          "kind": "html",
+          "group": "الحلول"
+        },
+        {
+          "title": "Assignment 3 - Types of nutrition",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/assigmensts/Biology/assignment-3.html",
+          "kind": "html",
+          "group": "الحلول"
+        },
+        {
+          "title": "Assignment 4 - Modes of life",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/assigmensts/Biology/assignment-4.html",
+          "kind": "html",
+          "group": "الحلول"
+        },
+        {
+          "title": "Assignment 5 - Define the following terms (Porifera/Cnidaria)",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/assigmensts/Biology/assignment-5.html",
+          "kind": "html",
+          "group": "الحلول"
+        },
+        {
+          "title": "Assignment 6 - Water canal systems in sponges",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/assigmensts/Biology/assignment-6.html",
+          "kind": "html",
+          "group": "الحلول"
+        },
+        {
+          "title": "Assignment - Membranous organelles",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/assigmensts/Biology/assignment-organelles.html",
+          "kind": "html",
+          "group": "الحلول"
+        }
+      ],
+      "questionGroups": ["Zoology", "Invertebrates", "Lab"],
+      "questions": [
+        {
+          "title": "Embryology Question Bank",
+          "note": "By Mohammed Saad • Lecture 7",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Bank-Questions/Zoology/lec.7/Embryology%20Question%20Bank%20_%20By%20Mohammed%20Saad.html",
+          "kind": "html",
+          "group": "Zoology"
+        },
+        {
+          "title": "Cell & Molecular Biology Question Bank",
+          "note": "By Mohammed Saad • Lecture 1",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Bank-Questions/Zoology/lec.1/Cell%20Molecular%20Biology%20Question%20Bank%20_%20By%20Mohammed%20Saad.html",
+          "kind": "html",
+          "group": "Zoology"
+        }
+      ],
       "videos": []
     },
     "MAT101": {
       "title": "الرياضيات",
       "assignmentsLabel": "مسائل",
       "files": [
-        {
-          "title": "ملف 1",
-          "url": "https://drive.google.com/file/d/1R4_xrCI9S6FT4X8FL3FLwxpyYWoGG8Uq/view?usp=drive_link",
-          "kind": "pdf"
-        },
-        {
-          "title": "ملف 2",
-          "url": "https://drive.google.com/file/d/17gIZIuxE37y2-YWKaQcwyTmxmkdgiFGd/view?usp=drive_link",
-          "kind": "pdf"
-        },
-        {
-          "title": "ملف 3",
-          "url": "https://drive.google.com/file/d/1IsswwquW2jDgyv6iuCroB-RkHAXJ8y6y/view?usp=drive_link",
-          "kind": "pdf"
-        },
-        {
-          "title": "ملف 4",
-          "url": "https://drive.google.com/file/d/1NbvN5x7zwnrMQVLLrhW-wU_DNUMgfEZB/view?usp=drive_link",
-          "kind": "pdf"
-        },
         {
           "title": "ملف 5",
           "url": "https://drive.google.com/file/d/1aVO4P-O59e7AcJHTkt8dJZp2C8qgzPVl/view?usp=drive_link",
@@ -154,6 +237,56 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
         }
       ],
       "summaries": [],
+      "assignments": [
+        {
+          "title": "Sheet 1",
+          "url": "https://drive.google.com/file/d/1NbvN5x7zwnrMQVLLrhW-wU_DNUMgfEZB/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الشيتات"
+        },
+        {
+          "title": "Sheet 2",
+          "url": "https://drive.google.com/file/d/1IsswwquW2jDgyv6iuCroB-RkHAXJ8y6y/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الشيتات"
+        },
+        {
+          "title": "Sheet 3",
+          "url": "https://drive.google.com/file/d/1R4_xrCI9S6FT4X8FL3FLwxpyYWoGG8Uq/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الشيتات"
+        },
+        {
+          "title": "Practice Set (Calculus & Limits)",
+          "url": "https://drive.google.com/file/d/17gIZIuxE37y2-YWKaQcwyTmxmkdgiFGd/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الشيتات"
+        },
+        {
+          "title": "Sheet 1",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Maths-Problems-Solution/Sheet1_Solutions.html",
+          "kind": "html",
+          "group": "الحلول"
+        },
+        {
+          "title": "Sheet 2",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Maths-Problems-Solution/Sheet2_Solutions.html",
+          "kind": "html",
+          "group": "الحلول"
+        },
+        {
+          "title": "Sheet 3",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Maths-Problems-Solution/sheet3_Solutions.html",
+          "kind": "html",
+          "group": "الحلول"
+        },
+        {
+          "title": "Practice Set (Calculus & Limits)",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Maths-Problems-Solution/Math_Equation_Practice_Set.html",
+          "kind": "html",
+          "group": "الحلول"
+        }
+      ],
       "videos": []
     },
     "GEO101": {
@@ -209,6 +342,7 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
         }
       ],
       "summaries": [],
+      "assignments": [],
       "videos": []
     },
     "URC101": {
@@ -251,6 +385,7 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
         }
       ],
       "summaries": [],
+      "assignments": [],
       "videos": []
     },
     "PHY101": {
@@ -288,6 +423,7 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
         }
       ],
       "summaries": [],
+      "assignments": [],
       "videos": []
     },
     "CHE101": {
@@ -315,54 +451,63 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
         }
       ],
       "summaries": [],
+      "assignments": [],
       "videos": []
     },
     "MAT211": {
       "title": "الإحصاء الحيوي",
       "files": [],
       "summaries": [],
+      "assignments": [],
       "videos": []
     },
     "BPH213": {
       "title": "البيولوجيا الإشعاعية",
       "files": [],
       "summaries": [],
+      "assignments": [],
       "videos": []
     },
     "PHY219": {
       "title": "الكهرومغناطيسية",
       "files": [],
       "summaries": [],
+      "assignments": [],
       "videos": []
     },
     "BPH221": {
       "title": "الليزر في الطب",
       "files": [],
       "summaries": [],
+      "assignments": [],
       "videos": []
     },
     "PHY217": {
       "title": "ميكانيكا الكم",
       "files": [],
       "summaries": [],
+      "assignments": [],
       "videos": []
     },
     "ANT215": {
       "title": "تشريح الإنسان",
       "files": [],
       "summaries": [],
+      "assignments": [],
       "videos": []
     },
     "URC201": {
       "title": "الأعمال",
       "files": [],
       "summaries": [],
+      "assignments": [],
       "videos": []
     },
     "BPH223": {
       "title": "الفيزياء الحيوية الطبية (عملي)",
       "files": [],
       "summaries": [],
+      "assignments": [],
       "videos": []
     }
   }
