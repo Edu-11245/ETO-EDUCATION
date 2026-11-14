@@ -1,19 +1,4 @@
-/* =====================================================================
-   ETO | الملخصات (courses/summaries.js)
-   - لازم يتحمّل بعد courses.js مباشرة (وقبل السكريبت الأساسي).
-   - الملخص PDF  -> زي ما هو (بيتفتح في الفيوور).
-   - الملخص HTML -> الكود بيقرا الملف كامل من جيتهاب ويعمل منه صفحة
-                    جوه السايت أوتوماتيك، بلينك خاص بيها (#sum-اسم-الملف).
-                    من غير GitHub Pages ومن غير ما تحوّل أي لينك.
-   ---------------------------------------------------------------------
-   إزاي تضيف ملخص: في content.js جوه summaries بتاعت المادة، الزق لينك
-   الملف من جيتهاب زي ما هو:
-     { "title": "Cell Biology - Lecture 1",
-       "url": "https://github.com/USER/REPO/blob/main/Summary/Biology/file.html" }
-   - أي لينك بينتهي بـ .html (غير درايف) بيتعرف كملخص HTML.
-   - الريبو لازم يكون Public.
-   - ماتحطش group للملخصات الـHTML.
-   ===================================================================== */
+
 (function () {
   'use strict';
 
@@ -35,20 +20,15 @@
     return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
   }
   function theme(c, c2) { return '--c:' + c + ';--c2:' + c2 + ';--cs:' + rgba(c, 0.14); }
-
-  /* أي لينك بينتهي بـ .html (غير جوجل/درايف) = ملخص HTML */
   function isHtml(it) {
     if (!it || !it.url) return false;
     if (it.kind === 'html' || it.kind === 'page') return true;
     return /^(?:https?:\/\/(?!.*google\.com)|\.{0,2}\/)?[^?#]+\.html?([?#].*)?$/i.test(it.url);
   }
-
-  /* لينك جيتهاب العادي -> لينك الملف الخام اللي المتصفح يقدر يقراه */
   function rawUrl(u) {
     var m = /^https?:\/\/github\.com\/([^\/]+)\/([^\/]+)\/(?:blob|raw)\/([^\/]+)\/(.+?)(?:\?.*)?$/i.exec(u);
     return m ? 'https://raw.githubusercontent.com/' + m[1] + '/' + m[2] + '/' + m[3] + '/' + m[4] : u;
   }
-
   var usedIds = {};
   function makeId(url) {
     var name = decodeURIComponent(String(url).split('#')[0].split('?')[0].split('/').pop() || 'summary')
@@ -58,7 +38,6 @@
     usedIds[id] = 1;
     return id;
   }
-
   function toast(msg) { if (typeof showToast === 'function') showToast(msg); }
   function copyLink(pid) {
     var url = location.origin + location.pathname + '#' + pid;
@@ -69,8 +48,6 @@
       try { document.execCommand('copy'); } catch (_) {} ta.remove(); done();
     }
   }
-
-  /* ---------- صفحة الملخص الكاملة ---------- */
   function addSummaryPage(pid, it, backId) {
     var sec = document.createElement('section');
     sec.id = 'page-' + pid;
@@ -131,8 +108,6 @@
     new MutationObserver(onToggle).observe(sec, { attributes: true, attributeFilter: ['class'] });
     if (!sec.classList.contains('hidden')) onToggle();
   }
-
-  /* ---------- كروت الملخصات في صفحة ملخصات المادة ---------- */
   function card(pid, it, i) {
     var c = PALETTE[i % PALETTE.length];
     return '<a class="cs-card animate__animated animate__fadeInUp" href="#' + pid + '" data-go="' + pid + '"' +
@@ -146,7 +121,6 @@
   function title(text, n) {
     return '<div class="cs-group-title"><h3>' + text + '</h3>' + (n ? '<span class="cs-tag">' + n + '</span>' : '') + '</div>';
   }
-
   function build() {
     var all = window.ETO_CONTENT || {};
     Object.keys(all).forEach(function (fid) {
@@ -160,8 +134,6 @@
         var wrap = page.querySelector('.cs-wrap');
         if (!wrap || wrap.getAttribute('data-sum-done')) return;
         wrap.setAttribute('data-sum-done', '1');
-
-        /* شيل الصفوف العادية اللي courses.js عملتها للملخصات دي */
         var urls = list.map(function (it) { return it.url; });
         wrap.querySelectorAll('a.cs-item').forEach(function (a) {
           if (urls.indexOf(a.getAttribute('href')) > -1) a.remove();

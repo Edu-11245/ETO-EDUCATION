@@ -1,19 +1,4 @@
-/* =====================================================================
-   ETO | المواد الدراسية  (courses/courses.js)
-   - بيانات الكليات والمواد + بناء كل الصفحات أوتوماتيك
-   - بيتحمّل قبل السكريبت الأساسي، فالروابط (#fac-sci-cnu مثلًا) بتشتغل من أول فتحة
-   ---------------------------------------------------------------------
-   إزاي تضيف حاجة:
-   * مادة جديدة  -> ضيف object جوه subjects في السنة المناسبة
-   * ملف/ملخص    -> ضيف في files أو summaries:
-        { title:'Lecture 1', url:'https://...', kind:'pdf', note:'اختياري' }
-     kind = pdf | ppt | doc | img | link
-   * فيديو       -> ضيف في videos بنفس الشكل { title, url }
-   * واجبات/مسائل -> ضيف في assignments (واسم الكرت من assignmentsLabel في content.js، مثلًا "مسائل" للماث)، وكل واجب في فولدر بنفس group:
-        { url:'...', kind:'pdf', group:'Assignment 1', note:'الواجب' }
-        { url:'...', kind:'pdf', group:'Assignment 1', note:'الحل' }
-   * كلية جديدة  -> ضيف object جديد في FACULTIES (وليها لينك #fac-<id> أوتوماتيك)
-   ===================================================================== */
+
 (function () {
   'use strict';
 
@@ -90,6 +75,7 @@
     var sel = '[data-drive-id="' + id + '"]';
     document.querySelectorAll('b' + sel).forEach(function (b) { b.textContent = name; });
     document.querySelectorAll('a' + sel).forEach(function (a) { a.setAttribute('data-title', name); });
+    document.querySelectorAll('h2[data-view-title]' + sel).forEach(function (h) { h.textContent = name; });
   }
   function resolveDriveNames() {
     var ids = {};
@@ -130,7 +116,6 @@
     return s;
   }
 
-  /* الروبوت مايظهرش في أي صفحة من صفحات المواد */
   function syncRobot() {
     document.body.classList.toggle('eto-no-robot', !!document.querySelector('.cs-page:not(.hidden)'));
   }
@@ -161,7 +146,6 @@
     return '<span class="cs-chip ' + (extra || '') + '"><i class="fa-solid ' + icon + '"></i>' + text + '</span>';
   }
 
-  /* ---------- فتح الملفات جوه الموقع (Google Drive / YouTube) ---------- */
   function viewInfo(url) {
     url = String(url || '');
     var m = url.match(/drive\.google\.com\/file\/d\/([\w-]+)/) ||
@@ -180,12 +164,10 @@
     if (y) return { embed: 'https://www.youtube.com/embed/' + y[1], open: url };
     return null;
   }
-  /* شبكة الـ4 كروت في هب المادة */
   (function () {
     var st = document.createElement('style');
-    st.textContent = '.cs-grid.cs-grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}' +
-      '@media(max-width:1100px){.cs-grid.cs-grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}' +
-      '@media(max-width:600px){.cs-grid.cs-grid-4{grid-template-columns:1fr}}';
+    st.textContent = '.cs-grid.cs-grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}' +
+      '@media(max-width:480px){.cs-grid.cs-grid-4{grid-template-columns:1fr}}';
     document.head.appendChild(st);
   })();
   var viewer = null;
@@ -222,14 +204,10 @@
     viewer.querySelector('iframe').src = 'about:blank';
     document.documentElement.style.overflow = '';
   }
-
-  /* ---------- الإحصائيات ---------- */
   function countSubjects(f) {
     return f.years.reduce(function (n, y) { return n + y.subjects.length; }, 0);
   }
   var totalSubjects = FACULTIES.reduce(function (n, f) { return n + countSubjects(f); }, 0);
-
-  /* ---------- صفحة: كل الكليات ---------- */
   (function buildHub() {
     var cards = FACULTIES.map(function (f, i) {
       return link('fac-' + f.id, 'cs-card animate__animated animate__fadeInUp', theme(f.color, f.color2) + ';' + delay(i),
@@ -263,8 +241,6 @@
         '<div class="cs-grid">' + cards.join('') + '</div>' +
       '</div>');
   })();
-
-  /* ---------- صفحة كل كلية + صفحات المواد ---------- */
   FACULTIES.forEach(function (f) {
     var fid = 'fac-' + f.id;
     var fTheme = theme(f.color, f.color2);
@@ -311,13 +287,11 @@
       t.addEventListener('click', function () { showYear(t.getAttribute('data-year')); });
     });
     showYear(f.years[0].id);
-
-    /* ---- صفحات كل مادة ---- */
     f.years.forEach(function (y) {
       y.subjects.forEach(function (s) {
         var ext = ((window.ETO_CONTENT || {})[f.id] || {}).subjects || {};
         var ex = ext[s.code] || {};
-        s.files = ex.files || s.files || []; s.summaries = ex.summaries || s.summaries || []; s.videos = ex.videos || s.videos || []; s.assignments = ex.assignments || s.assignments || [];
+        s.files = ex.files || s.files || []; s.summaries = ex.summaries || s.summaries || []; s.videos = ex.videos || s.videos || []; s.assignments = ex.assignments || s.assignments || []; s.questions = ex.questions || s.questions || [];
         var aLabel = ex.assignmentsLabel || 'واجبات';
         var aIcon = ex.assignmentsIcon || (aLabel === 'واجبات' ? 'fa-clipboard-list' : 'fa-calculator');
         var aText = ex.assignmentsText || (aLabel === 'واجبات' ? 'الواجبات وحلولها، كل واجب في فولدر.' : 'شيتات ' + aLabel + ' ' + s.ar + '.');
@@ -327,8 +301,6 @@
           { label: 'الرئيسية', go: 'portal' }, { label: 'المواد الدراسية', go: 'courses' },
           { label: f.name, go: fid }
         ];
-
-        /* هب المادة: 3 كروت */
         function big(kind, icon, title, text, count, soon, i) {
           var tag = soon
             ? '<span class="cs-tag cs-tag-soon"><i class="fa-solid fa-hourglass-half"></i>قريبًا</span>'
@@ -345,7 +317,8 @@
             c: s.color, c2: s.color2, icon: s.icon, kicker: s.code,
             title: s.ar, text: s.en,
             crumbs: baseCrumbs.concat([{ label: s.ar }]),
-            chips: chip('fa-hashtag', '<span class="cs-code">' + esc(s.code) + '</span>') + chip('fa-calendar-day', esc(s.day)) + chip('fa-building-columns', esc(f.name))
+            chips: chip('fa-hashtag', '<span class="cs-code">' + esc(s.code) + '</span>') + chip('fa-calendar-day', esc(s.day)) + chip('fa-building-columns', esc(f.name)) +
+                   '<button type="button" class="cs-chip cs-chip-btn" data-copy="' + sid + '" data-copy-msg="اتنسخ لينك المادة"><i class="fa-solid fa-link"></i>نسخ لينك المادة</button>'
           }) +
           '<div class="cs-wrap cs-big" style="' + t + '">' +
             '<div class="cs-section-title"><div><h2>محتوى المادة</h2><p>اختار اللي محتاجه.</p></div></div>' +
@@ -354,10 +327,9 @@
               big('files', 'fa-folder-open', 'ملفات المادة', 'السلايدات والمحاضرات والتمارين وكل ملفات المادة.', s.files.length, !s.files.length, 1) +
               big('summaries', 'fa-book-open', 'ملخصات', 'ملخصات ومراجعات سريعة قبل الامتحان.', s.summaries.length, !s.summaries.length, 2) +
               big('assignments', aIcon, aLabel, aText, s.assignments.length, !s.assignments.length, 3) +
+              big('questions', 'fa-circle-question', 'بنك أسئلة', 'أسئلة وامتحانات سابقة وكويزات للمذاكرة.', s.questions.length, !s.questions.length, 4) +
             '</div>' +
           '</div>');
-
-        /* الصفحات الفرعية */
         var KIND = { pdf: 'fa-file-pdf', ppt: 'fa-file-powerpoint', doc: 'fa-file-word', img: 'fa-file-image', link: 'fa-link' };
         function itemHtml(it, i, defKind) {
           var k = it.kind || defKind;
@@ -370,10 +342,10 @@
             '<span><b' + (did ? ' data-drive-id="' + did + '"' : '') + '>' + esc(shown) + '</b>' + (it.note ? '<small>' + esc(it.note) + '</small>' : '') + '</span>' +
             '<i class="fa-solid ' + (v ? 'fa-eye' : 'fa-arrow-up-right-from-square') + ' cs-open"></i></a>';
         }
-        /* لو العناصر ليها group بنعرضها كمجلدات، والكليك على المجلد بيفتح محتواه */
         var FOLDER_COLORS = [['#2563eb', '#1e3a8a'], ['#16a34a', '#14532d'], ['#7c3aed', '#4c1d95'], ['#e11d48', '#881337'], ['#d97706', '#92400e'], ['#0891b2', '#164e63']];
-        function itemsHtml(list, defKind) {
+        function itemsHtml(list, defKind, groups) {
           var order = [], map = {}, loose = [];
+          (groups || []).forEach(function (g) { if (!map[g]) { map[g] = []; order.push(g); } });
           list.forEach(function (it) {
             var g = it.group || '';
             if (!g) { loose.push(it); return; }
@@ -386,7 +358,7 @@
             return '<button type="button" data-folder="' + i + '" class="cs-card cs-folder animate__animated animate__fadeInUp" style="' + theme(c[0], c[1]) + ';' + delay(i) + '">' +
               '<div class="cs-card-icon"><i class="fa-solid fa-folder-open"></i></div>' +
               '<h3>' + esc(g) + '</h3>' +
-              '<div class="cs-meta"><span class="cs-tag"><i class="fa-solid fa-file"></i>' + map[g].length + ' ملف</span></div>' +
+              '<div class="cs-meta">' + (map[g].length ? '<span class="cs-tag"><i class="fa-solid fa-file"></i>' + map[g].length + ' ملف</span>' : '<span class="cs-tag cs-tag-soon"><i class="fa-solid fa-hourglass-half"></i>قريبًا</span>') + '</div>' +
               '<div class="cs-card-go"><span>افتح المجلد</span><i class="fa-solid fa-arrow-left"></i></div></button>';
           }).join('');
           var looseHtml = loose.length
@@ -398,7 +370,7 @@
             return '<div class="cs-panel cs-hide" data-panel="' + i + '" style="' + theme(c[0], c[1]) + '">' +
               '<div class="cs-panel-head"><button type="button" class="cs-btn" data-folder-back><i class="fa-solid fa-arrow-right"></i>كل المجلدات</button>' +
               '<h3><i class="fa-solid fa-folder-open"></i>' + esc(g) + '</h3><span class="cs-tag">' + map[g].length + '</span></div>' +
-              '<div class="cs-list">' + map[g].map(function (it, j) { return itemHtml(it, j, defKind); }).join('') + '</div></div>';
+              (map[g].length ? '<div class="cs-list">' + map[g].map(function (it, j) { return itemHtml(it, j, defKind); }).join('') + '</div>' : '<div class="cs-empty"><div class="cs-empty-icon"><i class="fa-solid fa-hourglass-half"></i></div><h3>قريبًا</h3><p>بنوك الأسئلة بتاعة المجلد ده جاية قريب.</p></div>') + '</div>';
           }).join('');
           return '<div data-folders-view><div class="cs-grid">' + folders + '</div>' + looseHtml + '</div>' + panels;
         }
@@ -408,17 +380,18 @@
             '<h3>' + title + '</h3><p>' + text + '</p>' +
             '<a href="#' + sid + '" data-go="' + sid + '" class="cs-btn"><i class="fa-solid fa-arrow-right"></i>رجوع للمادة</a></div>';
         }
-        function sub(kind, icon, label, kicker, text, list, defKind, emptyTitle, emptyText, pulse) {
+        function sub(kind, icon, label, kicker, text, list, defKind, emptyTitle, emptyText, pulse, groups) {
           addPage(sid + '-' + kind,
             hero({
               c: s.color, c2: s.color2, icon: icon, kicker: kicker + ' • ' + s.code,
               title: label + ' - ' + s.ar, text: text,
               crumbs: baseCrumbs.concat([{ label: s.ar, go: sid }, { label: label }]),
               chips: chip('fa-hashtag', '<span class="cs-code">' + esc(s.code) + '</span>') +
-                     (list.length ? chip('fa-circle-check', list.length + ' عنصر') : chip('fa-hourglass-half', 'قريبًا'))
+                     (list.length ? chip('fa-circle-check', list.length + ' عنصر') : chip('fa-hourglass-half', 'قريبًا')) +
+                     '<button type="button" class="cs-chip cs-chip-btn" data-copy="' + sid + '-' + kind + '" data-copy-msg="اتنسخ لينك الصفحة"><i class="fa-solid fa-link"></i>نسخ لينك الصفحة</button>'
             }) +
             '<div class="cs-wrap" style="' + t + '">' +
-              (list.length ? itemsHtml(list, defKind) : emptyHtml(icon, emptyTitle, emptyText, pulse)) +
+              (list.length ? itemsHtml(list, defKind, groups) : emptyHtml(icon, emptyTitle, emptyText, pulse)) +
             '</div>');
         }
         sub('videos', 'fa-circle-play', 'شرح', 'VIDEOS', 'فيديوهات شرح ' + s.ar + '.', s.videos, 'link',
@@ -427,24 +400,23 @@
             'لسه مفيش ملفات', 'بنرتب ملفات المادة. هتلاقيها هنا أول ما تتضاف.', false);
         sub('assignments', aIcon, aLabel, 'PRACTICE', aText, s.assignments, 'pdf',
             'لسه مفيش ' + aLabel, 'ال' + aLabel + ' هتتضاف هنا أول ما تجهز.', false);
+        sub('questions', 'fa-circle-question', 'بنك أسئلة', 'QUESTION BANK', 'بنك أسئلة ' + s.ar + ': أسئلة وامتحانات سابقة وكويزات.', s.questions, 'pdf',
+            'لسه مفيش أسئلة', 'بنك الأسئلة هيتضاف هنا أول ما يجهز.', false, ex.questionGroups);
         sub('summaries', 'fa-book-open', 'ملخصات', 'SUMMARIES', 'ملخصات ومراجعات ' + s.ar + '.', s.summaries, 'pdf',
             'لسه مفيش ملخصات', 'الملخصات جاية قريب. تابع الصفحة دي.', false);
       });
     });
-
-    /* نسخ لينك الكلية */
-    page.addEventListener('click', function (e) {
-      var b = e.target.closest('[data-copy]');
-      if (!b) return;
-      var url = location.origin + location.pathname + '#' + b.getAttribute('data-copy');
-      var done = function () { if (typeof showToast === 'function') showToast('اتنسخ لينك الكلية'); };
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, done);
-      else { var ta = document.createElement('textarea'); ta.value = url; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (_) {} ta.remove(); done(); }
-    });
   });
-
-  /* ---------- تنقل بالكليك (روابط حقيقية + navigate) ---------- */
   document.addEventListener('click', function (e) {
+    var cp = e.target.closest('[data-copy]');
+    if (cp) {
+      var curl = location.origin + location.pathname + '#' + cp.getAttribute('data-copy');
+      var cmsg = cp.getAttribute('data-copy-msg') || 'اتنسخ لينك الكلية';
+      var cdone = function () { if (typeof showToast === 'function') showToast(cmsg); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(curl).then(cdone, cdone);
+      else { var cta = document.createElement('textarea'); cta.value = curl; document.body.appendChild(cta); cta.select(); try { document.execCommand('copy'); } catch (_) {} cta.remove(); cdone(); }
+      return;
+    }
     var fb = e.target.closest('[data-folder]');
     if (fb) {
       var w = fb.closest('.cs-wrap');
@@ -471,6 +443,70 @@
       window.scrollTo({ top: 0, behavior: 'auto' });
     }
   });
+
+  /* ---------- عارض الملفات: صفحة كاملة لكل ملف (بدل المودال) ---------- */
+  var VBTN = 'flex-none rounded-xl bg-gray-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-gray-200 dark:hover:bg-slate-700 flex items-center justify-center';
+  var viewKeys = {}, viewCount = {};
+  function buildViewPages() {
+    document.querySelectorAll('.cs-page a.cs-item[data-view]').forEach(function (a) {
+      var host = a.closest('.page-section');
+      if (!host || !host.id) return;
+      var hostId = host.id.replace(/^page-/, '');
+      var embed = a.getAttribute('data-view'), open = a.getAttribute('data-open') || '', dl = a.getAttribute('data-dl') || '';
+      var did = a.getAttribute('data-drive-id') || '';
+      var key = (did || embed.replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '').slice(-40)) || 'file';
+      var mk = key + '|' + hostId, pid = viewKeys[mk];
+      if (!pid) {
+        viewCount[key] = (viewCount[key] || 0) + 1;
+        pid = 'view-' + key + (viewCount[key] > 1 ? '-' + viewCount[key] : '');
+        viewKeys[mk] = pid;
+        var title = a.getAttribute('data-title') || 'ملف';
+        var sec = document.createElement('section');
+        sec.id = 'page-' + pid;
+        sec.className = 'page-section hidden cs-page';
+        sec.style.cssText = 'position:fixed;inset:0;z-index:60;animation:none';
+        sec.innerHTML =
+          '<div class="flex flex-col w-full h-full bg-white dark:bg-slate-900">' +
+            '<div class="flex items-center gap-2 px-3 pb-2 border-b border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900" style="padding-top:max(8px,env(safe-area-inset-top))">' +
+              '<a href="#' + esc(hostId) + '" data-go="' + esc(hostId) + '" aria-label="رجوع" class="w-10 h-10 ' + VBTN + '"><i class="fa-solid fa-arrow-right"></i></a>' +
+              '<h2 data-view-title' + (did ? ' data-drive-id="' + did + '"' : '') + ' class="flex-1 min-w-0 truncate font-black text-sm md:text-base text-slate-800 dark:text-slate-100">' + esc(title) + '</h2>' +
+              '<button type="button" data-copy="' + esc(pid) + '" data-copy-msg="اتنسخ لينك الملف" aria-label="نسخ لينك الملف" class="h-10 px-3 ' + VBTN + ' gap-2 text-sm font-bold"><i class="fa-solid fa-link"></i><span class="hidden sm:inline">نسخ اللينك</span></button>' +
+              '<a href="' + esc(open) + '" target="_blank" rel="noopener noreferrer" aria-label="فتح في تاب" class="h-10 px-3 ' + VBTN + ' gap-2 text-sm font-bold"><i class="fa-solid fa-arrow-up-right-from-square"></i><span class="hidden sm:inline">فتح في تاب</span></a>' +
+              (dl ? '<a href="' + esc(dl) + '" target="_blank" rel="noopener noreferrer" aria-label="تحميل" class="h-10 px-3 ' + VBTN + ' gap-2 text-sm font-bold"><i class="fa-solid fa-download"></i><span class="hidden sm:inline">تحميل</span></a>' : '') +
+              '<a href="#portal" data-go="portal" aria-label="الرئيسية" class="w-10 h-10 ' + VBTN + '"><i class="fa-solid fa-house"></i></a>' +
+            '</div>' +
+            '<div class="relative flex-1 min-h-0">' +
+              '<iframe title="' + esc(title) + '" class="absolute inset-0 w-full h-full border-0 bg-white" allow="autoplay; fullscreen" allowfullscreen referrerpolicy="no-referrer"></iframe>' +
+              '<div data-v-load class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-300 font-bold" style="pointer-events:none"><i class="fa-solid fa-circle-notch fa-spin text-3xl"></i><span>جاري تحميل الملف...</span></div>' +
+            '</div>' +
+          '</div>';
+        main.insertBefore(sec, backBtn || null);
+        (function (sec, embed) {
+          var frame = sec.querySelector('iframe'), loadEl = sec.querySelector('[data-v-load]'), timer = null, on = false;
+          frame.addEventListener('load', function () { if (on) loadEl.classList.add('hidden'); });
+          new MutationObserver(function () {
+            var shown = !sec.classList.contains('hidden');
+            if (shown === on) return;
+            on = shown;
+            clearTimeout(timer);
+            if (shown) {
+              document.documentElement.style.overflow = 'hidden';
+              loadEl.classList.remove('hidden');
+              frame.src = embed;
+              timer = setTimeout(function () { loadEl.classList.add('hidden'); }, 15000);
+            } else {
+              document.documentElement.style.overflow = '';
+              frame.src = 'about:blank';
+            }
+          }).observe(sec, { attributes: true, attributeFilter: ['class'] });
+        })(sec, embed);
+      }
+      ['target', 'rel', 'data-view', 'data-open', 'data-dl'].forEach(function (k) { a.removeAttribute(k); });
+      a.setAttribute('href', '#' + pid);
+      a.setAttribute('data-go', pid);
+    });
+  }
+  buildViewPages();
 
   resolveDriveNames();
   syncRobot();
