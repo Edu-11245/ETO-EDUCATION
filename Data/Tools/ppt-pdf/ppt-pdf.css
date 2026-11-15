@@ -1,0 +1,96 @@
+/* ETO.Edu | PowerPoint <-> PDF */
+#page-ppt-pdf .pp-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#9a3412 0%,#ea580c 48%,#e11d48 100%);box-shadow:0 18px 40px -18px rgba(234,88,12,.6)}
+#page-ppt-pdf .pp-hero:before,#page-ppt-pdf .pp-hero:after{content:"";position:absolute;border-radius:50%;background:#fff;opacity:.09}
+#page-ppt-pdf .pp-hero:before{width:320px;height:320px;top:-130px;left:-90px}
+#page-ppt-pdf .pp-hero:after{width:220px;height:220px;bottom:-110px;right:30%}
+#page-ppt-pdf .pp-chip{display:inline-flex;align-items:center;font-size:11px;font-weight:800;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px)}
+#page-ppt-pdf .pp-swap{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:14px;background:rgba(255,255,255,.2);font-size:18px;vertical-align:middle;margin:0 4px}
+#page-ppt-pdf .pp-flow{display:flex;align-items:center;gap:14px;flex-shrink:0}
+#page-ppt-pdf .pp-flow-card{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;font-weight:800}
+#page-ppt-pdf .pp-flow-ico{width:74px;height:74px;border-radius:22px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;color:#ea580c;box-shadow:0 14px 28px -10px rgba(0,0,0,.35);transition:transform .3s}
+#page-ppt-pdf[data-mode="pdf"] .pp-flow-ico{color:#e11d48}
+#page-ppt-pdf .pp-flow-card:last-child .pp-flow-ico{color:#e11d48}
+#page-ppt-pdf[data-mode="pdf"] .pp-flow-card:last-child .pp-flow-ico{color:#ea580c}
+#page-ppt-pdf .pp-flow-arrow{font-size:22px;opacity:.9;animation:ppNudge 1.4s ease-in-out infinite}
+@keyframes ppNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(-7px)}}
+
+#page-ppt-pdf .pp-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px;background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 6px 18px rgba(15,23,42,.04)}
+.dark #page-ppt-pdf .pp-tabs{background:#1e293b;border-color:#334155;box-shadow:none}
+#page-ppt-pdf .pp-tab{display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 10px;border-radius:13px;font-weight:800;font-size:14px;color:#64748b;transition:.2s}
+#page-ppt-pdf .pp-tab i{font-size:17px}
+#page-ppt-pdf .pp-tab:hover{background:#f8fafc}
+.dark #page-ppt-pdf .pp-tab:hover{background:#0f172a}
+#page-ppt-pdf .pp-tab.is-active{background:linear-gradient(135deg,#ea580c,#e11d48);color:#fff;box-shadow:0 10px 20px -10px rgba(234,88,12,.8)}
+
+#page-ppt-pdf .pp-card{background:#fff;border:1px solid #e5e7eb;border-radius:22px;padding:20px;box-shadow:0 8px 24px rgba(15,23,42,.05)}
+.dark #page-ppt-pdf .pp-card{background:#1e293b;border-color:#334155;box-shadow:none}
+#page-ppt-pdf .pp-step{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:9px;background:#ffedd5;color:#c2410c;font-weight:900;font-size:13px}
+.dark #page-ppt-pdf .pp-step{background:rgba(234,88,12,.2);color:#fdba74}
+#page-ppt-pdf .pp-label{display:block;font-weight:700;font-size:13px;margin-bottom:6px;color:#475569}
+.dark #page-ppt-pdf .pp-label{color:#cbd5e1}
+#page-ppt-pdf .pp-field{width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;color:#1e293b;outline:none;transition:.15s;font-size:14px}
+#page-ppt-pdf .pp-field:focus{border-color:#f97316;box-shadow:0 0 0 3px rgba(249,115,22,.15);background:#fff}
+.dark #page-ppt-pdf .pp-field{background:#0f172a;border-color:#334155;color:#e2e8f0}
+
+#page-ppt-pdf .pp-drop{border:2px dashed #fdba74;background:linear-gradient(180deg,#fff7ed,#fff);border-radius:20px;padding:38px 18px;text-align:center;cursor:pointer;transition:.2s}
+.dark #page-ppt-pdf .pp-drop{background:linear-gradient(180deg,rgba(234,88,12,.08),transparent);border-color:rgba(251,146,60,.45)}
+#page-ppt-pdf .pp-drop:hover,#page-ppt-pdf .pp-drop.is-over{border-color:#ea580c;transform:translateY(-2px);box-shadow:0 14px 28px -16px rgba(234,88,12,.55)}
+#page-ppt-pdf .pp-drop-ico{width:62px;height:62px;border-radius:20px;background:linear-gradient(135deg,#fb923c,#ea580c);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px;box-shadow:0 12px 22px -10px rgba(234,88,12,.8)}
+#page-ppt-pdf[data-mode="pdf"] .pp-drop{border-color:#fda4af;background:linear-gradient(180deg,#fff1f2,#fff)}
+.dark #page-ppt-pdf[data-mode="pdf"] .pp-drop{background:linear-gradient(180deg,rgba(225,29,72,.08),transparent);border-color:rgba(251,113,133,.45)}
+#page-ppt-pdf[data-mode="pdf"] .pp-drop-ico{background:linear-gradient(135deg,#fb7185,#e11d48);box-shadow:0 12px 22px -10px rgba(225,29,72,.8)}
+
+#page-ppt-pdf .pp-fileinfo{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid #e2e8f0;border-radius:16px;background:#f8fafc}
+.dark #page-ppt-pdf .pp-fileinfo{background:#0f172a;border-color:#334155}
+#page-ppt-pdf .pp-fileinfo.hidden{display:none}
+#page-ppt-pdf .pp-fileinfo-ico{width:42px;height:42px;border-radius:13px;background:#ffedd5;color:#ea580c;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+#page-ppt-pdf .pp-icon-btn{width:34px;height:34px;border-radius:10px;color:#94a3b8;transition:.15s;flex-shrink:0}
+#page-ppt-pdf .pp-icon-btn:hover{background:#fee2e2;color:#dc2626}
+#page-ppt-pdf .pp-warn{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:11px 13px;border-radius:14px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:12px;line-height:1.7}
+#page-ppt-pdf .pp-warn.hidden{display:none}
+.dark #page-ppt-pdf .pp-warn{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:#fcd34d}
+#page-ppt-pdf .pp-warn i{margin-top:4px}
+
+#page-ppt-pdf .pp-count{font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px;background:#ffedd5;color:#c2410c}
+#page-ppt-pdf .pp-link{color:#ea580c;font-weight:800;transition:.15s}
+#page-ppt-pdf .pp-link:hover{color:#c2410c;text-decoration:underline}
+#page-ppt-pdf .pp-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;max-height:540px;overflow:auto;padding:4px;margin:-4px}
+#page-ppt-pdf .pp-thumb{position:relative;display:block;text-align:right;border-radius:14px;padding:6px;border:2px solid #e2e8f0;background:#fff;transition:.15s;cursor:pointer}
+.dark #page-ppt-pdf .pp-thumb{background:#0f172a;border-color:#334155}
+#page-ppt-pdf .pp-thumb:hover{transform:translateY(-2px);box-shadow:0 10px 20px -12px rgba(15,23,42,.45)}
+#page-ppt-pdf .pp-thumb.is-on{border-color:#ea580c;box-shadow:0 0 0 3px rgba(234,88,12,.14)}
+#page-ppt-pdf .pp-thumb-img{width:100%;border-radius:8px;overflow:hidden;background:#f1f5f9;position:relative;border:1px solid rgba(148,163,184,.25)}
+.dark #page-ppt-pdf .pp-thumb-img{background:#1e293b}
+#page-ppt-pdf .pp-thumb-img img{display:block;width:100%;height:100%;object-fit:cover}
+#page-ppt-pdf .pp-spin{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#cbd5e1;font-size:18px}
+#page-ppt-pdf .pp-thumb:not(.is-on) .pp-thumb-img{opacity:.45;filter:grayscale(.6)}
+#page-ppt-pdf .pp-thumb-num{position:absolute;bottom:34px;left:12px;font-size:10px;font-weight:900;padding:2px 7px;border-radius:7px;background:rgba(15,23,42,.72);color:#fff}
+#page-ppt-pdf .pp-thumb-check{position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:8px;background:#ea580c;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;transform:scale(0);transition:.15s}
+#page-ppt-pdf .pp-thumb.is-on .pp-thumb-check{transform:scale(1)}
+#page-ppt-pdf .pp-thumb-tag{position:absolute;top:12px;left:12px;font-size:10px;font-weight:800;padding:2px 7px;border-radius:7px;background:#fef3c7;color:#92400e}
+#page-ppt-pdf .pp-thumb-title{display:block;margin-top:6px;font-size:11px;font-weight:700;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:16px}
+
+#page-ppt-pdf .pp-check{display:flex;align-items:center;gap:10px;cursor:pointer}
+#page-ppt-pdf .pp-check.hidden{display:none}
+#page-ppt-pdf .pp-check input{position:absolute;opacity:0;pointer-events:none}
+#page-ppt-pdf .pp-check-box{width:22px;height:22px;border-radius:7px;border:2px solid #cbd5e1;display:flex;align-items:center;justify-content:center;color:transparent;font-size:11px;transition:.15s;flex-shrink:0}
+#page-ppt-pdf .pp-check input:checked+.pp-check-box{background:#ea580c;border-color:#ea580c;color:#fff}
+
+#page-ppt-pdf .pp-convert{flex:1;color:#fff;padding:14px;border-radius:14px;font-weight:900;font-size:15px;background:linear-gradient(135deg,#ea580c,#e11d48);box-shadow:0 14px 24px -12px rgba(234,88,12,.9);transition:.2s}
+#page-ppt-pdf .pp-convert:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 18px 28px -12px rgba(234,88,12,.95)}
+#page-ppt-pdf .pp-convert.is-disabled,#page-ppt-pdf .pp-convert:disabled{background:#cbd5e1;box-shadow:none;cursor:not-allowed}
+.dark #page-ppt-pdf .pp-convert.is-disabled,.dark #page-ppt-pdf .pp-convert:disabled{background:#334155;color:#64748b}
+#page-ppt-pdf .pp-cancel{background:#dc2626;color:#fff;padding:0 18px;border-radius:14px;font-weight:800;transition:.15s}
+#page-ppt-pdf .pp-cancel.hidden{display:none}
+#page-ppt-pdf .pp-cancel:hover{background:#b91c1c}
+#page-ppt-pdf .pp-bar{height:10px;border-radius:999px;background:#e2e8f0;overflow:hidden}
+.dark #page-ppt-pdf .pp-bar{background:#334155}
+#page-ppt-pdf .pp-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#fb923c,#ea580c,#e11d48);transition:width .2s}
+
+#page-ppt-pdf .pp-result{border-color:#fdba74}
+.dark #page-ppt-pdf .pp-result{border-color:rgba(251,146,60,.5)}
+#page-ppt-pdf .pp-result-ico{width:54px;height:54px;border-radius:18px;margin:0 auto 10px;background:#dcfce7;color:#16a34a;font-size:26px;display:flex;align-items:center;justify-content:center}
+#page-ppt-pdf .pp-download{display:block;text-align:center;background:#0f172a;color:#fff;padding:13px;border-radius:14px;font-weight:900;transition:.15s}
+#page-ppt-pdf .pp-download:hover{background:#1e293b;transform:translateY(-2px)}
+.dark #page-ppt-pdf .pp-download{background:#f8fafc;color:#0f172a}
+@media (max-width:640px){#page-ppt-pdf .pp-flow-ico{width:58px;height:58px;font-size:26px;border-radius:18px}#page-ppt-pdf .pp-thumbs{grid-template-columns:repeat(2,1fr)}}

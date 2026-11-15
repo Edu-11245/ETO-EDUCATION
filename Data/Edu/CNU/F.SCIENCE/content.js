@@ -180,16 +180,51 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
       "questionGroups": ["Zoology", "Invertebrates", "Lab"],
       "questions": [
         {
-          "title": "Embryology Question Bank",
-          "note": "By Mohammed Saad • Lecture 7",
-          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Bank-Questions/Zoology/lec.7/Embryology%20Question%20Bank%20_%20By%20Mohammed%20Saad.html",
+          "title": "Cell & Molecular Biology Question Bank",
+          "note": "By Mohammed Saad • Biology Lecture 1",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Bank-Questions/Zoology/lec.1/Cell%20Molecular%20Biology%20Question%20Bank%20_%20By%20Mohammed%20Saad.html",
           "kind": "html",
           "group": "Zoology"
         },
         {
-          "title": "Cell & Molecular Biology Question Bank",
-          "note": "By Mohammed Saad • Lecture 1",
-          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Bank-Questions/Zoology/lec.1/Cell%20Molecular%20Biology%20Question%20Bank%20_%20By%20Mohammed%20Saad.html",
+          "title": "Invertebrates – Introduction & Classification Question Bank",
+          "note": "By Mohammed Saad • Invertebrates Lecture 1",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Bank-Questions/Zoology/lec.2/Invertebrate_Zoology_Question_Bank.html",
+          "kind": "html",
+          "group": "Invertebrates"
+        },
+        {
+          "title": "Golgi & Mitochondria Question Bank",
+          "note": "By Mohammed Saad • Biology Lecture 2",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Bank-Questions/Zoology/lec.3/Golgi_Mitochondria_Question_Bank.html",
+          "kind": "html",
+          "group": "Zoology"
+        },
+        {
+          "title": "Invertebrates – Protozoa Question Bank",
+          "note": "By Mohammed Saad • Invertebrates Lecture 2",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Bank-Questions/Zoology/lec.4/Invertebrate_Zoology_Lecture2_Question_Bank.html",
+          "kind": "html",
+          "group": "Invertebrates"
+        },
+        {
+          "title": "Ribosomes & Cell Cycle Question Bank",
+          "note": "By Mohammed Saad • Biology Lecture 3",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Bank-Questions/Zoology/lec.5/Ribosomes_CellCycle_Question_Bank.html",
+          "kind": "html",
+          "group": "Zoology"
+        },
+        {
+          "title": "Invertebrates – Porifera & Cnidaria Question Bank",
+          "note": "By Mohammed Saad • Invertebrates Lecture 3",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Bank-Questions/Zoology/lec.6/Invertebrate_Zoology_Lecture3_Question_Bank.html",
+          "kind": "html",
+          "group": "Invertebrates"
+        },
+        {
+          "title": "Embryology Question Bank",
+          "note": "By Mohammed Saad • Biology Lecture 4",
+          "url": "https://github.com/Edu-11245/ETO-EDUCATION/blob/main/Bank-Questions/Zoology/lec.7/Embryology%20Question%20Bank%20_%20By%20Mohammed%20Saad.html",
           "kind": "html",
           "group": "Zoology"
         }
