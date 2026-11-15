@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Invertebrate Zoology – Lecture 2 | Question Bank</title>
+<style>
+:root{--bg:#f3f4fb;--bg2:#e4e0fb;--card:#fff;--tx:#1b2033;--mu:#6b7189;--ac:#6246ea;--ac2:#8f6bff;--ok:#16a765;--no:#e5484d;--bd:#e2e5f2;--sh:0 8px 28px rgba(60,50,140,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141d;--bg2:#1c1840;--card:#1c2030;--tx:#eef0fa;--mu:#9ba2bd;--ac:#9b86ff;--ac2:#6f9bff;--ok:#3ecf8e;--no:#ff6b73;--bd:#30355100;--bd:#303551;--sh:0 8px 28px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#12141d;--bg2:#1c1840;--card:#1c2030;--tx:#eef0fa;--mu:#9ba2bd;--ac:#9b86ff;--ac2:#6f9bff;--ok:#3ecf8e;--no:#ff6b73;--bd:#303551;--sh:0 8px 28px rgba(0,0,0,.4)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(160deg,var(--bg) 40%,var(--bg2));color:var(--tx);font-family:system-ui,"Segoe UI",Tahoma,sans-serif;line-height:1.65;-webkit-tap-highlight-color:transparent}
+.w{max-width:720px;margin:0 auto;padding:18px 14px 40px}
+h1{font-size:clamp(1.25rem,4.5vw,1.7rem);margin:.3rem 0 .1rem;text-align:center}
+.sub{text-align:center;color:var(--mu);margin:0 0 14px;font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:18px;box-shadow:var(--sh)}
+.in{animation:in .38s cubic-bezier(.2,.8,.3,1) both}
+.out{animation:out .26s ease-in both}
+@keyframes in{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes out{to{opacity:0;transform:translateX(-36px) scale(.98)}}
+@keyframes pop{40%{transform:scale(1.035)}}
+@keyframes shake{20%{transform:translateX(-7px)}60%{transform:translateX(7px)}}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 14px}
+.st{background:var(--bg);border-radius:14px;padding:12px 6px;text-align:center}
+.st b{display:block;font-size:1.6rem;color:var(--ac)}.st span{font-size:.8rem;color:var(--mu)}
+.bar{height:10px;background:var(--bd);border-radius:10px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:10px;transition:width .6s cubic-bezier(.2,.8,.3,1)}
+button{font:inherit;color:var(--tx);cursor:pointer;border:1px solid var(--bd);background:var(--card);border-radius:14px;padding:11px 16px;transition:transform .15s,box-shadow .2s,background .2s,border-color .2s}
+button:active:not(:disabled){transform:scale(.97)}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible{outline:3px solid var(--ac2);outline-offset:2px}
+.p{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:0;font-weight:700;box-shadow:0 6px 16px rgba(98,70,234,.35)}
+.btns{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.chip{display:inline-block;padding:3px 12px;border-radius:99px;background:var(--bg);color:var(--ac);font-size:.8rem;font-weight:600;direction:ltr}
+.q{font-size:clamp(1rem,3.8vw,1.15rem);font-weight:700;direction:ltr;text-align:left;margin:12px 0}
+.o{display:flex;align-items:center;gap:12px;width:100%;text-align:left;direction:ltr;margin:9px 0;padding:12px 14px;animation:in .4s both}
+.o b{flex:none;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--bg);color:var(--ac);font-size:.85rem}
+@media(hover:hover){.o:hover:not(:disabled){border-color:var(--ac);transform:translateX(4px)}}
+.o:disabled{opacity:1;cursor:default}
+.o.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,var(--card));animation:pop .45s}
+.o.ok b{background:var(--ok);color:#fff}
+.o.no{border-color:var(--no);background:color-mix(in srgb,var(--no) 14%,var(--card));animation:shake .4s}
+.o.no b{background:var(--no);color:#fff}
+.o.dim{opacity:.55}
+.ex{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+.ex.on{grid-template-rows:1fr}
+.ex>div{overflow:hidden}
+.exb{margin-top:10px;padding:12px 14px;border-radius:14px;background:var(--bg);border-inline-start:4px solid var(--ac)}
+.ov{position:fixed;inset:0;display:none;place-items:center;padding:16px;background:rgba(10,10,30,.5);z-index:9}
+.ov.on{display:grid;animation:fade .25s both}
+@keyframes fade{from{opacity:0}}
+.dlg{width:min(420px,100%);max-height:86vh;overflow:auto;background:var(--card);border-radius:22px;padding:22px;text-align:center;box-shadow:var(--sh);animation:in .35s cubic-bezier(.2,.8,.3,1) both}
+.em{font-size:3rem;display:inline-block;animation:bob 1.4s ease-in-out infinite}
+.dlg h2{margin:.2rem 0}
+.rl{text-align:start;margin-top:10px}.rl div{padding:10px;border-radius:12px;background:var(--bg);margin:8px 0;font-size:.9rem}
+.rl b{direction:ltr;display:block;text-align:left}.rl em{direction:ltr;display:block;text-align:left;color:var(--ok);font-style:normal}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;background:var(--ac);color:#fff;padding:9px 18px;border-radius:99px;font-weight:700;transition:.35s;z-index:10;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+
+.hd{text-align:center;margin:6px 0 18px}
+h1{font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{display:inline-block;padding:3px 14px;border-radius:99px;background:var(--card);border:1px solid var(--bd);font-size:.85rem}
+#home .sub{display:block;border:0;background:none;text-align:center}
+.card{position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,var(--ac),var(--ac2))}
+.st{border:1px solid var(--bd)}
+.p{padding:13px 18px;font-size:1rem;letter-spacing:.01em}
+.q{line-height:1.55;margin:14px 0 8px}
+.o{border-radius:16px;font-size:.98rem}
+.o b{border-radius:50%;width:32px;height:32px}
+.exb strong{display:block;margin-bottom:2px}.exb .g{color:var(--ok)}.exb .r{color:var(--no)}
+.exb span{display:block;line-height:1.6}
+.rl{text-align:left}.exb{border-inline-start-width:5px}
+.em{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;display:grid;place-items:center;margin:0 auto 8px;animation:bob 1.8s ease-in-out infinite;font-size:0}
+.dlg h2{margin:.3rem 0 .5rem}
+.top button{padding:8px 14px}
+</style></head><body><main class="w">
+<header class="hd"><h1>Invertebrate Zoology – Lecture 2</h1><p class="sub">By Mohammed Saad</p></header>
+
+<section id="home" class="card in">
+<div class="stats"><div class="st"><b id="sd">0</b><span>Answered</span></div><div class="st"><b id="sc">0</b><span>Correct</span></div><div class="st"><b id="sn">0</b><span>Total</span></div></div>
+<div class="bar"><i id="pb"></i></div>
+<div class="btns"><button class="p" id="go">Start</button><button id="rv" hidden>Review mistakes</button><button id="rs" hidden>Start over</button></div>
+<p class="sub" style="margin-top:14px">Your progress is saved automatically on this device. Answered questions will not appear again.</p>
+</section>
+
+<section id="quiz" hidden>
+<div class="top"><button id="bk">Home</button><span class="chip" id="ct"></span></div>
+<div class="card" id="card"><span class="chip" id="ch"></span><p class="q" id="qt"></p><div id="opts"></div>
+<div class="ex" id="ex"><div><div class="exb" id="eb"></div></div></div>
+<div class="btns"><button class="p" id="nx" hidden>Next question</button></div></div>
+</section>
+</main>
+<div class="ov" id="ov"><div class="dlg"><div class="em" id="me"></div><h2 id="mt"></h2><div id="mx"></div><div class="btns" id="mb"></div></div></div>
+<div class="toast" id="ts"></div>
+<script>
+const T=["Intro & Aristotle", "John Ray & Species", "Linnaeus & Nomenclature", "Bases & Protozoa/Metazoa", "Symmetry", "Germ Layers", "Metamerism", "Appendages & Skeleton", "Body Cavity (Coelom)", "Sex of the Animal", "Unique Features"];
+
+const B=[[0, "Invertebrate zoology is the branch of zoology concerned with:", "Identification, description, nomenclature and classification of animals", "Only the study of fossils", "The study of plant tissues", "The treatment of animal diseases"],
+[0, "Which of the following is outside the scope of invertebrate zoology as defined in the lecture?", "Study of plant cell walls", "Identification of animals", "Nomenclature of animals", "Classification of animals"],
+[0, "Invertebrates are best described as:", "Animals without backbones", "Animals with red blood", "Animals with a notochord only", "Plant eaters"],
+[0, "Which of the following is an invertebrate shown in the lecture figure?", "Sea urchin", "Toad", "Eagle", "Fish"],
+[0, "The 'Father of Zoology' is:", "Aristotle", "John Ray", "Linnaeus", "Charles Darwin"],
+[0, "Aristotle was:", "A Greek scientist", "An English scientist", "A Swedish scientist", "A French scientist"],
+[0, "Aristotle lived between:", "384 and 322 B.C.", "1628 and 1705", "1707 and 1778", "100 and 50 B.C."],
+[0, "Aristotle divided animals into:", "Anaima and Enaima", "Plants and animals", "Protozoa and Metazoa", "Diploblastic and triploblastic"],
+[0, "Anaima are animals:", "Without red blood (invertebrates)", "With red blood (vertebrates)", "That eat plants only", "That eat meat only"],
+[0, "Enaima are animals:", "With red blood (vertebrates)", "Without red blood (invertebrates)", "That are unicellular", "Without a body cavity"],
+[0, "According to Aristotle's classification, an earthworm belongs to:", "Anaima", "Enaima", "Herbivorous only", "Carnivorous only"],
+[0, "According to Aristotle's classification, a fish belongs to:", "Enaima", "Anaima", "Protozoa", "Vermes"],
+[0, "Herbivorous animals are:", "Plant eaters", "Meat eaters", "Animals with red blood", "Unicellular animals"],
+[0, "Carnivorous animals are:", "Meat eaters", "Plant eaters", "Animals without red blood", "Multicellular only"],
+[0, "Which two bases were used by Aristotle in the lecture's classification schemes?", "Presence of red blood and type of food", "Symmetry and coelom", "Number of germ layers and segmentation", "Binomial names and species"],
+[0, "Animals that eat both meat and plants are called:", "Omnivores", "Herbivores", "Carnivores", "Anaima"],
+[1, "John Ray was:", "An English scientist", "A Greek scientist", "A Swedish scientist", "A German scientist"],
+[1, "John Ray lived between:", "1628 and 1705", "384 and 322 B.C.", "1707 and 1778", "1500 and 1550"],
+[1, "John Ray divided living organisms into:", "Plant kingdom and animal kingdom", "Anaima and Enaima", "Protozoa and Metazoa", "Herbivores and carnivores"],
+[1, "The hierarchy of categories under the kingdom in John Ray's scheme is:", "Phyla, classes, orders, families, genera, species", "Species, genera, families, orders, classes, phyla", "Classes, phyla, orders, genera, families, species", "Phyla, orders, classes, genera, families, species"],
+[1, "The smallest category in the hierarchy is the:", "Species", "Genus", "Family", "Phylum"],
+[1, "The category directly below the kingdom is the:", "Phylum", "Class", "Order", "Family"],
+[1, "The category that comes directly above genera is:", "Families", "Orders", "Species", "Classes"],
+[1, "A group of related species is placed in a:", "Genus", "Family", "Class", "Kingdom"],
+[1, "A species is defined as a group of:", "Morphologically similar animals that can freely interbreed and produce fertile offspring", "Animals living in the same habitat only", "Animals that eat the same food", "Animals with the same color only"],
+[1, "Members of different species generally:", "Cannot reproduce successfully with each other", "Freely interbreed and give fertile offspring", "Are morphologically identical", "Always share the same genus name only"],
+[1, "A toad and a frog mate and produce an infertile hybrid. This shows that they are:", "Different species", "The same species", "The same genus and species", "Hermaphrodites"],
+[1, "The offspring of two members of the same species are expected to be:", "Fertile", "Always sterile", "Always hybrids", "Always asymmetrical"],
+[1, "All of the following are part of the species concept EXCEPT:", "Members cannot interbreed with each other", "Morphological similarity", "Free interbreeding", "Production of fertile offspring"],
+[1, "The largest category in John Ray's scheme is the:", "Kingdom", "Phylum", "Class", "Species"],
+[1, "Genera is the plural of:", "Genus", "Species", "Family", "Phylum"],
+[1, "Which scientist is credited in the lecture with the concept of 'Species' and the kingdom–species hierarchy?", "John Ray", "Aristotle", "Linnaeus only", "Lamarck"],
+[2, "Linnaeus was:", "A Swedish scientist", "An English scientist", "A Greek scientist", "An Egyptian scientist"],
+[2, "Linnaeus lived between:", "1707 and 1778", "1628 and 1705", "384 and 322 B.C.", "1800 and 1850"],
+[2, "Linnaeus laid the real bases for modern:", "Classification and nomenclature", "Cell theory", "Evolution", "Anatomy of birds"],
+[2, "Linnaeus recognized how many classes in the animal kingdom?", "Six", "Four", "Nine", "Two"],
+[2, "Which list gives the six classes of Linnaeus?", "Mammalia, Aves, Amphibia, Pisces, Insecta, Vermes", "Mammalia, Aves, Reptilia, Insecta, Arachnida, Mollusca", "Protozoa, Metazoa, Aves, Pisces, Insecta, Vermes", "Mammalia, Pisces, Amphibia, Echinodermata, Cnidaria, Aves"],
+[2, "Aves in Linnaeus' system means:", "Birds", "Fish", "Insects", "Mammals"],
+[2, "Pisces in Linnaeus' system means:", "Fish", "Birds", "Insects", "Worms"],
+[2, "The class Amphibia of Linnaeus included:", "Reptiles and amphibians", "Only frogs", "Fish and amphibians", "Birds and reptiles"],
+[2, "The class Vermes of Linnaeus included:", "All other invertebrates", "Only earthworms", "Only insects", "All vertebrates"],
+[2, "In Linnaeus' system, a snail (an invertebrate other than an insect) would be placed in:", "Vermes", "Insecta", "Pisces", "Aves"],
+[2, "In Linnaeus' system, a snake would be placed in:", "Amphibia", "Pisces", "Insecta", "Vermes"],
+[2, "Binomial nomenclature gives each organism a name made of:", "Two Latin words", "One Latin word", "Three Greek words", "Two English words"],
+[2, "The first word of the binomial name is the name of the:", "Genus", "Species", "Family", "Class"],
+[2, "The second word of the binomial name is the name of the:", "Species", "Genus", "Order", "Phylum"],
+[2, "Both parts of a scientific name are written:", "Underlined or typed in italics", "In bold only", "In capital letters only", "In quotation marks"],
+[2, "The generic name starts with:", "A capital letter", "A small letter", "A number", "Any letter"],
+[2, "The specific name starts with:", "A small letter", "A capital letter", "A number", "Any letter"],
+[2, "Which is the correctly written scientific name (in italics)?", "Bufo regularis", "bufo Regularis", "Bufo Regularis", "BUFO regularis"],
+[2, "The scientific name of the Egyptian toad given in the lecture is:", "Bufo regularis", "Aves regularis", "Pisces bufo", "Homo sapiens"],
+[2, "In the name Bufo regularis, 'Bufo' is the:", "Generic name", "Specific name", "Family name", "Class name"],
+[2, "In the name Bufo regularis, 'regularis' is the:", "Specific name", "Generic name", "Order name", "Phylum name"],
+[2, "Which statement about binomial nomenclature is FALSE?", "The specific name begins with a capital letter", "It consists of two Latin words", "The first word is the genus", "Names are underlined or italicized"],
+[3, "How many bases are used in the classification of the animal kingdom in the lecture?", "Nine", "Five", "Seven", "Twelve"],
+[3, "Which of the following is NOT one of the bases used in animal classification in the lecture?", "Color of the animal", "Type of symmetry", "Number of germ layers", "Type of body cavity"],
+[3, "The first basis of animal classification is:", "Presence or absence of cellular differentiation", "Type of symmetry", "Skeleton", "Sex"],
+[3, "Which basis deals with coelom?", "Type of body cavity", "Appendages", "Skeleton", "Unique features"],
+[3, "The animal kingdom is divided according to cellular differentiation into:", "Protozoa and Metazoa", "Anaima and Enaima", "Diploblastic and triploblastic", "Acoelomata and Coelomata"],
+[3, "Subkingdom Protozoa includes:", "Unicellular organisms", "Multicellular organisms", "Animals with a coelom only", "Animals with three germ layers"],
+[3, "Subkingdom Metazoa includes:", "Multicellular organisms", "Unicellular organisms", "Only plants", "Only protozoans"],
+[3, "Paramecium and Amoeba belong to:", "Protozoa", "Metazoa", "Cnidaria", "Annelida"],
+[3, "A deer, a crab and a fish all belong to:", "Metazoa", "Protozoa", "Acoelomata only", "Diploblastic only"],
+[3, "The basis that separates Protozoa from Metazoa is the:", "Number of cells and cellular differentiation", "Presence of a skeleton", "Type of excretory organ", "Sex of the animal"],
+[4, "Symmetry is:", "The arrangement of body parts around a central plane or axis", "The repetition of body parts in a line", "The presence of a body cavity", "The number of germ layers"],
+[4, "How many types of symmetry are described in the lecture?", "Three", "Two", "Four", "Five"],
+[4, "Asymmetry occurs when:", "The body cannot be divided into similar sections", "The body is divided into two equal halves", "The body is spherical", "The body has five rays"],
+[4, "An example of an asymmetrical animal is:", "Most sponges", "Birds", "Insects", "Sea urchins"],
+[4, "Spherical symmetry is seen in:", "Volvox", "Butterfly", "Sea urchin", "Reptiles"],
+[4, "Volvox is described as:", "A colonial flagellate protozoan", "A multicellular worm", "An echinoderm", "A cnidarian"],
+[4, "Radial symmetry is seen in:", "Some sponges, cnidarians and echinoderms", "Birds, insects and reptiles", "Volvox only", "Earthworms only"],
+[4, "Bilateral symmetry is seen in:", "Aves, insects and reptiles", "Cnidarians", "Echinoderms", "Volvox"],
+[4, "A sea urchin shows:", "Radial symmetry", "Bilateral symmetry", "Spherical symmetry", "Asymmetry"],
+[4, "A butterfly shows:", "Bilateral symmetry", "Radial symmetry", "Spherical symmetry", "Asymmetry"],
+[4, "A starfish with five-fold symmetry is an example of:", "Radial symmetry", "Bilateral symmetry", "Spherical symmetry", "Asymmetry"],
+[4, "A fly shows:", "Bilateral symmetry", "Radial symmetry", "Spherical symmetry", "Asymmetry"],
+[4, "Which animal–symmetry pair is correctly matched?", "Volvox – spherical", "Sponge (most) – bilateral", "Bird – radial", "Insect – spherical"],
+[4, "All of the following show radial symmetry EXCEPT:", "Insects", "Some sponges", "Cnidarians", "Echinoderms"],
+[4, "In bilaterally symmetrical animals, the part that moves forward is the:", "Anterior end", "Posterior end", "Dorsal surface", "Ventral surface"],
+[4, "The end opposite to the anterior end is the:", "Posterior end", "Dorsal surface", "Ventral surface", "Sagittal end"],
+[4, "The upper surface or back of the animal is the:", "Dorsal surface", "Ventral surface", "Anterior end", "Posterior end"],
+[4, "The undersurface of the animal is the:", "Ventral surface", "Dorsal surface", "Anterior end", "Posterior end"],
+[4, "The terms anterior, posterior, dorsal and ventral are used to describe:", "The body plan of bilaterally symmetrical animals", "Only spherical animals", "Only protozoa", "Only plants"],
+[4, "Which of the following is NOT a plane shown in the body plan figure?", "Spherical plane", "Sagittal plane", "Frontal plane", "Transverse plane"],
+[5, "Diploblastic animals have:", "Two germ layers", "Three germ layers", "One germ layer", "Four germ layers"],
+[5, "The germ layers of diploblastic animals are:", "Ectoderm and endoderm", "Ectoderm and mesoderm", "Mesoderm and endoderm", "Ectoderm, mesoderm and endoderm"],
+[5, "Triploblastic animals have:", "Ectoderm, mesoderm and endoderm", "Ectoderm and endoderm only", "Mesoderm only", "No germ layers"],
+[5, "An example of a diploblastic phylum is:", "Cnidaria (Coelenterata)", "Annelida", "Chordata", "Platyhelminthes"],
+[5, "The germ layer that is absent in diploblastic animals is the:", "Mesoderm", "Ectoderm", "Endoderm", "Epidermis"],
+[5, "The middle germ layer is the:", "Mesoderm", "Ectoderm", "Endoderm", "Gut"],
+[5, "The outer germ layer is the ectoderm and the inner layer is the:", "Endoderm", "Mesoderm", "Coelom", "Peritoneum"],
+[5, "A jellyfish or sea anemone is:", "Diploblastic", "Triploblastic", "Acoelomate triploblastic", "Unicellular"],
+[5, "An earthworm is:", "Triploblastic", "Diploblastic", "Unicellular", "Asymmetrical sponge-like"],
+[5, "Which basis of classification is represented by diploblastic versus triploblastic?", "Number of embryonic germ layers", "Type of symmetry", "Skeleton", "Sex of the animal"],
+[6, "Metamerism is:", "The linear repetition of parts in an animal body", "Having two sexes in one body", "Having a fluid-filled body cavity", "Having radial symmetry"],
+[6, "Each repeated unit (segment) in metamerism is called:", "A metamere or somite", "A parenchyma", "A cnidocyte", "A nephridium"],
+[6, "Metamerism is characteristic mainly of phyla:", "Annelida, Arthropoda and Chordata", "Cnidaria, Porifera and Platyhelminthes", "Nematoda, Cnidaria and Echinodermata", "Protozoa, Porifera and Nematoda"],
+[6, "Which phylum is NOT characterized mainly by metamerism?", "Cnidaria", "Annelida", "Arthropoda", "Chordata"],
+[6, "In annelids, the segments are:", "Similar, with segmentation clear externally and internally", "Dissimilar, clear externally only", "Largely internal only", "Absent"],
+[6, "In arthropods, the segments are:", "Dissimilar (heteronomous) and clear only externally", "Similar and clear internally", "Absent", "Visible only in vertebrae"],
+[6, "Heteronomous segmentation means that segments are:", "Dissimilar", "Identical", "Absent", "Internal only"],
+[6, "In adult chordates, segmentation is largely:", "Internal", "External only", "Absent", "Identical to annelids"],
+[6, "In chordates, segmentation is seen in the:", "Vertebrae, ribs, nerves and blood vessels", "Cuticle and legs only", "Tentacles", "Flame cells"],
+[6, "An earthworm shows segmentation that is:", "Clear both externally and internally", "Clear externally only", "Largely internal", "Absent"],
+[6, "An animal shows dissimilar segments that are visible only on the outside. It is most likely:", "An arthropod", "An annelid", "A chordate", "A cnidarian"],
+[6, "The segmentation of a cat's backbone is an example of:", "Internal segmentation in a chordate", "External segmentation in an arthropod", "Segmentation in an annelid", "Absence of segmentation"],
+[7, "An appendage is:", "An external body part that attaches to or protrudes from the main body", "An internal organ", "A germ layer", "A body cavity"],
+[7, "Appendages serve for:", "Locomotion, feeding and other functions", "Only excretion", "Only reproduction", "Only defense against light"],
+[7, "Tentacles of sea anemones are an example of:", "Appendages", "Skeletons", "Coeloms", "Somites"],
+[7, "Legs of arthropods are an example of:", "Appendages", "Germ layers", "Coelom", "Nephridia"],
+[7, "Wings of vertebrates are an example of:", "Appendages", "Excretory organs", "Body cavities", "Germ layers"],
+[7, "Most animals have a skeleton for:", "Support, protection and aiding locomotion", "Excretion and respiration", "Digestion only", "Reproduction only"],
+[7, "Which of the following is NOT a function of the skeleton?", "Excretion", "Support", "Protection", "Aiding locomotion"],
+[7, "Which of the following is NOT an appendage?", "The digestive tube inside the body", "Tentacle", "Leg", "Wing"],
+[8, "The coelom is:", "The principal fluid-filled body cavity", "A solid mass of mesoderm", "A germ layer", "A type of skeleton"],
+[8, "A true coelom is completely lined with tissue derived from:", "Mesoderm", "Ectoderm", "Endoderm", "Cuticle"],
+[8, "Functions of the coelom include:", "Shock absorption, organ independence and hydrostatic skeleton", "ATP production and digestion", "Excretion by flame cells only", "Photosynthesis"],
+[8, "All of the following are functions of the coelom EXCEPT:", "Production of ATP", "Shock absorption", "Organ independence", "Hydrostatic skeleton"],
+[8, "Animals according to the nature of the body cavity are:", "Acoelomata, Pseudocoelomata and Coelomata", "Protozoa, Metazoa and Cnidaria", "Diploblastic, triploblastic and monoblastic", "Radial, bilateral and spherical"],
+[8, "Acoelomata are animals that:", "Have no body cavity", "Have a false coelom", "Have a true coelom", "Have two coeloms"],
+[8, "In acoelomates, the mesoderm forms:", "A solid mass between the ectoderm and endoderm", "A lining of the coelom only", "A fluid-filled cavity", "A thin outer layer only"],
+[8, "An example of Acoelomata is phylum:", "Platyhelminthes", "Nematoda", "Chordata", "Annelida"],
+[8, "Pseudocoelomata are animals in which the body spaces develop between:", "Mesoderm and endoderm", "Ectoderm and mesoderm", "Ectoderm and the cuticle", "The two layers of peritoneum"],
+[8, "The pseudocoel is:", "Not lined with peritoneum", "Completely lined with peritoneum", "Absent", "A solid mass of cells"],
+[8, "An example of Pseudocoelomata is phylum:", "Nematoda", "Platyhelminthes", "Chordata", "Cnidaria"],
+[8, "Coelomata are animals that have:", "A true body cavity lined by peritoneum", "No body cavity", "A false body cavity", "A solid parenchyma"],
+[8, "An example of Coelomata is phylum:", "Chordata", "Platyhelminthes", "Nematoda", "Protozoa"],
+[8, "The pseudocoel is derived from the:", "Blastocoel", "Mesentery", "Serosa", "Peritoneum"],
+[8, "Which type of body cavity is lined by peritoneum?", "True coelom", "Pseudocoel", "No cavity (acoelomate)", "Digestive lumen only"],
+[8, "A flatworm has:", "No body cavity", "A pseudocoel", "A true coelom", "Two body cavities"],
+[8, "A roundworm (nematode) has:", "A pseudocoel", "A true coelom", "No body cavity", "A solid parenchyma filling the body"],
+[8, "Which structures are shown in the diagram of a true coelom?", "Mesentery, peritoneum and serosa", "Parenchyma only", "Flame cells and nephridia", "Cnidocytes"],
+[8, "Which pair is correctly matched?", "Platyhelminthes – acoelomata", "Nematoda – coelomata", "Chordata – pseudocoelomata", "Annelida – acoelomata"],
+[8, "Which statement is FALSE?", "The pseudocoel is lined with peritoneum", "The true coelom is lined by peritoneum", "Acoelomates have no body cavity", "Nematodes have a false coelom"],
+[9, "If male and female sex organs are found in the same individual, the animal is:", "Hermaphroditic", "Dioecious", "Gonochoristic", "Unisexual"],
+[9, "Which terms are synonyms for sex being united in one animal?", "Bisexual, hermaphroditic and monoecious", "Unisexual, gonochoristic and dioecious", "Diploblastic and triploblastic", "Radial and bilateral"],
+[9, "An example of a hermaphroditic animal is:", "Earthworm", "Bird", "Fish", "Reptile"],
+[9, "In most higher phyla, each individual is:", "Either male or female", "Both male and female", "Neither male nor female", "Always hermaphroditic"],
+[9, "Which terms are synonyms for sex being separate?", "Unisexual, gonochoristic and dioecious", "Bisexual, hermaphroditic and monoecious", "Acoelomate and coelomate", "Anaima and enaima"],
+[9, "A dioecious animal is one in which:", "Sex is separate", "Sex is united", "Sex is absent", "Sex changes yearly"],
+[10, "Unique features are:", "Special structures characteristic of the phylum", "Features shared by all animals", "Features of the kingdom only", "Embryonic layers"],
+[10, "Cnidocytes (nematocysts) are the unique feature of phylum:", "Cnidaria", "Platyhelminthes", "Annelida", "Chordata"],
+[10, "Flame cells are the unique excretory organs of phylum:", "Platyhelminthes", "Annelida", "Cnidaria", "Nematoda"],
+[10, "Nephridia are the excretory organs of phylum:", "Annelida", "Platyhelminthes", "Cnidaria", "Chordata"],
+[10, "Flame cells are:", "Excretory organs", "Stinging cells", "Segments", "Sex organs"],
+[10, "Phylum Cnidaria is also called:", "Coelenterata", "Platyhelminthes", "Annelida", "Nematoda"],
+[10, "A worm that has flame cells is most likely a:", "Flatworm", "Ringworm (annelid)", "Cnidarian", "Chordate"],
+[10, "The excretory organs of the earthworm are the:", "Nephridia", "Flame cells", "Cnidocytes", "Nematocysts"],
+[10, "Which animal has stinging cells that discharge a thread (nematocyst)?", "Sea anemone", "Earthworm", "Flatworm", "Fly"],
+[10, "Which matching of phylum and unique feature is correct?", "Cnidaria – cnidocytes; Platyhelminthes – flame cells; Annelida – nephridia", "Cnidaria – nephridia; Platyhelminthes – cnidocytes; Annelida – flame cells", "Cnidaria – flame cells; Platyhelminthes – nephridia; Annelida – cnidocytes", "Cnidaria – flame cells; Platyhelminthes – cnidocytes; Annelida – nephridia"]];
+
+const E=["This is the lecture definition.", "Plants are not animals.", "The figure is titled 'Animals without backbones'.", "The sea urchin is an invertebrate.", "Aristotle is called Father of Zoology.", "Aristotle was Greek.", "384-322 B.C.", "Anaima (without red blood) and Enaima (with red blood).", "Anaima = invertebrates.", "Enaima = vertebrates.", "It has no red blood in his system (invertebrate).", "Fish are vertebrates (animals with red blood).", "Herbivores eat plants.", "Carnivores eat meat.", "Anaima/Enaima and herbivorous/carnivorous.", "Omnivores feed on both.", "John Ray was English.", "1628-1705.", "Plant and animal kingdoms.", "From the largest to the smallest category.", "Species is the last (smallest) rank.", "Kingdom → phyla.", "Families → genera → species.", "Species are grouped into genera.", "This is the lecture definition.", "The species concept implies reproductive isolation.", "They cannot produce fertile, viable offspring.", "Same species gives fertile offspring.", "Members of a species interbreed.", "All the others are under the kingdom.", "Genus (singular), genera (plural).", "The lecture attributes them to John Ray.", "Linnaeus was Swedish.", "1707-1778.", "Classification and nomenclature.", "Six classes.", "These are the six classes.", "Aves = birds.", "Pisces = fish.", "Reptiles and amphibians.", "All invertebrates other than insects.", "Vermes included all other invertebrates.", "Reptiles were in Amphibia.", "Binomial = two Latin words.", "The generic name comes first.", "The specific name comes second.", "Underlined or italicized.", "Genus is capitalized.", "Species name starts with a small letter.", "Capital genus, small species.", "Bufo regularis.", "First word = genus.", "Second word = species.", "The specific name begins with a small letter.", "Nine bases are listed.", "Color is not listed.", "It is basis number 1.", "Basis 6 is the type of body cavity.", "Two subkingdoms.", "Protozoa have only one cell.", "Metazoa have more than one cell.", "They are unicellular.", "They are multicellular.", "Unicellular versus multicellular.", "This is the lecture definition.", "Spherical, radial and bilateral.", "Asymmetrical bodies cannot be divided into similar sections.", "Most sponges are asymmetrical.", "Volvox is the example.", "Volvox is a colonial flagellate protozoan.", "These are the radial groups listed.", "These are the examples given.", "Echinoderms are radial.", "Insects are bilateral.", "Echinoderms show radial symmetry.", "Insects are bilateral.", "Only the first pair is correct.", "Insects are bilateral.", "Anterior is the forward end.", "Posterior is the opposite end.", "Dorsal = back.", "Ventral = underside.", "They describe body plans of such animals.", "Spherical plane is not shown.", "Diplo = two.", "Only ectoderm and endoderm.", "Three germ layers.", "Cnidarians are diploblastic.", "They lack the middle layer.", "Meso = middle.", "Endoderm lines the gut.", "Cnidarians are diploblastic.", "Annelids are triploblastic.", "Basis 3.", "Metamerism = segmentation.", "Metamere or somite.", "These three phyla are segmented.", "Cnidarians are not segmented.", "Annelid segments are alike.", "Arthropod segmentation is heteronomous.", "Heteronomous = dissimilar.", "It is seen internally.", "These are the segmented structures.", "Earthworms are annelids.", "Arthropods have heteronomous external segmentation.", "Vertebrae are segmented structures.", "This is the lecture definition.", "Locomotion, feeding, etc.", "Tentacles are appendages.", "Legs are appendages.", "Wings are appendages.", "These are the skeleton functions.", "Excretion is not a skeleton function.", "Appendages are external.", "This is its definition.", "Mesoderm-derived lining.", "These are the three listed functions.", "ATP production is not a coelom function.", "Three types.", "Acoel = without cavity.", "The space is filled with mesoderm (parenchyma).", "Flatworms are acoelomate.", "The pseudocoel lies between mesoderm and endoderm.", "It is a false coelom.", "Roundworms have a pseudocoel.", "A true coelom.", "Chordates have a true coelom.", "As labelled in the figure.", "Only a true coelom has a peritoneal lining.", "Flatworms are acoelomate.", "Nematodes are pseudocoelomate.", "These are labelled in figure (c).", "Only the first pair is correct.", "The pseudocoel lacks a peritoneal lining.", "Sex is united.", "These mean sex is united.", "The lecture gives earthworms.", "Sex is separate.", "Sex separate.", "Dioecious = separate sexes.", "They are special characters of a phylum.", "Cnidocytes belong to Cnidaria.", "Flame cells are found in flatworms.", "Annelids have nephridia.", "They function in excretion.", "Cnidaria (Coelenterata).", "Flame cells = Platyhelminthes.", "Earthworms are annelids.", "Cnidarians possess cnidocytes.", "Only the first set is correct."];
+
+const ic=p=>'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">'+p+"</svg>";
+const ICON={done:ic('<path d="M5 13l4 4L19 7"/>'),reset:ic('<path d="M4 4v6h6"/><path d="M5.5 15a8 8 0 1 0 2-8.5L4 10"/>'),list:ic('<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>'),star:ic('<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>')};
+const $=s=>document.querySelector(s),K="zoo_inv_l1";
+const shuf=a=>{a=a.slice();for(let i=a.length;i>1;){const j=Math.random()*i--|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+let S={},cur,streak=0,busy=0,tt;
+try{S=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+B.forEach(q=>{let x=5381,s=q.slice(1,6).join("|");for(let i=0;i<s.length;i++)x=(x*33^s.charCodeAt(i))>>>0;q.id=x.toString(36)});
+B.forEach((q,i)=>{q[6]=E[i]||("Correct answer: "+q[2]+".")});
+const stat=()=>{let d=0,c=0;B.forEach(q=>{if(q.id in S){d++;c+=S[q.id]}});return{d,c,n:B.length}};
+function view(v){$("#home").hidden=v!=="h";$("#quiz").hidden=v!=="q";if(v==="h"){const{d,c,n}=stat();$("#sd").textContent=d;$("#sc").textContent=c;$("#sn").textContent=n;$("#pb").style.width=d/n*100+"%";$("#go").textContent=d>=n?"All questions answered":d?"Continue":"Start";$("#go").disabled=d>=n;$("#rv").hidden=d==c;$("#rv").textContent="Review mistakes ("+(d-c)+")";$("#rs").hidden=!d;$("#home").className="card in"}}
+function modal(e,t,h,bs){$("#me").innerHTML=ICON[e]||"";$("#mt").textContent=t;$("#mx").innerHTML=h;const m=$("#mb");m.innerHTML="";bs.forEach(b=>{const x=document.createElement("button");x.textContent=b[0];x.className=b[2]||"";x.onclick=()=>{$("#ov").classList.remove("on");b[1]&&b[1]()};m.append(x)});$("#ov").classList.add("on")}
+function toast(t){const e=$("#ts");e.textContent=t;e.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>e.classList.remove("on"),1600)}
+function finish(){const{c,n}=stat();view("h");modal("done","Bank completed","<p>You answered "+c+" of "+n+" correctly.</p>",[["Review mistakes",review,"p"],["Start over",askReset],["Close"]])}
+function review(){const w=B.filter(q=>S[q.id]===0);if(!w.length)return modal("star","No mistakes","<p>Every answer so far is correct.</p>",[["OK","","p"]]);modal("list","Mistakes ("+w.length+")",'<div class="rl">'+w.map(q=>"<div><b>"+esc(q[1])+"</b><em>Correct answer: "+esc(q[2])+"</em>"+esc(q[6])+"</div>").join("")+"</div>",[["Close","","p"]])}
+function askReset(){modal("reset","Start over?","<p>All saved answers will be deleted.</p>",[["Yes, start over",()=>{S={};save();streak=0;view("h")},"p"],["Cancel"]])}
+function next(){const L=B.filter(q=>!(q.id in S));if(!L.length)return finish();cur=L[Math.random()*L.length|0];const o=shuf(cur.slice(2,6));
+$("#ch").textContent=T[cur[0]];$("#qt").textContent=cur[1];$("#ct").textContent=stat().d+" / "+B.length;$("#ex").classList.remove("on");$("#nx").hidden=true;
+const ob=$("#opts");ob.innerHTML="";o.forEach((x,i)=>{const b=document.createElement("button");b.className="o";b.style.animationDelay=i*70+"ms";b.innerHTML="<b>"+"ABCD"[i]+"</b><span></span>";b.lastChild.textContent=x;b.onclick=()=>pick(b,x);ob.append(b)});
+$("#card").className="card in";busy=0}
+function pick(b,x){if(busy)return;busy=1;const r=x===cur[2];S[cur.id]=r?1:0;save();
+document.querySelectorAll(".o").forEach(e=>{e.disabled=true;const t=e.lastChild.textContent;if(t===cur[2])e.classList.add("ok");else if(e===b)e.classList.add("no");else e.classList.add("dim")});
+streak=r?streak+1:0;if(r&&streak>=3&&streak%3==0)toast(streak+" correct in a row");
+$("#eb").innerHTML='<strong class="'+(r?"g":"r")+'">'+(r?"Correct":"Incorrect")+'</strong><span>'+esc(cur[6])+"</span>";$("#ex").classList.add("on");$("#nx").hidden=false;$("#ct").textContent=stat().d+" / "+B.length}
+$("#nx").onclick=()=>{$("#card").className="card out";setTimeout(next,260)};
+$("#go").onclick=()=>{view("q");next()};
+$("#bk").onclick=()=>view("h");$("#rv").onclick=review;$("#rs").onclick=askReset;
+view("h");
+</script></body></html>

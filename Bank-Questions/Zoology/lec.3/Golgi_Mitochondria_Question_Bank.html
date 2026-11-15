@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Golgi, Mitochondria, Peroxisomes &amp; Lysosomes | Question Bank</title>
+<style>
+:root{--bg:#f3f4fb;--bg2:#e4e0fb;--card:#fff;--tx:#1b2033;--mu:#6b7189;--ac:#6246ea;--ac2:#8f6bff;--ok:#16a765;--no:#e5484d;--bd:#e2e5f2;--sh:0 8px 28px rgba(60,50,140,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141d;--bg2:#1c1840;--card:#1c2030;--tx:#eef0fa;--mu:#9ba2bd;--ac:#9b86ff;--ac2:#6f9bff;--ok:#3ecf8e;--no:#ff6b73;--bd:#30355100;--bd:#303551;--sh:0 8px 28px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#12141d;--bg2:#1c1840;--card:#1c2030;--tx:#eef0fa;--mu:#9ba2bd;--ac:#9b86ff;--ac2:#6f9bff;--ok:#3ecf8e;--no:#ff6b73;--bd:#303551;--sh:0 8px 28px rgba(0,0,0,.4)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(160deg,var(--bg) 40%,var(--bg2));color:var(--tx);font-family:system-ui,"Segoe UI",Tahoma,sans-serif;line-height:1.65;-webkit-tap-highlight-color:transparent}
+.w{max-width:720px;margin:0 auto;padding:18px 14px 40px}
+h1{font-size:clamp(1.25rem,4.5vw,1.7rem);margin:.3rem 0 .1rem;text-align:center}
+.sub{text-align:center;color:var(--mu);margin:0 0 14px;font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:18px;box-shadow:var(--sh)}
+.in{animation:in .38s cubic-bezier(.2,.8,.3,1) both}
+.out{animation:out .26s ease-in both}
+@keyframes in{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes out{to{opacity:0;transform:translateX(-36px) scale(.98)}}
+@keyframes pop{40%{transform:scale(1.035)}}
+@keyframes shake{20%{transform:translateX(-7px)}60%{transform:translateX(7px)}}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 14px}
+.st{background:var(--bg);border-radius:14px;padding:12px 6px;text-align:center}
+.st b{display:block;font-size:1.6rem;color:var(--ac)}.st span{font-size:.8rem;color:var(--mu)}
+.bar{height:10px;background:var(--bd);border-radius:10px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:10px;transition:width .6s cubic-bezier(.2,.8,.3,1)}
+button{font:inherit;color:var(--tx);cursor:pointer;border:1px solid var(--bd);background:var(--card);border-radius:14px;padding:11px 16px;transition:transform .15s,box-shadow .2s,background .2s,border-color .2s}
+button:active:not(:disabled){transform:scale(.97)}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible{outline:3px solid var(--ac2);outline-offset:2px}
+.p{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:0;font-weight:700;box-shadow:0 6px 16px rgba(98,70,234,.35)}
+.btns{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.chip{display:inline-block;padding:3px 12px;border-radius:99px;background:var(--bg);color:var(--ac);font-size:.8rem;font-weight:600;direction:ltr}
+.q{font-size:clamp(1rem,3.8vw,1.15rem);font-weight:700;direction:ltr;text-align:left;margin:12px 0}
+.o{display:flex;align-items:center;gap:12px;width:100%;text-align:left;direction:ltr;margin:9px 0;padding:12px 14px;animation:in .4s both}
+.o b{flex:none;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--bg);color:var(--ac);font-size:.85rem}
+@media(hover:hover){.o:hover:not(:disabled){border-color:var(--ac);transform:translateX(4px)}}
+.o:disabled{opacity:1;cursor:default}
+.o.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,var(--card));animation:pop .45s}
+.o.ok b{background:var(--ok);color:#fff}
+.o.no{border-color:var(--no);background:color-mix(in srgb,var(--no) 14%,var(--card));animation:shake .4s}
+.o.no b{background:var(--no);color:#fff}
+.o.dim{opacity:.55}
+.ex{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+.ex.on{grid-template-rows:1fr}
+.ex>div{overflow:hidden}
+.exb{margin-top:10px;padding:12px 14px;border-radius:14px;background:var(--bg);border-inline-start:4px solid var(--ac)}
+.ov{position:fixed;inset:0;display:none;place-items:center;padding:16px;background:rgba(10,10,30,.5);z-index:9}
+.ov.on{display:grid;animation:fade .25s both}
+@keyframes fade{from{opacity:0}}
+.dlg{width:min(420px,100%);max-height:86vh;overflow:auto;background:var(--card);border-radius:22px;padding:22px;text-align:center;box-shadow:var(--sh);animation:in .35s cubic-bezier(.2,.8,.3,1) both}
+.em{font-size:3rem;display:inline-block;animation:bob 1.4s ease-in-out infinite}
+.dlg h2{margin:.2rem 0}
+.rl{text-align:start;margin-top:10px}.rl div{padding:10px;border-radius:12px;background:var(--bg);margin:8px 0;font-size:.9rem}
+.rl b{direction:ltr;display:block;text-align:left}.rl em{direction:ltr;display:block;text-align:left;color:var(--ok);font-style:normal}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;background:var(--ac);color:#fff;padding:9px 18px;border-radius:99px;font-weight:700;transition:.35s;z-index:10;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+
+.hd{text-align:center;margin:6px 0 18px}
+h1{font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{display:inline-block;padding:3px 14px;border-radius:99px;background:var(--card);border:1px solid var(--bd);font-size:.85rem}
+#home .sub{display:block;border:0;background:none;text-align:center}
+.card{position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,var(--ac),var(--ac2))}
+.st{border:1px solid var(--bd)}
+.p{padding:13px 18px;font-size:1rem;letter-spacing:.01em}
+.q{line-height:1.55;margin:14px 0 8px}
+.o{border-radius:16px;font-size:.98rem}
+.o b{border-radius:50%;width:32px;height:32px}
+.exb strong{display:block;margin-bottom:2px}.exb .g{color:var(--ok)}.exb .r{color:var(--no)}
+.exb span{display:block;line-height:1.6}
+.rl{text-align:left}.exb{border-inline-start-width:5px}
+.em{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;display:grid;place-items:center;margin:0 auto 8px;animation:bob 1.8s ease-in-out infinite;font-size:0}
+.dlg h2{margin:.3rem 0 .5rem}
+.top button{padding:8px 14px}
+</style></head><body><main class="w">
+<header class="hd"><h1>Golgi, Mitochondria, Peroxisomes &amp; Lysosomes</h1><p class="sub">By Mohammed Saad</p></header>
+
+<section id="home" class="card in">
+<div class="stats"><div class="st"><b id="sd">0</b><span>Answered</span></div><div class="st"><b id="sc">0</b><span>Correct</span></div><div class="st"><b id="sn">0</b><span>Total</span></div></div>
+<div class="bar"><i id="pb"></i></div>
+<div class="btns"><button class="p" id="go">Start</button><button id="rv" hidden>Review mistakes</button><button id="rs" hidden>Start over</button></div>
+<p class="sub" style="margin-top:14px">Your progress is saved automatically on this device. Answered questions will not appear again.</p>
+</section>
+
+<section id="quiz" hidden>
+<div class="top"><button id="bk">Home</button><span class="chip" id="ct"></span></div>
+<div class="card" id="card"><span class="chip" id="ch"></span><p class="q" id="qt"></p><div id="opts"></div>
+<div class="ex" id="ex"><div><div class="exb" id="eb"></div></div></div>
+<div class="btns"><button class="p" id="nx" hidden>Next question</button></div></div>
+</section>
+</main>
+<div class="ov" id="ov"><div class="dlg"><div class="em" id="me"></div><h2 id="mt"></h2><div id="mx"></div><div class="btns" id="mb"></div></div></div>
+<div class="toast" id="ts"></div>
+<script>
+const T=["Golgi – Light Microscopy", "Golgi – Structure (EM)", "Golgi – Functions", "Mitochondria – General", "Mitochondria – Structure", "Mitochondria – Functions & Inheritance", "Peroxisomes", "Endomembrane System", "Lysosomes", "The Acrosome", "Integrated"];
+
+const B=[[0, "In an H&E section of a plasma cell, a clear unstained area is seen next to the nucleus. This most likely represents:", "Negative Golgi image", "Rough endoplasmic reticulum", "Nucleolus", "Primary lysosome"],
+[0, "A negative Golgi image in H&E sections is characteristically seen in cells with:", "Deeply basophilic cytoplasm", "Deeply acidophilic cytoplasm", "Very scanty cytoplasm", "No nucleus"],
+[0, "Which stain demonstrates the Golgi apparatus as a darkly stained network of threads or granules?", "Silver stain", "Janus green", "H&E", "Histochemical method for oxidases"],
+[0, "A nerve cell stained with silver shows a dark network of granules near the nucleus. This is:", "Golgi apparatus", "Mitochondria", "Peroxisomes", "Primary lysosomes"],
+[0, "A student sees a clear perinuclear area in a plasma cell (H&E) and a dark network in a nerve cell (silver stain). These two images are:", "The same organelle shown by different methods", "Two different organelles", "Mitochondria and Golgi respectively", "Artifacts of fixation"],
+[0, "Golgi apparatus can be demonstrated by light microscopy by all of the following EXCEPT:", "Janus green stain", "Silver stain", "H&E as a negative image", "A dark network of threads in nerve cells"],
+[0, "The negative Golgi image is located:", "Close to the nucleus", "At the cell periphery under the cell membrane", "Inside the nucleolus", "Inside the nuclear envelope"],
+[0, "By H&E, the Golgi apparatus appears as:", "A clear unstained area", "A deeply basophilic network", "A deeply acidophilic granule", "A dark rounded body"],
+[1, "By electron microscopy, the Golgi apparatus consists of:", "Golgi stacks, transfer vesicles and secretory vesicles", "Cristae, matrix and intermembranous space", "Two subunits and mRNA", "Oxidases, catalase and a crystalline core"],
+[1, "Each Golgi stack is formed of:", "Saccules", "Cristae", "Ribosomes", "Matrix granules"],
+[1, "The saccules of a Golgi stack are best described as:", "Flattened, curved tubules with expanded ends", "Rounded vesicles without a lumen", "Folded shelf-like projections of an inner membrane", "Dense granules with a single membrane"],
+[1, "How many faces does each Golgi stack have?", "Two", "One", "Three", "Four"],
+[1, "The immature face of the Golgi stack is:", "Convex and facing the RER", "Concave and facing the cell membrane", "Concave and facing the RER", "Convex and facing the cell membrane"],
+[1, "The mature face of the Golgi stack is:", "Concave", "Convex", "Flat and unfolded", "Spherical"],
+[1, "Which of the following pairs is correctly matched?", "Cis face – convex – immature", "Trans face – convex – immature", "Cis face – concave – mature", "Trans face – convex – facing RER"],
+[1, "The Golgi face that faces the rough endoplasmic reticulum is the:", "Cis face", "Trans face", "Mature face", "Concave face"],
+[1, "Transfer vesicles are also called:", "Microvesicles", "Macrovesicles", "Cristae", "Cisternae"],
+[1, "Secretory vesicles of the Golgi apparatus are also called:", "Macrovesicles", "Microvesicles", "Microbodies", "Saccules"],
+[1, "Transfer vesicles bud off from the:", "Rough endoplasmic reticulum", "Trans face of the Golgi", "Plasma membrane", "Mitochondrial outer membrane"],
+[1, "Transfer vesicles fuse with the saccules of the:", "Immature face", "Mature face", "Nuclear envelope", "Mitochondrial matrix"],
+[1, "The cargo carried by transfer vesicles is:", "Newly synthesized proteins", "Lysosomal enzymes only", "Hydrogen peroxide", "Mitochondrial DNA"],
+[1, "Secretory vesicles bud off from the:", "Saccules of the trans face", "Saccules of the cis face", "Smooth ER only", "Cristae"],
+[1, "The Golgi apparatus consists of all of the following EXCEPT:", "Cristae", "Golgi stacks", "Transfer vesicles", "Secretory vesicles"],
+[1, "An electron micrograph shows a vesicle budding from the concave side of a Golgi stack. This vesicle is a:", "Secretory vesicle (macrovesicle)", "Transfer vesicle (microvesicle)", "Peroxisome", "Mitochondrial granule"],
+[1, "A small vesicle is seen between the RER and the convex side of a Golgi stack. It is most likely a:", "Transfer vesicle", "Secretory vesicle", "Primary lysosome", "Electron dense granule"],
+[1, "The correct direction of protein movement in the Golgi pathway is:", "RER → transfer vesicle → cis face → trans face → secretory vesicle", "RER → secretory vesicle → trans face → cis face → transfer vesicle", "Trans face → transfer vesicle → RER → cis face", "Cis face → RER → secretory vesicle → transfer vesicle"],
+[1, "Compared with the transfer vesicles, the secretory vesicles are:", "Larger (macrovesicles)", "Smaller (microvesicles)", "Identical in size", "Absent in secretory cells"],
+[1, "The Golgi face that is also called the mature face is the:", "Trans face", "Cis face", "Convex face", "RER-facing face"],
+[2, "Golgi apparatus modifies proteins received from the RER by adding:", "Sulfates and carbohydrates", "Heme and iron", "Catalase and oxidases", "Calcium granules"],
+[2, "Concentration and packaging of proteins in membrane-bounded vesicles is a function of:", "Golgi apparatus", "Mitochondria", "Peroxisomes", "Smooth ER only"],
+[2, "The Golgi apparatus shares in the formation of:", "Primary lysosomes", "Peroxisomal catalase", "Cristae", "Mitochondrial DNA"],
+[2, "Renewal and maintenance of the cell membrane is a function of:", "Golgi apparatus", "Mitochondria", "Peroxisomes", "Free ribosomes"],
+[2, "Which of the following is NOT a function of the Golgi apparatus?", "Production of ATP", "Modification of proteins", "Packaging of proteins", "Formation of the acrosome"],
+[2, "The Golgi apparatus is most prominent in:", "Protein-secreting cells", "Mature red blood corpuscles", "Cells that contain no nucleus", "Inactive cells with few organelles"],
+[2, "Secretory vesicles that carry secretory proteins release them outside the cell by:", "Exocytosis", "Endocytosis", "Phagocytosis", "Autophagy"],
+[2, "Secretory vesicles that carry lysosomal enzymes and stay in the cytoplasm are called:", "Primary lysosomes", "Peroxisomes", "Transfer vesicles", "Secretory granules for exocytosis"],
+[2, "Secretory vesicles of the trans face carry either:", "Secretory proteins or lysosomal enzymes", "Hydrogen peroxide or catalase", "Calcium or heme", "Urate oxidase or D-amino oxidase"],
+[2, "A toxin blocks the Golgi apparatus of a gland cell. Which process would fail first?", "Modification and packaging of secretory proteins", "Beta oxidation of long-chain fatty acids", "ATP production in the inner mitochondrial membrane", "Breakdown of hydrogen peroxide"],
+[2, "Which organelle is responsible for adding sulfates to proteins received from the RER?", "Golgi apparatus", "Peroxisome", "Mitochondrion", "Free polyribosome"],
+[2, "In developing sperm, the Golgi apparatus is responsible for forming the:", "Acrosome", "Flagellum", "Mitochondria of the midpiece", "Nucleus"],
+[3, "The word mitochondria is derived from:", "Mitos = thread and chondros = granules", "Lyso = dissolution and soma = body", "Peri = around and oxy = oxygen", "Cis = same side and trans = opposite side"],
+[3, "Mitochondria are found in all cells EXCEPT:", "Red blood corpuscles", "Liver cells", "Cardiac muscle cells", "Nerve cells"],
+[3, "The number of mitochondria in a cell depends mainly on:", "The level of cell activity (energy needed)", "The size of the nucleus", "The number of Golgi stacks", "The amount of smooth ER"],
+[3, "Which of the following cells would contain the greatest number of mitochondria?", "Cardiac muscle cell", "Inactive cell", "Mature red blood corpuscle", "A resting cell with minimal energy needs"],
+[3, "Highly active cells have numerous mitochondria, for example:", "Liver cells and cardiac muscle cells", "Red blood corpuscles", "Inactive cells", "Mature sperm acrosome"],
+[3, "Inactive cells contain:", "Very few mitochondria", "Numerous mitochondria", "No cell organelles", "Only peroxisomes"],
+[3, "Mitochondria increase their number by:", "Dividing", "Budding from the RER", "Budding from the Golgi trans face", "Fusion of lysosomes"],
+[3, "Mitochondria are:", "Membranous cell organelles", "Non-membranous cell organelles", "Cytoplasmic inclusions without membranes", "Found only in the nucleus"],
+[3, "A hepatocyte shows marked cytoplasmic acidophilia in H&E. The most likely reason is:", "A large number of mitochondria", "A large number of free ribosomes", "A large Golgi apparatus", "An absence of mitochondria"],
+[3, "By Janus green stain, mitochondria appear as:", "Rounded or elongated structures", "Dark network of threads near the nucleus", "Clear area near the nucleus", "Electron dense granules containing calcium"],
+[3, "The special stain used to demonstrate mitochondria in light microscopy is:", "Janus green", "Silver stain", "Histochemical method for peroxisomes", "H&E negative image"],
+[3, "Which cell type is expected to have the FEWEST mitochondria?", "An inactive cell", "A liver cell", "A cardiac muscle cell", "A highly active secretory cell"],
+[4, "By electron microscopy, each mitochondrion consists of:", "Two membranes and two spaces", "One membrane and one space", "Two membranes and one space", "Three membranes and three spaces"],
+[4, "The outer mitochondrial membrane is:", "Smooth and non-folded", "Folded to form cristae", "Studded with ribosomes and cisternae", "Absent in most cells"],
+[4, "Cristae are formed by folding of the:", "Inner membrane", "Outer membrane", "Plasma membrane", "Nuclear envelope"],
+[4, "Cristae are described as:", "Shelf-like projections", "Rounded vesicles", "Flattened sacs with expanded ends", "Electron dense granules"],
+[4, "The enzymes responsible for ATP production are located in the:", "Inner mitochondrial membrane", "Outer mitochondrial membrane", "Golgi saccules", "Peroxisomal matrix"],
+[4, "The main benefit of cristae is:", "Increasing the surface area for more ATP production", "Storing hydrogen peroxide", "Packaging secretory proteins", "Synthesizing lysosomal enzymes"],
+[4, "The intermembranous space is the space:", "Between the outer and inner membranes", "Enclosed by the inner membrane", "Inside the cristae only", "Between the nucleus and cytoplasm"],
+[4, "The mitochondrial matrix is the space:", "Enclosed by the inner membrane", "Between the two membranes", "Outside the outer membrane", "Inside the Golgi saccules"],
+[4, "The mitochondrial matrix contains all of the following EXCEPT:", "Catalase-rich crystalline core", "Enzymes of the citric acid cycle", "Circular mitochondrial DNA", "Ribosomes"],
+[4, "The mitochondrial DNA is:", "A circular molecule", "A linear molecule inside a nuclear envelope", "Absent from mitochondria", "Found in the intermembranous space only"],
+[4, "The electron dense granules in the mitochondrial matrix contain:", "Ca2+", "Heme", "Catalase", "Sulfates"],
+[4, "The enzymes of the citric acid cycle are found in the:", "Matrix", "Outer membrane", "Cis face of Golgi", "Lysosomal membrane"],
+[4, "An electron micrograph shows an organelle with a smooth outer membrane and a folded inner membrane forming shelves. It is a:", "Mitochondrion", "Peroxisome", "Golgi stack", "Primary lysosome"],
+[4, "If the cristae of mitochondria were markedly reduced, which function would be directly impaired?", "ATP production", "Packaging of proteins", "Breakdown of hydrogen peroxide", "Autophagy"],
+[4, "The presence of ribosomes in the mitochondrial matrix indicates that mitochondria can:", "Form some proteins for themselves", "Produce hydrolytic enzymes for the cell", "Form the acrosome", "Detoxify alcohol"],
+[4, "Which pair is correctly matched?", "Inner membrane – folded into cristae", "Outer membrane – folded into cristae", "Matrix – located between the two membranes", "Intermembranous space – enclosed by the inner membrane"],
+[4, "Which statement about the mitochondrial membranes is TRUE?", "The inner is folded while the outer is smooth", "Both membranes are folded into cristae", "Both membranes are smooth and non-folded", "The outer is folded while the inner is smooth"],
+[4, "Electron dense granules, circular DNA and ribosomes are all found in the:", "Mitochondrial matrix", "Intermembranous space", "Outer mitochondrial membrane", "Golgi saccule"],
+[5, "Mitochondria are called the powerhouse of the cell because they:", "Produce and store energy", "Digest worn-out organelles", "Package secretory proteins", "Detoxify drugs"],
+[5, "Mitochondria help regulate the intracellular concentration of:", "Calcium ions", "Hydrogen peroxide", "Sulfates", "Uric acid"],
+[5, "Mitochondria can self-replicate because they contain:", "Their own DNA", "Catalase", "Lysosomal enzymes", "Golgi saccules"],
+[5, "Mitochondria can form proteins for themselves because they contain:", "Ribosomes", "Cristae only", "Oxidases", "Secretory vesicles"],
+[5, "Heme production in animal cells is a function of:", "Mitochondria", "Golgi apparatus", "Peroxisomes", "Lysosomes"],
+[5, "All of the following are functions of mitochondria EXCEPT:", "Modification of proteins by adding sulfates", "Regulation of calcium ions", "Production of heme", "Self-replication"],
+[5, "A woman affected by a mitochondrial disease marries an unaffected man. Their children will be:", "All affected, with variable degree", "All unaffected", "Affected only if male", "Affected only if female"],
+[5, "An affected father and an unaffected mother have children. Their children will be:", "All unaffected", "All affected", "Half affected", "Only the daughters affected"],
+[5, "The degree of illness in affected children in mitochondrial inheritance depends on:", "The amount of affected mitochondria", "The sex of the child", "The father's genotype", "The size of the Golgi apparatus"],
+[5, "Two siblings from an affected mother show different severity of the same mitochondrial disease. The best explanation is:", "They inherited different amounts of affected mitochondria", "One of them inherited the disease from the father", "The disease is sex-linked", "Only one of them has mitochondria"],
+[5, "Mitochondrial inheritance is transmitted through:", "The mother only", "The father only", "Both parents equally", "Neither parent"],
+[5, "In the pedigree of mitochondrial inheritance, which parent-child combination gives affected children?", "Affected mother", "Affected father", "Unaffected mother only", "Unaffected father only"],
+[5, "The ability of mitochondria to divide is due to their:", "Own DNA and ribosomes", "Smooth outer membrane", "Intermembranous space", "Calcium granules"],
+[5, "A cardiac muscle cell is rich in mitochondria mainly because it:", "Needs a large and continuous energy supply", "Secretes proteins by exocytosis", "Is rich in peroxisomes", "Has no nucleus"],
+[6, "Peroxisomes are also known as:", "Microbodies", "Macrovesicles", "Cristae", "Saccules"],
+[6, "Which enzyme in peroxisomes synthesizes hydrogen peroxide?", "Oxidases", "Catalase", "Hydrolases", "ATP synthase"],
+[6, "Which enzyme in peroxisomes breaks down hydrogen peroxide?", "Catalase", "Oxidase", "Urate oxidase only", "Citric acid cycle enzymes"],
+[6, "Peroxisomes contain all of the following EXCEPT:", "Hydrolytic enzymes", "Oxidases", "Catalase", "A limiting membrane"],
+[6, "Peroxisomal enzymes are synthesized on:", "Free polyribosomes", "RER-bound ribosomes", "Smooth ER", "Mitochondrial matrix only"],
+[6, "Peroxisomal enzymes enter the organelle after being:", "Recognized by receptors on the peroxisomal membrane", "Packaged in the Golgi trans face", "Carried by transfer vesicles from the RER", "Synthesized inside the matrix"],
+[6, "Peroxisomes are more numerous in:", "Liver and kidney cells", "Red blood corpuscles", "Mature sperm", "Inactive cells"],
+[6, "Peroxisomes increase in number by:", "Simple division (fission)", "Budding from the Golgi trans face", "Budding from the RER", "Fusion of lysosomes"],
+[6, "Which organelle divides by simple division similar to peroxisomes?", "Mitochondria", "Golgi apparatus", "Smooth ER", "Nuclear envelope"],
+[6, "Peroxisomes are the main source of which group of enzymes?", "D-amino oxidase, urate oxidase and catalase", "Citric acid cycle enzymes", "Lysosomal hydrolases", "ATP synthase particles"],
+[6, "In light microscopy, peroxisomes are demonstrated by:", "A histochemical method", "Janus green stain", "Silver stain", "H&E negative image"],
+[6, "By electron microscopy, peroxisomes appear as:", "Small spherical or oval electron dense bodies with a single membrane", "Double-membrane organelles with cristae", "Stacks of flattened saccules", "Large granules with hydrolases"],
+[6, "The approximate size of a peroxisome is:", "0.5 µm", "50 µm", "5 mm", "0.5 mm"],
+[6, "A major function of peroxisomes is:", "Beta oxidation of long-chain fatty acids", "Synthesis of lysosomal hydrolases", "Formation of cristae", "Protein packaging"],
+[6, "In peroxisomal oxidation of long-chain fatty acids, hydrogen peroxide is produced by the action of:", "Oxidase", "Catalase", "Hydrolase", "ATP synthase"],
+[6, "Hydrogen peroxide is broken down by catalase into:", "Water and oxygen", "Carbon dioxide and ATP", "Heme and iron", "Sulfates and carbohydrates"],
+[6, "The energy released by peroxisomal oxidation is:", "Released as heat and not stored as ATP", "Stored as ATP", "Stored as calcium granules", "Used to form cristae"],
+[6, "A liver cell of an alcoholic patient shows increased detoxification activity. The organelle most involved (according to the lecture) is the:", "Peroxisome", "Golgi apparatus", "Primary lysosome", "Acrosome"],
+[6, "If a cell has oxidases but lacks catalase, the most likely result is:", "Accumulation of toxic hydrogen peroxide", "Failure of ATP production", "Failure of protein packaging", "Failure of autophagy"],
+[6, "Which pair of organelles has a single limiting membrane?", "Peroxisome and lysosome", "Mitochondrion and peroxisome", "Mitochondrion and nucleus", "Mitochondrion and Golgi"],
+[7, "The endomembrane system is a group of membranes and organelles in eukaryotic cells that:", "Modify, package and transport lipids and proteins", "Produce most of the ATP", "Contain the cell's genetic material", "Digest the whole cell at death only"],
+[7, "Components of the endomembrane system communicate by means of:", "Transport vesicles", "Cristae", "Direct fusion with mitochondria", "Free ribosomes"],
+[7, "The endomembrane system includes all of the following EXCEPT:", "Mitochondria", "Nuclear envelope", "Endoplasmic reticulum", "Golgi apparatus"],
+[7, "Which of the following is a component of the endomembrane system?", "Lysosomes and several types of vesicles", "Cristae", "Peroxisomal catalase", "Matrix granules"],
+[7, "The endomembrane system is found in:", "Eukaryotic cells", "Prokaryotic cells only", "Viruses", "Mature red blood corpuscles only"],
+[7, "Which sequence represents the route of a secreted protein through the endomembrane system?", "RER → transfer vesicle → Golgi → secretory vesicle → exocytosis", "Golgi → mitochondria → RER → exocytosis", "Nucleus → lysosome → Golgi → exocytosis", "RER → mitochondria → peroxisome → exocytosis"],
+[7, "Lysosomes of the endomembrane system receive their enzymes from:", "Golgi secretory vesicles", "Mitochondrial matrix", "Free polyribosomes directly", "Peroxisomes"],
+[7, "A food vacuole formed by phagocytosis fuses with a:", "Lysosome", "Mitochondrion", "Nucleus", "Transfer vesicle of the RER"],
+[7, "Which organelle links the nuclear envelope and the Golgi apparatus in the endomembrane system?", "Endoplasmic reticulum", "Mitochondrion", "Peroxisome", "Centriole"],
+[7, "The role of vesicles in the endomembrane system is to:", "Transport lipids and proteins between components", "Synthesize ATP", "Replicate DNA", "Make peroxisomal catalase"],
+[8, "The word lysosome means:", "Dissolution body", "Thread granule", "Cell drinking", "Small oxygen body"],
+[8, "Autolysis occurs when:", "Lysosomal membranes rupture at cell death", "Lysosomes engulf bacteria", "Lysosomal enzymes are discharged by exocytosis", "A mitochondrion is engulfed"],
+[8, "Disappearance of the tadpole tail during metamorphosis is an example of:", "Autolysis", "Extracellular digestion", "Heterophagy", "Packaging"],
+[8, "Extracellular digestion involves:", "Discharge of lysosomal enzymes outside the cell by exocytosis", "Rupture of lysosomal membranes inside the cell", "Engulfing of bacteria by endocytosis", "Digestion of damaged organelles"],
+[8, "Which of the following is an example of extracellular digestion?", "Bone remodeling", "Tadpole tail loss", "Digestion of damaged mitochondria", "Digestion of engulfed bacteria in a white blood cell"],
+[8, "Digestion of substances taken from outside the cell by endocytosis is called:", "Heterophagy", "Autophagy", "Autolysis", "Exocytosis"],
+[8, "Digestion of damaged organelles inside the cell is called:", "Autophagy", "Heterophagy", "Autolysis", "Phagocytosis"],
+[8, "A white blood cell engulfs bacteria and digests them in its lysosomes. This process is:", "Heterophagy", "Autophagy", "Autolysis", "Extracellular digestion"],
+[8, "An electron micrograph shows a lysosome containing a fragment of a mitochondrion. This is evidence of:", "Autophagy", "Heterophagy", "Extracellular digestion", "Formation of the acrosome"],
+[8, "Primary lysosomes are formed by:", "Secretory vesicles from the Golgi trans face carrying lysosomal enzymes", "Division of mitochondria", "Budding from peroxisomes", "Fusion of transfer vesicles with the nucleus"],
+[8, "Which is NOT a function of lysosomes?", "ATP production", "Autolysis", "Intracellular digestion", "Extracellular digestion"],
+[8, "Lysosomal enzymes are mainly:", "Hydrolytic enzymes", "Oxidases", "Citric acid cycle enzymes", "DNA polymerases"],
+[8, "Intracellular digestion by lysosomes can deal with substances that come:", "From outside by endocytosis or from inside as damaged organelles", "From outside only", "From inside only", "From the nucleus only"],
+[8, "Which statement about lysosomes is TRUE?", "They are membranous organelles that digest materials", "They are non-membranous granules", "They are the site of ATP production", "They are formed from mitochondria"],
+[8, "Match: tadpole tail – bone remodeling – damaged organelles.", "Autolysis – extracellular digestion – autophagy", "Autophagy – autolysis – heterophagy", "Heterophagy – autophagy – autolysis", "Extracellular digestion – heterophagy – autolysis"],
+[8, "Rupture of lysosomal membranes inside a living healthy cell would most likely:", "Digest the cell contents", "Increase ATP", "Form the acrosome", "Produce heme"],
+[9, "The acrosome is best described as:", "A giant lysosome", "A giant mitochondrion", "A modified peroxisome", "A type of cristae"],
+[9, "The acrosome contains hydrolases that:", "Break down the protective surfaces of the egg", "Produce ATP for sperm motility", "Store calcium", "Synthesize heme"],
+[9, "The acrosome is formed from vesicles discharged by the:", "Golgi body of the sperm cell", "Mitochondria of the midpiece", "Nucleus of the sperm", "Flagellum"],
+[9, "As the acrosome grows, the Golgi body:", "Becomes reduced in size", "Increases in size", "Forms cristae", "Becomes the nucleus"],
+[9, "A mature sperm may lack a Golgi apparatus because:", "It was used up in forming the acrosome", "Sperms never possess a Golgi", "It was converted into mitochondria", "It is replaced by peroxisomes"],
+[9, "The action of the acrosome on the egg is an example of:", "Extracellular digestion", "Autolysis", "Autophagy", "Heterophagy"],
+[9, "Which organelle in the sperm midpiece provides energy?", "Mitochondria", "Acrosome", "Golgi body", "Peroxisomes"],
+[9, "Which two organelles are both involved in acrosome formation and function?", "Golgi apparatus and lysosomal enzymes", "Mitochondria and peroxisomes", "RER and catalase", "Nucleus and cristae"],
+[10, "Which organelle shows cis and trans faces?", "Golgi apparatus", "Mitochondrion", "Peroxisome", "Lysosome"],
+[10, "Which organelle has cristae and its own circular DNA?", "Mitochondrion", "Peroxisome", "Golgi apparatus", "Lysosome"],
+[10, "Which organelle contains catalase and a single membrane?", "Peroxisome", "Mitochondrion", "Golgi apparatus", "Acrosome"],
+[10, "Which of the following pairs of organelle and light-microscopy method is correct?", "Mitochondria – Janus green", "Golgi – Janus green", "Peroxisomes – silver stain", "Mitochondria – silver stain"],
+[10, "Which organelle receives newly synthesized proteins from the RER?", "Golgi apparatus", "Peroxisome", "Mitochondrion", "Acrosome"],
+[10, "Which organelles divide by simple division (fission)?", "Mitochondria and peroxisomes", "Golgi and lysosomes", "RER and Golgi", "Nucleus and acrosome"],
+[10, "Which organelle produces and stores energy, while another releases energy as heat during fatty acid oxidation?", "Mitochondrion; peroxisome", "Peroxisome; mitochondrion", "Golgi; lysosome", "Lysosome; Golgi"],
+[10, "Which organelle contains hydrolytic enzymes, unlike peroxisomes?", "Lysosome", "Mitochondrion", "Golgi stack", "Peroxisome"],
+[10, "Which of the following is correctly matched?", "Peroxisome – detoxification of alcohol in the liver", "Golgi – production of heme", "Mitochondria – formation of primary lysosomes", "Lysosome – beta oxidation of fatty acids"],
+[10, "Which of the following organelles is NOT part of the endomembrane system as listed in the lecture?", "Mitochondrion", "Golgi apparatus", "Lysosome", "Nuclear envelope"],
+[10, "Which organelle stores calcium in dense granules and also regulates intracellular calcium?", "Mitochondrion", "Golgi apparatus", "Peroxisome", "Primary lysosome"],
+[10, "A cell is rich in RER, has a prominent Golgi on its nuclear side with a clear negative image, and secretes proteins. This cell is most similar to:", "A plasma cell", "A mature red blood corpuscle", "An inactive cell", "A cell with no cytoplasm"]];
+
+const E=["The Golgi apparatus is not stained by H&E and appears as a clear area (negative image) beside the nucleus.", "The clear Golgi area is only obvious against deeply basophilic cytoplasm, e.g. plasma cells.", "Silver impregnation shows the Golgi as a dark network of threads or granules.", "The silver stain demonstrates the Golgi apparatus (e.g. in nerve cells).", "Negative image (H&E) and dark network (silver) are both light-microscopic appearances of the Golgi apparatus.", "Janus green is a mitochondrial stain, not a Golgi stain.", "It appears as a clear area near the nucleus.", "Appearing unstained gives the name 'negative' Golgi image.", "These are the three EM components of the Golgi apparatus.", "Stacks are made of saccules (flattened, curved tubules with expanded ends).", "This is the lecture description of Golgi saccules.", "Each stack has an immature (cis) face and a mature (trans) face.", "The immature (cis) face is convex and faces the RER.", "The mature (trans) face is concave.", "Cis = immature = convex facing RER; trans = mature = concave.", "The cis (immature, convex) face faces the RER.", "Transfer vesicles = microvesicles.", "Secretory vesicles = macrovesicles.", "They bud off the RER and travel through the cytoplasm to the Golgi.", "They fuse with the immature (cis) face of the Golgi stack.", "Transfer vesicles carry newly synthesized proteins from the RER.", "They bud off the saccules of the mature (trans) face.", "Cristae belong to mitochondria.", "The concave (trans) face gives rise to secretory vesicles.", "Transfer vesicles move from RER to the cis face.", "Proteins travel from the RER to the cis face, through the stack, and leave from the trans face.", "The names micro- and macrovesicles denote their relative size.", "Mature = trans = concave.", "Modification = addition of sulfates and carbohydrates.", "Concentration and packaging are Golgi functions.", "Secretory vesicles carrying lysosomal enzymes become primary lysosomes.", "This is listed among Golgi functions.", "ATP production belongs to mitochondria.", "The lecture concludes that Golgi is prominent in protein-secreting cells.", "Secretory proteins are discharged by exocytosis.", "Vesicles with lysosomal enzymes remain as primary lysosomes.", "These are the two possible cargoes of secretory vesicles.", "Modification and packaging of proteins received from the RER depend on the Golgi.", "Golgi adds sulfates and carbohydrates.", "Acrosome formation is a Golgi function.", "Mitos means thread and chondros means granules.", "The lecture states they are found in all cells except RBCs.", "More active cells need more energy and have more mitochondria.", "Highly active cells such as cardiac muscle and liver have numerous mitochondria.", "Liver and cardiac muscle cells are the examples given.", "Inactive cells need little energy.", "Mitochondria can divide to increase their number.", "They are limited by membranes (two of them).", "Numerous mitochondria cause cytoplasmic acidophilia in H&E.", "Janus green demonstrates mitochondria as rounded or elongated structures.", "Janus green is the special stain for mitochondria.", "Mitochondrial number follows energy demand.", "Outer and inner membranes; intermembranous and matrix spaces.", "The outer membrane is smooth and non-folded.", "The inner membrane folds to form cristae.", "Cristae are shelf-like projections of the inner membrane.", "The inner membrane contains the ATP-producing enzymes.", "Cristae increase the surface area for ATP production.", "It lies between the two mitochondrial membranes.", "The matrix is bounded by the inner membrane.", "Catalase is a peroxisomal enzyme.", "The matrix contains a circular DNA molecule.", "The dense granules contain calcium ions.", "The matrix contains the citric acid cycle enzymes.", "Smooth outer membrane + cristae = mitochondrion.", "Less inner-membrane surface area means less ATP production.", "Matrix ribosomes allow synthesis of mitochondrial proteins.", "Only the first pair is correct.", "Only the inner membrane is folded.", "These are matrix contents.", "Energy production and storage is their main function.", "Mitochondria regulate intracellular calcium.", "Their own DNA allows division.", "Matrix ribosomes allow protein synthesis.", "Production of heme is listed among mitochondrial functions.", "Sulfate addition is a Golgi function.", "Mitochondria are inherited from the mother, so all her children inherit affected mitochondria.", "Mitochondrial inheritance is maternal; the father does not pass it on.", "The severity depends on the proportion of affected mitochondria.", "Degree depends on the amount of affected mitochondria.", "Mitochondria come mainly from the egg cytoplasm.", "Only an affected mother transmits the condition.", "They contain DNA (replication) and ribosomes (protein synthesis).", "Cell activity determines mitochondrial number.", "Peroxisomes (microbodies).", "Oxidases synthesize H2O2.", "Catalase breaks down H2O2.", "Hydrolytic enzymes are characteristic of lysosomes.", "They are made on free polyribosomes, then imported.", "Receptors on the peroxisomal membrane recognize and internalize them.", "Numbers are high in liver and kidney.", "They divide by fission, like mitochondria.", "Mitochondria also divide by fission.", "These are the three listed peroxisomal enzymes.", "The LM identification is histochemical.", "Peroxisomes are ~0.5 µm dense bodies with one membrane.", "Peroxisomes are small (0.5 µm).", "Peroxisomes oxidize long-chain fatty acids.", "Oxidase generates H2O2, which catalase then breaks down.", "Catalase converts H2O2 to H2O + O2.", "Unlike mitochondria, energy comes out as heat.", "Detoxification of drugs and alcohol in the liver is a peroxisomal function.", "Oxidases produce H2O2 and catalase removes it.", "Peroxisomes and lysosomes have one membrane; mitochondria have two.", "This is its definition.", "Transport vesicles link the components.", "Mitochondria are not part of the listed components.", "The system includes lysosomes and vesicles.", "It is described in eukaryotic cells.", "Secretory proteins pass RER, Golgi, then secretory vesicles.", "Lysosomal enzymes are carried by Golgi secretory vesicles.", "Food vacuoles are digested after fusion with lysosomes.", "The ER is continuous with the nuclear envelope and sends vesicles to the Golgi.", "Vesicles carry material between membranous compartments.", "Lyso = dissolution, soma = body.", "Enzymes released at cell death digest the cell contents.", "Tail cells are digested by their own lysosomal enzymes.", "Enzymes are discharged outside to digest particles.", "Bone remodeling and the sperm acrosome are the examples given.", "Heterophagy = outside material.", "Autophagy = the cell's own organelles.", "Material came from outside by endocytosis.", "Own organelles inside lysosomes indicate autophagy.", "Golgi secretory vesicles with lysosomal enzymes stay as primary lysosomes.", "ATP production belongs to mitochondria.", "Lysosomes digest materials with hydrolases.", "Both heterophagy and autophagy are types of intracellular digestion.", "Lysosomes are membrane-bound digestive organelles.", "Tail = autolysis, bone = extracellular digestion, organelles = autophagy.", "Released enzymes digest the cell (as in autolysis).", "The acrosome is a giant lysosome.", "They help the sperm penetrate the egg surfaces.", "Golgi vesicles migrate and fuse to form the acrosome.", "The Golgi becomes reduced and may disappear in many mature sperms.", "The Golgi becomes reduced as the acrosome forms.", "Lysosomal enzymes digest egg surfaces outside the sperm.", "Mitochondria are located in the midpiece.", "The Golgi forms the acrosome, which acts as a giant lysosome.", "Faces are a feature of Golgi stacks.", "Both features belong to mitochondria.", "Catalase is a peroxisomal enzyme.", "Janus green stains mitochondria; silver stains Golgi.", "Transfer vesicles take them to the cis face.", "Both divide by fission.", "Mitochondria produce and store energy; peroxisomal energy comes out as heat.", "Peroxisomes lack hydrolytic enzymes; lysosomes contain them.", "Only the first pair is correct.", "Mitochondria are not listed.", "Calcium granules are found in the mitochondrial matrix.", "Plasma cells are basophilic and protein-secreting, with a negative Golgi image."];
+
+const ic=p=>'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">'+p+"</svg>";
+const ICON={done:ic('<path d="M5 13l4 4L19 7"/>'),reset:ic('<path d="M4 4v6h6"/><path d="M5.5 15a8 8 0 1 0 2-8.5L4 10"/>'),list:ic('<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>'),star:ic('<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>')};
+const $=s=>document.querySelector(s),K="cellbio_golgi_mito1";
+const shuf=a=>{a=a.slice();for(let i=a.length;i>1;){const j=Math.random()*i--|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+let S={},cur,streak=0,busy=0,tt;
+try{S=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+B.forEach(q=>{let x=5381,s=q.slice(1,6).join("|");for(let i=0;i<s.length;i++)x=(x*33^s.charCodeAt(i))>>>0;q.id=x.toString(36)});
+B.forEach((q,i)=>{q[6]=E[i]||("Correct answer: "+q[2]+".")});
+const stat=()=>{let d=0,c=0;B.forEach(q=>{if(q.id in S){d++;c+=S[q.id]}});return{d,c,n:B.length}};
+function view(v){$("#home").hidden=v!=="h";$("#quiz").hidden=v!=="q";if(v==="h"){const{d,c,n}=stat();$("#sd").textContent=d;$("#sc").textContent=c;$("#sn").textContent=n;$("#pb").style.width=d/n*100+"%";$("#go").textContent=d>=n?"All questions answered":d?"Continue":"Start";$("#go").disabled=d>=n;$("#rv").hidden=d==c;$("#rv").textContent="Review mistakes ("+(d-c)+")";$("#rs").hidden=!d;$("#home").className="card in"}}
+function modal(e,t,h,bs){$("#me").innerHTML=ICON[e]||"";$("#mt").textContent=t;$("#mx").innerHTML=h;const m=$("#mb");m.innerHTML="";bs.forEach(b=>{const x=document.createElement("button");x.textContent=b[0];x.className=b[2]||"";x.onclick=()=>{$("#ov").classList.remove("on");b[1]&&b[1]()};m.append(x)});$("#ov").classList.add("on")}
+function toast(t){const e=$("#ts");e.textContent=t;e.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>e.classList.remove("on"),1600)}
+function finish(){const{c,n}=stat();view("h");modal("done","Bank completed","<p>You answered "+c+" of "+n+" correctly.</p>",[["Review mistakes",review,"p"],["Start over",askReset],["Close"]])}
+function review(){const w=B.filter(q=>S[q.id]===0);if(!w.length)return modal("star","No mistakes","<p>Every answer so far is correct.</p>",[["OK","","p"]]);modal("list","Mistakes ("+w.length+")",'<div class="rl">'+w.map(q=>"<div><b>"+esc(q[1])+"</b><em>Correct answer: "+esc(q[2])+"</em>"+esc(q[6])+"</div>").join("")+"</div>",[["Close","","p"]])}
+function askReset(){modal("reset","Start over?","<p>All saved answers will be deleted.</p>",[["Yes, start over",()=>{S={};save();streak=0;view("h")},"p"],["Cancel"]])}
+function next(){const L=B.filter(q=>!(q.id in S));if(!L.length)return finish();cur=L[Math.random()*L.length|0];const o=shuf(cur.slice(2,6));
+$("#ch").textContent=T[cur[0]];$("#qt").textContent=cur[1];$("#ct").textContent=stat().d+" / "+B.length;$("#ex").classList.remove("on");$("#nx").hidden=true;
+const ob=$("#opts");ob.innerHTML="";o.forEach((x,i)=>{const b=document.createElement("button");b.className="o";b.style.animationDelay=i*70+"ms";b.innerHTML="<b>"+"ABCD"[i]+"</b><span></span>";b.lastChild.textContent=x;b.onclick=()=>pick(b,x);ob.append(b)});
+$("#card").className="card in";busy=0}
+function pick(b,x){if(busy)return;busy=1;const r=x===cur[2];S[cur.id]=r?1:0;save();
+document.querySelectorAll(".o").forEach(e=>{e.disabled=true;const t=e.lastChild.textContent;if(t===cur[2])e.classList.add("ok");else if(e===b)e.classList.add("no");else e.classList.add("dim")});
+streak=r?streak+1:0;if(r&&streak>=3&&streak%3==0)toast(streak+" correct in a row");
+$("#eb").innerHTML='<strong class="'+(r?"g":"r")+'">'+(r?"Correct":"Incorrect")+'</strong><span>'+esc(cur[6])+"</span>";$("#ex").classList.add("on");$("#nx").hidden=false;$("#ct").textContent=stat().d+" / "+B.length}
+$("#nx").onclick=()=>{$("#card").className="card out";setTimeout(next,260)};
+$("#go").onclick=()=>{view("q");next()};
+$("#bk").onclick=()=>view("h");$("#rv").onclick=review;$("#rs").onclick=askReset;
+view("h");
+</script></body></html>

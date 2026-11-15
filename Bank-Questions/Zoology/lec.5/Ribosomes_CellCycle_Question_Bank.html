@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ribosomes, Cytoskeleton, Nucleus &amp; Cell Cycle | Question Bank</title>
+<style>
+:root{--bg:#f3f4fb;--bg2:#e4e0fb;--card:#fff;--tx:#1b2033;--mu:#6b7189;--ac:#6246ea;--ac2:#8f6bff;--ok:#16a765;--no:#e5484d;--bd:#e2e5f2;--sh:0 8px 28px rgba(60,50,140,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141d;--bg2:#1c1840;--card:#1c2030;--tx:#eef0fa;--mu:#9ba2bd;--ac:#9b86ff;--ac2:#6f9bff;--ok:#3ecf8e;--no:#ff6b73;--bd:#30355100;--bd:#303551;--sh:0 8px 28px rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg:#12141d;--bg2:#1c1840;--card:#1c2030;--tx:#eef0fa;--mu:#9ba2bd;--ac:#9b86ff;--ac2:#6f9bff;--ok:#3ecf8e;--no:#ff6b73;--bd:#303551;--sh:0 8px 28px rgba(0,0,0,.4)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(160deg,var(--bg) 40%,var(--bg2));color:var(--tx);font-family:system-ui,"Segoe UI",Tahoma,sans-serif;line-height:1.65;-webkit-tap-highlight-color:transparent}
+.w{max-width:720px;margin:0 auto;padding:18px 14px 40px}
+h1{font-size:clamp(1.25rem,4.5vw,1.7rem);margin:.3rem 0 .1rem;text-align:center}
+.sub{text-align:center;color:var(--mu);margin:0 0 14px;font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:18px;box-shadow:var(--sh)}
+.in{animation:in .38s cubic-bezier(.2,.8,.3,1) both}
+.out{animation:out .26s ease-in both}
+@keyframes in{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes out{to{opacity:0;transform:translateX(-36px) scale(.98)}}
+@keyframes pop{40%{transform:scale(1.035)}}
+@keyframes shake{20%{transform:translateX(-7px)}60%{transform:translateX(7px)}}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 14px}
+.st{background:var(--bg);border-radius:14px;padding:12px 6px;text-align:center}
+.st b{display:block;font-size:1.6rem;color:var(--ac)}.st span{font-size:.8rem;color:var(--mu)}
+.bar{height:10px;background:var(--bd);border-radius:10px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:10px;transition:width .6s cubic-bezier(.2,.8,.3,1)}
+button{font:inherit;color:var(--tx);cursor:pointer;border:1px solid var(--bd);background:var(--card);border-radius:14px;padding:11px 16px;transition:transform .15s,box-shadow .2s,background .2s,border-color .2s}
+button:active:not(:disabled){transform:scale(.97)}
+button:disabled{opacity:.5;cursor:default}
+button:focus-visible{outline:3px solid var(--ac2);outline-offset:2px}
+.p{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:0;font-weight:700;box-shadow:0 6px 16px rgba(98,70,234,.35)}
+.btns{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.chip{display:inline-block;padding:3px 12px;border-radius:99px;background:var(--bg);color:var(--ac);font-size:.8rem;font-weight:600;direction:ltr}
+.q{font-size:clamp(1rem,3.8vw,1.15rem);font-weight:700;direction:ltr;text-align:left;margin:12px 0}
+.o{display:flex;align-items:center;gap:12px;width:100%;text-align:left;direction:ltr;margin:9px 0;padding:12px 14px;animation:in .4s both}
+.o b{flex:none;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--bg);color:var(--ac);font-size:.85rem}
+@media(hover:hover){.o:hover:not(:disabled){border-color:var(--ac);transform:translateX(4px)}}
+.o:disabled{opacity:1;cursor:default}
+.o.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,var(--card));animation:pop .45s}
+.o.ok b{background:var(--ok);color:#fff}
+.o.no{border-color:var(--no);background:color-mix(in srgb,var(--no) 14%,var(--card));animation:shake .4s}
+.o.no b{background:var(--no);color:#fff}
+.o.dim{opacity:.55}
+.ex{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+.ex.on{grid-template-rows:1fr}
+.ex>div{overflow:hidden}
+.exb{margin-top:10px;padding:12px 14px;border-radius:14px;background:var(--bg);border-inline-start:4px solid var(--ac)}
+.ov{position:fixed;inset:0;display:none;place-items:center;padding:16px;background:rgba(10,10,30,.5);z-index:9}
+.ov.on{display:grid;animation:fade .25s both}
+@keyframes fade{from{opacity:0}}
+.dlg{width:min(420px,100%);max-height:86vh;overflow:auto;background:var(--card);border-radius:22px;padding:22px;text-align:center;box-shadow:var(--sh);animation:in .35s cubic-bezier(.2,.8,.3,1) both}
+.em{font-size:3rem;display:inline-block;animation:bob 1.4s ease-in-out infinite}
+.dlg h2{margin:.2rem 0}
+.rl{text-align:start;margin-top:10px}.rl div{padding:10px;border-radius:12px;background:var(--bg);margin:8px 0;font-size:.9rem}
+.rl b{direction:ltr;display:block;text-align:left}.rl em{direction:ltr;display:block;text-align:left;color:var(--ok);font-style:normal}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;background:var(--ac);color:#fff;padding:9px 18px;border-radius:99px;font-weight:700;transition:.35s;z-index:10;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+
+.hd{text-align:center;margin:6px 0 18px}
+h1{font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{display:inline-block;padding:3px 14px;border-radius:99px;background:var(--card);border:1px solid var(--bd);font-size:.85rem}
+#home .sub{display:block;border:0;background:none;text-align:center}
+.card{position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,var(--ac),var(--ac2))}
+.st{border:1px solid var(--bd)}
+.p{padding:13px 18px;font-size:1rem;letter-spacing:.01em}
+.q{line-height:1.55;margin:14px 0 8px}
+.o{border-radius:16px;font-size:.98rem}
+.o b{border-radius:50%;width:32px;height:32px}
+.exb strong{display:block;margin-bottom:2px}.exb .g{color:var(--ok)}.exb .r{color:var(--no)}
+.exb span{display:block;line-height:1.6}
+.rl{text-align:left}.exb{border-inline-start-width:5px}
+.em{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;display:grid;place-items:center;margin:0 auto 8px;animation:bob 1.8s ease-in-out infinite;font-size:0}
+.dlg h2{margin:.3rem 0 .5rem}
+.top button{padding:8px 14px}
+</style></head><body><main class="w">
+<header class="hd"><h1>Ribosomes, Cytoskeleton, Nucleus &amp; Cell Cycle</h1><p class="sub">Exam-style question bank · 170 MCQs</p></header>
+
+<section id="home" class="card in">
+<div class="stats"><div class="st"><b id="sd">0</b><span>Answered</span></div><div class="st"><b id="sc">0</b><span>Correct</span></div><div class="st"><b id="sn">0</b><span>Total</span></div></div>
+<div class="bar"><i id="pb"></i></div>
+<div class="btns"><button class="p" id="go">Start</button><button id="rv" hidden>Review mistakes</button><button id="rs" hidden>Start over</button></div>
+<p class="sub" style="margin-top:14px">Your progress is saved automatically on this device. Answered questions will not appear again.</p>
+</section>
+
+<section id="quiz" hidden>
+<div class="top"><button id="bk">Home</button><span class="chip" id="ct"></span></div>
+<div class="card" id="card"><span class="chip" id="ch"></span><p class="q" id="qt"></p><div id="opts"></div>
+<div class="ex" id="ex"><div><div class="exb" id="eb"></div></div></div>
+<div class="btns"><button class="p" id="nx" hidden>Next question</button></div></div>
+</section>
+</main>
+<div class="ov" id="ov"><div class="dlg"><div class="em" id="me"></div><h2 id="mt"></h2><div id="mx"></div><div class="btns" id="mb"></div></div></div>
+<div class="toast" id="ts"></div>
+<script>
+const T=["Ribosomes – Structure", "Ribosomes – Types & Function", "Cytoskeleton & Microfilaments", "Intermediate Filaments", "Microtubules", "Centriole", "The Nucleus", "Nucleolus", "Chromatin", "Cell Cycle & G1", "S, G2 & Checkpoints", "G0 & Cell Types", "Mitosis", "Mitosis vs Meiosis"];
+
+const B=[[0, "By electron microscopy, ribosomes appear as:", "Small dense granules in the cytoplasm", "Double-membrane organelles with cristae", "Stacks of flattened saccules", "Hollow tubules 24 nm wide"],
+[0, "Ribosomes are chemically composed of:", "RNA and protein", "DNA and protein", "Lipids and carbohydrates", "DNA and lipids"],
+[0, "The percentage of rRNA in the ribosome is about:", "60%", "40%", "90%", "10%"],
+[0, "The percentage of protein in the ribosome is about:", "40%", "60%", "75%", "5%"],
+[0, "Which of the following components is absent from ribosomes?", "Carbohydrates and lipids", "Ribosomal RNA", "Proteins", "Magnesium ions"],
+[0, "Mg++ is important in ribosomes because it:", "Maintains their structure", "Synthesizes their proteins", "Replicates their DNA", "Produces ATP for them"],
+[0, "Removal of Mg++ from isolated ribosomes will cause:", "Dissociation into subunits", "Increase in ribosomal proteins", "Conversion of rRNA to DNA", "Fusion into nucleoli"],
+[0, "The eukaryotic ribosome has a sedimentation coefficient of:", "80S", "70S", "50S", "30S"],
+[0, "The prokaryotic ribosome is composed of:", "50S and 30S subunits (70S)", "60S and 40S subunits (80S)", "60S and 30S subunits", "50S and 40S subunits"],
+[0, "The large ribosomal subunit of eukaryotes is:", "60S, containing 28S, 5.8S and 5S RNAs", "40S, containing 18S RNA", "60S, containing 18S RNA only", "40S, containing 28S and 5S RNAs"],
+[0, "The small ribosomal subunit of eukaryotes is:", "40S, containing 18S RNA", "60S, containing 28S RNA", "40S, containing 5S RNA", "60S, containing 18S RNA"],
+[0, "Which rRNA is NOT transcribed in the nucleolar organizer region (NOR)?", "5S RNA", "28S RNA", "5.8S RNA", "18S RNA"],
+[0, "Which two rRNAs of the large subunit are transcribed in the NOR?", "5.8S and 28S", "5S and 18S", "5S and 5.8S", "18S and 28S"],
+[0, "The number of protein types in the large and small subunits respectively is about:", "40 and 30", "30 and 40", "60 and 40", "18 and 28"],
+[0, "Which subunit–RNA pair is correctly matched?", "Small subunit – 18S RNA", "Large subunit – 18S RNA", "Small subunit – 28S RNA", "Large subunit – 18S and 5S RNA"],
+[0, "Isolated 80S ribosomes are treated with a Mg++-chelating agent. The expected result is:", "Separation into 60S and 40S subunits", "Separation into 50S and 30S subunits", "Formation of 70S ribosomes", "Digestion of rRNA only"],
+[1, "Ribosomes are often called:", "Protein factories", "Powerhouses of the cell", "Control centers", "Digestive bodies"],
+[1, "Ribosomes are most numerous in cells with:", "High rates of protein synthesis", "High rates of lipid storage", "No nucleus", "Low metabolic activity"],
+[1, "Ribosomal subunits are formed in the:", "Nucleolus (NOR)", "Golgi apparatus", "Centriole", "Lysosome"],
+[1, "Ribosomal subunits reach the cytoplasm through the:", "Nuclear pores", "Plasma membrane", "Cristae", "Secretory vesicles"],
+[1, "Free ribosomes synthesize:", "Structural (growth) proteins that stay in the cytosol", "Secretory proteins", "Membrane-bound proteins", "Lysosomal enzymes"],
+[1, "Bound ribosomes are attached to:", "The nuclear envelope or rER membranes", "Cristae of mitochondria", "Microtubules only", "Centrioles"],
+[1, "Bound ribosomes synthesize:", "Membrane-bound or secretory proteins", "Cytosolic growth proteins only", "Fatty acids", "Hydrogen peroxide"],
+[1, "Secretory proteins are synthesized by:", "Bound ribosomes", "Free ribosomes", "Centrioles", "Peroxisomes"],
+[1, "Thyroglobulin in thyroid gland cells is synthesized by:", "Bound ribosomes", "Free ribosomes", "Centrioles", "Microfilaments"],
+[1, "Plasma proteins of the liver cells are synthesized on:", "Bound ribosomes", "Free ribosomes", "Nucleoli", "Heterochromatin"],
+[1, "Free and bound ribosomes are:", "Interchangeable according to the metabolic needs of the cell", "Permanently fixed in their locations", "Different in chemical composition", "Never found in the same cell"],
+[1, "A cell specialized in secreting large amounts of plasma proteins would be expected to have:", "Numerous bound ribosomes", "Only free ribosomes", "No ribosomes", "Ribosomes only inside the nucleolus"],
+[2, "The cytoskeleton is a framework of:", "Three types of protein filaments", "Two types of lipid filaments", "Four types of carbohydrate fibers", "One type of RNA filament"],
+[2, "Which of the following is NOT a cytoskeletal component?", "Ribosomal subunits", "Microtubules", "Microfilaments", "Intermediate filaments"],
+[2, "The smallest cytoskeletal fibers are:", "Microfilaments", "Microtubules", "Intermediate filaments", "Centrioles"],
+[2, "The diameter of microfilaments is about:", "7 nm", "24 nm", "12 nm", "50 nm"],
+[2, "Microfilaments are built up of:", "G-actin", "Tubulin", "Keratin", "Desmin"],
+[2, "Globular G-actin is arranged as a double helix called:", "F-actin", "Tubulin dimer", "Keratin", "Protofilament"],
+[2, "Which of the following is a function of microfilaments?", "Muscle contraction", "Formation of the mitotic spindle", "Formation of cilia", "Maintaining nuclear shape"],
+[2, "All of the following are functions of microfilaments EXCEPT:", "Forming the mitotic spindle", "Cell division", "Muscle contraction", "Cell movements"],
+[2, "A toxin prevents actin polymerization. Which cellular function will be most affected?", "Cell movement", "DNA replication", "Ribosome formation", "Lipid synthesis"],
+[2, "The cytoskeletal component directly involved in muscle contraction is:", "Microfilaments", "Microtubules", "Intermediate filaments", "Centrioles"],
+[2, "The correct order of cytoskeletal filaments from thinnest to thickest is:", "Microfilaments → intermediate filaments → microtubules", "Microtubules → intermediate filaments → microfilaments", "Intermediate filaments → microfilaments → microtubules", "Microfilaments → microtubules → intermediate filaments"],
+[2, "Which pair is correctly matched?", "Microfilaments – G-actin", "Microfilaments – tubulin", "Microfilaments – keratin", "Microfilaments – desmin"],
+[2, "Which of the following statements about microfilaments is TRUE?", "They are the smallest fibers of the cytoskeleton", "They are hollow tubules", "They are built from tubulin dimers", "They are about 24 nm wide"],
+[2, "Cell division, muscle contraction and cell movements are all functions of:", "Microfilaments", "Intermediate filaments", "Ribosomes", "Chromatin"],
+[3, "The diameter of intermediate filaments is about:", "8–12 nm", "7 nm", "24 nm", "50 nm"],
+[3, "Intermediate filaments are so named because:", "Their size is between microfilaments and microtubules", "They are located between the nucleus and the Golgi", "They appear in the intermediate phase of the cell cycle", "They are made of intermediate proteins"],
+[3, "Intermediate filaments are composed of proteins such as:", "Keratin and desmin", "Tubulin and actin", "Actin and myosin", "Histone and tubulin"],
+[3, "Which of the following is a function of intermediate filaments?", "Maintaining the cell's shape", "Forming the mitotic spindle", "Muscle contraction", "Forming cilia"],
+[3, "Intermediate filaments are made of all of the following EXCEPT:", "Tubulin", "Keratin", "Desmin", "Other filament proteins"],
+[3, "A cell loses its mechanical support because of defective keratin. Which cytoskeletal component is affected?", "Intermediate filaments", "Microtubules", "Microfilaments", "Centrioles"],
+[3, "Desmin is a protein of:", "Intermediate filaments", "Microtubules", "Microfilaments", "Ribosomes"],
+[3, "Which cytoskeletal filament has a diameter between 7 nm and 24 nm?", "Intermediate filament", "Microfilament", "Microtubule", "Centriole wall"],
+[3, "Which of the following sets is correctly matched?", "Intermediate filaments – keratin; microtubules – tubulin; microfilaments – G-actin", "Intermediate filaments – tubulin; microtubules – keratin; microfilaments – desmin", "Intermediate filaments – actin; microtubules – desmin; microfilaments – tubulin", "Intermediate filaments – G-actin; microtubules – actin; microfilaments – keratin"],
+[3, "Providing structural support to the cell is a function of:", "Intermediate filaments", "Ribosomes", "Nucleoli", "Euchromatin"],
+[4, "The diameter of microtubules is about:", "24 nm", "7 nm", "8–12 nm", "100 nm"],
+[4, "Microtubules are best described as:", "Slender hollow tubules", "Solid thin fibers", "Double-membrane sacs", "Granules of RNA"],
+[4, "In cross section, a microtubule appears as:", "A circle", "A solid dot with no lumen", "A star", "A double helix"],
+[4, "Each microtubule consists of how many protofilaments?", "13", "9", "27", "7"],
+[4, "The protofilaments are arranged:", "Parallel to the long axis of the microtubule", "Perpendicular to the long axis", "As a double helix of G-actin", "As rings around a nucleus"],
+[4, "Each protofilament is formed of dimers of:", "Alpha and beta tubulin", "G-actin and F-actin", "Keratin and desmin", "Histones"],
+[4, "Microtubules are built from dimers of:", "Tubulin", "Actin", "Desmin", "Keratin"],
+[4, "Which of the following is a function of microtubules?", "Forming the mitotic spindle", "Muscle contraction", "Forming the nucleolus", "Synthesizing rRNA"],
+[4, "Microtubules facilitate:", "Transport of macromolecules in the cytoplasm", "Synthesis of rRNA", "Replication of DNA", "Condensation of chromatin"],
+[4, "Microtubules form a skeleton that:", "Supports the cell and keeps its shape", "Digests worn-out organelles", "Produces ATP", "Stores calcium"],
+[4, "Which structures are formed by microtubules?", "Centrioles and cilia", "Nucleoli and ribosomes", "Chromatin and nuclear pores", "Cristae and saccules"],
+[4, "All of the following are functions of microtubules EXCEPT:", "Muscle contraction", "Transport of macromolecules", "Forming the mitotic spindle", "Forming centrioles"],
+[4, "A drug prevents tubulin polymerization. Which process will be most affected?", "Mitotic spindle formation", "DNA replication", "rRNA synthesis", "Lipid synthesis"],
+[4, "Which cytoskeletal filament is hollow?", "Microtubule", "Microfilament", "Intermediate filament", "F-actin"],
+[4, "Which statement about microtubules is TRUE?", "They are made of 13 protofilaments of tubulin dimers", "They are made of G-actin", "They are about 7 nm wide", "They are made of keratin"],
+[4, "Microtubules are built from which pair of proteins?", "Alpha tubulin and beta tubulin", "Keratin and desmin", "Actin and myosin", "Histone and protamine"],
+[5, "Each cell has how many centrioles?", "Two", "One", "Four", "Eight"],
+[5, "Centrioles are situated:", "Close to the nucleus", "At the plasma membrane", "Inside the nucleolus", "Inside the Golgi apparatus"],
+[5, "The two centrioles of a cell lie:", "Perpendicular to each other", "Parallel to each other", "Fused end to end", "On opposite sides of the cell"],
+[5, "By electron microscopy, the wall of a centriole consists of:", "27 microtubules arranged in 9 bundles", "13 microtubules", "18 microtubules", "36 microtubules"],
+[5, "Each bundle of a centriole consists of:", "Triplet microtubules", "Doublet microtubules", "A single microtubule", "Four microtubules"],
+[5, "The structure of a centriole is expressed as:", "9 × 3", "9 × 2", "13 × 2", "27 × 3"],
+[5, "A function of the centriole is:", "Initiation of cell division and spindle formation", "Synthesis of rRNA", "Packaging of proteins", "Detoxification of drugs"],
+[5, "Centrioles are also responsible for the formation of:", "Cilia and flagella", "Ribosomes", "Chromatin", "Nuclear pores"],
+[5, "A patient has defective centriole function. Which process is most likely affected?", "Spindle formation during cell division", "Protein synthesis", "rRNA production", "Lysosomal digestion"],
+[5, "Which statement about centrioles is FALSE?", "Each bundle of the wall contains doublet microtubules", "Each cell has two centrioles", "They lie close to the nucleus", "They form cilia and flagella"],
+[5, "Duplication of the centrosome occurs during:", "S phase", "G1 phase", "Metaphase", "Telophase"],
+[5, "Why do the two centrioles migrate to the poles before cell division?", "To organize the spindle fibers", "To replicate DNA", "To form the nucleolus", "To synthesize ribosomes"],
+[6, "The nucleus is described as:", "The control center of the cell", "The powerhouse of the cell", "The protein factory", "The digestive body"],
+[6, "By EM, the nucleus of a nondividing cell consists of:", "Nuclear envelope, chromatin, nucleolus and nuclear sap", "Cristae, matrix and ribosomes", "Spindle, centrioles and chromosomes", "Saccules, vesicles and lysosomes"],
+[6, "Which of the following is NOT a component of the nondividing nucleus?", "Mitochondrial matrix", "Nuclear envelope", "Chromatin", "Nucleolus"],
+[6, "The nuclear envelope consists of:", "Outer and inner membranes", "A single membrane", "Three membranes", "No membrane"],
+[6, "Nuclear pores allow:", "Passage of materials such as ribosomal subunits to the cytoplasm", "Entry of mitochondria into the nucleus", "Formation of the spindle", "Synthesis of ATP"],
+[6, "The nuclear sap is also called:", "Nucleoplasm", "Cytosol", "Matrix of mitochondria", "Cisternal space"],
+[6, "Ribosomes can be attached to the:", "Outer surface of the nuclear envelope", "Inside of the nucleolus", "Cristae", "Centriole wall"],
+[6, "The nucleus described by its four EM components is that of:", "Nondividing cells", "Dividing cells at metaphase", "Mature red blood corpuscles", "Cells in anaphase"],
+[6, "The nuclear envelope has openings called:", "Nuclear pores", "Cristae", "Cisternae", "Cleavage furrows"],
+[6, "A toxin blocks the nuclear pores. Which event will be directly impaired?", "Exit of ribosomal subunits to the cytoplasm", "Duplication of centrioles", "Formation of the actin ring", "Contraction of muscle"],
+[6, "How many membranes does the nuclear envelope have?", "Two", "One", "Three", "Four"],
+[6, "Which structure separates the nuclear contents from the cytoplasm?", "Nuclear envelope", "Nucleolus", "Chromatin", "Nuclear sap"],
+[7, "The nucleolus is described as:", "A ribosome-producing machine", "A protein-packaging center", "The powerhouse of the cell", "A site of lysosomal digestion"],
+[7, "The nucleolus:", "Has no membrane", "Is surrounded by a double membrane", "Is surrounded by a single membrane", "Is surrounded by a protein ring only"],
+[7, "The number of nucleoli in a nucleus is:", "One or more", "Always exactly one", "Always exactly two", "Always zero"],
+[7, "The nucleolus is rich in:", "RNA and basic proteins", "Lipids and carbohydrates", "Acidic lipids only", "Glycogen"],
+[7, "The nucleolus is the site of synthesis of:", "rRNA", "Lysosomal enzymes", "Hydrogen peroxide", "ATP"],
+[7, "The nucleolar organizer region (NOR) is located in the:", "Nucleolus", "Centriole", "Golgi apparatus", "Plasma membrane"],
+[7, "All of the following are true of the nucleolus EXCEPT:", "It is limited by a double membrane", "It is rich in RNA", "It synthesizes rRNA", "It may be multiple in a nucleus"],
+[7, "The route of ribosomal subunits is:", "Nucleolus → nuclear pores → cytoplasm", "Cytoplasm → nuclear pores → nucleolus", "Golgi → nucleolus → cytoplasm", "Centriole → nucleolus → nuclear pores"],
+[7, "A cell with very prominent nucleoli would most likely be:", "Active in protein synthesis", "Inactive", "Without ribosomes", "Without a nucleus"],
+[7, "Which pair is correctly matched?", "Nucleolus – rRNA synthesis", "Centriole – rRNA synthesis", "Nuclear envelope – rRNA synthesis", "Euchromatin – ribosome storage"],
+[8, "Euchromatin is:", "Lightly stained and active", "Darkly stained and inactive", "Always condensed", "Found only in dividing cells"],
+[8, "Euchromatin represents:", "Active area of DNA", "Inactive area of DNA", "RNA only", "Protein only"],
+[8, "Euchromatin is:", "Less condensed (uncoiled DNA)", "More condensed (coiled DNA)", "Permanently condensed", "Free of DNA"],
+[8, "Heterochromatin is:", "Darkly stained", "Lightly stained", "Unstained", "Only in the nucleolus"],
+[8, "Heterochromatin represents:", "Inactive area of DNA", "Active area of DNA", "Ribosomal RNA", "Nuclear sap"],
+[8, "Heterochromatin is:", "More condensed (coiled DNA)", "Less condensed (uncoiled DNA)", "Dispersed in all cases", "Membrane-bound"],
+[8, "Constitutive heterochromatin is:", "Permanently condensed and inactive", "Dispersed and active", "Lightly stained and active", "Found only in the nucleolus"],
+[8, "Facultative heterochromatin is described as:", "Dispersed and active", "Permanently condensed and inactive", "Absent from interphase cells", "Only RNA"],
+[8, "An EM of a nucleus shows mostly pale, dispersed chromatin. This nucleus is most likely:", "Highly active in transcription", "Inactive", "Dividing at metaphase", "Without DNA"],
+[8, "Dark clumps of chromatin along the inner side of the nuclear envelope are:", "Heterochromatin", "Euchromatin", "Nucleoli", "Nuclear pores"],
+[8, "Which statement about chromatin is FALSE?", "Euchromatin is darkly stained and inactive", "Heterochromatin is more condensed", "Euchromatin is less condensed", "Heterochromatin is darkly stained"],
+[8, "Chromatin is of how many main types?", "Two: euchromatin and heterochromatin", "One", "Three", "Four"],
+[8, "Which pair is correctly matched?", "Euchromatin – uncoiled; heterochromatin – coiled", "Euchromatin – coiled; heterochromatin – uncoiled", "Euchromatin – inactive; heterochromatin – active", "Euchromatin – dark; heterochromatin – light"],
+[8, "Which type of chromatin is permanently condensed?", "Constitutive heterochromatin", "Euchromatin", "Facultative heterochromatin", "Nuclear sap"],
+[9, "The cell cycle is:", "The stages through which a cell passes from one division to the next", "The stages of protein synthesis", "The path of a secretory protein", "The stages of ribosome assembly"],
+[9, "The total cycle time of a typical rapidly proliferating human cell is about:", "24 hours", "2 hours", "7 days", "1 hour"],
+[9, "The cell cycle consists of:", "Interphase, mitosis and cytokinesis", "Prophase and telophase only", "G1 and S only", "Only mitosis"],
+[9, "The cell cycle is represented by a circle divided into how many phases?", "Four", "Two", "Six", "Eight"],
+[9, "G1 phase lies:", "Immediately after the birth of a new cell by division", "Immediately before DNA replication ends", "After telophase of the next cycle only", "Between prophase and metaphase"],
+[9, "Events of G1 phase include:", "Cell growth and duplication of cellular components", "DNA replication", "Spindle formation", "Chromosome separation"],
+[9, "All of the following occur during G1 EXCEPT:", "DNA replication", "Cell growth", "Preparation of chromosomes for replication", "Duplication of cellular components"],
+[9, "The G1 checkpoint is also called:", "The restriction point", "The spindle checkpoint", "The mitotic point", "The S point"],
+[9, "At the G1 checkpoint the cell:", "Commits to division or exits from the cell cycle", "Starts anaphase", "Duplicates centrioles", "Forms cilia"],
+[9, "The first checkpoint of the cell cycle occurs during:", "G1 phase", "S phase", "G2 phase", "M phase"],
+[10, "DNA replication occurs during:", "S phase", "G1 phase", "G2 phase", "M phase"],
+[10, "Which of the following is an event of S phase?", "Duplication of the centrosome", "Cell division", "Formation of metaphase plate", "Cytokinesis"],
+[10, "Events of S phase include all EXCEPT:", "Synthesis of tubulins for the spindle", "DNA replication", "Duplication of the centrosome", "Migration of centrioles to the poles"],
+[10, "G2 phase is characterized by:", "Growth and preparation for mitosis", "DNA replication", "Chromosome separation", "Cytokinesis"],
+[10, "Synthesis of tubulins to form spindles occurs in:", "G2 phase", "S phase", "G1 phase", "Cytokinesis"],
+[10, "The second checkpoint controls entry into M phase and is located in:", "G2 phase", "G1 phase", "S phase", "Telophase"],
+[10, "The third checkpoint concerns:", "Spindle fibres in M phase", "DNA replication in S phase", "Cell growth in G1", "Centrosome duplication"],
+[10, "M phase includes:", "Mitosis (or meiosis in germ cells)", "DNA replication", "Cell growth", "Tubulin synthesis"],
+[10, "M phase can be subdivided into:", "Prophase, metaphase, anaphase and telophase", "G1, S, G2 and M", "Interphase and cytokinesis", "Euchromatin and heterochromatin"],
+[10, "The correct order of the phases of the cell cycle is:", "G1 → S → G2 → M", "S → G1 → M → G2", "G1 → G2 → S → M", "M → S → G1 → G2"],
+[10, "The phase that follows S phase is:", "G2", "G1", "M directly with no gap", "G0"],
+[10, "A drug blocks tubulin synthesis in G2. Which event will fail?", "Formation of the spindle", "Replication of DNA", "Cell growth in G1", "Nucleolar disappearance in prophase only"],
+[10, "Which matching of checkpoint and phase is correct?", "1st – G1; 2nd – G2; 3rd – M", "1st – G2; 2nd – G1; 3rd – S", "1st – S; 2nd – G1; 3rd – G2", "1st – M; 2nd – S; 3rd – G1"],
+[10, "Which phase is mainly for preparation of DNA synthesis?", "G1", "G2", "M", "Telophase"],
+[10, "Interphase includes:", "G1, S and G2", "S, G2 and M", "G1 and M only", "Prophase and metaphase"],
+[10, "Which of the following is NOT part of interphase?", "M phase", "G1 phase", "S phase", "G2 phase"],
+[11, "Most cells of the body:", "Enter the cell cycle", "Never divide", "Are all in G0", "Lack DNA"],
+[11, "Nerve cells do not divide. They:", "Enter G0 phase of continuous differentiation", "Remain in S phase", "Remain in metaphase", "Re-enter G1 every day"],
+[11, "Liver cells normally do not divide, but they can re-enter the cell cycle with suitable stimulation. They are called:", "Facultative dividers", "Permanent cells", "Continuously cycling cells", "Obligatory dividers"],
+[11, "After partial removal of the liver, hepatocytes start dividing. This shows that they:", "Re-enter the cycle from G0 with stimulation", "Never left the cycle", "Are permanent nondividing cells", "Skip S phase"],
+[11, "Epidermal cells are an example of:", "Continuously cycling (labile) cells", "Permanent cells", "Quiescent cells", "Cells without DNA"],
+[11, "Cardiac myocytes and neurons are examples of:", "Nondividing permanent cells", "Labile cells", "Facultative dividers", "Cells in S phase"],
+[11, "Which pair of cell and type is correctly matched?", "Hepatocyte – quiescent stable cell", "Neuron – labile cell", "Epidermis – permanent cell", "Cardiac myocyte – labile cell"],
+[11, "A cell that leaves the cycle after the G1 checkpoint enters:", "G0", "S phase", "G2 phase", "Prophase"],
+[12, "Mitosis is:", "Nuclear division", "Cytoplasmic growth only", "DNA replication", "Protein synthesis"],
+[12, "Mitosis is:", "A relatively short period of the cell cycle", "The longest part of the cell cycle", "The same length as interphase", "A part of G1"],
+[12, "The sequential order of the phases of mitosis is known as:", "PMAT", "GSMA", "MPAT", "TAMP"],
+[12, "Chromatin condenses into chromosomes during:", "Prophase", "Metaphase", "Anaphase", "Telophase"],
+[12, "The nucleolus and the nuclear membrane disappear during:", "Prophase", "Telophase", "Interphase", "Cytokinesis"],
+[12, "Chromosomes line up along the metaphase plate during:", "Metaphase", "Prophase", "Anaphase", "Telophase"],
+[12, "Chromosomes break at the centromeres and sister chromatids move to opposite ends of the cell during:", "Anaphase", "Metaphase", "Prophase", "Telophase"],
+[12, "Nuclear membrane reformation and reappearance of nucleoli occur during:", "Telophase", "Prophase", "Metaphase", "Anaphase"],
+[12, "In telophase, the chromosomes:", "Unwind into chromatin", "Condense further", "Line up at the plate", "Split at the centromeres"],
+[12, "The contractile ring that cleaves the cell in two is formed of:", "Myosin II and actin filaments", "Tubulin and keratin", "Desmin and tubulin", "Histones and actin"],
+[12, "A micrograph shows chromosomes aligned at the equator of the cell. The phase is:", "Metaphase", "Prophase", "Anaphase", "Telophase"],
+[12, "A micrograph shows sister chromatids moving to opposite poles. The phase is:", "Anaphase", "Metaphase", "Prophase", "G2"],
+[13, "Which division involves one nuclear division?", "Mitosis", "Meiosis", "Both", "Neither"],
+[13, "Which division involves two nuclear divisions?", "Meiosis", "Mitosis", "Both", "Neither"],
+[13, "Mitosis has how many phases compared with meiosis?", "4 phases versus 8 phases", "8 phases versus 4 phases", "2 phases versus 4 phases", "4 phases versus 2 phases"],
+[13, "Mitosis produces:", "Two diploid cells", "Four haploid cells", "Two haploid cells", "Four diploid cells"],
+[13, "Meiosis produces:", "Four haploid cells", "Two diploid cells", "Two haploid cells", "Four diploid cells"],
+[13, "Daughter cells identical to the parent cell and to each other are produced by:", "Mitosis", "Meiosis", "Both equally", "Neither"],
+[13, "Synapsis and crossing over occur during:", "Prophase I of meiosis", "Prophase of mitosis", "Metaphase of mitosis", "Telophase of mitosis"],
+[13, "A germ cell divides to produce four genetically different haploid cells. This is:", "Meiosis", "Mitosis", "Cytokinesis only", "Amitosis"]];
+
+const E=["Ribosomes are small dense granules found in the cytoplasm.", "They are made of ribosomal RNA plus protein.", "rRNA 60% and protein 40%.", "Ribosomes are 60% rRNA and 40% protein.", "CHO and lipids are absent.", "Mg++ maintains ribosomal structure.", "Subunits dissociate when Mg is removed.", "Eukaryotic ribosome = 60S + 40S = 80S.", "Prokaryotic ribosomes are 70S.", "The 60S subunit has three rRNAs: 28S, 5.8S and 5S.", "The 40S subunit contains 18S RNA.", "The gene of 5S RNA lies outside the NOR.", "5.8S and 28S are transcribed in the NOR; 18S is in the small subunit.", "Large subunit has 40 proteins; small subunit has 30.", "The small subunit carries 18S RNA.", "Without Mg++ the 80S ribosome dissociates into 60S and 40S.", "They synthesize proteins.", "Active protein-synthesizing cells have many ribosomes.", "They form in the nucleolus at the nucleolar organizer region.", "They pass through nuclear pores.", "Free ribosomes make cytosolic structural proteins.", "Bound ribosomes attach to nuclear envelope or rER.", "These proteins are made on bound ribosomes.", "Secretory proteins come from bound ribosomes.", "It is a secretory protein.", "They are secretory proteins made on rER-bound ribosomes.", "The cell can change their numbers.", "Secretory proteins need bound ribosomes.", "Intermediate filaments, microtubules and microfilaments.", "Ribosomal subunits are not filaments.", "Microfilaments are about 7 nm.", "Microfilaments are about 7 nm in diameter.", "The subunit is globular G-actin.", "Filamentous F-actin.", "Microfilaments function in cell division, muscle contraction and cell movement.", "The spindle is made of microtubules.", "Actin microfilaments are needed for cell movement.", "Muscle contraction depends on actin microfilaments.", "7 nm, 8–12 nm, 24 nm.", "Microfilaments are made of actin.", "Only the first statement is correct.", "These are the listed microfilament functions.", "Intermediate filaments are 8-12 nm wide.", "They lie in size between the other two filaments.", "Keratin and desmin are examples.", "They maintain shape and give structural support.", "Tubulin forms microtubules.", "Keratin is an intermediate filament protein.", "Desmin forms intermediate filaments.", "Intermediate filaments are 8-12 nm.", "Each filament has its own protein.", "Structural support is a listed function.", "Microtubules are about 24 nm.", "They are hollow tubules.", "They appear as circles.", "13 rod-shaped protofilaments.", "They run parallel to the long axis.", "Tubulin dimers.", "Tubulin is the subunit.", "The spindle is made of microtubules.", "Transport is a listed function.", "A supporting skeleton is a listed function.", "Microtubules form centrioles and cilia.", "Muscle contraction is by microfilaments.", "Microtubules form the spindle.", "Only microtubules are hollow tubes.", "Only the first statement is correct.", "Alpha and beta tubulin dimers.", "Each cell has two centrioles.", "They lie near the nucleus.", "Each lies perpendicular to the other.", "27 microtubules, in 9 triplets.", "9 bundles of triplets.", "9 bundles of triplets.", "Centrioles initiate division and form the spindle.", "Cilia and flagella formation is a function.", "Centrioles organize the spindle.", "Each bundle is a triplet, not a doublet.", "Centrosome duplication is an S phase event.", "This is stated for S phase.", "The nucleus controls cell activities.", "These are the four components.", "The matrix belongs to mitochondria.", "It has outer and inner membranes.", "Ribosomal subunits pass through nuclear pores.", "The diagram labels it nucleoplasm.", "Bound ribosomes attach to the nuclear envelope.", "The description refers to a nondividing nucleus.", "Nuclear pores perforate the envelope.", "Subunits leave the nucleus through the pores.", "Outer and inner.", "The envelope is the boundary.", "The nucleolus makes ribosomal subunits.", "It is not membrane-bound.", "One or more nucleoli may be present.", "It is rich in RNA and basic proteins.", "rRNA synthesis takes place there.", "The NOR transcribes rRNA genes in the nucleolus.", "It has no membrane.", "They are formed in the nucleolus and exit through pores.", "More ribosomes are needed for high protein synthesis.", "The nucleolus synthesizes rRNA.", "Euchromatin is pale and active.", "It is the active DNA.", "Uncoiled DNA.", "It stains darkly.", "It is mostly inactive DNA.", "Coiled and condensed.", "It stays condensed permanently.", "As described in the lecture.", "Pale chromatin = euchromatin = active DNA.", "Dark = heterochromatin.", "Euchromatin is light and active.", "Euchromatin and heterochromatin.", "Pale/uncoiled vs dark/coiled.", "Constitutive means permanent.", "This is its definition.", "Typical cycle time is 24 hours.", "These are the main parts.", "G1, S, G2 and M.", "G1 follows division.", "These are G1 events.", "DNA replication is in S.", "G1 checkpoint = restriction point.", "It decides to divide or exit.", "The first checkpoint is at G1.", "S = synthesis.", "Centrosome duplication occurs in S.", "Tubulin synthesis is in G2.", "G2 prepares for M.", "This is a G2 event.", "The 2nd checkpoint is in G2.", "The spindle checkpoint is in M phase.", "M = division.", "PMAT.", "Standard order.", "S is followed by G2.", "Tubulins form the spindle microtubules.", "Checkpoints appear at G1, G2 and M.", "G1 prepares for DNA synthesis.", "M is not part of interphase.", "M phase is division.", "Most cells enter the cycle.", "Neurons enter G0.", "Facultative dividers.", "Quiescent hepatocytes can re-enter.", "Epidermis cycles continuously.", "Permanent cells.", "Hepatocytes are quiescent.", "G0 is the exit state.", "Mitosis separates chromosomes.", "It is short compared with interphase.", "Prophase, metaphase, anaphase, telophase.", "Chromosomes form in prophase.", "This is a prophase event.", "Metaphase plate = imaginary plane.", "Anaphase separates sister chromatids.", "Telophase reverses prophase.", "They decondense.", "Cytokinesis uses an actin-myosin ring.", "Aligned at the plate.", "Separation of sister chromatids.", "Mitosis has one division.", "Meiosis has two.", "Mitosis 4, meiosis 8.", "Two diploid cells.", "Four haploid cells.", "Mitosis gives identical daughters.", "They occur only in meiosis.", "Meiosis gives genetic variation."];
+
+const ic=p=>'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">'+p+"</svg>";
+const ICON={done:ic('<path d="M5 13l4 4L19 7"/>'),reset:ic('<path d="M4 4v6h6"/><path d="M5.5 15a8 8 0 1 0 2-8.5L4 10"/>'),list:ic('<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>'),star:ic('<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>')};
+const $=s=>document.querySelector(s),K="cellbio_l3_cellcycle1";
+const shuf=a=>{a=a.slice();for(let i=a.length;i>1;){const j=Math.random()*i--|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+let S={},cur,streak=0,busy=0,tt;
+try{S=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+B.forEach(q=>{let x=5381,s=q.slice(1,6).join("|");for(let i=0;i<s.length;i++)x=(x*33^s.charCodeAt(i))>>>0;q.id=x.toString(36)});
+B.forEach((q,i)=>{q[6]=E[i]||("Correct answer: "+q[2]+".")});
+const stat=()=>{let d=0,c=0;B.forEach(q=>{if(q.id in S){d++;c+=S[q.id]}});return{d,c,n:B.length}};
+function view(v){$("#home").hidden=v!=="h";$("#quiz").hidden=v!=="q";if(v==="h"){const{d,c,n}=stat();$("#sd").textContent=d;$("#sc").textContent=c;$("#sn").textContent=n;$("#pb").style.width=d/n*100+"%";$("#go").textContent=d>=n?"All questions answered":d?"Continue":"Start";$("#go").disabled=d>=n;$("#rv").hidden=d==c;$("#rv").textContent="Review mistakes ("+(d-c)+")";$("#rs").hidden=!d;$("#home").className="card in"}}
+function modal(e,t,h,bs){$("#me").innerHTML=ICON[e]||"";$("#mt").textContent=t;$("#mx").innerHTML=h;const m=$("#mb");m.innerHTML="";bs.forEach(b=>{const x=document.createElement("button");x.textContent=b[0];x.className=b[2]||"";x.onclick=()=>{$("#ov").classList.remove("on");b[1]&&b[1]()};m.append(x)});$("#ov").classList.add("on")}
+function toast(t){const e=$("#ts");e.textContent=t;e.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>e.classList.remove("on"),1600)}
+function finish(){const{c,n}=stat();view("h");modal("done","Bank completed","<p>You answered "+c+" of "+n+" correctly.</p>",[["Review mistakes",review,"p"],["Start over",askReset],["Close"]])}
+function review(){const w=B.filter(q=>S[q.id]===0);if(!w.length)return modal("star","No mistakes","<p>Every answer so far is correct.</p>",[["OK","","p"]]);modal("list","Mistakes ("+w.length+")",'<div class="rl">'+w.map(q=>"<div><b>"+esc(q[1])+"</b><em>Correct answer: "+esc(q[2])+"</em>"+esc(q[6])+"</div>").join("")+"</div>",[["Close","","p"]])}
+function askReset(){modal("reset","Start over?","<p>All saved answers will be deleted.</p>",[["Yes, start over",()=>{S={};save();streak=0;view("h")},"p"],["Cancel"]])}
+function next(){const L=B.filter(q=>!(q.id in S));if(!L.length)return finish();cur=L[Math.random()*L.length|0];const o=shuf(cur.slice(2,6));
+$("#ch").textContent=T[cur[0]];$("#qt").textContent=cur[1];$("#ct").textContent=stat().d+" / "+B.length;$("#ex").classList.remove("on");$("#nx").hidden=true;
+const ob=$("#opts");ob.innerHTML="";o.forEach((x,i)=>{const b=document.createElement("button");b.className="o";b.style.animationDelay=i*70+"ms";b.innerHTML="<b>"+"ABCD"[i]+"</b><span></span>";b.lastChild.textContent=x;b.onclick=()=>pick(b,x);ob.append(b)});
+$("#card").className="card in";busy=0}
+function pick(b,x){if(busy)return;busy=1;const r=x===cur[2];S[cur.id]=r?1:0;save();
+document.querySelectorAll(".o").forEach(e=>{e.disabled=true;const t=e.lastChild.textContent;if(t===cur[2])e.classList.add("ok");else if(e===b)e.classList.add("no");else e.classList.add("dim")});
+streak=r?streak+1:0;if(r&&streak>=3&&streak%3==0)toast(streak+" correct in a row");
+$("#eb").innerHTML='<strong class="'+(r?"g":"r")+'">'+(r?"Correct":"Incorrect")+'</strong><span>'+esc(cur[6])+"</span>";$("#ex").classList.add("on");$("#nx").hidden=false;$("#ct").textContent=stat().d+" / "+B.length}
+$("#nx").onclick=()=>{$("#card").className="card out";setTimeout(next,260)};
+$("#go").onclick=()=>{view("q");next()};
+$("#bk").onclick=()=>view("h");$("#rv").onclick=review;$("#rs").onclick=askReset;
+view("h");
+</script></body></html>
