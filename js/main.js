@@ -45,6 +45,7 @@
             {id:'extract', title:'استخراج وحذف صفحات', desc:'استخراج أو حذف صفحات PDF', icon:'fa-scissors'},
             {id:'reorder', title:'إعادة ترتيب الصفحات', desc:'ترتيب صفحات الملف', icon:'fa-arrow-down-wide-short'},
             {id:'convert', title:'تحويل PDF لصورة', desc:'تحويل الصفحات إلى صور', icon:'fa-image'},
+            {id:'ppt-pdf', title:'تحويل PowerPoint و PDF', desc:'باوربوينت إلى PDF والعكس بنفس الشكل', icon:'fa-file-powerpoint'},
             {id:'edu-tools', title:'أدوات تعليمية', desc:'رسم الدوال وأدوات تفاعلية', icon:'fa-flask'}
         ];
 
@@ -162,6 +163,7 @@
             reorder: ['Data/Img/أدوات اضافيه/اعادة ترتيب.png'],
             convert: ['Data/Img/أدوات اضافيه/تحويل بي دي اف لصورة.jpg'],
             'pdf-to-word': ['Data/Img/أدوات اضافيه/بي دي اف ل وورد.png'],
+            'ppt-pdf': ['Data/Img/أدوات اضافيه/باوربوينت وبي دي اف.png'],
             grades: ['Data/Img/ادوات المعلم/grades.jpg'],
             certificate: ['Data/Img/ادوات المعلم/certificate.jpg']
         };
@@ -348,7 +350,7 @@
                 'teacher-tools', 'student-tools', 'translate', 'calculator', 'calculator-history',
                 'mp4-to-mp3', 'mp3-to-mp4', 'mp3-to-wav', 'wav-to-mp3', 'mp3-to-ogg', 'ogg-to-mp3',
                 'cleaner', 'image-cleaner', 'compress', 'merge', 'compare', 'extract', 'editor',
-                'convert', 'text', 'pdf-to-word', 'reader', 'watermark', 'reorder', 'protect',
+                'convert', 'text', 'pdf-to-word', 'ppt-pdf', 'reader', 'watermark', 'reorder', 'protect',
                 'grades', 'certificate', 'templates', 'template-settings', 'answers-key',
                 'exam-maker', 'percentage', 'pomodoro', 'teacher'
             ]);

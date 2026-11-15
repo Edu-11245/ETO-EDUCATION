@@ -3450,3 +3450,72 @@ body.eto-hide-robot #eto-robot-thought,
 body.eto-hide-robot #eto-robot-bubble {
     display: none !important;
 }
+
+/* ===== eto-hero-v2 ===== */
+.eto-portal-hero{padding:10px 0 6px}
+.eto-hero-logo{position:relative;width:74px;height:74px;margin:0 auto 14px;border-radius:22px;display:grid;place-items:center;color:#fff;font-size:30px;background:linear-gradient(135deg,#2563eb,#7c3aed);box-shadow:0 14px 34px rgba(37,99,235,.32);animation:etoLogoFloat 4s ease-in-out infinite}
+.eto-hero-logo-ring{position:absolute;inset:-7px;border-radius:27px;border:1.5px dashed rgba(37,99,235,.35)}
+@keyframes etoLogoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.eto-portal-hero h1.eto-hero-brand{margin:14px 0 0;font-size:clamp(3.4rem,9vw,6.4rem);line-height:1;font-weight:900;letter-spacing:-.04em;direction:ltr;background:linear-gradient(120deg,#0f172a 30%,#2563eb);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eto-hero-brand span{background:linear-gradient(120deg,#2563eb,#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eto-portal-badge{font-size:12px;letter-spacing:0;padding:8px 16px}
+.eto-portal-title{font-size:clamp(1.5rem,3.4vw,2.4rem);margin:12px 0 10px}
+.eto-portal-title em{font-style:normal;background:linear-gradient(120deg,#2563eb,#7c3aed);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eto-portal-hero p{font-size:15px;max-width:620px;line-height:1.9}
+.eto-portal-actions{margin-top:22px;gap:12px}
+.eto-portal-main-btn{font-size:14px;padding:13px 20px;min-width:170px;border-radius:14px}
+.eto-portal-main-btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(37,99,235,.28)}
+.eto-portal-ghost-btn{background:#fff;color:#1d4ed8;border-color:#bfdbfe;box-shadow:none}
+.eto-hero-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:22px}
+.eto-hero-chips span{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid #e2e8f0;color:#475569;font-size:12px;font-weight:800}
+.eto-hero-chips i{color:#2563eb;font-size:11px}
+.dark .eto-portal-hero h1.eto-hero-brand{background:linear-gradient(120deg,#f8fafc 30%,#93c5fd);-webkit-background-clip:text;background-clip:text}
+.dark .eto-hero-brand span,.dark .eto-portal-title em{background:linear-gradient(120deg,#60a5fa,#a78bfa);-webkit-background-clip:text;background-clip:text}
+.dark .eto-portal-ghost-btn{background:#111827;color:#93c5fd;border-color:#1e3a8a}
+.dark .eto-hero-chips span{background:#111827;border-color:#334155;color:#cbd5e1}
+.dark .eto-hero-chips i{color:#60a5fa}
+@media(max-width:640px){
+.eto-hero-logo{width:62px;height:62px;font-size:25px}
+.eto-portal-hero h1.eto-hero-brand{font-size:3.6rem}
+.eto-portal-title{font-size:1.45rem}
+.eto-portal-hero p{font-size:13px}
+.eto-portal-badge{font-size:11px}
+.eto-portal-main-btn{width:100%;font-size:13px}
+.eto-hero-chips span{font-size:11px;padding:5px 10px}
+}
+@media(prefers-reduced-motion:reduce){.eto-hero-logo{animation:none}}
+
+/* ===== eto-hero-banner (صورة بالعرض خلف الكلام) ===== */
+.eto-portal{--hero-img:url('https://cdn.pixabay.com/photo/2016/06/01/06/26/open-book-1428428_1280.jpg')}
+.eto-portal-hero{
+  width:min(1180px,100%);
+  padding:44px 24px 34px;
+  border-radius:28px;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    linear-gradient(180deg,rgba(2,6,23,.55) 0%,rgba(15,23,42,.82) 100%),
+    linear-gradient(120deg,rgba(37,99,235,.35),rgba(124,58,237,.30)),
+    var(--hero-img) center/cover no-repeat,
+    #0f172a;
+  box-shadow:0 24px 60px rgba(15,23,42,.28);
+  margin-bottom:26px;
+}
+.eto-portal-hero h1.eto-hero-brand{background:linear-gradient(120deg,#fff 30%,#bfdbfe);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eto-hero-brand span,.eto-portal-title em{background:linear-gradient(120deg,#93c5fd,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eto-portal-hero .eto-portal-title{color:#fff}
+.eto-portal-hero p{color:#e2e8f0}
+.eto-portal-hero .eto-portal-badge{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.28);color:#fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.eto-portal-hero .eto-portal-badge-dot{background:#93c5fd;box-shadow:0 0 0 5px rgba(147,197,253,.2)}
+.eto-portal-hero .eto-hero-logo-ring{border-color:rgba(255,255,255,.45)}
+.eto-portal-hero .eto-portal-ghost-btn{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.eto-portal-hero .eto-hero-chips span{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.22);color:#f1f5f9;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.eto-portal-hero .eto-hero-chips i{color:#93c5fd}
+.dark .eto-portal-hero h1.eto-hero-brand{background:linear-gradient(120deg,#fff 30%,#bfdbfe);-webkit-background-clip:text;background-clip:text}
+.dark .eto-portal-hero .eto-portal-title{color:#fff}
+.dark .eto-portal-hero p{color:#e2e8f0}
+.dark .eto-portal-hero .eto-portal-badge{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff}
+.dark .eto-portal-hero .eto-portal-ghost-btn{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)}
+.dark .eto-portal-hero .eto-hero-chips span{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.2);color:#f1f5f9}
+.dark .eto-portal-hero .eto-hero-chips i{color:#93c5fd}
+@media(max-width:640px){.eto-portal-hero{padding:30px 14px 24px;border-radius:22px}}
