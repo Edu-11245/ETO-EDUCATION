@@ -2,7 +2,11 @@
 .lg-page{--a:#e11d48;--b:#f97316;--card:#fff;--ink:#0f172a;--mute:#64748b;--line:#e2e8f0;--sub:#f8fafc;--sh:0 8px 24px rgba(15,23,42,.06);color:var(--ink)}
 .dark .lg-page{--card:#111827;--ink:#f8fafc;--mute:#94a3b8;--line:#334155;--sub:#0f172a;--sh:none}
 .lg-page button{font:inherit}
-.lg-page .lg-in{animation-delay:calc(var(--i,0)*55ms)} /* entrance animations now come from animate.css classes added in core.js */
+.lg-page .lg-in{animation-delay:min(calc(var(--i,0)*45ms),360ms)} /* entrance animations now come from animate.css classes added in core.js */
+.lg-page .animate__animated{--animate-duration:.56s;animation-duration:.56s;animation-fill-mode:both}
+.lg-page .animate__faster{--animate-duration:.32s;animation-duration:.32s}
+.lg-page .animate__slower{--animate-duration:.8s;animation-duration:.8s}
+@media(prefers-reduced-motion:reduce){.lg-page .animate__animated{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 @keyframes lgIn{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
 @keyframes lgFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes lgRing{from{stroke-dashoffset:var(--c)}}

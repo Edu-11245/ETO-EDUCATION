@@ -93,7 +93,7 @@
 <link rel="stylesheet" href="Data/Tools/ppt-pdf/ppt-pdf.css?v=1">  
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;700;900&family=Aref+Ruqaa:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
     <script src="Data/Lib/xlsx.full.min.js"></script>
-    <link rel="stylesheet" href="lang/lang.css">
+    <link rel="stylesheet" href="lang/lang.css?v=3">
     <link rel="stylesheet" href="./Robot/robot.css">
     <script src="./Robot/robot.js" defer></script>
     <script src="./Religion/religion.js" defer></script>
@@ -358,7 +358,7 @@
                         </div>
                         <div class="p-5 md:p-6 flex flex-col flex-grow">
                             <h3 class="text-xl font-black text-slate-800 dark:text-slate-100 mb-2">Secondary Education</h3>
-                            <p class="text-sm text-gray-500 dark:text-slate-400 leading-7 flex-grow">أدوات الطالب والمعلم، ملفات PDF، الشيتات، الامتحانات وتنظيم المذاكرة.</p>
+                            <p class="text-sm text-gray-500 dark:text-slate-400 leading-7 flex-grow">محتوى المرحلة الثانوية.</p>
                             <div class="mt-4 font-black text-blue-600 dark:text-blue-400 text-sm">ادخل قسم الثانوي ←</div>
                         </div>
                     </div>
@@ -408,272 +408,180 @@
                 <div class="home-hero-glow home-hero-glow-one"></div>
                 <div class="home-hero-glow home-hero-glow-two"></div>
                 <div class="relative z-10 max-w-5xl mx-auto px-5 py-20 md:py-24">
-                    <div class="home-badge"><i class="fa-solid fa-layer-group"></i><span>Eto.Edu • ETO</span></div>
-                    <h1>كل اللي تحتاجه لملفاتك<br class="hidden md:block"> في مكان واحد</h1>
-                    <p>اختار القسم اللي محتاجه وابدأ شغلك</p>
-                    <p>بالتوفيق يارب</p>
+                    <div class="home-badge"><i class="fa-solid fa-school"></i><span>Eto.Edu • Secondary</span></div>
+                    <h1>المرحلة الثانوية</h1>
+                    <p>المحتوى جاي قريب إن شاء الله</p>
                 </div>
             </div>
             <div class="home-tools-wrap">
-                <div class="home-section-heading">
-                    <div>
-                        <span class="home-kicker">ابدأ من هنا</span>
-                        <h2>اختار نوع الأدوات</h2>
-                        <p>قسمنا الأدوات عشان توصل للي محتاجه من أول ضغطة.</p>
-                    </div>
-                </div>
-                <div class="max-w-6xl mx-auto px-4 pb-8">
-                    <div class="bg-white/95 dark:bg-slate-800/95 rounded-3xl border border-gray-200 dark:border-slate-700 shadow-lg p-4 md:p-5">
-                        <div class="flex items-center justify-between mb-4">
-                            <div>
-                                <span class="text-[10px] font-black text-blue-600 dark:text-blue-400">وصول سريع</span>
-                                <h3 class="text-lg font-black text-slate-800 dark:text-white">الأدوات الأساسية</h3>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                            <button onclick="navigate('schedule')" class="p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-950/30 hover:-translate-y-1 transition text-right">
-                                <i class="fa-solid fa-calendar-check text-indigo-600 text-lg"></i>
-                                <div class="font-black text-xs mt-2 text-slate-700 dark:text-white">جدولي</div>
-                            </button>
-
-                            <button onclick="navigate('pomodoro')" class="p-3 rounded-2xl bg-red-50 dark:bg-red-950/20 hover:-translate-y-1 transition text-right">
-                                <i class="fa-solid fa-clock text-red-500 text-lg"></i>
-                                <div class="font-black text-xs mt-2 text-slate-700 dark:text-white">بومودورو</div>
-                            </button>
-
-                            <button onclick="navigate('library')" class="p-3 rounded-2xl bg-lime-50 dark:bg-lime-950/20 hover:-translate-y-1 transition text-right">
-                                <i class="fa-solid fa-box-archive text-lime-600 text-lg"></i>
-                                <div class="font-black text-xs mt-2 text-slate-700 dark:text-white">مكتبتي</div>
-                            </button>
-
-                            <button onclick="navigate('summaries')" class="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/20 hover:-translate-y-1 transition text-right">
-                                <i class="fa-solid fa-book-open text-amber-600 text-lg"></i>
-                                <div class="font-black text-xs mt-2 text-slate-700 dark:text-white">الملخصات</div>
-                            </button>
-
-                            <button onclick="navigate('exams')" class="p-3 rounded-2xl bg-rose-50 dark:bg-rose-950/20 hover:-translate-y-1 transition text-right">
-                                <i class="fa-solid fa-clipboard text-rose-600 text-lg"></i>
-                                <div class="font-black text-xs mt-2 text-slate-700 dark:text-white">الامتحانات</div>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="max-w-6xl mx-auto px-4 pb-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 home-tools-grid">
-                    <div class="tool-card home-category-card home-category-teacher cursor-pointer" onclick="navigate('teacher-tools')">
-                        <div class="home-category-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
-                        <div class="home-category-content">
-                            <span class="home-category-label">للمدرسين</span>
-                            <h3>أدوات المعلم</h3>
-                            <p>الشيتات والقوالب وتنظيف المحاضرات ومقارنة ملفات الـPDF.</p>
-                            <span class="home-category-link">استعرض الأدوات <i class="fa-solid fa-arrow-left"></i></span>
-                        </div>
-                    </div>
-                    <div class="tool-card home-category-card home-category-student cursor-pointer" onclick="navigate('student-tools')">
-                        <div class="home-category-icon"><i class="fa-solid fa-user-graduate"></i></div>
-                        <div class="home-category-content">
-                            <span class="home-category-label">للطلبة</span>
-                            <h3>أدوات الطالب</h3>
-                            <p>ملخصات وامتحانات وتخطيط للمذاكرة والقارئ الصوتي وتلوين الـPDF.</p>
-                            <span class="home-category-link">استعرض الأدوات <i class="fa-solid fa-arrow-left"></i></span>
-                        </div>
-                    </div>
-                    <div class="tool-card home-category-card home-category-extra cursor-pointer" onclick="navigate('extra-tools')">
-                        <div class="home-category-icon"><i class="fa-solid fa-toolbox"></i></div>
-                        <div class="home-category-content">
-                            <span class="home-category-label">للاستخدام العام</span>
-                            <h3>أدوات إضافية</h3>
-                            <p>أدوات الـPDF وأدوات الصوت ودمج وتعديل وتحويل وحماية الملفات.</p>
-                            <span class="home-category-link">استعرض الأدوات <i class="fa-solid fa-arrow-left"></i></span>
-                        </div>
-                    </div>
-                    <div class="tool-card home-category-card home-category-assistant cursor-pointer" onclick="navigate('assistant')">
-                        <div class="home-category-icon"><i class="fa-solid fa-robot"></i></div>
-                        <div class="home-category-content">
-                            <span class="home-category-label">محتاج مساعدة؟</span>
-                            <h3>مساعد الموقع</h3>
-                            <p>اعرف مين الروبوت اللي بيمشي فوق الصفحة، وإزاي تسأله عن أي أداة.</p>
-                            <span class="home-category-link">اتعرف عليه <i class="fa-solid fa-arrow-left"></i></span>
-                        </div>
+                <div id="secondary-grid" class="max-w-6xl mx-auto px-4 py-14">
+                    <div class="text-center py-14 text-gray-400 dark:text-slate-500">
+                        <i class="fa-solid fa-school text-4xl mb-3"></i>
+                        <p class="font-bold">الصفحة فاضية دلوقتي</p>
                     </div>
                 </div>
             </div>
         </section>
 
-                <section id="page-teacher-tools" class="page-section hidden p-4 max-w-7xl mx-auto tool-category-page">
+                        <section id="page-exam-tools" class="page-section hidden p-4 max-w-7xl mx-auto tool-category-page">
             <div class="max-w-7xl mx-auto">
                 <div class="tool-category-hero bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 p-6 md:p-7 mb-6">
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
                         <div class="flex items-center gap-4">
                             <div class="tool-category-icon bg-rose-100 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm">
-                                <i class="fa-solid fa-chalkboard-user"></i>
+                                <i class="fa-solid fa-clipboard-check"></i>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-black text-slate-800 dark:text-slate-100">أدوات المعلم</h2>
-                                <p class="text-sm text-gray-500 dark:text-slate-400 mt-1">كل أدوات المعلم في مكان واحد.</p>
+                                <h2 class="text-2xl font-black text-slate-800 dark:text-slate-100">الامتحانات والشيتات</h2>
+                                <p class="text-sm text-gray-500 dark:text-slate-400 mt-1">امتحانات، شيتات، قوالب، كشف درجات وشهادات.</p>
                             </div>
                         </div>
                         <div class="relative w-full md:w-96">
                             <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
-                            <input type="text" id="teacher-tools-search" class="tool-category-search w-full h-11 rounded-xl border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 pr-11 pl-4 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition" placeholder="ابحث عن أداة..." autocomplete="off">
+                            <input type="text" id="exam-tools-search" placeholder="ابحث في الامتحانات والشيتات..." class="tool-category-search w-full h-11 rounded-xl border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 pr-11 pl-4 outline-none focus:border-blue-500">
                         </div>
                     </div>
                 </div>
-                <div id="teacher-tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('grades')">
-                                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-list-check"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">كشف الدرجات</h3>
-                                    <p class="text-gray-500 text-xs">اكتب الأسامي والدرجات، وخد المتوسط والتقديرات وكشف الأوائل PDF أو Excel.</p>
-                                </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('exam-maker')">
-                                    <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-clipboard-check"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">إنشاء امتحان أونلاين</h3>
-                                    <p class="text-gray-500 text-xs">ارفع الأسئلة والإجابات، حدد وقت الامتحان، وانشره بلينك تبعته للطلاب.</p>
-                                </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('certificate')">
-                                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-award"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">شهادة تقدير</h3>
-                                    <p class="text-gray-500 text-xs">50 قالب جاهز، خطوط جوجل، توقيعك، وشهادة لكل طالب في الفصل مرة واحدة.</p>
-                                </div>
-
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('teacher')">
-                                    <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-chalkboard-user"></i></div>
-                                    <h3 class="text-lg font-bold mb-2"> الشيتات</h3>
-                                    <p class="text-gray-500 text-xs">صمم شيتات وأسئلة بـ استايلات مميزة مع إضافة الصور وخطوط الإجابة.</p>
-                                </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('templates')">
-                                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-layer-group"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">القوالب </h3>
-                                    <p class="text-gray-500 text-xs">قوالب للمذاكرة والتنظيم والكتابة والطباعة مع تخصيص الـPDF.</p>
-                                </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('image-cleaner')">
-                                    <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-image"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">تنظيف صور المحاضرات</h3>
-                                    <p class="text-gray-500 text-xs">معالجة الصور الملتقطة بالكاميرا وتبييضها.</p>
-                                </div>
-
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('compare')">
-                                    <div class="w-12 h-12 bg-violet-100 text-violet-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-code-compare"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">مقارنة نسختين PDF</h3>
-                                    <p class="text-gray-500 text-xs">ارفع ملفين واتفرج على الفرق بينهم صفحة بصفحة.</p>
-                                </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('answers-key')">
-                                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-key"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">ملف الإجابات</h3>
-                                    <p class="text-gray-500 text-xs">حدد الإجابة الصح ودرجة كل سؤال، وطلّع ملف JSON للامتحان الأونلاين وPDF للنسخة الورقية.</p>
-                                </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('student-exams')">
-                                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-users-viewfinder"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">نتائج الامتحانات</h3>
-                                    <p class="text-gray-500 text-xs">شوف نتائج الطلاب، الدرجات، ونِسَب النجاح وتفاصيل الأسئلة الغلط في الامتحانات اللي نشرتها.</p>
-                                </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('cleaner')">
-                                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-palette"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">تلوين PDF وتظليل</h3>
-                                    <p class="text-gray-500 text-xs">ثيمات لراحة العين، وتظليل الكلمات المهمة.</p>
-                                </div>
-                </div>
-                <div id="teacher-tools-empty" class="hidden text-center py-14 text-gray-400 dark:text-slate-500">
-                    <i class="fa-solid fa-magnifying-glass text-4xl mb-3 opacity-50"></i>
-                    <p class="font-bold">مفيش أداة مطابقة للبحث</p>
-                </div>
-            </div>
-        </section>
-        <section id="page-student-tools" class="page-section hidden p-4 max-w-7xl mx-auto tool-category-page">
-            <div class="max-w-7xl mx-auto">
-                <div class="tool-category-hero bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 p-6 md:p-7 mb-6">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-                        <div class="flex items-center gap-4">
-                            <div class="tool-category-icon bg-blue-100 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm">
-                                <i class="fa-solid fa-user-graduate"></i>
-                            </div>
-                            <div>
-                                <h2 class="text-2xl font-black text-slate-800 dark:text-slate-100">أدوات الطالب</h2>
-                                <p class="text-sm text-gray-500 dark:text-slate-400 mt-1">أدوات المذاكرة والتنظيم والمتابعة.</p>
-                            </div>
-                        </div>
-                        <div class="relative w-full md:w-96">
-                            <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
-                            <input type="text" id="student-tools-search" class="tool-category-search w-full h-11 rounded-xl border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 pr-11 pl-4 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition" placeholder="ابحث عن أداة..." autocomplete="off">
-                        </div>
-                    </div>
-                </div>
-                <div class="student-special-shell">
-                    <div class="student-special-grid mb-6">
-                        <div onclick="navigate('my-teachers')" class="student-special-card student-special-teachers">
-                            <div class="student-special-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
-                            <h3>مدرسيني</h3>
-                            <p>كل المدرسين بتوعك في مكان واحد، دور ع المدرس الي ينفع معاك , بالتوفيق.</p>
-                            <div class="student-special-link">استكشف مدرسيني ←</div>
-                        </div>
-
-                        <div onclick="navigate('my-platforms')" class="student-special-card student-special-platforms">
-                            <div class="student-special-icon"><i class="fa-solid fa-layer-group"></i></div>
-                            <h3>منصاتي</h3>
-                            <p>كل المنصات التعليمية مترتبة حسب النوع والمجال وتقدر تفتحها من هنا.</p>
-                            <div class="student-special-link">استكشف منصاتي ←</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="student-tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('summaries')">
-                                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-book-open"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">ملخصات الطلاب</h3>
-                                    <p class="text-gray-500 text-xs">شارك ملخصك مع زمايلك، أو حمّل ملخصات معتمدة من المادة.</p>
-                                </div>
-                <div class="tool-card exam-home-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-red-100 dark:border-slate-700 cursor-pointer" onclick="navigate('exams')">
+                <div id="exam-tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="tool-card exam-home-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-red-100 dark:border-slate-700 cursor-pointer" onclick="navigate('exams')">
                                     <div class="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-clipboard"></i></div>
                                     <h3 class="text-lg font-bold mb-2">الامتحانات</h3>
                                     <p class="text-gray-500 text-xs">امتحانات ومراجعات مرتبة حسب الصف ونوع الدراسة، جاهزة للمعاينة والتحميل.</p>
                                 </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('schedule')">
-                                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-calendar-check"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">جدولي</h3>
-                                    <p class="text-gray-500 text-xs">اعمل جدول مذاكرة أسبوعي، رتّب المواد والمهام واطبعه كـPDF.</p>
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('student-exams')">
+                                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-users-viewfinder"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">نتائج الامتحانات</h3>
+                                    <p class="text-gray-500 text-xs">شوف نتائج الطلاب، الدرجات، ونِسَب النجاح وتفاصيل الأسئلة الغلط في الامتحانات اللي نشرتها.</p>
                                 </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('pomodoro')">
-                                    <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-stopwatch"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">تايمر</h3>
-                                    <p class="text-gray-500 text-xs">قسّم مذاكرتك لجلسات تركيز واستراحات مظبوطة، مع تنبيه صوتي.</p>
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('exam-maker')">
+                                    <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-clipboard-check"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">إنشاء امتحان أونلاين</h3>
+                                    <p class="text-gray-500 text-xs">ارفع الأسئلة والإجابات، حدد وقت الامتحان، وانشره بلينك تبعته للطلاب.</p>
                                 </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('percentage')">
-                                    <div class="w-12 h-12 bg-cyan-100 text-cyan-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-percent"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">احسبلي كام %</h3>
-                                    <p class="text-gray-500 text-xs">دخل درجتك والمجموع الكلي واعرف نسبتك المئوية في ثانية.</p>
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('answers-key')">
+                                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-key"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">ملف الإجابات</h3>
+                                    <p class="text-gray-500 text-xs">حدد الإجابة الصح ودرجة كل سؤال، وطلّع ملف JSON للامتحان الأونلاين وPDF للنسخة الورقية.</p>
                                 </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('calculator')">
-                                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-calculator"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">آلة حاسبة علمية</h3>
-                                    <p class="text-gray-500 text-xs">آلة حاسبة علمية متقدمة للحسابات والمعادلات والدوال المثلثية والعمليات الرياضية.</p>
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('teacher')">
+                                    <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-chalkboard-user"></i></div>
+                                    <h3 class="text-lg font-bold mb-2"> الشيتات</h3>
+                                    <p class="text-gray-500 text-xs">صمم شيتات وأسئلة بـ استايلات مميزة مع إضافة الصور وخطوط الإجابة.</p>
                                 </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('translate')">
-                                    <div class="w-12 h-12 bg-violet-100 text-violet-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-language"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">ترجملي</h3>
-                                    <p class="text-gray-500 text-xs">اكتب أي كلمة أو نص، وخليه يترجم لك تلقائيًا مع صياغة عربية مصرية بسيطة.</p>
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('templates')">
+                                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-layer-group"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">القوالب </h3>
+                                    <p class="text-gray-500 text-xs">قوالب للمذاكرة والتنظيم والكتابة والطباعة مع تخصيص الـPDF.</p>
                                 </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('library')">
-                                    <div class="w-12 h-12 bg-lime-100 text-lime-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-box-archive"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">مكتبتي</h3>
-                                    <p class="text-gray-500 text-xs">أرشيف شخصي لملفاتك، منظم بالمادة والترم، محفوظ على جهازك.</p>
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('grades')">
+                                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-list-check"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">كشف الدرجات</h3>
+                                    <p class="text-gray-500 text-xs">اكتب الأسامي والدرجات، وخد المتوسط والتقديرات وكشف الأوائل PDF أو Excel.</p>
                                 </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('reader')">
-                                    <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-headphones-simple"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">قارئ صوتي</h3>
-                                    <p class="text-gray-500 text-xs">اسمع ملف الـ PDF بصوت ولد أو بنت، عربي أو إنجليزي.</p>
-                                </div>
-                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('cleaner')">
-                                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-palette"></i></div>
-                                    <h3 class="text-lg font-bold mb-2">تلوين PDF وتظليل</h3>
-                                    <p class="text-gray-500 text-xs">ثيمات لراحة العين، وتظليل الكلمات المهمة.</p>
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('certificate')">
+                                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-award"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">شهادة تقدير</h3>
+                                    <p class="text-gray-500 text-xs">50 قالب جاهز، خطوط جوجل، توقيعك، وشهادة لكل طالب في الفصل مرة واحدة.</p>
                                 </div>
                 </div>
-                <div id="student-tools-empty" class="hidden text-center py-14 text-gray-400 dark:text-slate-500">
+                <div id="exam-tools-empty" class="hidden text-center py-14 text-gray-400 dark:text-slate-500">
                     <i class="fa-solid fa-magnifying-glass text-4xl mb-3 opacity-50"></i>
                     <p class="font-bold">مفيش أداة مطابقة للبحث</p>
                 </div>
             </div>
         </section>
+
+        <section id="page-study-tools" class="page-section hidden p-4 max-w-7xl mx-auto tool-category-page">
+            <div class="max-w-7xl mx-auto">
+                <div class="tool-category-hero bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 p-6 md:p-7 mb-6">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+                        <div class="flex items-center gap-4">
+                            <div class="tool-category-icon bg-amber-100 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm">
+                                <i class="fa-solid fa-book-open-reader"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-black text-slate-800 dark:text-slate-100">المذاكرة والتنظيم</h2>
+                                <p class="text-sm text-gray-500 dark:text-slate-400 mt-1">ملخصات، جدول، تايمر، مكتبتك، ومدرسينك ومنصاتك.</p>
+                            </div>
+                        </div>
+                        <div class="relative w-full md:w-96">
+                            <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                            <input type="text" id="study-tools-search" placeholder="ابحث في المذاكرة والتنظيم..." class="tool-category-search w-full h-11 rounded-xl border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 pr-11 pl-4 outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                </div>
+                <div id="study-tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('summaries')">
+                                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-book-open"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">ملخصات الطلاب</h3>
+                                    <p class="text-gray-500 text-xs">شارك ملخصك مع زمايلك، أو حمّل ملخصات معتمدة من المادة.</p>
+                                </div>
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('schedule')">
+                                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-calendar-check"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">جدولي</h3>
+                                    <p class="text-gray-500 text-xs">اعمل جدول مذاكرة أسبوعي، رتّب المواد والمهام واطبعه كـPDF.</p>
+                                </div>
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('pomodoro')">
+                                    <div class="w-12 h-12 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-stopwatch"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">تايمر</h3>
+                                    <p class="text-gray-500 text-xs">قسّم مذاكرتك لجلسات تركيز واستراحات مظبوطة، مع تنبيه صوتي.</p>
+                                </div>
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('library')">
+                                    <div class="w-12 h-12 bg-lime-100 text-lime-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-box-archive"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">مكتبتي</h3>
+                                    <p class="text-gray-500 text-xs">أرشيف شخصي لملفاتك، منظم بالمادة والترم، محفوظ على جهازك.</p>
+                                </div>
+                </div>
+                <div id="study-tools-empty" class="hidden text-center py-14 text-gray-400 dark:text-slate-500">
+                    <i class="fa-solid fa-magnifying-glass text-4xl mb-3 opacity-50"></i>
+                    <p class="font-bold">مفيش أداة مطابقة للبحث</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-calc-tools" class="page-section hidden p-4 max-w-7xl mx-auto tool-category-page">
+            <div class="max-w-7xl mx-auto">
+                <div class="tool-category-hero bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 p-6 md:p-7 mb-6">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+                        <div class="flex items-center gap-4">
+                            <div class="tool-category-icon bg-sky-100 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm">
+                                <i class="fa-solid fa-calculator"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-black text-slate-800 dark:text-slate-100">حسابات وترجمة</h2>
+                                <p class="text-sm text-gray-500 dark:text-slate-400 mt-1">آلة حاسبة، نسبة مئوية، وترجمة.</p>
+                            </div>
+                        </div>
+                        <div class="relative w-full md:w-96">
+                            <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                            <input type="text" id="calc-tools-search" placeholder="ابحث في حسابات وترجمة..." class="tool-category-search w-full h-11 rounded-xl border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 pr-11 pl-4 outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                </div>
+                <div id="calc-tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('calculator')">
+                                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-calculator"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">آلة حاسبة علمية</h3>
+                                    <p class="text-gray-500 text-xs">آلة حاسبة علمية متقدمة للحسابات والمعادلات والدوال المثلثية والعمليات الرياضية.</p>
+                                </div>
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('percentage')">
+                                    <div class="w-12 h-12 bg-cyan-100 text-cyan-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-percent"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">احسبلي كام %</h3>
+                                    <p class="text-gray-500 text-xs">دخل درجتك والمجموع الكلي واعرف نسبتك المئوية في ثانية.</p>
+                                </div>
+<div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('translate')">
+                                    <div class="w-12 h-12 bg-violet-100 text-violet-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-language"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">ترجملي</h3>
+                                    <p class="text-gray-500 text-xs">اكتب أي كلمة أو نص، وخليه يترجم لك تلقائيًا مع صياغة عربية مصرية بسيطة.</p>
+                                </div>
+                </div>
+                <div id="calc-tools-empty" class="hidden text-center py-14 text-gray-400 dark:text-slate-500">
+                    <i class="fa-solid fa-magnifying-glass text-4xl mb-3 opacity-50"></i>
+                    <p class="font-bold">مفيش أداة مطابقة للبحث</p>
+                </div>
+            </div>
+        </section>
+
         <section id="page-translate" class="page-section hidden p-4 max-w-7xl mx-auto tool-category-page">
             <div class="max-w-5xl mx-auto">
 
@@ -960,44 +868,6 @@
 
             </div>
         </section>
-        <section id="page-my-teachers" class="page-section hidden p-4 max-w-7xl mx-auto tool-category-page">
-            <div class="max-w-7xl mx-auto">
-                <div class="special-page-hero teachers">
-                    <div class="special-page-hero-inner">
-                        <div class="special-page-kicker">
-                            <i class="fa-solid fa-chalkboard-user"></i>
-                            ETO.EDU • STUDENT
-                        </div>
-                        <h2>مدرسيني</h2>
-                        <p>مدرسينك المفضلين في مكان واحد — شوف المادة وادخل على منصة المدرس مباشرة.</p>
-                    </div>
-                </div>
-
-                <div id="teachers-special-grid" class="teacher-special-grid"></div>
-            </div>
-        </section>
-
-        <section id="page-my-platforms" class="page-section hidden p-4 max-w-7xl mx-auto tool-category-page">
-            <div class="max-w-7xl mx-auto">
-                <div class="special-page-hero platforms">
-                    <div class="special-page-hero-inner">
-                        <div class="special-page-kicker">
-                            <i class="fa-solid fa-layer-group"></i>
-                            ETO.EDU • PLATFORMS
-                        </div>
-                        <h2>منصاتي</h2>
-                        <p>كل المنصات التعليمية مرتبة بشكل شيك، مع بحث وفلاتر حسب نوع المنصة.</p>
-                    </div>
-                </div>
-
-                <div class="platform-special-toolbar">
-                    <div id="platform-special-filters" class="platform-special-filters"></div>
-                    <input id="platform-special-search" class="platform-special-search" type="text" placeholder="ابحث عن منصة..." autocomplete="off">
-                </div>
-
-                <div id="platform-special-grid" class="platform-special-grid"></div>
-            </div>
-        </section>
 
         <section id="page-calculator" class="page-section hidden">
             <div class="eto-calc-shell">
@@ -1130,8 +1000,8 @@
                             <i class="fa-solid fa-toolbox"></i>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-black text-slate-800 dark:text-slate-100">أدوات إضافية</h2>
-                            <p class="text-sm text-gray-500 dark:text-slate-400 mt-1">اختار القسم اللي محتاجه.</p>
+                            <h2 class="text-2xl font-black text-slate-800 dark:text-slate-100">الأدوات</h2>
+                            <p class="text-sm text-gray-500 dark:text-slate-400 mt-1">كل الأدوات في مكان واحد، اختار القسم اللي محتاجه.</p>
                         </div>
                     </div>
                 </div>
@@ -1139,21 +1009,39 @@
                     <div class="student-special-grid mb-6">
                         <div onclick="navigate('pdf-tools')" class="student-special-card student-special-platforms">
                             <div class="student-special-icon"><i class="fa-solid fa-file-pdf"></i></div>
-                            <h3>أدوات الـPDF</h3>
-                            <p>دمج واستخراج وتعديل وتحويل وحماية وعلامة مائية وكل أدوات ملفات الـPDF والصور.</p>
-                            <div class="student-special-link">استعرض أدوات الـPDF ←</div>
+                            <h3>أدوات الـPDF والصور</h3>
+                            <p>دمج واستخراج وتعديل وتحويل وحماية وعلامة مائية وتنظيف الصور.</p>
+                            <div class="student-special-link">افتح القسم ←</div>
                         </div>
                         <div onclick="navigate('audio-tools')" class="student-special-card" style="background:linear-gradient(135deg,#065f46,#10b981 72%,#14b8a6)">
                             <div class="student-special-icon"><i class="fa-solid fa-headphones"></i></div>
                             <h3>أدوات الصوت</h3>
-                            <p>أدوات للتعامل مع ملفات الصوت: تحويل MP3 وMP4 وWAV وOGG بين بعض واستخراج الصوت من الفيديو.</p>
-                            <div class="student-special-link">استعرض أدوات الصوت ←</div>
+                            <p>تحويل MP3 وMP4 وWAV وOGG واستخراج الصوت والقارئ الصوتي.</p>
+                            <div class="student-special-link">افتح القسم ←</div>
                         </div>
                         <div onclick="navigate('edu-tools')" class="student-special-card" style="background:linear-gradient(135deg,#312e81,#6366f1 72%,#06b6d4)">
                             <div class="student-special-icon"><i class="fa-solid fa-flask"></i></div>
                             <h3>أدوات تعليمية</h3>
                             <p>أدوات تفاعلية للمواد العلمية، زي رسم الدوال في الماث.</p>
-                            <div class="student-special-link">استعرض الأدوات التعليمية ←</div>
+                            <div class="student-special-link">افتح القسم ←</div>
+                        </div>
+                        <div onclick="navigate('exam-tools')" class="student-special-card" style="background:linear-gradient(135deg,#9f1239,#f43f5e 72%,#fb923c)">
+                            <div class="student-special-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+                            <h3>الامتحانات والشيتات</h3>
+                            <p>امتحانات وشيتات وقوالب وكشف درجات وشهادات.</p>
+                            <div class="student-special-link">افتح القسم ←</div>
+                        </div>
+                        <div onclick="navigate('study-tools')" class="student-special-card" style="background:linear-gradient(135deg,#92400e,#f59e0b 72%,#facc15)">
+                            <div class="student-special-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+                            <h3>المذاكرة والتنظيم</h3>
+                            <p>ملخصات وجدول وتايمر ومكتبتي ومدرسيني ومنصاتي.</p>
+                            <div class="student-special-link">افتح القسم ←</div>
+                        </div>
+                        <div onclick="navigate('calc-tools')" class="student-special-card" style="background:linear-gradient(135deg,#075985,#0ea5e9 72%,#06b6d4)">
+                            <div class="student-special-icon"><i class="fa-solid fa-calculator"></i></div>
+                            <h3>حسابات وترجمة</h3>
+                            <p>آلة حاسبة علمية، نسبة مئوية، وترجملي.</p>
+                            <div class="student-special-link">افتح القسم ←</div>
                         </div>
                     </div>
                 </div>
@@ -1207,11 +1095,11 @@
                         </div>
                         <div class="relative w-full md:w-96">
                             <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
-                            <input type="text" id="extra-tools-search" class="tool-category-search w-full h-11 rounded-xl border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 pr-11 pl-4 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition" placeholder="ابحث عن أداة..." autocomplete="off">
+                            <input type="text" id="pdf-tools-search" class="tool-category-search w-full h-11 rounded-xl border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 pr-11 pl-4 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition" placeholder="ابحث عن أداة..." autocomplete="off">
                         </div>
                     </div>
                 </div>
-                <div id="extra-tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div id="pdf-tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('merge')">
                                     <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-layer-group"></i></div>
                                     <h3 class="text-lg font-bold mb-2">دمج الملفات</h3>
@@ -1262,8 +1150,23 @@
                                     <h3 class="text-lg font-bold mb-2">حماية الملف</h3>
                                     <p class="text-gray-500 text-xs">أضف كلمة مرور تشفير حقيقية لطلبها عند فتح الملف.</p>
                                 </div>
+                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('cleaner')">
+                                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-palette"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">تلوين PDF وتظليل</h3>
+                                    <p class="text-gray-500 text-xs">ثيمات لراحة العين، وتظليل الكلمات المهمة.</p>
+                                </div>
+                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('compare')">
+                                    <div class="w-12 h-12 bg-violet-100 text-violet-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-code-compare"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">مقارنة نسختين PDF</h3>
+                                    <p class="text-gray-500 text-xs">ارفع ملفين واتفرج على الفرق بينهم صفحة بصفحة.</p>
+                                </div>
+                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('image-cleaner')">
+                                    <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-image"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">تنظيف صور المحاضرات</h3>
+                                    <p class="text-gray-500 text-xs">معالجة الصور الملتقطة بالكاميرا وتبييضها.</p>
+                                </div>
                 </div>
-                <div id="extra-tools-empty" class="hidden text-center py-14 text-gray-400 dark:text-slate-500">
+                <div id="pdf-tools-empty" class="hidden text-center py-14 text-gray-400 dark:text-slate-500">
                     <i class="fa-solid fa-magnifying-glass text-4xl mb-3 opacity-50"></i>
                     <p class="font-bold">مفيش أداة مطابقة للبحث</p>
                 </div>
@@ -1319,6 +1222,11 @@
                         <h3 class="text-lg font-bold mb-2">تحويل OGG إلى MP3</h3>
                         <p class="text-gray-500 text-xs">حوّل ملفات الـOGG لـMP3 يشتغل على أي جهاز بالجودة اللي تختارها.</p>
                     </div>
+                <div class="tool-card bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 cursor-pointer" onclick="navigate('reader')">
+                                    <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-headphones-simple"></i></div>
+                                    <h3 class="text-lg font-bold mb-2">قارئ صوتي</h3>
+                                    <p class="text-gray-500 text-xs">اسمع ملف الـ PDF بصوت ولد أو بنت، عربي أو إنجليزي.</p>
+                                </div>
                 </div>
                 <div id="audio-tools-empty" class="hidden text-center py-14 text-gray-400 dark:text-slate-500">
                     <i class="fa-solid fa-magnifying-glass text-4xl mb-3 opacity-50"></i>
@@ -4053,11 +3961,11 @@ Rules:
     <footer class="bg-white dark:bg-slate-900 border-t dark:border-slate-800 mt-auto py-4 text-center text-gray-500 dark:text-gray-400 text-xs md:text-sm transition-colors duration-300 relative z-10">
         <p>Dev By <a href="https://engmohammedsaad.github.io/Eto.io/" target="_blank" class="text-blue-600 dark:text-blue-400 font-extrabold underline hover:text-blue-800 dark:hover:text-blue-300 transition-colors">Mohammed Eto</a> &copy; 2026. جميع الحقوق محفوظة.</p>
     </footer>
-
     <script src="lang/core.js"></script>
     <script src="lang/es.js"></script>
     <script src="lang/fr.js"></script>
     <script src="lang/de.js"></script>
+    <script src="lang/rabbit.js?v=3"></script>
     <script src="lang/boot.js"></script>
     <script src="./Data/Edu/CNU/F.SCIENCE/content.js?v=10"></script>
    <script src="./courses/courses.js?v=6"></script>
@@ -4128,7 +4036,40 @@ Rules:
 <script src="./Trns_Data/Data.js"></script>
 
     
-<script src="js/main.js?v=4"></script>
+<script src="js/core/utils.js?v=2"></script>
+<script src="js/core/ui.js?v=1"></script>
+<script src="js/core/navigation.js?v=2"></script>
+<script src="js/core/shell.js?v=1"></script>
+<script src="js/core/pwa.js?v=1"></script>
+<script src="js/core/lazy-images.js?v=1"></script>
+<script src="js/tools/teacher-sheets.js?v=1"></script>
+<script src="js/tools/cleaner.js?v=1"></script>
+<script src="js/tools/image-cleaner.js?v=1"></script>
+<script src="js/tools/compress.js?v=1"></script>
+<script src="js/tools/merge.js?v=1"></script>
+<script src="js/tools/extract.js?v=1"></script>
+<script src="js/tools/editor.js?v=1"></script>
+<script src="js/tools/convert.js?v=1"></script>
+<script src="js/tools/text.js?v=1"></script>
+<script src="js/tools/reader.js?v=1"></script>
+<script src="js/tools/watermark.js?v=1"></script>
+<script src="js/tools/reorder.js?v=1"></script>
+<script src="js/tools/protect.js?v=1"></script>
+<script src="js/tools/music.js?v=1"></script>
+<script src="js/tools/templates.js?v=1"></script>
+<script src="js/tools/summaries.js?v=1"></script>
+<script src="js/tools/science-library.js?v=1"></script>
+<script src="js/tools/exam-online.js?v=1"></script>
+<script src="js/tools/translate.js?v=1"></script>
+<script src="js/tools/schedule.js?v=1"></script>
+<script src="js/tools/pomodoro.js?v=1"></script>
+<script src="js/tools/compare.js?v=1"></script>
+<script src="js/tools/library.js?v=1"></script>
+<script src="js/tools/grades.js?v=1"></script>
+<script src="js/tools/certificate.js?v=1"></script>
+<script src="js/tools/pdf-to-word.js?v=1"></script>
+<script src="js/tools/answers-key.js?v=1"></script>
+<script src="js/tools/calculator.js?v=1"></script>
 
 
 <script src="./Data/Tools/mp3-to-mp4/mp3-to-mp4.js"></script>

@@ -102,14 +102,6 @@
 
     /* ---------- speech ---------- */
     function say(L, text, cb) {
-        /* Spanish: try Piper (lang/piper-tts.js) first, fall back to the browser voice if it fails */
-        if (L.id === 'es' && w.EtoPiper) {
-            w.EtoPiper.speak(text, L.rate || 0.85, cb).catch(function () { sayBrowser(L, text, cb); });
-            return;
-        }
-        sayBrowser(L, text, cb);
-    }
-    function sayBrowser(L, text, cb) {
         if (!('speechSynthesis' in w)) { toast('جهازك مش بيدعم النطق الصوتي', 'error'); if (cb) cb(); return; }
         try {
             var ss = w.speechSynthesis; ss.cancel();
@@ -118,11 +110,12 @@
             var v = vs.filter(function (x) { return re.test(x.lang); })[0];
             if (v) u.voice = v; else if (vs.length && !warned) { warned = true; toast('مفيش صوت ' + L.nameAr + ' متسطب على جهازك، هيتنطق بصوت افتراضي', 'error'); }
             if (cb) { u.onend = cb; u.onerror = cb; }
+            try { if (w.EtoRabbit) w.EtoRabbit.tune(u, L, text); } catch (e) {} /* rabbit.js: صوت الأرنب + حركته */
             ss.speak(u);
         } catch (e) { if (cb) cb(); }
     }
     function speak(L, text) { seq++; say(L, text); }
-    function stopAll() { seq++; try { if (w.EtoPiper) w.EtoPiper.stop(); } catch (e) {} try { w.speechSynthesis.cancel(); } catch (e) {} }
+    function stopAll() { seq++; try { if (w.EtoRabbit) w.EtoRabbit.stop(); } catch (e) {} try { w.speechSynthesis.cancel(); } catch (e) {} }
 
     /* ---------- marking progress ---------- */
     function mark(L, u, bag, val) {
@@ -524,7 +517,6 @@
     }
     function onKey(e) { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.lg-card[data-go],.lg-lvl[data-go]')) { e.preventDefault(); e.target.click(); } }
 
-    /* ---------- public API ---------- */
     function refresh(L) {
         renderHub(); renderHome(L); if (L.dictionary) renderDictionary(L);
         if (multiLevel(L)) groupsOf(L).forEach(function (g) { renderLevel(L, g); });
