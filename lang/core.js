@@ -102,6 +102,14 @@
 
     /* ---------- speech ---------- */
     function say(L, text, cb) {
+        /* Spanish: try Piper (lang/piper-tts.js) first, fall back to the browser voice if it fails */
+        if (L.id === 'es' && w.EtoPiper) {
+            w.EtoPiper.speak(text, L.rate || 0.85, cb).catch(function () { sayBrowser(L, text, cb); });
+            return;
+        }
+        sayBrowser(L, text, cb);
+    }
+    function sayBrowser(L, text, cb) {
         if (!('speechSynthesis' in w)) { toast('جهازك مش بيدعم النطق الصوتي', 'error'); if (cb) cb(); return; }
         try {
             var ss = w.speechSynthesis; ss.cancel();
@@ -114,7 +122,7 @@
         } catch (e) { if (cb) cb(); }
     }
     function speak(L, text) { seq++; say(L, text); }
-    function stopAll() { seq++; try { w.speechSynthesis.cancel(); } catch (e) {} }
+    function stopAll() { seq++; try { if (w.EtoPiper) w.EtoPiper.stop(); } catch (e) {} try { w.speechSynthesis.cancel(); } catch (e) {} }
 
     /* ---------- marking progress ---------- */
     function mark(L, u, bag, val) {
@@ -156,6 +164,10 @@
         var style = d.createElement('style');
         style.id = 'eto-lang-word-card-fix';
         style.textContent = [
+            '#lang-root .lg-vocab .lg-vgroup{grid-column:1/-1;display:flex;align-items:center;gap:10px;margin:18px 0 2px;color:var(--a);font-size:15px;font-weight:900;}',
+            '#lang-root .lg-vocab .lg-vgroup:first-child{margin-top:0;}',
+            '#lang-root .lg-vocab .lg-vgroup::after{content:"";flex:1 1 auto;height:1px;background:linear-gradient(to left,color-mix(in srgb,var(--a) 45%,transparent),transparent);}',
+            '#lang-root .lg-vocab .lg-vgroup em{order:2;font-style:normal;font-size:11px;font-weight:800;line-height:1;padding:4px 8px;border-radius:999px;background:color-mix(in srgb,var(--a) 14%,transparent);color:var(--a);}',
             '#lang-root .lg-vocab .lg-word{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:9px!important;min-width:0!important;overflow:hidden!important;padding:16px!important;text-align:right!important;}',
             '#lang-root .lg-vocab .lg-word .lg-word-top{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;width:100%!important;min-width:0!important;direction:rtl!important;}',
             '#lang-root .lg-vocab .lg-word .lg-word-term{display:block!important;position:static!important;flex:1 1 auto!important;min-width:0!important;max-width:100%!important;direction:ltr!important;text-align:right!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important;line-height:1.35!important;}',
@@ -393,8 +405,12 @@
         if (s.id === 'vocab') {
             var hv = L.st.v[u.id] || [];
             play = '<button type="button" class="lg-btn" data-play="vocab" ' + ref + '><i class="fa-solid fa-play"></i> سمّعني الكل</button>';
+            var lastG = null, gCount = {};
+            u.vocab.forEach(function (x) { if (x.g) gCount[x.g] = (gCount[x.g] || 0) + 1; });
             body = '<div class="lg-vocab">' + u.vocab.map(function (x, k) {
-                return '<button type="button" class="lg-word lg-in' + an('zoomIn') + (hv.indexOf(x.k) > -1 ? ' is-heard' : '') + '" ' + ref + ' data-k="' + x.k + '" style="--i:' + (k % 12) + '"><span class="lg-word-top"><b class="lg-word-term" dir="ltr">' + esc(x.t) + '</b><span class="lg-word-controls"><i class="fa-solid fa-volume-high lg-sp" aria-hidden="true"></i><span class="lg-chk"><i class="fa-solid fa-check"></i></span></span></span><em>' + esc(x.pr) + '</em><span class="ar">' + esc(x.ar) + '</span></button>';
+                var head = '';
+                if (x.g && x.g !== lastG) { lastG = x.g; head = '<div class="lg-vgroup"><span>' + esc(x.g) + '</span><em>' + gCount[x.g] + '</em></div>'; }
+                return head + '<button type="button" class="lg-word lg-in' + an('zoomIn') + (hv.indexOf(x.k) > -1 ? ' is-heard' : '') + '" ' + ref + ' data-k="' + x.k + '" style="--i:' + (k % 12) + '"><span class="lg-word-top"><b class="lg-word-term" dir="ltr">' + esc(x.t) + '</b><span class="lg-word-controls"><i class="fa-solid fa-volume-high lg-sp" aria-hidden="true"></i><span class="lg-chk"><i class="fa-solid fa-check"></i></span></span></span><em>' + esc(x.pr) + '</em><span class="ar">' + esc(x.ar) + '</span></button>';
             }).join('') + '</div>';
         } else if (s.id === 'dialog') {
             var hd = L.st.d[u.id] || [], nm = u.dialog.names || { A: 'A', B: 'B' };

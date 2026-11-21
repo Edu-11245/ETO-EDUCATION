@@ -1,4 +1,4 @@
-
+/* ETO Lang Learning — Español. CEFR/PCIC-informed scope; units without vocab stay locked. */
 function esLesson(id, level, title, sub, goals, words, lines, notes, quiz) {
     return {
         id: id, level: level, icon: 'fa-book-open', title: title, sub: sub, goals: goals,
@@ -15,7 +15,7 @@ var spanishCourse = {
     theme: { a: '#e11d48', b: '#f97316' },
     title: 'كورس الإسبانية من الصفر',
     intro: 'مسار الإسبانية متدرج من A1 لحد C2. هتبدأ بالحروف والتحيات، وبعدها تنتقل للمواقف اليومية ثم النقاش والكتابة والتحليل المتقدم. كل وحدة فيها مفردات بنطقها وحوار وقواعد واستعمال واختبار، فامشِ بالترتيب عشان تبني مستواك خطوة خطوة.',
-    desc: '36 وحدة تعليمية كاملة من A1 إلى C2، مع نطق صوتي وحوارات وقواعد واستعمال واختبارات في كل وحدة.',
+    desc: '42 وحدة تعليمية كاملة من A1 إلى C2، مع نطق صوتي وحوارات وقواعد واستعمال واختبارات في كل وحدة.',
     levelDescriptions: {
         A1: 'تتعامل مع التحيات والعبارات اليومية والتعريف بالنفس.',
         A2: 'تنجز مهامًا مألوفة وتتحدث عن حياتك واحتياجاتك المباشرة.',
@@ -137,6 +137,339 @@ var spanishCourse = {
                 { q: 'إزاي تقول 10 بالإسباني؟', a: ['Diez', 'Dos', 'Siete', 'Uno'], c: 0 }
             ]
         },
+        esLesson(
+            'u37', 'A1', 'الضمائر وفعلا ser وestar', 'Yo soy, yo estoy',
+            ['تستخدم ضمائر الفاعل: yo, tú, él, ella, nosotros...', 'تصرّف ser وestar كاملين مع كل ضمير.', 'تفرّق بين «أنا إيه» (ser) و«أنا فين وحالتي إيه» (estar).'],
+            [
+                ['Yo', 'يو', 'أنا'], ['Tú', 'تو', 'أنتَ / أنتِ'], ['Él', 'إيل', 'هو'],
+                ['Ella', 'إيّا', 'هي'], ['Usted', 'أوستيد', 'حضرتك (رسمي)'],
+                ['Nosotros / Nosotras', 'نوسوتروس / نوسوتراس', 'إحنا'],
+                ['Vosotros / Vosotras', 'بوسوتروس / بوسوتراس', 'أنتم (في إسبانيا)'],
+                ['Ellos / Ellas', 'إيّوس / إيّاس', 'هم / هن'], ['Ustedes', 'أوستيديس', 'حضراتكم / أنتم'],
+                ['Soy', 'سوي', 'أنا (أكون)'], ['Eres', 'إيريس', 'أنتَ (تكون)'], ['Es', 'إس', 'هو / هي / حضرتك (يكون)'],
+                ['Somos', 'سوموس', 'إحنا (نكون)'], ['Sois', 'سويس', 'أنتم (تكونوا)'], ['Son', 'سون', 'هم (يكونوا)'],
+                ['Estoy', 'إستوي', 'أنا موجود / أنا حالتي'], ['Estás', 'إستاس', 'أنتَ موجود / حالتك'], ['Está', 'إستا', 'هو / هي / حضرتك موجود'],
+                ['Estamos', 'إستاموس', 'إحنا موجودين'], ['Estáis', 'إستايس', 'أنتم موجودين'], ['Están', 'إستان', 'هم موجودين'],
+                ['Estudiante', 'إستوديانتي', 'طالب / طالبة'], ['Bien', 'بيين', 'كويس'], ['Mal', 'مال', 'وحش / تعبان'],
+                ['Cansado / Cansada', 'كانسادو / كانسادا', 'تعبان / تعبانة'], ['Contento / Contenta', 'كونتينتو / كونتينتا', 'مبسوط / مبسوطة'],
+                ['Ocupado / Ocupada', 'أوكوبادو / أوكوبادا', 'مشغول / مشغولة'],
+                ['Aquí', 'أكي', 'هنا'], ['Allí', 'أيّي', 'هناك'], ['En casa', 'إن كاسا', 'في البيت'],
+                ['Ahora', 'أورا', 'دلوقتي']
+            ],
+            [
+                ['A', 'Hola, yo soy Ana. ¿Y tú?', 'أهلًا، أنا آنا. وإنت؟'],
+                ['B', 'Yo soy Carlos. Soy estudiante.', 'أنا كارلوس. أنا طالب.'],
+                ['A', '¿Cómo estás, Carlos?', 'عامل إيه يا كارلوس؟'],
+                ['B', 'Estoy bien, pero estoy un poco cansado.', 'أنا كويس، بس تعبان شوية.'],
+                ['A', '¿Dónde estás ahora?', 'إنت فين دلوقتي؟'],
+                ['B', 'Estoy en casa. ¿Y tú?', 'أنا في البيت. وإنتِ؟'],
+                ['A', 'Estoy aquí, en la escuela.', 'أنا هنا، في المدرسة.'],
+                ['B', '¿Ellos son tus amigos?', 'هما أصحابك؟'],
+                ['A', 'Sí, ellos son Laura y Pablo. Nosotros somos amigos.', 'أيوه، هما لاورا وبابلو. إحنا أصحاب.'],
+                ['B', '¿Dónde están ellos?', 'هما فين؟'],
+                ['A', 'Están aquí conmigo.', 'هما هنا معايا.'],
+                ['B', 'Perfecto. ¡Hasta luego!', 'تمام. أشوفك بعدين!']
+            ],
+            [
+                ['ضمائر الفاعل', 'yo أنا، tú إنت، él هو، ella هي، usted حضرتك، nosotros إحنا، vosotros أنتم، ellos هم. في الإسبانية الفعل نفسه بيبيّن مين الفاعل، فغالبًا بنحذف الضمير: نقول Soy Ana بدل Yo soy Ana.', 'Soy Ana.'],
+                ['SER: التصريف', 'soy، eres، es، somos، sois، son. الترتيب: yo soy، tú eres، él / ella / usted es، nosotros somos، vosotros sois، ellos / ellas / ustedes son. الفعل ده من الأفعال الشاذة، فلازم تحفظه زي ما هو.', 'Ella es mi amiga.'],
+                ['SER: إمتى؟', 'نستخدم ser للاسم والهوية والجنسية والمهنة والصفات الثابتة، وكمان للأيام والساعة. الفكرة: ser يجاوب على سؤال «أنت إيه؟» أو «هو مين؟».', 'Ella es estudiante.'],
+                ['ESTAR: التصريف', 'estoy، estás، está، estamos، estáis، están. الترتيب: yo estoy، tú estás، él / ella / usted está، nosotros estamos، vosotros estáis، ellos / ellas / ustedes están. لاحظ علامة الضغط على estás وestáis وestá وestán، وestoy من غيرها.', 'Estamos en casa.'],
+                ['ESTAR: إمتى؟', 'نستخدم estar للمكان، وللحالة والمشاعر المؤقتة زي تعبان ومبسوط ومشغول. الفكرة: estar يجاوب على سؤال «فين؟» و«حالتك إيه دلوقتي؟».', 'Estoy cansado, pero estoy contento.'],
+                ['الفرق بين SER وESTAR', 'ser هو اللي إنت عليه، وestar هو اللي إنت فيه دلوقتي. Carlos طالب دايمًا فنقول es estudiante، لكن تعبان النهارده فنقول está cansado. وكمان ¿Cómo estás? معناها عامل إيه، أما ¿Cómo eres? فبتسأل عن شخصيتك وشكلك.', 'Carlos es estudiante, pero hoy está cansado.'],
+                ['تطابق الصفة بعد الفعل', 'الصفة اللي بعد ser وestar بتتغير حسب الفاعل: مذكر -o ومؤنث -a. نقول Él está cansado وElla está cansada. أما bien وmal فمبيتغيروش.', 'Ella está cansada.']
+            ],
+            [
+                ['إيه معنى «Ellos»؟', ['أنا', 'هم', 'نحن', 'هي'], 1],
+                ['اختار الصيغة الصحيحة: «Yo ___ Ana.»', ['eres', 'es', 'soy', 'son'], 2],
+                ['اختار الصيغة الصحيحة: «Tú ___ estudiante.»', ['eres', 'soy', 'somos', 'es'], 0],
+                ['اختار الصيغة الصحيحة: «Nosotros ___ amigos.»', ['son', 'somos', 'sois', 'estamos'], 1],
+                ['اختار الصيغة الصحيحة: «Yo ___ en casa.»', ['soy', 'estoy', 'está', 'estás'], 1],
+                ['اختار الصيغة الصحيحة: «Ellos ___ aquí.»', ['están', 'estamos', 'es', 'estás'], 0],
+                ['إزاي تسأل حد «حالتك إيه دلوقتي؟»', ['¿Cómo eres?', '¿Cómo estás?', '¿Cómo soy?', '¿Cómo son?'], 1],
+                ['أنهي جملة صح؟', ['Ella está cansada', 'Ella soy cansada', 'Ella estoy cansada', 'Ella son cansada'], 0],
+                ['«Usted» بيتصرف مع أنهي صيغة؟', ['soy', 'eres', 'es', 'somos'], 2],
+                ['نستخدم ser مع:', ['الاسم والهوية', 'مكان الشخص دلوقتي', 'حالة مؤقتة زي «تعبان»', 'ولا حاجة من دول'], 0],
+                ['إيه معنى «Estamos en casa»؟', ['إحنا أصحاب', 'هم في البيت', 'إحنا في البيت', 'أنا في البيت'], 2]
+            ]
+        ),
+        esLesson(
+            'u38', 'A1', 'الجنس والأدوات والجمع', 'El, la, los, las',
+            ['تعرف إن كل اسم مذكر أو مؤنث وتختار الأداة الصح.', 'تستخدم el/la/los/las وun/una/unos/unas.', 'تكوّن الجمع وتطابق الصفة مع الاسم.'],
+            [
+                ['El / La', 'إل / لا', 'ال (مذكر / مؤنث)'], ['Los / Las', 'لوس / لاس', 'ال (جمع)'],
+                ['Un / Una', 'أون / أونا', 'واحد (تنكير)'], ['Unos / Unas', 'أونوس / أوناس', 'شوية / بعض'],
+                ['Libro', 'ليبرو', 'كتاب'], ['Cuaderno', 'كوادرنو', 'كراسة'], ['Bolígrafo', 'بوليغرافو', 'قلم حبر'],
+                ['Lápiz', 'لابيث', 'قلم رصاص'], ['Mochila', 'موتشيلا', 'شنطة ضهر'], ['Mesa', 'ميسا', 'ترابيزة'],
+                ['Silla', 'سيّا', 'كرسي'], ['Puerta', 'بويرتا', 'باب'], ['Ventana', 'بينتانا', 'شباك'],
+                ['Chico / Chica', 'تشيكو / تشيكا', 'ولد / بنت'], ['Niño / Niña', 'نينيو / نينيا', 'طفل / طفلة'],
+                ['Profesor / Profesora', 'بروفيسور / بروفيسورا', 'مدرّس / مدرّسة'], ['Gato / Gata', 'جاتو / جاتا', 'قط / قطة'],
+                ['Hombre / Mujer', 'أومبري / موخير', 'راجل / ست'], ['Ciudad', 'ثيودادّ', 'مدينة'],
+                ['Día', 'دييا', 'يوم'], ['Mano', 'مانو', 'إيد'], ['Problema', 'بروبليما', 'مشكلة'],
+                ['Libros', 'ليبروس', 'كتب'], ['Ciudades', 'ثيودادس', 'مدن'], ['Lápices', 'لابيثيس', 'أقلام رصاص'],
+                ['Nuevo / Nueva', 'نويبو / نويبا', 'جديد / جديدة'],
+                ['¿Qué es esto?', 'كي إس إستو', 'إيه ده؟'], ['Esto es…', 'إستو إس', 'ده…']
+            ],
+            [
+                ['A', '¿Qué es esto?', 'إيه ده؟'],
+                ['B', 'Es un libro.', 'ده كتاب.'],
+                ['A', '¿Y esto?', 'وده؟'],
+                ['B', 'Es una mochila nueva.', 'دي شنطة ضهر جديدة.'],
+                ['A', '¿Los libros son nuevos?', 'الكتب جديدة؟'],
+                ['B', 'Sí, los libros son nuevos y las mochilas son nuevas.', 'أيوه، الكتب جديدة والشنط جديدة.'],
+                ['A', '¿Quién es la profesora?', 'مين المدرّسة؟'],
+                ['B', 'La profesora es Laura.', 'المدرّسة هي لاورا.'],
+                ['A', '¿Hay unos lápices en la mesa?', 'فيه شوية أقلام رصاص على الترابيزة؟'],
+                ['B', 'Sí, hay unos lápices y un bolígrafo.', 'أيوه، فيه شوية أقلام رصاص وقلم حبر.'],
+                ['A', '¿Y los chicos?', 'والأولاد؟'],
+                ['B', 'Los chicos están en la ciudad.', 'الأولاد في المدينة.']
+            ],
+            [
+                ['المذكر والمؤنث', 'كل اسم في الإسبانية مذكر أو مؤنث حتى الجماد. القاعدة العامة: الاسم اللي بينتهي بـ -o غالبًا مذكر، واللي بينتهي بـ -a غالبًا مؤنث. اتعوّد تحفظ الاسم مع أداته من الأول.', 'El libro y la mesa.'],
+                ['أدوات التعريف', 'el للمذكر المفرد، la للمؤنث المفرد، los للمذكر الجمع، las للمؤنث الجمع. بتتحط قبل الاسم وبتقابل «ال» في العربي.', 'Los libros están en la mesa.'],
+                ['أدوات التنكير', 'un للمذكر المفرد، una للمؤنث المفرد، unos وunas للجمع بمعنى «شوية» أو «بعض». بنستخدمها لما الشيء مش معروف أو أول مرة نذكره.', 'Tengo un cuaderno y una mochila.'],
+                ['تكوين الجمع', 'الاسم اللي بينتهي بحرف علة بنزوّد له -s: libro يبقى libros. واللي بينتهي بحرف ساكن بنزوّد له -es: ciudad يبقى ciudades. واللي بينتهي بـ z بنغيّرها لـ c ونزوّد es: lápiz يبقى lápices.', 'Hay dos ciudades.'],
+                ['استثناءات مشهورة', 'كلمة día مذكرة رغم إنها بتنتهي بـ -a، وكلمة problema كمان مذكرة. أما mano فمؤنثة رغم إنها بتنتهي بـ -o. احفظهم مع أداتهم: el día، el problema، la mano.', 'El problema es nuevo.'],
+                ['مذكر ومؤنث للأشخاص', 'غالبًا نغيّر النهاية: chico وchica، niño وniña، profesor وprofesora. وفي أسماء بتفضل زي ما هي للنوعين زي estudiante، والأداة هي اللي بتوضح النوع.', 'El chico y la chica son estudiantes.'],
+                ['تطابق الصفة', 'الصفة بتتوافق مع الاسم في النوع والعدد، وغالبًا بتيجي بعده: libro nuevo، mesa nueva، libros nuevos، mesas nuevas.', 'Las mochilas son nuevas.']
+            ],
+            [
+                ['إيه معنى «Ventana»؟', ['باب', 'ترابيزة', 'كرسي', 'شباك'], 3],
+                ['اختار الأداة الصح: ___ mesa', ['el', 'los', 'un', 'la'], 3],
+                ['اختار الأداة الصح: ___ libros', ['Los', 'Las', 'La', 'Una'], 0],
+                ['جمع «ciudad» هو:', ['Ciudades', 'Ciudads', 'Ciudaes', 'Ciudadas'], 0],
+                ['جمع «lápiz» هو:', ['Lápizes', 'Lápizs', 'Lápices', 'Lápiz'], 2],
+                ['أنهي جملة صح؟', ['Tengo una mochila', 'Tengo un mochila', 'Tengo unos mochila', 'Tengo el mochila'], 0],
+                ['أنهي كلمة مذكرة رغم إنها بتنتهي بـ -a؟', ['Mesa', 'Silla', 'Día', 'Puerta'], 2],
+                ['أنهي كلمة مؤنثة رغم إنها بتنتهي بـ -o؟', ['Libro', 'Mano', 'Chico', 'Cuaderno'], 1],
+                ['اختار الصفة الصح: «Las mochilas son ___»', ['nuevo', 'nueva', 'nuevos', 'nuevas'], 3],
+                ['اختار الصفة الصح: «El chico es ___»', ['nueva', 'nuevas', 'nuevos', 'nuevo'], 3],
+                ['إيه معنى «Unos lápices»؟', ['قلم رصاص واحد', 'شوية أقلام رصاص', 'الأقلام الرصاص', 'كل الأقلام'], 1],
+                ['مؤنث «profesor» هو:', ['Profesora', 'Profesoro', 'Profesores', 'Profesor'], 0]
+            ]
+        ),
+        esLesson(
+            'u39', 'A1', 'الأفعال المنتظمة والنفي والأسئلة', 'Hablo, como, vivo',
+            ['تصرّف الأفعال المنتظمة -ar/-er/-ir في المضارع.', 'تنفي الجملة بـ no.', 'تسأل بكلمات الاستفهام: qué, quién, dónde, cuándo, cómo, por qué.'],
+            [
+                ['Hablar', 'ابلار', 'يتكلم'], ['Estudiar', 'إستوديار', 'يذاكر / يدرس'], ['Trabajar', 'تراباخار', 'يشتغل'],
+                ['Comer', 'كومير', 'ياكل'], ['Beber', 'بيبير', 'يشرب'], ['Vivir', 'بيبير', 'يعيش'],
+                ['Escribir', 'إسكريبير', 'يكتب'], ['Leer', 'ليير', 'يقرأ'], ['Aprender', 'أبريندير', 'يتعلم'], ['Abrir', 'أبرير', 'يفتح'],
+                ['Hablo', 'أبلو', 'أنا بتكلم'], ['Como', 'كومو', 'أنا باكل'], ['Vivo', 'بيبو', 'أنا عايش'],
+                ['Trabajas', 'تراباخاس', 'إنت بتشتغل'], ['Estudia', 'إستوديا', 'هو / هي بيذاكر'],
+                ['Bebemos', 'بيبيموس', 'إحنا بنشرب'], ['Escriben', 'إسكريبين', 'هم بيكتبوا'],
+                ['No', 'نو', 'لأ / مش'], ['¿Qué?', 'كي', 'إيه؟'], ['¿Quién?', 'كيين', 'مين؟'], ['¿Dónde?', 'دوندي', 'فين؟'],
+                ['¿Cuándo?', 'كواندو', 'إمتى؟'], ['¿Cómo?', 'كومو', 'إزاي؟'], ['¿Por qué?', 'بور كي', 'ليه؟'],
+                ['Porque', 'بوركي', 'لأن'], ['¿Cuánto?', 'كوانتو', 'كام؟ / قد إيه؟'],
+                ['Español', 'إسبانيول', 'إسباني / اللغة الإسبانية'], ['Árabe', 'آرابي', 'عربي / اللغة العربية'], ['Inglés', 'إنغليس', 'إنجليزي / اللغة الإنجليزية'],
+                ['También', 'تامبيين', 'كمان'], ['Todos los días', 'توذوس لوس دياس', 'كل يوم'], ['Mucho', 'موتشو', 'كتير']
+            ],
+            [
+                ['A', '¿Hablas español?', 'بتتكلم إسباني؟'],
+                ['B', 'Sí, hablo un poco de español.', 'أيوه، بتكلم شوية إسباني.'],
+                ['A', '¿Dónde vives?', 'بتعيش فين؟'],
+                ['B', 'Vivo en El Cairo. ¿Y tú?', 'أنا عايش في القاهرة. وإنتِ؟'],
+                ['A', 'Vivo en Madrid. Trabajo en una escuela.', 'أنا عايشة في مدريد. وبشتغل في مدرسة.'],
+                ['B', '¿Qué estudias tú?', 'وإنتِ بتذاكري إيه؟'],
+                ['A', 'Estudio árabe todos los días.', 'بذاكر عربي كل يوم.'],
+                ['B', '¿Por qué estudias árabe?', 'ليه بتذاكري عربي؟'],
+                ['A', 'Porque mis amigos hablan árabe.', 'لأن أصحابي بيتكلموا عربي.'],
+                ['B', '¿Tus amigos no hablan español?', 'أصحابك مش بيتكلموا إسباني؟'],
+                ['A', 'Sí, hablan español, pero no hablan inglés.', 'أيوه، بيتكلموا إسباني، بس مش بيتكلموا إنجليزي.'],
+                ['B', '¡Qué bien!', 'حلو أوي!']
+            ],
+            [
+                ['المجموعات التلاتة', 'الفعل في الإسبانية بينتهي بواحدة من تلات نهايات: -ar زي hablar، و-er زي comer، و-ir زي vivir. النهاية دي بتحدد طريقة التصريف. وقبل التصريف بنسمّي الفعل «المصدر» (infinitivo).', 'Hablar, comer y vivir.'],
+                ['تصريف -AR', 'شيل -ar وزوّد: -o، -as، -a، -amos، -áis، -an. يعني hablo، hablas، habla، hablamos، habláis، hablan. وعلى نفس النمط: estudiar وtrabajar.', 'Hablamos español todos los días.'],
+                ['تصريف -ER', 'شيل -er وزوّد: -o، -es، -e، -emos، -éis، -en. يعني como، comes، come، comemos، coméis، comen. وعلى نفس النمط: beber وleer وaprender.', 'Como pan y bebo agua.'],
+                ['تصريف -IR', 'زي -er بالظبط إلا في nosotros وvosotros: vivo، vives، vive، vivimos، vivís، viven. وعلى نفس النمط: escribir وabrir. ولاحظ إن v وb بيتنطقوا زي بعض: vivir وbeber.', 'Vivimos en El Cairo.'],
+                ['النفي', 'بنحط no قبل الفعل مباشرة، ومفيش فعل مساعد. يعني Hablo inglés تبقى No hablo inglés، بنزوّد no قبل الفعل وخلاص.', 'No hablo inglés.'],
+                ['كلمات الاستفهام', 'qué إيه، quién مين، dónde فين، cuándo إمتى، cómo إزاي، cuánto كام، por qué ليه. كلها عليها علامة الضغط، وبنبدأ السؤال بـ ¿ وننهيه بـ ?. أما porque بمعنى «لأن» فبتتكتب كلمة واحدة من غير علامة.', '¿Por qué estudias español?'],
+                ['سؤال أيوه ولأ', 'بنحافظ على ترتيب الجملة العادية ونرفع الصوت في الآخر، ونحط علامتي الاستفهام. مفيش فعل مساعد زي do/does في الإنجليزي. والجواب بـ sí أو no.', '¿Trabajas en una escuela?']
+            ],
+            [
+                ['إيه معنى «Hablar»؟', ['يكتب', 'ياكل', 'يشرب', 'يتكلم'], 3],
+                ['اختار الصيغة الصحيحة: «Yo ___ español.»', ['habla', 'hablas', 'hablo', 'hablan'], 2],
+                ['اختار الصيغة الصحيحة: «Tú ___ en una escuela.»', ['trabajas', 'trabajo', 'trabaja', 'trabajamos'], 0],
+                ['اختار الصيغة الصحيحة: «Nosotros ___ pan.»', ['como', 'comen', 'come', 'comemos'], 3],
+                ['اختار الصيغة الصحيحة: «Ellos ___ en Madrid.»', ['vivo', 'vives', 'viven', 'vivimos'], 2],
+                ['إزاي تنفي «أنا بتكلم إنجليزي»؟', ['Hablo no inglés', 'No hablo inglés', 'Hablo inglés no', 'No hablar inglés'], 1],
+                ['إيه معنى «¿Dónde?»', ['إمتى؟', 'مين؟', 'ليه؟', 'فين؟'], 3],
+                ['إزاي تسأل «ليه؟»', ['¿Cuándo?', '¿Cómo?', '¿Por qué?', '¿Quién?'], 2],
+                ['إزاي تقول «لأن»؟', ['Porque', 'Por qué', 'Qué', 'Cuándo'], 0],
+                ['اختار التصريف الصح لـ «él» مع escribir:', ['escribo', 'escribes', 'escribe', 'escribís'], 2],
+                ['الفعل «beber» من أنهي مجموعة؟', ['-ar', '-er', '-ir', 'ولا واحدة'], 1],
+                ['إزاي تسأل «إنت بتذاكر إيه؟»', ['¿Dónde estudias?', '¿Qué estudias?', '¿Quién estudias?', '¿Cuándo estudias?'], 1]
+            ]
+        ),
+        esLesson(
+            'u40', 'A1', 'الجنسيات والمهن', 'Soy egipcio, soy médico',
+            ['تقول جنسيتك وبلدك: Soy egipcio / Soy de Egipto.', 'تسمّي مهن شائعة بالمذكر والمؤنث.', 'تسأل عن المهنة وتجاوب: ¿A qué te dedicas?'],
+            [
+                ['Egipto', 'إيخيبتو', 'مصر'], ['Egipcio / Egipcia', 'إيخيبثيو / إيخيبثيا', 'مصري / مصرية'],
+                ['España', 'إسبانيا', 'إسبانيا'], ['Español / Española', 'إسبانيول / إسبانيولا', 'إسباني / إسبانية'],
+                ['México', 'ميخيكو', 'المكسيك'], ['Mexicano / Mexicana', 'ميخيكانو / ميخيكانا', 'مكسيكي / مكسيكية'],
+                ['Marruecos', 'مارويكوس', 'المغرب'], ['Marroquí', 'ماروكي', 'مغربي / مغربية'],
+                ['Estados Unidos', 'إستادوس أونيدوس', 'أمريكا'], ['Estadounidense', 'إستادواونيدينسي', 'أمريكي / أمريكية'],
+                ['País', 'بايس', 'بلد'], ['Nacionalidad', 'ناثيوناليداد', 'جنسية'], ['Profesión', 'بروفيسيون', 'مهنة'],
+                ['Médico / Médica', 'ميديكو / ميديكا', 'دكتور / دكتورة'], ['Ingeniero / Ingeniera', 'إنخينييرو / إنخينييرا', 'مهندس / مهندسة'],
+                ['Enfermero / Enfermera', 'إنفيرميرو / إنفيرميرا', 'ممرض / ممرضة'], ['Abogado / Abogada', 'أبوغادو / أبوغادا', 'محامي / محامية'],
+                ['Cocinero / Cocinera', 'كوثينيرو / كوثينيرا', 'طباخ / طباخة'], ['Conductor / Conductora', 'كوندوكتور / كوندوكتورا', 'سواق / سواقة'],
+                ['Arquitecto / Arquitecta', 'أركيتكتو / أركيتكتا', 'مهندس معماري / مهندسة معمارية'],
+                ['Escritor / Escritora', 'إسكريتور / إسكريتورا', 'كاتب / كاتبة'], ['Periodista', 'بيريوديستا', 'صحفي / صحفية'],
+                ['Dentista', 'دينتيستا', 'دكتور أسنان / دكتورة أسنان'], ['Compañero / Compañera', 'كومبانييرو / كومبانييرا', 'زميل / زميلة'],
+                ['Hospital', 'أوسبيتال', 'مستشفى'], ['Empresa', 'إمبريسا', 'شركة'], ['Oficina', 'أوفيثينا', 'مكتب'],
+                ['Restaurante', 'ريستاورانتي', 'مطعم'], ['Trabajo como…', 'تراباخو كومو', 'بشتغل كـ…'],
+                ['¿A qué te dedicas?', 'أ كي تي ديديكاس', 'بتشتغل إيه؟'], ['Muy', 'موي', 'جدًا']
+            ],
+            [
+                ['A', '¿De dónde eres, Carlos?', 'إنت منين يا كارلوس؟'],
+                ['B', 'Soy mexicano, pero vivo en España.', 'أنا مكسيكي، بس عايش في إسبانيا.'],
+                ['A', '¿Y tu amiga Laura?', 'وصاحبتك لاورا؟'],
+                ['B', 'Laura es egipcia. Es de El Cairo.', 'لاورا مصرية. هي من القاهرة.'],
+                ['A', '¿A qué te dedicas?', 'بتشتغل إيه؟'],
+                ['B', 'Soy ingeniero. Trabajo en una empresa. ¿Y tú?', 'أنا مهندس. وبشتغل في شركة. وإنتِ؟'],
+                ['A', 'Yo soy médica. Trabajo en un hospital.', 'أنا دكتورة. وبشتغل في مستشفى.'],
+                ['B', '¿Y tus compañeros?', 'وزمايلك؟'],
+                ['A', 'Mi compañero es marroquí y mi compañera es española.', 'زميلي مغربي وزميلتي إسبانية.'],
+                ['B', '¿Son médicos también?', 'هما دكاترة كمان؟'],
+                ['A', 'Él es dentista y ella es enfermera.', 'هو دكتور أسنان وهي ممرضة.'],
+                ['B', 'Ustedes trabajan mucho.', 'إنتوا بتشتغلوا كتير.']
+            ],
+            [
+                ['الجنسية مع SER', 'بنقول الجنسية بعد ser: Soy egipcio لو الفاعل مذكر، وSoy egipcia لو مؤنث. والجنسية في الإسبانية صفة، فبتتطابق مع النوع.', 'Soy egipcio.'],
+                ['تغيير النهاية', 'الجنسية اللي بتنتهي بـ -o بنغيّرها لـ -a للمؤنث: egipcio وegipcia، mexicano وmexicana. واللي بتنتهي بحرف ساكن زي español بنزوّد لها -a: española.', 'Ella es española.'],
+                ['جنسيات ما بتتغيرش', 'الجنسية اللي بتنتهي بـ -í أو -e شكلها واحد للمذكر والمؤنث: marroquí وestadounidense. والأداة أو سياق الجملة هو اللي يبيّن النوع.', 'Ella es marroquí y él es estadounidense.'],
+                ['SOY DE وSOY', 'Soy de + البلد معناها «أنا من البلد». وSoy + الجنسية معناها «أنا مصري». والسؤال ¿De dónde eres? بتتجاوب بالاتنين.', 'Soy de Egipto.'],
+                ['المهن', 'المهن بتتصرف زي الجنسيات: médico وmédica، ingeniero وingeniera. واللي بتنتهي بـ -ista ما بتتغيرش: periodista وdentista. وبعد ser مع المهنة مبنحطش un أو una: بنقول Soy médico مش Soy un médico.', 'Soy ingeniero.'],
+                ['السؤال عن المهنة', '¿A qué te dedicas? معناها بتشتغل إيه؟ والجواب إما Soy + المهنة أو Trabajo como + المهنة، ولو عايز تقول مكان الشغل بنقول Trabajo en + المكان.', 'Trabajo en un hospital.'],
+                ['جمع الجنسيات والمهن', 'بنزوّد -s بعد حرف العلة: egipcios وingenieros وperiodistas. وبعد الحرف الساكن بنزوّد -es: español يبقى españoles. وبعد -í بنزوّد -es: marroquí يبقى marroquíes.', 'Somos españoles y ellos son marroquíes.']
+            ],
+            [
+                ['إيه معنى «Médico»؟', ['مهندس', 'محامي', 'طباخ', 'دكتور'], 3],
+                ['مؤنث «egipcio» هو:', ['Egipcia', 'Egipcio', 'Egipcias', 'Egipcios'], 0],
+                ['مؤنث «español» هو:', ['Españolo', 'Español', 'Española', 'Españoles'], 2],
+                ['أنهي جنسية بتفضل زي ما هي للمذكر والمؤنث؟', ['Mexicano', 'Marroquí', 'Ingeniero', 'Español'], 1],
+                ['اختار الصح: «Ella es ___»', ['estadounidenso', 'estadounidensa', 'estadounidense', 'estadounidensas'], 2],
+                ['إزاي تقول «أنا من مصر»؟', ['Soy egipcio de', 'Soy de Egipto', 'Estoy Egipto', 'Tengo Egipto'], 1],
+                ['إزاي تقول «أنا مصري»؟', ['Soy egipcio', 'Soy Egipto', 'Estoy egipcio', 'Soy de egipcio'], 0],
+                ['أنهي جملة صح للمهنة؟', ['Soy un médico', 'Estoy médico', 'Soy médico', 'Tengo médico'], 2],
+                ['إيه معنى «¿A qué te dedicas?»', ['إنت منين؟', 'بتشتغل إيه؟', 'عندك كام سنة؟', 'عايش فين؟'], 1],
+                ['جمع «marroquí» هو:', ['Marroquís', 'Marroquies', 'Marroquíes', 'Marroquíos'], 2],
+                ['اختار الصح: «Mi compañera es ___»', ['española', 'español', 'españoles', 'españolas'], 0],
+                ['إزاي تقول «بشتغل في مستشفى»؟', ['Trabajo a un hospital', 'Trabajo en un hospital', 'Trabajo por hospital', 'Trabajo de un hospital'], 1]
+            ]
+        ),
+        esLesson(
+            'u41', 'A1', 'الألوان والصفات', 'Rojo, grande, bonito',
+            ['تسمّي الألوان وتسأل: ¿De qué color es?', 'تصف الأشخاص والأشياء بصفات شائعة.', 'تطابق الصفة مع الاسم في النوع والعدد.'],
+            [
+                ['Rojo / Roja', 'روخو / روخا', 'أحمر / حمرا'], ['Azul', 'أثول', 'أزرق'], ['Verde', 'بيردي', 'أخضر'],
+                ['Amarillo / Amarilla', 'أماريّو / أماريّا', 'أصفر / صفرا'], ['Negro / Negra', 'نيغرو / نيغرا', 'أسود / سودا'],
+                ['Blanco / Blanca', 'بلانكو / بلانكا', 'أبيض / بيضا'], ['Gris', 'غريس', 'رمادي'], ['Marrón', 'مارون', 'بني'],
+                ['Color', 'كولور', 'لون'], ['¿De qué color es?', 'دي كي كولور إس', 'لونه إيه؟'], ['¿Cómo es?', 'كومو إس', 'شكله إيه؟ / عامل إزاي؟'],
+                ['Grande', 'غراندي', 'كبير'], ['Pequeño / Pequeña', 'بيكينيو / بيكينيا', 'صغير / صغيرة'],
+                ['Alto / Alta', 'ألتو / ألتا', 'طويل / طويلة'], ['Bajo / Baja', 'باخو / باخا', 'قصير / قصيرة'],
+                ['Bonito / Bonita', 'بونيتو / بونيتا', 'حلو / حلوة'], ['Feo / Fea', 'فيو / فيا', 'وحش / وحشة'],
+                ['Simpático / Simpática', 'سيمباتيكو / سيمباتيكا', 'ظريف / ظريفة'], ['Bueno / Buena', 'بوينو / بوينا', 'كويس / كويسة'],
+                ['Malo / Mala', 'مالو / مالا', 'وحش / سيئ'], ['Viejo / Vieja', 'بييخو / بييخا', 'قديم / عجوز'], ['Joven', 'خوبين', 'شاب / صغير في السن'],
+                ['Fácil', 'فاثيل', 'سهل'], ['Difícil', 'ديفيثيل', 'صعب'], ['Interesante', 'إنتيريسانتي', 'مثير للاهتمام'],
+                ['Caro / Cara', 'كارو / كارا', 'غالي / غالية'], ['Barato / Barata', 'باراتو / باراتا', 'رخيص / رخيصة'],
+                ['Coche', 'كوتشي', 'عربية'], ['Camisa', 'كاميسا', 'قميص'], ['Pero', 'بيرو', 'بس / لكن'], ['Un poco', 'أون بوكو', 'شوية']
+            ],
+            [
+                ['A', 'Tengo un coche nuevo.', 'عندي عربية جديدة.'],
+                ['B', '¿De qué color es?', 'لونها إيه؟'],
+                ['A', 'Es rojo y negro. Es muy bonito.', 'أحمر وأسود. وحلوة أوي.'],
+                ['B', '¿Es grande o pequeño?', 'كبيرة ولا صغيرة؟'],
+                ['A', 'Es pequeño, pero no es caro.', 'صغيرة، بس مش غالية.'],
+                ['B', '¿Y tu casa? ¿Cómo es?', 'وبيتك؟ شكله إيه؟'],
+                ['A', 'Mi casa es vieja, pero es muy bonita.', 'بيتي قديم، بس حلو أوي.'],
+                ['B', '¿Y tu profesor? ¿Cómo es?', 'وأستاذك؟ شكله إيه؟'],
+                ['A', 'Mi profesor es alto y simpático. Es un poco viejo.', 'أستاذي طويل وظريف. وكبير في السن شوية.'],
+                ['B', 'Mi profesora es baja, joven y muy buena.', 'مدرّستي قصيرة وشابة وكويسة جدًا.'],
+                ['A', '¿Tu profesora es española?', 'مدرّستك إسبانية؟'],
+                ['B', 'No, es mexicana.', 'لأ، مكسيكية.']
+            ],
+            [
+                ['مكان الصفة', 'الصفة غالبًا بتيجي بعد الاسم زي العربي بالظبط: un coche rojo يعني عربية حمرا. ومش بتتحط قبله زي الإنجليزي.', 'Tengo un coche rojo.'],
+                ['تطابق النوع', 'الصفة اللي بتنتهي بـ -o بتبقى -a مع المؤنث: rojo وroja، blanco وblanca، pequeño وpequeña. يعني الصفة بتمشي مع نوع الاسم اللي قبلها.', 'La casa es blanca.'],
+                ['صفات شكلها واحد', 'صفات كتير ما بتتغيرش بين المذكر والمؤنث، زي: grande وverde وazul وgris وmarrón وjoven وfácil وdifícil وinteresante. مفيش فيها -o ولا -a.', 'La mesa es azul y el libro es verde.'],
+                ['تطابق العدد', 'مع الجمع بنزوّد -s بعد حرف العلة: rojos. وبنزوّد -es بعد الحرف الساكن: azul يبقى azules، وfácil يبقى fáciles. وjoven بتبقى jóvenes، بتزيد لها علامة الضغط.', 'Los coches son azules.'],
+                ['SER للوصف', 'بنستخدم ser مع اللون والحجم والشكل والصفات الثابتة. وسؤال الوصف هو ¿Cómo es? وسؤال اللون هو ¿De qué color es? بتتجاوب بـ Es + الصفة.', '¿De qué color es tu coche?'],
+                ['SER وESTAR مع الصفات', 'ser للصفة اللي بتوصف الشخص أو الحاجة نفسها، وestar للحالة المؤقتة. مدرّسك ظريف بطبعه فنقول es simpático، وتعبان النهارده فنقول está cansado.', 'Mi profesor es simpático, pero hoy está cansado.'],
+                ['MUY وUN POCO', 'muy بمعنى «جدًا» وun poco بمعنى «شوية»، وبيتحطوا قبل الصفة. وما بيتغيروش مع النوع أو العدد: muy bonita وmuy bonitos.', 'La casa es muy bonita.']
+            ],
+            [
+                ['إيه معنى «Azul»؟', ['أخضر', 'أصفر', 'أزرق', 'رمادي'], 2],
+                ['مؤنث «blanco» هو:', ['Blanca', 'Blanco', 'Blancas', 'Blancos'], 0],
+                ['اختار الصح: «La casa es ___»', ['pequeño', 'pequeñas', 'pequeños', 'pequeña'], 3],
+                ['أنهي صفة بتفضل زي ما هي للمذكر والمؤنث؟', ['Alto', 'Verde', 'Bonito', 'Pequeño'], 1],
+                ['جمع «azul» هو:', ['Azules', 'Azuls', 'Azulos', 'Azul'], 0],
+                ['جمع «joven» هو:', ['Jovens', 'Jóvenes', 'Jovenes', 'Jovenas'], 1],
+                ['إيه معنى «¿De qué color es?»', ['بتشتغل إيه؟', 'فين؟', 'لونه إيه؟', 'إمتى؟'], 2],
+                ['اختار الصح: «Los coches son ___»', ['rojo', 'rojas', 'roja', 'rojos'], 3],
+                ['إزاي تقول عن البيت «حلو أوي»؟', ['Muy bonito', 'Muy bonita', 'Mucho bonita', 'Muy bonitas'], 1],
+                ['إيه معنى «Barato»؟', ['غالي', 'كبير', 'رخيص', 'قديم'], 2],
+                ['أنهي جملة صح؟', ['Mi profesor es alto y simpático', 'Mi profesor es alta y simpático', 'Mi profesor está alto y simpática', 'Mi profesor son alto y simpático'], 0],
+                ['إزاي تسأل عن وصف حد؟', ['¿Dónde es?', '¿Cuándo es?', '¿Quién es?', '¿Cómo es?'], 3]
+            ]
+        ),
+        esLesson(
+            'u42', 'A1', 'الهوايات وفعل gustar', 'Me gusta...',
+            ['تقول إيه اللي بتحبه وإيه اللي ما بتحبوش: Me gusta... / No me gusta...', 'تفرّق بين gusta وgustan حسب الحاجة اللي بتحبها.', 'تتكلم عن هواياتك ووقت فراغك وتسأل غيرك: ¿Y a ti?'],
+            [
+                ['Me gusta', 'مي غوستا', 'بحب / بيعجبني'], ['Me gustan', 'مي غوستان', 'بحب / بيعجبوني (جمع)'],
+                ['Te gusta', 'تي غوستا', 'بتحب / بيعجبك'], ['Le gusta', 'لي غوستا', 'بيحب / بتحب (هو / هي)'],
+                ['Nos gusta', 'نوس غوستا', 'بنحب / بيعجبنا'], ['Les gusta', 'ليس غوستا', 'بيحبوا / بيعجبهم'],
+                ['No me gusta', 'نو مي غوستا', 'ما بحبش'], ['Me encanta', 'مي إنكانتا', 'بموت فيه / بحبه جدًا'],
+                ['Hacer', 'أثير', 'يعمل'], ['Nadar', 'ناذار', 'يسبح'], ['Correr', 'كورير', 'يجري'], ['Bailar', 'بايلار', 'يرقص'],
+                ['Cantar', 'كانتار', 'يغني'], ['Cocinar', 'كوثينار', 'يطبخ'], ['Viajar', 'بياخار', 'يسافر'],
+                ['Dibujar', 'ديبوخار', 'يرسم'], ['Escuchar', 'إسكوتشار', 'يسمع'], ['Jugar', 'خوغار', 'يلعب'],
+                ['Música', 'موسيكا', 'موسيقى'], ['Fútbol', 'فوتبول', 'كورة قدم'], ['Deporte', 'ديبورتي', 'رياضة'],
+                ['Película', 'بيليكولا', 'فيلم'], ['Cine', 'ثيني', 'سينما'], ['Playa', 'بلايا', 'شاطئ'],
+                ['Pasatiempo', 'باساتييمبو', 'هواية'], ['Tiempo libre', 'تييمبو ليبري', 'وقت الفراغ'], ['Fin de semana', 'فين دي سيمانا', 'نهاية الأسبوع'],
+                ['Siempre', 'سييمبري', 'دايمًا'], ['A veces', 'أ بيثيس', 'أحيانًا'], ['Nunca', 'نونكا', 'أبدًا'],
+                ['¿Y a ti?', 'إي أ تي', 'وإنت؟'], ['A mí también', 'أ مي تامبيين', 'وأنا كمان'], ['A mí tampoco', 'أ مي تامبوكو', 'وأنا كمان لأ']
+            ],
+            [
+                ['A', '¿Qué te gusta hacer en tu tiempo libre?', 'بتحب تعمل إيه في وقت فراغك؟'],
+                ['B', 'Me gusta nadar y correr. Me encanta el fútbol.', 'بحب أسبح وأجري. وبموت في الكورة.'],
+                ['A', '¿Juegas al fútbol?', 'بتلعب كورة؟'],
+                ['B', 'Sí, juego los fines de semana.', 'أيوه، بلعب في الإجازة الأسبوعية.'],
+                ['A', 'A mí no me gusta el fútbol, pero me gusta bailar.', 'أنا مش بحب الكورة، بس بحب الرقص.'],
+                ['B', '¿Y qué música te gusta?', 'وبتحبي أنهي موسيقى؟'],
+                ['A', 'Me gusta la música española. ¿Y a ti?', 'بحب الموسيقى الإسبانية. وإنت؟'],
+                ['B', 'Me gusta la música árabe y cantar con mis amigos.', 'بحب الموسيقى العربية وإني أغني مع أصحابي.'],
+                ['A', 'A mí también me gusta cantar.', 'وأنا كمان بحب الغنا.'],
+                ['B', '¿Te gustan las películas?', 'بتحبي الأفلام؟'],
+                ['A', 'Sí, me gustan mucho. ¿Y a ti?', 'أيوه، بحبها أوي. وإنت؟'],
+                ['B', 'A mí también. ¡Nos gustan muchas cosas!', 'وأنا كمان. إحنا بنحب حاجات كتير!']
+            ],
+            [
+                ['ME GUSTA + مفرد أو فعل', 'gustar معناه «يعجب»، فالجملة بتتبني بالعكس: الحاجة هي اللي بتعجبك. بنقول me gusta لما اللي بتحبه مفرد (el fútbol) أو فعل (nadar). يعني Me gusta nadar معناها «السباحة بتعجبني».', 'Me gusta nadar.'],
+                ['ME GUSTAN + جمع', 'لو اللي بتحبه جمع بنقول me gustan: Me gustan las películas. الفعل بيتغير حسب الحاجة المحبوبة، مش حسب الشخص اللي بيحب.', 'Me gustan las películas.'],
+                ['الضمائر مع GUSTAR', 'me أنا، te إنت، le هو / هي / حضرتك، nos إحنا، os أنتم، les هم. وممكن نقدّم الجملة بـ a mí وa ti وa él وa ella وa nosotros وa ellos للتأكيد: A ella le gusta cantar.', 'A ella le gusta cantar.'],
+                ['النفي وME ENCANTA', 'بنحط no قبل الضمير: No me gusta el fútbol. وme encanta معناها بتحب الحاجة جدًا، وبتتصرف زي gustar: me encanta للمفرد وme encantan للجمع.', 'No me gusta correr, pero me encanta nadar.'],
+                ['A MÍ TAMBIÉN وA MÍ TAMPOCO', 'لما حد يقول إنه بيحب حاجة وإنت كمان بتحبها بتقول a mí también. ولما يقول إنه ما بيحبش وإنت كمان ما بتحبش بتقول a mí tampoco. وبنسأل غيرنا بـ ¿Y a ti?', 'A mí también me gusta cantar.'],
+                ['JUGAR', 'الفعل jugar بيتصرف: juego، juegas، juega، jugamos، jugáis، juegan. الـ u بتبقى ue ما عدا nosotros وvosotros. وبعده بنقول a: jugar al fútbol، وa + el بتبقى al.', 'Juego al fútbol los fines de semana.'],
+                ['كلمات التكرار', 'siempre دايمًا، a veces أحيانًا، nunca أبدًا، وبتيجي غالبًا قبل الفعل. وlos fines de semana معناها كل ويك إند، وفيها los علشان نعبّر عن التكرار.', 'A veces cocino en casa.']
+            ],
+            [
+                ['إيه معنى «Me gusta nadar»؟', ['بتحب تسبح', 'مش بحب أسبح', 'بحب أسبح', 'بسبح كل يوم'], 2],
+                ['اختار الصح: «Me ___ la música.»', ['gusto', 'gustas', 'gusta', 'gustan'], 2],
+                ['اختار الصح: «Me ___ las películas.»', ['gusta', 'gustan', 'gustas', 'gusto'], 1],
+                ['اختار الصح: «A ella ___ gusta cantar.»', ['me', 'te', 'le', 'les'], 2],
+                ['اختار الصح: «A nosotros ___ gusta bailar.»', ['nos', 'os', 'les', 'te'], 0],
+                ['إزاي تقول «ما بحبش الكورة»؟', ['Me no gusta el fútbol', 'Me gusta no el fútbol', 'No gusta el fútbol', 'No me gusta el fútbol'], 3],
+                ['أنهي جملة بتعبّر عن حب أقوى؟', ['Me gusta poco bailar', 'No me gusta bailar', 'Nunca bailo', 'Me encanta bailar'], 3],
+                ['«Me gusta cantar.» — رد: «A mí ___.»', ['siempre', 'nunca', 'tampoco', 'también'], 3],
+                ['«No me gusta correr.» — رد: «A mí ___.»', ['también', 'tampoco', 'siempre', 'nunca'], 1],
+                ['تصريف «jugar» مع yo:', ['jugo', 'jugas', 'jueguo', 'juego'], 3],
+                ['اختار الصح: «Juego ___ fútbol.»', ['en', 'a', 'al', 'el'], 2],
+                ['إيه معنى «A veces»؟', ['دايمًا', 'أبدًا', 'أحيانًا', 'كل يوم'], 2]
+            ]
+        ),
         esLesson(
             'u3', 'A1', 'العيلة والأصدقاء', 'Mi familia',
             ['تسمي أفراد العيلة والأصدقاء.', 'تسأل عن شخص وتعرّف أفراد أسرتك.', 'تستخدم صفات الملكية البسيطة.'],
@@ -1599,6 +1932,195 @@ var spanishQuizExpansion = {
     u36: [['«Muletilla» تعني:', ['كلمة حشو متكررة', 'دليل مستقل', 'وجهة نظر', 'بند اتفاق'], 0], ['نسيان كلمة أثناء الحديث يمكن علاجه بـ:', ['وصفها بكلمات أخرى ومواصلة الكلام', 'التوقف عن الحديث', 'اختراع مصطلح', 'تغيير الموضوع دائمًا'], 0]]
 };
 
+/* ---------- تقوية وحدات A1 الأصلية (u1–u6): مفردات وحوار وملاحظات وأسئلة إضافية، + الأرقام 21–99 والأسعار في u2 ---------- */
+var spanishA1Boost = {
+    u1: {
+        w: [
+            ['Buenas', 'بوينّاس', 'أهلًا (تحية سريعة)'], ['Hasta mañana', 'أستا مانيانا', 'أشوفك بكرة'], ['Hasta pronto', 'أستا برونتو', 'أشوفك قريب'],
+            ['Perdón', 'بيردون', 'آسف / عفوًا'], ['Lo siento', 'لو سيينتو', 'أنا آسف'], ['Disculpe', 'ديسكولبي', 'لو سمحت (رسمي)'],
+            ['Con permiso', 'كون بيرميسو', 'بعد إذنك'], ['Sí', 'سي', 'أيوه'], ['No', 'نو', 'لأ'],
+            ['Señor', 'سينيور', 'أستاذ / سيد'], ['Señora', 'سينيورا', 'مدام / سيدة'],
+            ['Nombre', 'نومبري', 'اسم'], ['Apellido', 'أبيّيدو', 'اسم العيلة'], ['¿Cómo te llamas?', 'كومو تي يّاماس', 'اسمك إيه؟'],
+            ['Estoy bien', 'إستوي بيين', 'أنا كويس'], ['Así así', 'أسي أسي', 'نص ونص']
+        ],
+        d: [
+            ['A', '¿Y tu apellido?', 'واسم عيلتك؟'],
+            ['B', 'Mi apellido es García.', 'اسم عيلتي غارسيا.'],
+            ['A', 'Gracias, Carlos. Hasta mañana.', 'شكرًا يا كارلوس. أشوفك بكرة.'],
+            ['B', 'Hasta pronto, Ana. ¡Adiós!', 'أشوفك قريب يا آنا. مع السلامة!']
+        ],
+        n: [
+            ['TÚ O USTED', 'tú مع الأصحاب والصغار، وusted مع الكبار وفي المواقف الرسمية. ومع usted الفعل بيتصرف زي él: ¿Cómo estás? للصديق، و¿Cómo está usted? لشخص كبير أو مدير.', '¿Cómo está usted?'],
+            ['SEÑOR / SEÑORA', 'بنستخدم señor للراجل وseñora للست قبل الاسم للاحترام: señor García. وبنكتبهم بحرف صغير إلا في أول الجملة.', 'Buenos días, señora García.'],
+            ['PERDÓN / LO SIENTO / CON PERMISO', 'perdón وdisculpe للتنبيه أو لو سمحت. وlo siento لما تتأسف بجد. وcon permiso لما تعدّي من حد أو تطلب تدخل.', 'Disculpe, señor.']
+        ],
+        q: [
+            ['إيه معنى «Hasta mañana»؟', ['أشوفك قريب', 'مع السلامة', 'أشوفك بكرة', 'صباح الخير'], 2],
+            ['إزاي تقول «أنا آسف»؟', ['De nada', 'Lo siento', 'Por favor', 'Igualmente'], 1],
+            ['«Señora» بتتقال مع:', ['راجل', 'طفل صغير', 'ست', 'صديق عمرك'], 2],
+            ['مع شخص كبير أو في موقف رسمي بنقول:', ['¿Cómo estás?', '¿Cómo está usted?', '¿Qué tal?', 'Hola, amigo'], 1],
+            ['«Apellido» معناها:', ['اسم العيلة', 'الاسم الأول', 'العنوان', 'العمر'], 0],
+            ['إيه معنى «Así así»؟', ['كويس جدًا', 'وحش جدًا', 'تمام', 'نص ونص'], 3]
+        ]
+    },
+    u2: {
+        w: [
+            ['Trece', 'تريثي', '13 • تلاتاشر'], ['Catorce', 'كاتورثي', '14 • أربعتاشر'], ['Dieciséis', 'دييثيسيس', '16 • ستاشر'],
+            ['Diecisiete', 'دييثيسييتي', '17 • سبعتاشر'], ['Dieciocho', 'دييثيأوتشو', '18 • تمنتاشر'], ['Diecinueve', 'دييثينويبي', '19 • تسعتاشر'],
+            ['Veintiuno', 'بينتيأونو', '21 • واحد وعشرين'], ['Veintidós', 'بينتيدوس', '22 • اتنين وعشرين'], ['Veinticinco', 'بينتيثينكو', '25 • خمسة وعشرين'],
+            ['Treinta y cinco', 'ترينتا إي ثينكو', '35 • خمسة وتلاتين'], ['Cuarenta', 'كوارينتا', '40 • أربعين'], ['Cincuenta', 'ثينكوينتا', '50 • خمسين'],
+            ['Sesenta', 'سيسينتا', '60 • ستين'], ['Setenta', 'سيتينتا', '70 • سبعين'], ['Ochenta', 'أوتشينتا', '80 • تمانين'], ['Noventa', 'نوبينتا', '90 • تسعين'],
+            ['Noventa y nueve', 'نوبينتا إي نويبي', '99 • تسعة وتسعين'], ['Mil', 'ميل', '1000 • ألف'],
+            ['Número', 'نوميرو', 'رقم'], ['Teléfono', 'تيليفونو', 'تليفون'],
+            ['Euro', 'أويرو', 'يورو'], ['Céntimo', 'ثينتيمو', 'سنت'], ['Precio', 'بريثيو', 'سعر'], ['Dinero', 'دينيرو', 'فلوس'],
+            ['¿Cuánto cuesta?', 'كوانتو كويستا', 'بكام؟ (مفرد)'], ['Cuesta… euros', 'كويستا أويروس', 'سعره… يورو'],
+            ['¿Cuánto cuestan?', 'كوانتو كويستان', 'بكام؟ (جمع)'], ['Cuestan… euros', 'كويستان أويروس', 'سعرهم… يورو'],
+            ['Pagar', 'باغار', 'يدفع'], ['Efectivo', 'إيفيكتيبو', 'كاش'], ['Tarjeta', 'تارخيتا', 'كارت']
+        ],
+        d: [
+            ['A', '¿Cuánto cuesta el cuaderno?', 'الكراسة بكام؟'],
+            ['B', 'Cuesta tres euros con cincuenta.', 'بتكلّف تلات يورو ونص.'],
+            ['A', '¿Y los libros? ¿Cuánto cuestan?', 'والكتب؟ بكام؟'],
+            ['B', 'Cuestan veinticinco euros. Son un poco caros.', 'بخمسة وعشرين يورو. غالية شوية.']
+        ],
+        n: [
+            ['من 21 لـ 29', 'من 21 لـ 29 الرقم بيتكتب كلمة واحدة: veintiuno، veintidós، veintitrés... veintinueve. لاحظ علامة الضغط في veintidós وveintitrés وveintiséis. وveintiuno بتبقى veintiún قبل الاسم المذكر: veintiún libros.', 'Tengo veinticinco años.'],
+            ['من 31 لـ 99', 'من 31 لحد 99 بنقول العشرات + y + الآحاد، ككلمات منفصلة: treinta y uno، cuarenta y dos، noventa y nueve. والعشرات: treinta، cuarenta، cincuenta، sesenta، setenta، ochenta، noventa.', 'Cuarenta y dos.'],
+            ['100 وما بعدها', 'cien لما الرقم 100 بالظبط، وciento لما يتبعه رقم: ciento uno، ciento veinte. وmil معناها 1000 وما بتتغيرش: dos mil.', 'Tengo ciento veinte libros.'],
+            ['الأسعار', 'بنسأل ¿Cuánto cuesta? للمفرد، و¿Cuánto cuestan? للجمع. والجواب Cuesta... أو Cuestan... + الرقم + euros. ولو فيه سنتات بنقول con: tres euros con cincuenta.', 'Cuesta tres euros.'],
+            ['رقم التليفون', 'رقم التليفون بيتقال رقم رقم أو أزواج. والسؤال ¿Cuál es tu número de teléfono? والجواب Mi teléfono es... وبعده الأرقام.', 'Mi teléfono es seis, uno, dos, tres.']
+        ],
+        q: [
+            ['إزاي تقول 21؟', ['Veinte y uno', 'Veintiuno', 'Dos y diez', 'Veintiúno'], 1],
+            ['«Cuarenta» تساوي:', ['14', '4', '400', '40'], 3],
+            ['إزاي تقول 35؟', ['Treinta cinco', 'Cinco y treinta', 'Treinta y cinco', 'Treintaicinco'], 2],
+            ['«Noventa y nueve» تساوي:', ['99', '90', '19', '909'], 0],
+            ['إيه معنى «¿Cuánto cuesta?»', ['بتشتغل إيه؟', 'عندك كام سنة؟', 'فين؟', 'بكام؟'], 3],
+            ['إزاي تقول «سعره خمسة يورو»؟', ['Cuestan cinco euro', 'Cuesta cinco euros', 'Tiene cinco euros', 'Es cinco euros'], 1],
+            ['الفرق بين «cien» و«ciento»:', ['نفس المعنى تمامًا', 'ciento للأسعار بس', 'cien لوحدها، وciento قبل رقم تاني', 'cien للأرقام الصغيرة'], 2],
+            ['الرقم 16 بالإسباني:', ['Dieciséis', 'Dieciseis', 'Diezseis', 'Seisdiez'], 0]
+        ]
+    },
+    u3: {
+        w: [
+            ['Familia', 'فاميليا', 'عيلة'], ['Esposo / Esposa', 'إسبوسو / إسبوسا', 'زوج / زوجة'], ['Hermanos', 'إرمانوس', 'إخوات (ذكور وإناث)'],
+            ['Abuelos', 'أبويلوس', 'الجد والجدة'], ['Hijos', 'إيخوس', 'أولاد'], ['Nieto / Nieta', 'نييتو / نييتا', 'حفيد / حفيدة'],
+            ['Sobrino / Sobrina', 'سوبرينو / سوبرينا', 'ابن / بنت الأخ أو الأخت'], ['Vecino / Vecina', 'بيثينو / بيثينا', 'جار / جارة'],
+            ['Bebé', 'بيبي', 'رضيع'], ['Mayor', 'مايور', 'أكبر / كبير في السن'], ['Menor', 'مينور', 'أصغر'],
+            ['Soltero / Soltera', 'سولتيرو / سولتيرا', 'أعزب / عزباء'], ['Casado / Casada', 'كاسادو / كاسادا', 'متجوز / متجوزة'],
+            ['Tiene', 'تييني', 'عنده / عندها'], ['Nuestro / Nuestra', 'نويسترو / نويسترا', 'بتاعنا'], ['Su / Sus', 'سو / سوس', 'بتاعه / بتاعها / بتاعهم']
+        ],
+        d: [
+            ['A', '¿Tu hermano está casado?', 'أخوك متجوز؟'],
+            ['B', 'No, mi hermano es soltero, pero mi hermana está casada.', 'لأ، أخويا أعزب، بس أختي متجوزة.'],
+            ['A', '¿Tiene hijos?', 'عندها أولاد؟'],
+            ['B', 'Sí, tiene un hijo. Es mi sobrino y tiene dos años.', 'أيوه، عندها ولد. هو ابن أختي وعنده سنتين.']
+        ],
+        n: [
+            ['SU / SUS', 'su وsus معناهم «بتاعه» أو «بتاعها» أو «بتاعهم» أو «بتاع حضرتك». su مع المفرد وsus مع الجمع: su madre، sus hermanos.', 'Su hermana vive aquí.'],
+            ['NUESTRO / NUESTRA', 'nuestro معناها «بتاعنا» وبتتغير حسب نوع الاسم وعدده: nuestro padre، nuestra madre، nuestros hijos، nuestras hijas.', 'Nuestra familia es grande.'],
+            ['الحالة الاجتماعية', 'soltero وcasado صفات للحالة الاجتماعية، وغالبًا بتيجي مع estar أو ser. وبتتطابق مع النوع: casado وcasada.', 'Mi hermana está casada.']
+        ],
+        q: [
+            ['إيه معنى «Esposa»؟', ['أخت', 'عمة', 'زوجة', 'جدة'], 2],
+            ['«Nuestros hijos» معناها:', ['أولادهم', 'أولادنا', 'بناتنا', 'أولادك'], 1],
+            ['اختار الصح: «___ hermana vive aquí» (أخته)', ['Sus', 'Nuestros', 'Su', 'Tus'], 2],
+            ['«Soltero» تعني:', ['متجوز', 'جار', 'أعزب', 'طفل'], 2],
+            ['إيه معنى «Tiene dos hijos»؟', ['عندي ولدين', 'عنده ولدين', 'عندك ولدين', 'عندهم ولدين'], 1],
+            ['إزاي تقول «جدّي وجدّتي»؟', ['Mi abuelos', 'Mis abuelo', 'Tus abuelas', 'Mis abuelos'], 3]
+        ]
+    },
+    u4: {
+        w: [
+            ['Carne', 'كارني', 'لحمة'], ['Huevo', 'أويبو', 'بيضة'], ['Queso', 'كيسو', 'جبنة'], ['Sopa', 'سوبا', 'شوربة'],
+            ['Ensalada', 'إنسالادا', 'سلطة'], ['Zumo', 'ثومو', 'عصير'], ['Naranja', 'نارانخا', 'برتقال'], ['Plátano', 'بلاتانو', 'موز'],
+            ['Patatas', 'باتاتاس', 'بطاطس'], ['Tomate', 'توماتي', 'طماطم'], ['Postre', 'بوستري', 'حلو'], ['Sal', 'سال', 'ملح'],
+            ['Azúcar', 'أثوكار', 'سكر'], ['Tengo hambre', 'تينغو أمبري', 'أنا جعان'], ['Tengo sed', 'تينغو سيد', 'أنا عطشان'],
+            ['Delicioso / Deliciosa', 'ديليثيوسو / ديليثيوسا', 'لذيذ / لذيذة']
+        ],
+        d: [
+            ['A', '¿Quiere postre?', 'تحب تطلب حلو؟'],
+            ['B', 'Sí, quiero una manzana y un zumo de naranja.', 'أيوه، عايز تفاحة وعصير برتقال.'],
+            ['A', 'Aquí tiene. ¿Está bien?', 'اتفضل. تمام كده؟'],
+            ['B', 'Sí, está delicioso. Gracias.', 'أيوه، لذيذ. شكرًا.']
+        ],
+        n: [
+            ['TENER HAMBRE / SED', 'في الإسبانية بنقول «عندي جوع»: tengo hambre وtengo sed، مش estoy hambriento. وكمان للبرد والحر: tengo frío وtengo calor.', 'Tengo hambre y tengo sed.'],
+            ['ESTÁ DELICIOSO', 'لما نحكم على أكل بنستخدم está + صفة: está delicioso، está bueno. والصفة بتتطابق مع الأكل: la sopa está deliciosa.', 'La sopa está deliciosa.'],
+            ['UN POCO DE', 'لما نطلب كمية صغيرة من حاجة مش بتتعد بنقول un poco de: un poco de pan، un poco de sal. وفي الجمع بنزوّد -s للأكل المعدود: manzanas وpatatas.', 'Quiero un poco de pan.']
+        ],
+        q: [
+            ['إيه معنى «Ensalada»؟', ['شوربة', 'سلطة', 'حلو', 'عصير'], 1],
+            ['إزاي تقول «أنا عطشان»؟', ['Estoy sed', 'Soy sed', 'Tengo sal', 'Tengo sed'], 3],
+            ['«Postre» تعني:', ['طبق رئيسي', 'فطار', 'حلو', 'شوربة'], 2],
+            ['اختار الصح: «La sopa está ___.»', ['delicioso', 'deliciosa', 'deliciosos', 'deliciosas'], 1],
+            ['إيه معنى «Zumo de naranja»؟', ['عصير برتقال', 'شاي بلبن', 'مياه معدنية', 'قهوة'], 0],
+            ['إيه معنى «Tengo hambre»؟', ['أنا عطشان', 'أنا تعبان', 'أنا جعان', 'أنا مبسوط'], 2]
+        ]
+    },
+    u5: {
+        w: [
+            ['Banco', 'بانكو', 'بنك'], ['Plaza', 'بلاثا', 'ميدان'], ['Parque', 'باركي', 'حديقة'], ['Museo', 'موسيو', 'متحف'],
+            ['Hotel', 'أوتيل', 'فندق'], ['Aeropuerto', 'أيروبويرتو', 'مطار'], ['Biblioteca', 'بيبليوتيكا', 'مكتبة'], ['Mercado', 'ميركادو', 'سوق'],
+            ['Mezquita', 'مثكيتا', 'جامع'], ['Iglesia', 'إغليسيا', 'كنيسة'], ['Correos', 'كوريوس', 'مكتب البريد'], ['Barrio', 'باريو', 'حي'],
+            ['Enfrente de', 'إنفرينتي دي', 'قدّام'], ['Detrás de', 'ديتراس دي', 'ورا'], ['Entre', 'إنتري', 'بين'], ['Al final de la calle', 'ال فينال دي لا كايّي', 'في آخر الشارع']
+        ],
+        d: [
+            ['A', '¿Y dónde está el museo?', 'وفين المتحف؟'],
+            ['B', 'Está enfrente de la plaza, entre el banco y la biblioteca.', 'قدّام الميدان، بين البنك والمكتبة.'],
+            ['A', '¿Está lejos del hotel?', 'هو بعيد عن الفندق؟'],
+            ['B', 'No, está al final de la calle, a cinco minutos.', 'لأ، في آخر الشارع، على بعد خمس دقايق.']
+        ],
+        n: [
+            ['AL / DEL', 'a + el بتبقى al، وde + el بتبقى del: al lado del banco، cerca del parque. أما مع la وlos وlas فبتفضل منفصلة: a la plaza، de la calle.', 'El museo está cerca del parque.'],
+            ['حروف الجر للمكان', 'enfrente de قدّام، detrás de ورا، entre بين، cerca de قريب من، lejos de بعيد عن، al lado de جنب. وبعدهم الاسم: detrás de la estación.', 'El banco está enfrente de la plaza.'],
+            ['HAY مقابل ESTÁ', 'hay بنستخدمها لما نقول إن حاجة موجودة من غير ما نحدد: Hay un banco. أما estar فبنحدد بيه مكان حاجة معروفة: El banco está en la plaza. فبنستخدم un وuna مع hay، وel وla مع estar.', 'Hay un parque cerca.']
+        ],
+        q: [
+            ['إيه معنى «Detrás de»؟', ['قدّام', 'ورا', 'جنب', 'بين'], 1],
+            ['«Museo» تعني:', ['مكتبة', 'مطار', 'متحف', 'ميدان'], 2],
+            ['اختار الصح: «El banco está ___ la plaza» (قدّام)', ['detrás', 'entre', 'hay', 'enfrente de'], 3],
+            ['de + el بتبقى:', ['del', 'de el', 'dél', 'dela'], 0],
+            ['اختار الجملة الصح:', ['Hay el parque cerca', 'Hay un parque cerca', 'Está un parque cerca', 'Hay parque está cerca'], 1],
+            ['إيه معنى «Al final de la calle»؟', ['في أول الشارع', 'على اليمين', 'قدّام الشارع', 'في آخر الشارع'], 3]
+        ]
+    },
+    u6: {
+        w: [
+            ['Semana', 'سيمانا', 'أسبوع'], ['Mes', 'ميس', 'شهر'], ['Año', 'أنيو', 'سنة'],
+            ['Enero', 'إينيرو', 'يناير'], ['Febrero', 'فيبريرو', 'فبراير'], ['Marzo', 'مارثو', 'مارس'], ['Abril', 'أبريل', 'أبريل'],
+            ['Mayo', 'مايو', 'مايو'], ['Junio', 'خونيو', 'يونيو'], ['Julio', 'خوليو', 'يوليو'], ['Agosto', 'أغوستو', 'أغسطس'],
+            ['Septiembre', 'سيبتييمبري', 'سبتمبر'], ['Octubre', 'أوكتوبري', 'أكتوبر'], ['Noviembre', 'نوبييمبري', 'نوفمبر'], ['Diciembre', 'ديثييمبري', 'ديسمبر'],
+            ['Y media', 'إي ميديا', 'ونص'], ['Y cuarto', 'إي كوارتو', 'وربع'], ['Menos cuarto', 'مينوس كوارتو', 'إلا ربع'], ['En punto', 'إن بونتو', 'بالظبط']
+        ],
+        d: [
+            ['A', '¿En qué mes estamos?', 'إحنا في أنهي شهر؟'],
+            ['B', 'Estamos en noviembre. Hoy es sábado.', 'إحنا في نوفمبر. النهارده السبت.'],
+            ['A', 'Perfecto. ¿Qué hora es ahora?', 'تمام. الساعة كام دلوقتي؟'],
+            ['B', 'Son las cuatro menos cuarto.', 'الساعة أربعة إلا ربع.']
+        ],
+        n: [
+            ['LOS MESES', 'الشهور بتتكتب بحرف صغير في الإسبانية: enero وfebrero وغيرهم. وبنقول en + الشهر: en noviembre. وللتاريخ بنقول el + الرقم + de + الشهر: el cinco de mayo.', 'Estamos en noviembre.'],
+            ['اليوم والتاريخ', 'السؤال ¿Qué día es hoy? بيتجاوب بالاسم: Hoy es sábado. وبنقول el lunes لـ«يوم الاثنين» وlos lunes لـ«كل اثنين». وللتاريخ: Hoy es veintiuno de noviembre.', 'Hoy es veintiuno de noviembre.'],
+            ['وربع ونص وإلا ربع', 'نقول y cuarto للربع بعد الساعة، وy media للنص، وmenos cuarto للربع قبل الساعة اللي بعدها. وبنقول en punto لـ«بالظبط».', 'Son las tres y media.']
+        ],
+        q: [
+            ['إيه معنى «Noviembre»؟', ['نوفمبر', 'أكتوبر', 'ديسمبر', 'سبتمبر'], 0],
+            ['«Y media» بتتقال بعد الساعة وتعني:', ['وربع', 'إلا ربع', 'ونص', 'بالظبط'], 2],
+            ['«Son las cuatro menos cuarto» يعني:', ['الساعة 4 وربع', 'الساعة 4 ونص', 'الساعة 4 بالظبط', 'الساعة 4 إلا ربع'], 3],
+            ['إزاي تقول «في نوفمبر»؟', ['A noviembre', 'De noviembre', 'En noviembre', 'Por noviembre'], 2],
+            ['«Semana» تعني:', ['شهر', 'أسبوع', 'سنة', 'يوم'], 1]
+        ]
+    }
+};
+Object.keys(spanishA1Boost).forEach(function (id) {
+    var unit = spanishCourse.units.filter(function (x) { return x.id === id; })[0], b = spanishA1Boost[id];
+    (b.w || []).forEach(function (x, i) { unit.vocab.push({ k: 'boost-' + id + '-' + i, t: x[0], pr: x[1], ar: x[2] }); });
+    (b.d || []).forEach(function (x) { unit.dialog.lines.push({ w: x[0], t: x[1], ar: x[2] }); });
+    (b.n || []).forEach(function (x) { unit.notes.push(x); });
+    (b.q || []).forEach(function (x) { unit.quiz.push({ q: x[0], a: x[1], c: x[2] }); });
+});
+
 Object.keys(spanishCourse.units.reduce(function (index, unit) { index[unit.id] = unit; return index; }, {})).forEach(function (id) {
     var unit = spanishCourse.units.filter(function (x) { return x.id === id; })[0];
     var extraWords = spanishExpansion[id] || [];
@@ -1614,9 +2136,120 @@ Object.keys(spanishCourse.units.reduce(function (index, unit) { index[unit.id] =
     });
 });
 
+/* ---------- ترتيب كروت وحدة الأرقام: الأرقام بالترتيب من 0 لـ 1000، وبعدها العمر ثم الأسعار ---------- */
+(function () {
+    var u = spanishCourse.units.filter(function (x) { return x.id === 'u2'; })[0], byTerm = {};
+    var fix = { 'Once': '11 • حداشر', 'Doce': '12 • اتناشر', 'Quince': '15 • خمستاشر', 'Veinte': '20 • عشرين', 'Treinta': '30 • تلاتين', 'Cien': '100 • مية' };
+    [['Veintitrés', 'بينتيتريس', '23 • تلاتة وعشرين'], ['Veinticuatro', 'بينتيكواترو', '24 • أربعة وعشرين'], ['Veintiséis', 'بينتيسيس', '26 • ستة وعشرين'],
+     ['Veintisiete', 'بينتيسييتي', '27 • سبعة وعشرين'], ['Veintiocho', 'بينتيأوتشو', '28 • تمانية وعشرين'], ['Veintinueve', 'بينتينويبي', '29 • تسعة وعشرين']
+    ].forEach(function (x, i) { u.vocab.push({ k: 'order-u2-' + i, t: x[0], pr: x[1], ar: x[2] }); });
+    u.vocab.forEach(function (v) { if (fix[v.t]) v.ar = fix[v.t]; byTerm[v.t] = v; });
+    var order = ['Cero', 'Uno', 'Dos', 'Tres', 'Cuatro', 'Cinco', 'Seis', 'Siete', 'Ocho', 'Nueve', 'Diez', 'Once', 'Doce', 'Trece', 'Catorce', 'Quince',
+        'Dieciséis', 'Diecisiete', 'Dieciocho', 'Diecinueve', 'Veinte', 'Veintiuno', 'Veintidós', 'Veintitrés', 'Veinticuatro', 'Veinticinco', 'Veintiséis',
+        'Veintisiete', 'Veintiocho', 'Veintinueve', 'Treinta', 'Treinta y cinco', 'Cuarenta', 'Cincuenta', 'Sesenta', 'Setenta', 'Ochenta', 'Noventa',
+        'Noventa y nueve', 'Cien', 'Mil',
+        '¿Cuántos años tienes?', 'Tengo… años', 'Número', 'Teléfono',
+        'Euro', 'Céntimo', 'Precio', 'Dinero', '¿Cuánto cuesta?', 'Cuesta… euros', '¿Cuánto cuestan?', 'Cuestan… euros', 'Pagar', 'Efectivo', 'Tarjeta'];
+    var sorted = order.map(function (t) { return byTerm[t]; }).filter(Boolean);
+    if (sorted.length === u.vocab.length) u.vocab = sorted; /* لو في كلمة اتضافت برّه الترتيب نسيب الترتيب القديم بدل ما نضيّعها */
+})();
+
+/* ---------- عناوين مجموعات الكلمات داخل كل وحدة A1: بتترتّب الكروت وتتحط تحت عنوان لكل مجموعة (الحقل g) ---------- */
+(function () {
+    var G = {
+        u1: [
+            ['تحيات ووداع', ['Hola', 'Buenas', 'Buenos días', 'Buenas tardes', 'Buenas noches', 'Bienvenido / Bienvenida', 'Adiós', 'Hasta luego', 'Hasta mañana', 'Hasta pronto']],
+            ['مجاملة واعتذار', ['Por favor', 'Gracias', 'De nada', 'Perdón', 'Lo siento', 'Disculpe', 'Con permiso', 'Igualmente']],
+            ['التعارف والأسماء', ['Me llamo…', '¿Cómo te llamas?', 'Nombre', 'Apellido', 'Mucho gusto', 'Encantado / Encantada', '¿De dónde eres?', 'Soy de…', 'Señor', 'Señora']],
+            ['السؤال عن الحال والردود', ['¿Cómo estás?', '¿Qué tal?', 'Estoy bien', 'Así así', 'Sí', 'No']]
+        ],
+        u2: [
+            ['الأرقام من 0 لـ 20', ['Cero', 'Uno', 'Dos', 'Tres', 'Cuatro', 'Cinco', 'Seis', 'Siete', 'Ocho', 'Nueve', 'Diez', 'Once', 'Doce', 'Trece', 'Catorce', 'Quince', 'Dieciséis', 'Diecisiete', 'Dieciocho', 'Diecinueve', 'Veinte']],
+            ['الأرقام من 21 لـ 29', ['Veintiuno', 'Veintidós', 'Veintitrés', 'Veinticuatro', 'Veinticinco', 'Veintiséis', 'Veintisiete', 'Veintiocho', 'Veintinueve']],
+            ['العشرات والمئات والألف', ['Treinta', 'Treinta y cinco', 'Cuarenta', 'Cincuenta', 'Sesenta', 'Setenta', 'Ochenta', 'Noventa', 'Noventa y nueve', 'Cien', 'Mil']],
+            ['العمر والأرقام', ['¿Cuántos años tienes?', 'Tengo… años', 'Número', 'Teléfono']],
+            ['الفلوس والأسعار', ['Euro', 'Céntimo', 'Precio', 'Dinero', '¿Cuánto cuesta?', 'Cuesta… euros', '¿Cuánto cuestan?', 'Cuestan… euros', 'Pagar', 'Efectivo', 'Tarjeta']]
+        ],
+        u37: [
+            ['ضمائر الفاعل', ['Yo', 'Tú', 'Él', 'Ella', 'Usted', 'Nosotros / Nosotras', 'Vosotros / Vosotras', 'Ellos / Ellas', 'Ustedes']],
+            ['تصريف SER', ['Soy', 'Eres', 'Es', 'Somos', 'Sois', 'Son']],
+            ['تصريف ESTAR', ['Estoy', 'Estás', 'Está', 'Estamos', 'Estáis', 'Están']],
+            ['حالات وأماكن', ['Estudiante', 'Bien', 'Mal', 'Cansado / Cansada', 'Contento / Contenta', 'Ocupado / Ocupada', 'Aquí', 'Allí', 'En casa', 'Ahora']]
+        ],
+        u38: [
+            ['الأدوات', ['El / La', 'Los / Las', 'Un / Una', 'Unos / Unas']],
+            ['حاجات في الفصل', ['Libro', 'Cuaderno', 'Bolígrafo', 'Lápiz', 'Mochila', 'Mesa', 'Silla', 'Puerta', 'Ventana']],
+            ['أشخاص وحيوانات', ['Chico / Chica', 'Niño / Niña', 'Profesor / Profesora', 'Gato / Gata', 'Hombre / Mujer']],
+            ['أسماء واستثناءات', ['Ciudad', 'Día', 'Mano', 'Problema']],
+            ['الجمع', ['Libros', 'Ciudades', 'Lápices']],
+            ['وصف وعبارات', ['Nuevo / Nueva', '¿Qué es esto?', 'Esto es…']]
+        ],
+        u39: [
+            ['أفعال (المصدر)', ['Hablar', 'Estudiar', 'Trabajar', 'Comer', 'Beber', 'Vivir', 'Escribir', 'Leer', 'Aprender', 'Abrir']],
+            ['أفعال مصرّفة', ['Hablo', 'Como', 'Vivo', 'Trabajas', 'Estudia', 'Bebemos', 'Escriben']],
+            ['النفي وكلمات الاستفهام', ['No', '¿Qué?', '¿Quién?', '¿Dónde?', '¿Cuándo?', '¿Cómo?', '¿Por qué?', 'Porque', '¿Cuánto?']],
+            ['لغات وكلمات مساعدة', ['Español', 'Árabe', 'Inglés', 'También', 'Todos los días', 'Mucho']]
+        ],
+        u40: [
+            ['البلاد والجنسيات', ['País', 'Nacionalidad', 'Egipto', 'Egipcio / Egipcia', 'España', 'Español / Española', 'México', 'Mexicano / Mexicana', 'Marruecos', 'Marroquí', 'Estados Unidos', 'Estadounidense']],
+            ['المهن', ['Profesión', 'Médico / Médica', 'Ingeniero / Ingeniera', 'Enfermero / Enfermera', 'Abogado / Abogada', 'Cocinero / Cocinera', 'Conductor / Conductora', 'Arquitecto / Arquitecta', 'Escritor / Escritora', 'Periodista', 'Dentista']],
+            ['أماكن الشغل والزملاء', ['Compañero / Compañera', 'Hospital', 'Empresa', 'Oficina', 'Restaurante']],
+            ['عبارات', ['Trabajo como…', '¿A qué te dedicas?', 'Muy']]
+        ],
+        u41: [
+            ['الألوان', ['Color', '¿De qué color es?', 'Rojo / Roja', 'Azul', 'Verde', 'Amarillo / Amarilla', 'Negro / Negra', 'Blanco / Blanca', 'Gris', 'Marrón']],
+            ['صفات الحجم والشكل', ['¿Cómo es?', 'Grande', 'Pequeño / Pequeña', 'Alto / Alta', 'Bajo / Baja', 'Bonito / Bonita', 'Feo / Fea', 'Viejo / Vieja', 'Joven']],
+            ['صفات الشخصية والتقييم', ['Simpático / Simpática', 'Bueno / Buena', 'Malo / Mala', 'Fácil', 'Difícil', 'Interesante', 'Caro / Cara', 'Barato / Barata']],
+            ['حاجات وكلمات مساعدة', ['Coche', 'Camisa', 'Pero', 'Un poco']]
+        ],
+        u42: [
+            ['التعبير عن الحب (gustar)', ['Me gusta', 'Me gustan', 'Te gusta', 'Le gusta', 'Nos gusta', 'Les gusta', 'No me gusta', 'Me encanta']],
+            ['أفعال الهوايات', ['Hacer', 'Nadar', 'Correr', 'Bailar', 'Cantar', 'Cocinar', 'Viajar', 'Dibujar', 'Escuchar', 'Jugar']],
+            ['هوايات وأماكن', ['Música', 'Fútbol', 'Deporte', 'Película', 'Cine', 'Playa', 'Pasatiempo', 'Tiempo libre', 'Fin de semana']],
+            ['التكرار والردود', ['Siempre', 'A veces', 'Nunca', '¿Y a ti?', 'A mí también', 'A mí tampoco']]
+        ],
+        u3: [
+            ['العيلة القريبة', ['Familia', 'Padre', 'Madre', 'Padres', 'Hermano', 'Hermana', 'Hermanos', 'Hijo', 'Hija', 'Hijos']],
+            ['العيلة الكبيرة', ['Abuelo', 'Abuela', 'Abuelos', 'Nieto / Nieta', 'Tío', 'Tía', 'Primo', 'Prima', 'Sobrino / Sobrina']],
+            ['أصدقاء وجيران وشريك', ['Amigo', 'Amiga', 'Vecino / Vecina', 'Pareja', 'Esposo / Esposa', 'Bebé']],
+            ['الحالة والعمر', ['Mayor', 'Menor', 'Soltero / Soltera', 'Casado / Casada']],
+            ['الملكية والامتلاك', ['Tiene', 'Nuestro / Nuestra', 'Su / Sus']]
+        ],
+        u4: [
+            ['الوجبات والمطعم', ['Desayuno', 'Almuerzo', 'Cena', 'Menú', 'Cuenta']],
+            ['أكل أساسي', ['Pan', 'Arroz', 'Pollo', 'Carne', 'Pescado', 'Huevo', 'Queso', 'Sopa', 'Ensalada']],
+            ['فاكهة وخضار', ['Fruta', 'Manzana', 'Naranja', 'Plátano', 'Verduras', 'Tomate', 'Patatas']],
+            ['مشروبات', ['Agua', 'Leche', 'Café', 'Té', 'Zumo']],
+            ['حلو وتوابل', ['Postre', 'Azúcar', 'Sal']],
+            ['جوع وتقييم الأكل', ['Tengo hambre', 'Tengo sed', 'Delicioso / Deliciosa']]
+        ],
+        u5: [
+            ['أماكن في المدينة', ['Calle', 'Casa', 'Escuela', 'Estación', 'Farmacia', 'Supermercado', 'Banco', 'Plaza', 'Parque', 'Museo', 'Hotel', 'Aeropuerto', 'Biblioteca', 'Mercado', 'Mezquita', 'Iglesia', 'Correos', 'Barrio']],
+            ['الاتجاهات', ['Derecha', 'Izquierda', 'Todo recto', 'Al final de la calle', 'Mapa', 'Esquina', 'Semáforo']],
+            ['القرب والبعد والموقع', ['Cerca', 'Lejos', 'Enfrente de', 'Detrás de', 'Entre']],
+            ['حركة', ['Cruzar', 'Girar']]
+        ],
+        u6: [
+            ['أيام الأسبوع', ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']],
+            ['اليوم والأسبوع والسنة', ['Hoy', 'Ayer', 'Mañana', 'Semana', 'Mes', 'Año', 'Calendario']],
+            ['شهور السنة', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']],
+            ['الساعة والوقت', ['Hora', 'Minuto', 'Y media', 'Y cuarto', 'Menos cuarto', 'En punto', 'Mediodía', 'Medianoche', 'Temprano', 'Tarde']]
+        ]
+    };
+    Object.keys(G).forEach(function (id) {
+        var u = spanishCourse.units.filter(function (x) { return x.id === id; })[0], by = {}, used = {}, out = [];
+        u.vocab.forEach(function (v) { by[v.t] = v; });
+        G[id].forEach(function (g) {
+            g[1].forEach(function (t) { var v = by[t]; if (v && !used[t]) { v.g = g[0]; used[t] = 1; out.push(v); } });
+        });
+        u.vocab.forEach(function (v) { if (!used[v.t]) { v.g = 'كلمات إضافية'; out.push(v); } }); /* أي كلمة تتضاف بعدين من غير مجموعة بتنزل هنا بدل ما تضيع */
+        u.vocab = out;
+    });
+})();
+
 spanishCourse.dictionary = true;
 spanishCourse.level = 'A1–C2';
-spanishCourse.desc = '36 وحدة من A1 إلى C2، وقاموس شامل قابل للبحث، ونطق صوتي وحوارات وقواعد واختبارات موسعة.';
+spanishCourse.desc = '42 وحدة من A1 إلى C2، وقاموس شامل قابل للبحث، ونطق صوتي وحوارات وقواعد واختبارات موسعة.';
 spanishCourse.intro += ' واتضافت مفردات وتطبيقات وحوارات وأسئلة إضافية في كل وحدة، مع قاموس شامل يجمع كلمات المستويات كلها.';
 EtoLang.register(spanishCourse);
 
