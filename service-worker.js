@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ETO-v27';
+const CACHE_NAME = 'ETO-v29';
 
 const APP_SHELL = [
     './',
@@ -8,12 +8,12 @@ const APP_SHELL = [
 ];
 
 const EXTRA_SHELL = [
-    './css/main.css?v=4',
+    './css/main.css?v=5',
     './css/courses.css',
     './css/fontawesome.min.css',
-    './js/main.js?v=3',
-    './courses/courses.js?v=7',
-    './courses/summaries.js?v=4'
+    './js/main.js?v=4',
+    './courses/courses.js?v=8',
+    './courses/summaries.js?v=5'
 ];
 self.addEventListener('install', (event) => {
     event.waitUntil(
