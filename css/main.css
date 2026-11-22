@@ -1980,35 +1980,35 @@
     .dark .tool-card-image-wrap{background:linear-gradient(135deg,#111827,#0f172a);border-color:#334155}
     .tool-card-image{display:block;width:100%;height:100%;object-fit:contain;object-position:center;transition:transform .28s ease,filter .28s ease}
     .tool-card-image-wrap:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(15,23,42,.14));pointer-events:none}
-     #teacher-tools-grid .tool-card:hover .tool-card-image,#student-tools-grid .tool-card:hover .tool-card-image,#extra-tools-grid .tool-card:hover .tool-card-image,#audio-tools-grid .tool-card:hover .tool-card-image{transform:scale(1.045) translateY(-3px)}
+     #teacher-tools-grid .tool-card:hover .tool-card-image,#student-tools-grid .tool-card:hover .tool-card-image,#extra-tools-grid .tool-card:hover .tool-card-image,#audio-tools-grid .tool-card:hover .tool-card-image,#general-tools-grid .tool-card:hover .tool-card-image{transform:scale(1.045) translateY(-3px)}
     .tool-card-image-fallback{display:flex;align-items:center;justify-content:center;height:100%;color:#64748b;font-size:28px}
     .tool-category-page{padding-top:18px!important;padding-bottom:28px!important}
     .tool-category-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#ffffff,#f8fafc)!important;box-shadow:0 12px 28px rgba(15,23,42,.055)!important;transition:transform .2s,box-shadow .2s}
     .tool-category-hero:before{content:"";position:absolute;left:-80px;top:-100px;width:230px;height:230px;border-radius:999px;background:rgba(37,99,235,.07);pointer-events:none}
     .tool-category-hero:after{content:"";position:absolute;right:-70px;bottom:-125px;width:220px;height:220px;border-radius:999px;background:rgba(124,58,237,.06);pointer-events:none}
     .dark .tool-category-hero{background:linear-gradient(135deg,rgba(15,23,42,.94),rgba(15,23,42,.72))!important;border-color:#334155!important}
-    #teacher-tools-grid .tool-card,#student-tools-grid .tool-card,#extra-tools-grid .tool-card,#audio-tools-grid .tool-card{animation:cardReveal .55s cubic-bezier(.16,1,.3,1) both}
+    #teacher-tools-grid .tool-card,#student-tools-grid .tool-card,#extra-tools-grid .tool-card,#audio-tools-grid .tool-card,#general-tools-grid .tool-card{animation:cardReveal .55s cubic-bezier(.16,1,.3,1) both}
     .tool-category-hero>div{position:relative;z-index:1}
     .tool-category-icon{flex:0 0 56px}
     .tool-category-hero h2{letter-spacing:-.035em}.tool-category-hero .tool-category-search{box-shadow:0 8px 18px rgba(15,23,42,.04)}
-    #teacher-tools-grid,#student-tools-grid,#extra-tools-grid,#audio-tools-grid{align-items:stretch}
-     #teacher-tools-grid .tool-card,#student-tools-grid .tool-card,#extra-tools-grid .tool-card,#audio-tools-grid .tool-card{animation:none}
-    #teacher-tools-grid .tool-card:after,#student-tools-grid .tool-card:after,#extra-tools-grid .tool-card:after,#audio-tools-grid .tool-card:after{content:"";position:absolute;left:-30px;bottom:-55px;width:120px;height:120px;border-radius:999px;background:rgba(37,99,235,.055);pointer-events:none;transition:transform .25s ease}
-    #teacher-tools-grid .tool-card:hover,#student-tools-grid .tool-card:hover,#extra-tools-grid .tool-card:hover,#audio-tools-grid .tool-card:hover{transform:translateY(-5px);box-shadow:0 18px 32px rgba(15,23,42,.11);border-color:#bfdbfe}
-    #teacher-tools-grid .tool-card:hover:after,#student-tools-grid .tool-card:hover:after,#extra-tools-grid .tool-card:hover:after,#audio-tools-grid .tool-card:hover:after{transform:scale(1.25)}
-    #teacher-tools-grid .tool-card>div:first-child,#student-tools-grid .tool-card>div:first-child,#extra-tools-grid .tool-card>div:first-child,#audio-tools-grid .tool-card>div:first-child{transition:transform .2s ease}
-    #teacher-tools-grid .tool-card:hover>div:first-child,#student-tools-grid .tool-card:hover>div:first-child,#extra-tools-grid .tool-card:hover>div:first-child,#audio-tools-grid .tool-card:hover>div:first-child{transform:translateY(-2px) scale(1.03)}
+    #teacher-tools-grid,#student-tools-grid,#extra-tools-grid,#audio-tools-grid,#general-tools-grid{align-items:stretch}
+     #teacher-tools-grid .tool-card,#student-tools-grid .tool-card,#extra-tools-grid .tool-card,#audio-tools-grid .tool-card,#general-tools-grid .tool-card{animation:none}
+    #teacher-tools-grid .tool-card:after,#student-tools-grid .tool-card:after,#extra-tools-grid .tool-card:after,#audio-tools-grid .tool-card:after,#general-tools-grid .tool-card:after{content:"";position:absolute;left:-30px;bottom:-55px;width:120px;height:120px;border-radius:999px;background:rgba(37,99,235,.055);pointer-events:none;transition:transform .25s ease}
+    #teacher-tools-grid .tool-card:hover,#student-tools-grid .tool-card:hover,#extra-tools-grid .tool-card:hover,#audio-tools-grid .tool-card:hover,#general-tools-grid .tool-card:hover{transform:translateY(-5px);box-shadow:0 18px 32px rgba(15,23,42,.11);border-color:#bfdbfe}
+    #teacher-tools-grid .tool-card:hover:after,#student-tools-grid .tool-card:hover:after,#extra-tools-grid .tool-card:hover:after,#audio-tools-grid .tool-card:hover:after,#general-tools-grid .tool-card:hover:after{transform:scale(1.25)}
+    #teacher-tools-grid .tool-card>div:first-child,#student-tools-grid .tool-card>div:first-child,#extra-tools-grid .tool-card>div:first-child,#audio-tools-grid .tool-card>div:first-child,#general-tools-grid .tool-card>div:first-child{transition:transform .2s ease}
+    #teacher-tools-grid .tool-card:hover>div:first-child,#student-tools-grid .tool-card:hover>div:first-child,#extra-tools-grid .tool-card:hover>div:first-child,#audio-tools-grid .tool-card:hover>div:first-child,#general-tools-grid .tool-card:hover>div:first-child{transform:translateY(-2px) scale(1.03)}
     @media(max-width:640px){
-        .home-hero{border-radius:0}.home-hero h1{font-size:2rem}.home-hero p{font-size:.86rem}.home-hero-features{gap:6px}.home-hero-features span{font-size:8.5px;padding:7px 9px}.home-section-heading{text-align:right;padding-top:26px}.home-category-card{min-height:0;padding:18px;border-radius:18px!important}.home-category-icon{flex-basis:50px;width:50px;height:50px;font-size:19px}.home-category-card h3{font-size:17px}.home-category-card p{font-size:10px}.tool-category-page{padding:12px 10px 24px!important}.tool-category-hero{padding:18px!important;border-radius:18px!important}.tool-category-hero .flex.items-center.gap-4{gap:12px}.tool-category-icon{width:50px;height:50px;flex-basis:50px;font-size:20px}.tool-category-hero h2{font-size:1.25rem}.tool-category-hero p{font-size:10px}.tool-category-hero .w-full.md\:w-96{width:100%!important}.tool-category-hero .tool-category-search{height:44px}.tool-category-page #teacher-tools-grid .tool-card,.tool-category-page #student-tools-grid .tool-card,.tool-category-page #extra-tools-grid .tool-card,#audio-tools-grid .tool-card{min-height:170px}
+        .home-hero{border-radius:0}.home-hero h1{font-size:2rem}.home-hero p{font-size:.86rem}.home-hero-features{gap:6px}.home-hero-features span{font-size:8.5px;padding:7px 9px}.home-section-heading{text-align:right;padding-top:26px}.home-category-card{min-height:0;padding:18px;border-radius:18px!important}.home-category-icon{flex-basis:50px;width:50px;height:50px;font-size:19px}.home-category-card h3{font-size:17px}.home-category-card p{font-size:10px}.tool-category-page{padding:12px 10px 24px!important}.tool-category-hero{padding:18px!important;border-radius:18px!important}.tool-category-hero .flex.items-center.gap-4{gap:12px}.tool-category-icon{width:50px;height:50px;flex-basis:50px;font-size:20px}.tool-category-hero h2{font-size:1.25rem}.tool-category-hero p{font-size:10px}.tool-category-hero .w-full.md\:w-96{width:100%!important}.tool-category-hero .tool-category-search{height:44px}.tool-category-page #teacher-tools-grid .tool-card,.tool-category-page #student-tools-grid .tool-card,.tool-category-page #extra-tools-grid .tool-card,#audio-tools-grid .tool-card,#general-tools-grid .tool-card{min-height:170px}
     }
-    @media(prefers-reduced-motion:reduce){.home-hero-bg,.home-hero-glow-one,.home-hero-glow-two{animation:none}.home-category-card,#teacher-tools-grid .tool-card,#student-tools-grid .tool-card,#extra-tools-grid .tool-card,#audio-tools-grid .tool-card{transition:none!important}}
+    @media(prefers-reduced-motion:reduce){.home-hero-bg,.home-hero-glow-one,.home-hero-glow-two{animation:none}.home-category-card,#teacher-tools-grid .tool-card,#student-tools-grid .tool-card,#extra-tools-grid .tool-card,#audio-tools-grid .tool-card,#general-tools-grid .tool-card{transition:none!important}}
 
 /* ===== eto-premium-motion ===== */
-        .home-category-card,.tool-category-hero,#teacher-tools-grid .tool-card,#student-tools-grid .tool-card,#extra-tools-grid .tool-card,#audio-tools-grid .tool-card{transform-style:preserve-3d;will-change:transform}
-        .home-category-card:after,#teacher-tools-grid .tool-card:after,#student-tools-grid .tool-card:after,#extra-tools-grid .tool-card:after,#audio-tools-grid .tool-card:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent 35%,transparent 65%,rgba(96,165,250,.05));opacity:0;transition:opacity .3s}
-        .home-category-card:hover:after,#teacher-tools-grid .tool-card:hover:after,#student-tools-grid .tool-card:hover:after,#extra-tools-grid .tool-card:hover:after,#audio-tools-grid .tool-card:hover:after{opacity:1}
-        .home-category-icon,#teacher-tools-grid .tool-card>div:first-child,#student-tools-grid .tool-card>div:first-child,#extra-tools-grid .tool-card>div:first-child,#audio-tools-grid .tool-card>div:first-child{transform:translateZ(24px)}
-        .home-category-content,#teacher-tools-grid .tool-card h3,#student-tools-grid .tool-card h3,#extra-tools-grid .tool-card h3,#audio-tools-grid .tool-card h3{transform:translateZ(12px)}
+        .home-category-card,.tool-category-hero,#teacher-tools-grid .tool-card,#student-tools-grid .tool-card,#extra-tools-grid .tool-card,#audio-tools-grid .tool-card,#general-tools-grid .tool-card{transform-style:preserve-3d;will-change:transform}
+        .home-category-card:after,#teacher-tools-grid .tool-card:after,#student-tools-grid .tool-card:after,#extra-tools-grid .tool-card:after,#audio-tools-grid .tool-card:after,#general-tools-grid .tool-card:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent 35%,transparent 65%,rgba(96,165,250,.05));opacity:0;transition:opacity .3s}
+        .home-category-card:hover:after,#teacher-tools-grid .tool-card:hover:after,#student-tools-grid .tool-card:hover:after,#extra-tools-grid .tool-card:hover:after,#audio-tools-grid .tool-card:hover:after,#general-tools-grid .tool-card:hover:after{opacity:1}
+        .home-category-icon,#teacher-tools-grid .tool-card>div:first-child,#student-tools-grid .tool-card>div:first-child,#extra-tools-grid .tool-card>div:first-child,#audio-tools-grid .tool-card>div:first-child,#general-tools-grid .tool-card>div:first-child{transform:translateZ(24px)}
+        .home-category-content,#teacher-tools-grid .tool-card h3,#student-tools-grid .tool-card h3,#extra-tools-grid .tool-card h3,#audio-tools-grid .tool-card h3,#general-tools-grid .tool-card h3{transform:translateZ(12px)}
         .page-section:not(.hidden){animation:premiumPageIn .55s cubic-bezier(.16,1,.3,1) both}
         @keyframes premiumPageIn{0%{opacity:0;transform:translateY(28px) scale(.985);filter:blur(6px)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
         @keyframes premiumFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-7px,0)}}
@@ -2159,10 +2159,10 @@
         .eto-portal-modules{
             position:relative;
             z-index:2;
-            width:min(1220px,100%);
+            width:min(1360px,100%);
             margin:34px auto 0;
             display:grid;
-            grid-template-columns:repeat(4,minmax(0,1fr));
+            grid-template-columns:repeat(5,minmax(0,1fr));
             gap:14px;
         }
 
@@ -2184,6 +2184,7 @@
         .eto-module:nth-child(2){animation-delay:.09s}
         .eto-module:nth-child(3){animation-delay:.16s}
         .eto-module:nth-child(4){animation-delay:.23s}
+        .eto-module:nth-child(5){animation-delay:.30s}
 
         .eto-module:hover{
             transform:translateY(-6px);
@@ -2411,6 +2412,12 @@
             to{
                 opacity:1;
                 transform:translateY(0);
+            }
+        }
+
+        @media(max-width:1250px){
+            .eto-portal-modules{
+                grid-template-columns:repeat(3,minmax(0,1fr));
             }
         }
 
@@ -3325,6 +3332,7 @@
 .eto-module-art{position:absolute;inset:0;width:100%;height:100%;display:block;transition:transform .45s ease}
 .eto-module:hover .eto-module-art{transform:scale(1.035)}
 .eto-module-lang .eto-module-icon{color:#e11d48}
+.eto-module-photos .eto-module-icon{color:#7c3aed}
 @media(prefers-reduced-motion:reduce){.eto-module-art{transition:none}}
 
 /* ===== block 16 ===== */

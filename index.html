@@ -99,6 +99,7 @@
     <script src="./Religion/religion.js" defer></script>
     <link rel="stylesheet" href="css/animate.min.css">
     <link rel="stylesheet" href="css/courses.css">
+    <link rel="stylesheet" href="Data/Photos/photos.css?v=5">
 </head>
 <body class="min-h-screen flex flex-col text-slate-800 dark:text-slate-100 transition-colors duration-300">
     <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'Data/Lib/pdf.worker.min.js';</script>
@@ -324,6 +325,36 @@
 
                         <div class="eto-module-footer">
                             <span>ابدأ التعلم</span>
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </div>
+
+                    <div class="eto-module eto-module-photos" onclick="navigate('photos')">
+                        <div class="eto-module-image" style="background:linear-gradient(135deg,#be185d,#7c3aed 55%,#2563eb)">
+                            <img
+                                data-src="https://images.unsplash.com/photo-1713918926680-a1d0740e7430?auto=format&fit=crop&fm=jpg&q=70&w=1200"
+                                alt="Photos"
+                                loading="lazy"
+                                decoding="async">
+                            <div class="eto-module-image-overlay"></div>
+
+                            <span class="eto-module-number">05</span>
+
+                            <div class="eto-module-icon">
+                                <i class="fa-solid fa-images"></i>
+                            </div>
+                        </div>
+
+                        <div class="eto-module-content">
+                            <span class="eto-module-label">VISUAL LIBRARY</span>
+                            <h2>Photos</h2>
+                            <p>
+                                معرض صور بتصنيفات وبحث وتحميل،
+                            </p>
+                        </div>
+
+                        <div class="eto-module-footer">
+                            <span>استكشف الصور</span>
                             <i class="fa-solid fa-arrow-left"></i>
                         </div>
                     </div>
@@ -1809,7 +1840,7 @@
                             <option value="bw">أبيض وأسود (تبييض)</option>
                             <option value="sepia">سيبيا</option>
                         </select>
-                        <button id="img-export" class="bg-teal-600 text-white px-4 py-2 rounded w-full md:w-1/3 font-bold"><i class="fa-solid fa-download"></i> تحميل الصورة</button>
+                        <button id="img-export" class="bg-teal-600 text-white px-4 py-2 rounded w-full md:w-1/3 font-bold"><i class="fa-solid fa-download"></i> خيارات التحميل</button>
                     </div>
                     <div class="overflow-auto border rounded bg-gray-100 p-2 max-h-[60vh] flex justify-center">
                         <canvas id="img-canvas" class="max-w-full shadow"></canvas>
@@ -3949,6 +3980,155 @@ Rules:
             </div>
         </div>
 
+        <section id="page-photos" class="page-section hidden photos-page" aria-label="Photos">
+            <div class="photos-shell">
+                <header class="photos-hero">
+                    <h1>Photos</h1>
+                    <p>ابحث في ملايين الصور المجانية وحمّل اللي يعجبك بالمقاس اللي تحتاجه.</p>
+                    <div class="photos-search-wrap">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                        <input id="photos-search" type="search" autocomplete="off" placeholder="ابحث عن صور" aria-label="ابحث في الصور">
+                        <button id="photos-search-clear" type="button" aria-label="مسح البحث"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="photos-hero-foot"><span><b id="photos-total-count">0</b> صورة متاحة</span></div>
+                </header>
+
+                <div class="photos-toolbar">
+                    <div class="photos-view-tabs" role="tablist" aria-label="طريقة عرض الصور">
+                        <button type="button" class="photos-view-tab active" data-photos-view="all" role="tab" aria-selected="true">استكشف</button>
+                        <button type="button" class="photos-view-tab" data-photos-view="saved" role="tab" aria-selected="false">المحفوظة <span id="photos-saved-count">0</span></button>
+                    </div>
+                </div>
+
+                <nav id="photos-categories" class="photos-categories" aria-label="تصنيفات الصور">
+                    <button type="button" class="photos-category active" data-photos-category="all">الكل</button>
+                    <button type="button" class="photos-category" data-photos-category="nature">طبيعة</button>
+                    <button type="button" class="photos-category" data-photos-category="travel">سفر ورحلات</button>
+                    <button type="button" class="photos-category" data-photos-category="architecture">عمارة</button>
+                    <button type="button" class="photos-category" data-photos-category="people">أشخاص</button>
+                    <button type="button" class="photos-category" data-photos-category="personalities">شخصيات مشهورة</button>
+                    <button type="button" class="photos-category" data-photos-category="characters">شخصيات كرتونية</button>
+                    <button type="button" class="photos-category" data-photos-category="history">تاريخ</button>
+                    <button type="button" class="photos-category" data-photos-category="science">علوم</button>
+                    <button type="button" class="photos-category" data-photos-category="space">الفضاء</button>
+                    <button type="button" class="photos-category" data-photos-category="animals">حيوانات</button>
+                    <button type="button" class="photos-category" data-photos-category="birds">طيور</button>
+                    <button type="button" class="photos-category" data-photos-category="plants">نباتات وزهور</button>
+                    <button type="button" class="photos-category" data-photos-category="ocean">بحار ومحيطات</button>
+                    <button type="button" class="photos-category" data-photos-category="food">طعام</button>
+                    <button type="button" class="photos-category" data-photos-category="art">فن ولوحات</button>
+                    <button type="button" class="photos-category" data-photos-category="design">تصميم وخلفيات</button>
+                    <button type="button" class="photos-category" data-photos-category="technology">تكنولوجيا</button>
+                    <button type="button" class="photos-category" data-photos-category="engineering">هندسة</button>
+                    <button type="button" class="photos-category" data-photos-category="medical">طب</button>
+                    <button type="button" class="photos-category" data-photos-category="study">تعليم وكتب</button>
+                    <button type="button" class="photos-category" data-photos-category="sports">رياضة</button>
+                    <button type="button" class="photos-category" data-photos-category="fashion">موضة</button>
+                    <button type="button" class="photos-category" data-photos-category="music">موسيقى</button>
+                    <button type="button" class="photos-category" data-photos-category="cars">سيارات ومركبات</button>
+                    <button type="button" class="photos-category" data-photos-category="cities">مدن</button>
+                    <button type="button" class="photos-category" data-photos-category="monuments">معالم وآثار</button>
+                    <button type="button" class="photos-category" data-photos-category="religion">ثقافة ودين</button>
+                </nav>
+
+                <div class="photos-results-line">
+                    <div><strong id="photos-results-title">اكتشف الصور</strong><span id="photos-results-subtitle">مجموعة صور متجددة للإلهام</span></div>
+                    <span id="photos-results-count" aria-live="polite"></span>
+                </div>
+                <div id="photos-status" class="photos-status hidden" role="status" aria-live="polite"></div>
+                <div id="photos-grid" class="photos-grid" aria-live="polite"></div>
+                <button type="button" id="photos-load-more" class="photos-load-more hidden">تحميل المزيد</button>
+                <div id="photos-empty" class="photos-empty hidden">
+                    <h3>مش لاقيين صور مطابقة</h3>
+                    <p>جرّب كلمة بحث تانية أو اختار تصنيف مختلف.</p>
+                    <button type="button" id="photos-reset">عرض كل الصور</button>
+                </div>
+                <footer class="photos-footer-note">ETO Photos · مصادر الصور: <a class="photos-source-link" href="https://pixabay.com/" target="_blank" rel="noopener noreferrer">Pixabay</a> و <a class="photos-source-link" href="https://commons.wikimedia.org/" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a> · بيانات حقوق الاستخدام تظهر عند تحميل الصورة</footer>
+            </div>
+
+            <div id="photos-lightbox" class="photos-lightbox hidden" role="dialog" aria-modal="true" aria-labelledby="photos-lightbox-title">
+                <button type="button" id="photos-lightbox-backdrop" class="photos-lightbox-backdrop" aria-label="إغلاق الصورة"></button>
+                <div class="photos-lightbox-panel">
+                    <div class="photos-lightbox-topbar">
+                        <span>ETO PHOTOS</span>
+                        <button type="button" id="photos-lightbox-close" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="photos-lightbox-content">
+                        <div class="photos-lightbox-image-wrap"><img id="photos-lightbox-image" src="" alt=""></div>
+                        <div class="photos-lightbox-info">
+                            <span id="photos-lightbox-category" class="photos-lightbox-category">PHOTO</span>
+                            <h2 id="photos-lightbox-title"></h2>
+                            <p id="photos-lightbox-description"></p>
+                            <div class="photos-lightbox-tags" id="photos-lightbox-tags"></div>
+                            <div class="photos-lightbox-actions">
+                                <button type="button" id="photos-download-current" class="photos-download-main">خيارات التحميل</button>
+                                <button type="button" id="photos-save-current" class="photos-save-main">حفظ</button>
+                                <button type="button" id="photos-share-current" class="photos-share-main" aria-label="مشاركة الصورة"><i class="fa-solid fa-share-nodes"></i></button>
+                            </div>
+                            <p class="photos-source-note">اختار المقاس والجودة المناسبة من صفحة التحميل.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-photos-download" class="page-section hidden photos-download-page" aria-label="تحميل الصورة">
+            <div class="photos-download-shell">
+                <div class="photos-download-header">
+                    <button type="button" id="photos-download-back" class="photos-download-back">
+                        رجوع للصور
+                    </button>
+                    <div>
+                        <span>ETO PHOTOS</span>
+                        <h1>تحميل الصورة</h1>
+                        <p>اختار المقاس والجودة المناسبة لك.</p>
+                    </div>
+                </div>
+
+                <div class="photos-download-layout">
+                    <div class="photos-download-preview">
+                        <img id="photos-download-image" src="" alt="معاينة الصورة">
+                    </div>
+                    <div class="photos-download-panel">
+                        <span id="photos-download-category" class="photos-download-category">صورة</span>
+                        <h2 id="photos-download-title">تحميل الصورة</h2>
+                        <p id="photos-download-description" class="photos-download-description"></p>
+                        <div class="photos-download-meta">
+                            <div><span id="photos-download-dimensions">—</span></div>
+                            <div><span id="photos-download-author">—</span></div>
+                            <div><span id="photos-download-license">—</span></div>
+                        </div>
+
+                        <div class="photos-download-section-title">
+                            <strong>اختار المقاس</strong>
+                            <small>المقاسات المتاحة للصورة دي</small>
+                        </div>
+                        <div id="photos-download-sizes" class="photos-download-sizes">
+                            <div class="photos-download-loading">بنجهّز المقاسات...</div>
+                        </div>
+
+                        <button type="button" id="photos-download-button" class="photos-download-button" disabled>
+                            تحميل المقاس المحدد
+                        </button>
+                        <button type="button" id="photos-download-original" class="photos-download-original">
+                            فتح الملف الأصلي
+                        </button>
+
+                        <div id="photos-download-rights" class="photos-download-rights hidden">
+                            <div class="photos-download-rights-title">حقوق استخدام الصورة</div>
+                            <p id="photos-download-attribution"></p>
+                            <div class="photos-download-rights-links">
+                                <a id="photos-download-rights-link" href="#" target="_blank" rel="noopener noreferrer">تفاصيل الملف والمؤلف</a>
+                                <a id="photos-download-license-url" href="#" target="_blank" rel="noopener noreferrer">قراءة الترخيص</a>
+                            </div>
+                            <small>شروط الاستخدام تختلف من صورة لأخرى؛ راجع الترخيص قبل إعادة النشر أو الاستخدام التجاري.</small>
+                        </div>
+                        <a id="photos-download-source-link" class="photos-download-source-link hidden" href="#" target="_blank" rel="noopener noreferrer">فتح صفحة الصورة الأصلية</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <button id="back-to-home-btn" onclick="goBackPage()" aria-label="رجوع" class="fixed bottom-6 left-4 sm:left-6 bg-slate-800/95 hover:bg-blue-600 text-white w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-2xl flex items-center justify-center text-lg sm:text-xl transition-all duration-200 hover:scale-105 active:scale-95 z-[60] hidden group">
             <i class="fa-solid fa-arrow-left"></i>
             <span class="absolute right-full mr-3 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">رجوع</span>
@@ -4037,8 +4217,8 @@ Rules:
 
     
 <script src="js/core/utils.js?v=2"></script>
-<script src="js/core/ui.js?v=1"></script>
-<script src="js/core/navigation.js?v=2"></script>
+<script src="js/core/ui.js?v=2"></script>
+<script src="js/core/navigation.js?v=3"></script>
 <script src="js/core/shell.js?v=1"></script>
 <script src="js/core/pwa.js?v=1"></script>
 <script src="js/core/lazy-images.js?v=1"></script>
@@ -4080,5 +4260,7 @@ Rules:
 <script src="./Data/Tools/ogg-to-mp3/ogg-to-mp3.js"></script>
 <script src="./Data/Tools/ppt-pdf/ppt-pdf.js?v=1"></script>
 <script src="Data/Edu_tools/periodic table/periodic.js"></script>
+<script src="Data/Photos/photos-config.js?v=3"></script>
+<script src="Data/Photos/photos.js?v=5"></script>
 </body>
 </html>

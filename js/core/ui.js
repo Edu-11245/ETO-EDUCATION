@@ -16,6 +16,7 @@
             if (typeof renderSchedule === 'function') renderSchedule();
         };
         const GLOBAL_TOOLS = [
+            {id:'photos', title:'Photos', desc:'معرض صور، بحث وتصنيفات وتحميل الصور', icon:'fa-images'},
             {id:'mp3-to-mp4', title:'تحويل MP3 إلى MP4', desc:'حوّل ملف صوت لفيديو MP4', icon:'fa-file-video'},
             {id:'mp4-to-mp3', title:'تحويل MP4 إلى MP3', desc:'استخراج الصوت من أي فيديو', icon:'fa-file-audio'},
             {id:'mp3-to-wav', title:'تحويل MP3 إلى WAV', desc:'تحويل الـMP3 لملف WAV غير مضغوط', icon:'fa-wave-square'},

@@ -129,7 +129,7 @@
                 'cleaner', 'image-cleaner', 'compress', 'merge', 'compare', 'extract', 'editor',
                 'convert', 'text', 'pdf-to-word', 'ppt-pdf', 'reader', 'watermark', 'reorder', 'protect',
                 'grades', 'certificate', 'templates', 'template-settings', 'answers-key',
-                'exam-maker', 'percentage', 'pomodoro', 'teacher'
+                'exam-maker', 'percentage', 'pomodoro', 'teacher', 'photos', 'photos-download'
             ]);
             document.body.classList.toggle('eto-hide-robot', toolPageIds.has(pageId));
 
@@ -166,6 +166,8 @@
 
         // دوال بتتنفذ لما صفحة معينة تتفتح (الدوال دي في ملفات تانية، فبنتأكد إنها موجودة الأول)
         const PAGE_HOOKS = {
+            photos: 'loadEtoPhotos',
+            'photos-download': 'loadEtoPhotoDownload',
             schedule: 'fitScheduleZoom',
             certificate: 'certFitStage',
             calculator: 'initEtoCalculator'
