@@ -94,6 +94,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;700;900&family=Aref+Ruqaa:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
     <script src="Data/Lib/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="lang/lang.css?v=3">
+    <link rel="stylesheet" href="Data/Programming/programming.css?v=2">
+    <link rel="stylesheet" href="Data/Programming/Python/python.css?v=4">
     <link rel="stylesheet" href="./Robot/robot.css">
     <script src="./Robot/robot.js" defer></script>
     <script src="./Religion/religion.js" defer></script>
@@ -189,6 +191,7 @@
                         <span><i class="fa-solid fa-toolbox"></i> أدوات</span>
                         <span><i class="fa-solid fa-language"></i> لغات</span>
                         <span><i class="fa-solid fa-mosque"></i> ركن إسلامي</span>
+                        <span><i class="fa-solid fa-code"></i> برمجة</span>
                     </div>
                 </div>
 
@@ -355,6 +358,36 @@
 
                         <div class="eto-module-footer">
                             <span>استكشف الصور</span>
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </div>
+
+                    <div class="eto-module eto-module-programming" onclick="navigate('programming')">
+                        <div class="eto-module-image" style="background:linear-gradient(135deg,#0f172a,#1d4ed8 55%,#06b6d4)">
+                            <img
+                                data-src="Data/Img/Tabs/Programming.jpg"
+                                alt="Programming"
+                                loading="lazy"
+                                decoding="async">
+                            <div class="eto-module-image-overlay"></div>
+
+                            <span class="eto-module-number">06</span>
+
+                            <div class="eto-module-icon">
+                                <i class="fa-solid fa-code"></i>
+                            </div>
+                        </div>
+
+                        <div class="eto-module-content">
+                            <span class="eto-module-label">PROGRAMMING</span>
+                            <h2>Programming</h2>
+                            <p>
+                                اتعلم البرمجة من الصفر، شرح وتطبيق وامتحان ومشاريع.
+                            </p>
+                        </div>
+
+                        <div class="eto-module-footer">
+                            <span>ابدأ البرمجة</span>
                             <i class="fa-solid fa-arrow-left"></i>
                         </div>
                     </div>
@@ -4129,6 +4162,45 @@ Rules:
             </div>
         </section>
 
+        <section id="page-programming" class="page-section hidden p-4">
+            <div class="prg-wrap">
+                <div class="prg-hero">
+                    <div class="prg-hero-top">
+                        <div class="prg-hero-icon"><i class="fa-solid fa-code"></i></div>
+                        <div>
+                            <h1>Programming</h1>
+                            <p>اتعلم البرمجة من الصفر: شرح، تطبيق، امتحان، ومشاريع حقيقية</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="programming-grid" class="prg-grid"></div>
+            </div>
+        </section>
+
+        <section id="page-python" class="page-section hidden p-4">
+            <div class="prg-wrap" id="python-root"></div>
+        </section>
+
+        <section id="page-python-course" class="page-section hidden p-4">
+            <div class="prg-wrap" id="python-course-root"></div>
+        </section>
+
+        <section id="page-python-lesson" class="page-section hidden p-4">
+            <div class="prg-wrap" id="python-lesson-root"></div>
+        </section>
+
+        <section id="page-python-day" class="page-section hidden p-4">
+            <div class="prg-wrap" id="python-day-root"></div>
+        </section>
+
+        <section id="page-python-libs" class="page-section hidden p-4">
+            <div class="prg-wrap" id="python-libs-root"></div>
+        </section>
+
+        <section id="page-python-mindmap" class="page-section hidden p-4">
+            <div class="prg-wrap" id="python-mindmap-root"></div>
+        </section>
+
         <button id="back-to-home-btn" onclick="goBackPage()" aria-label="رجوع" class="fixed bottom-6 left-4 sm:left-6 bg-slate-800/95 hover:bg-blue-600 text-white w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-2xl flex items-center justify-center text-lg sm:text-xl transition-all duration-200 hover:scale-105 active:scale-95 z-[60] hidden group">
             <i class="fa-solid fa-arrow-left"></i>
             <span class="absolute right-full mr-3 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">رجوع</span>
@@ -4262,5 +4334,12 @@ Rules:
 <script src="Data/Edu_tools/periodic table/periodic.js"></script>
 <script src="Data/Photos/photos-config.js?v=3"></script>
 <script src="Data/Photos/photos.js?v=5"></script>
+<script src="Data/Programming/Python/Data/map.js?v=1"></script>
+<script src="Data/Programming/Python/python.js?v=2"></script>
+<script src="Data/Programming/Python/Course/course.js?v=2"></script>
+<script src="Data/Programming/Python/Course/lesson.js?v=2"></script>
+<script src="Data/Programming/Python/libraries.js?v=2"></script>
+<script src="Data/Programming/Python/mindmap.js?v=1"></script>
+<script src="Data/Programming/programming.js?v=2"></script>
 </body>
 </html>

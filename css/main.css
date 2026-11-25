@@ -2162,7 +2162,7 @@
             width:min(1360px,100%);
             margin:34px auto 0;
             display:grid;
-            grid-template-columns:repeat(5,minmax(0,1fr));
+            grid-template-columns:repeat(6,minmax(0,1fr));
             gap:14px;
         }
 
@@ -2185,6 +2185,7 @@
         .eto-module:nth-child(3){animation-delay:.16s}
         .eto-module:nth-child(4){animation-delay:.23s}
         .eto-module:nth-child(5){animation-delay:.30s}
+        .eto-module:nth-child(6){animation-delay:.37s}
 
         .eto-module:hover{
             transform:translateY(-6px);
@@ -3333,6 +3334,7 @@
 .eto-module:hover .eto-module-art{transform:scale(1.035)}
 .eto-module-lang .eto-module-icon{color:#e11d48}
 .eto-module-photos .eto-module-icon{color:#7c3aed}
+.eto-module-programming .eto-module-icon{color:#0891b2}
 @media(prefers-reduced-motion:reduce){.eto-module-art{transition:none}}
 
 /* ===== block 16 ===== */

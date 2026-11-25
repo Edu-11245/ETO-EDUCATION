@@ -129,7 +129,8 @@
                 'cleaner', 'image-cleaner', 'compress', 'merge', 'compare', 'extract', 'editor',
                 'convert', 'text', 'pdf-to-word', 'ppt-pdf', 'reader', 'watermark', 'reorder', 'protect',
                 'grades', 'certificate', 'templates', 'template-settings', 'answers-key',
-                'exam-maker', 'percentage', 'pomodoro', 'teacher', 'photos', 'photos-download'
+                'exam-maker', 'percentage', 'pomodoro', 'teacher', 'photos', 'photos-download',
+                'islamic', 'programming', 'python', 'python-course', 'python-day', 'python-lesson', 'python-libs', 'python-mindmap'
             ]);
             document.body.classList.toggle('eto-hide-robot', toolPageIds.has(pageId));
 
@@ -170,7 +171,14 @@
             'photos-download': 'loadEtoPhotoDownload',
             schedule: 'fitScheduleZoom',
             certificate: 'certFitStage',
-            calculator: 'initEtoCalculator'
+            calculator: 'initEtoCalculator',
+            programming: 'loadProgrammingPage',
+            python: 'loadPythonPage',
+            'python-course': 'loadPythonCourse',
+            'python-day': 'loadPythonDay',
+            'python-lesson': 'loadPythonLesson',
+            'python-libs': 'loadPythonLibs',
+            'python-mindmap': 'loadPythonMindmap'
         };
         function runPageHooks(pageId) {
             const fn = window[PAGE_HOOKS[pageId]];
@@ -180,6 +188,10 @@
         // صفحات الأقسام الفرعية للأدوات: الرجوع منها يروح لصفحة الأدوات (حتى لو اتفتحت من لينك مباشر أو Refresh)
         const TOOLS_SUBPAGES = new Set(['pdf-tools', 'audio-tools', 'edu-tools', 'exam-tools', 'study-tools', 'calc-tools']);
         function baseStackFor(pageId) {
+            if (pageId === 'python') return ['portal', 'programming'];
+            if (pageId === 'python-day') return ['portal', 'programming', 'python', 'python-course'];
+            if (pageId === 'python-lesson') return ['portal', 'programming', 'python', 'python-course', 'python-day'];
+            if (/^python-/.test(pageId)) return ['portal', 'programming', 'python'];
             return TOOLS_SUBPAGES.has(pageId) ? ['portal', 'extra-tools'] : ['portal'];
         }
 

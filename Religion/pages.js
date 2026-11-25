@@ -12,6 +12,14 @@ window.ETO_RELIGION_PAGES = [
     title: 'مواقيت الصلاة وسجل اليوم',
     desc: 'مواعيد الصلاة بالدقيقة حسب مدينتك، سجّل كل صلاة صليتها طول اليوم، وفي الآخر اطبع جدول يومك بشكل شيك.',
     gradient: 'linear-gradient(135deg,#064e3b,#059669 70%,#0d9488)'
+  },
+  {
+    id: 'hadith',
+    folder: 'hadith',
+    cover: 'cover.svg',
+    title: 'نور الحديث',
+    desc: 'حديث جديد كل يوم بنص مترتب وشرح بصوت وأنيميشن ماشي مع الكلام، تسمع وتشوف وتحفظ بإذن الله.',
+    gradient: 'linear-gradient(135deg,#052e2b,#0f766e 65%,#b45309)'
   }
   // مثال لصفحة جاية:
   // { id:'azkar', folder:'azkar', cover:'cover.svg', title:'أذكار الصباح والمساء', desc:'...', gradient:'linear-gradient(135deg,#1e3a8a,#3b82f6)' }
