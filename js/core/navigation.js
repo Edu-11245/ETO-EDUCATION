@@ -1,6 +1,7 @@
         window.EtoUpdatesReady = window.EtoUpdatesReady || Promise.resolve(window.EtoUpdates || null);
 
         let currentPageId = 'portal';
+        let hookPageId = 'portal'; // آخر صفحة اتعرضت فعلًا (عشان نعرف نقفل الجهاز لما نسيبه)
         let navigationStarted = false;
         let navigationStack = ['portal'];
 
@@ -130,7 +131,7 @@
                 'convert', 'text', 'pdf-to-word', 'ppt-pdf', 'reader', 'watermark', 'reorder', 'protect',
                 'grades', 'certificate', 'templates', 'template-settings', 'answers-key',
                 'exam-maker', 'percentage', 'pomodoro', 'teacher', 'photos', 'photos-download',
-                'islamic', 'programming', 'python', 'python-course', 'python-day', 'python-lesson', 'python-libs', 'python-mindmap'
+                'islamic', 'programming', 'python', 'python-course', 'python-day', 'python-lesson', 'python-libs', 'python-mindmap', 'python-pc'
             ]);
             document.body.classList.toggle('eto-hide-robot', toolPageIds.has(pageId));
 
@@ -141,6 +142,7 @@
                 if (last !== currentPageId) navigationStack.push(currentPageId);
             }
 
+            if (hookPageId === 'python-pc' && pageId !== 'python-pc' && typeof window.unloadPythonPC === 'function') window.unloadPythonPC();
             document.querySelectorAll('.page-section').forEach(sec => sec.classList.add('hidden'));
             target.classList.remove('hidden');
             if (pageId !== 'tool-view') unloadEduToolFrame();
@@ -154,6 +156,7 @@
             }
 
             currentPageId = pageId;
+            hookPageId = pageId;
             navigationStarted = pageId !== 'portal';
             if (window.EtoUpdates && typeof window.EtoUpdates.renderForPage === 'function') {
                 window.EtoUpdates.renderForPage(pageId);
@@ -178,7 +181,8 @@
             'python-day': 'loadPythonDay',
             'python-lesson': 'loadPythonLesson',
             'python-libs': 'loadPythonLibs',
-            'python-mindmap': 'loadPythonMindmap'
+            'python-mindmap': 'loadPythonMindmap',
+            'python-pc': 'loadPythonPC'
         };
         function runPageHooks(pageId) {
             const fn = window[PAGE_HOOKS[pageId]];
