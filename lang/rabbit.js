@@ -10,7 +10,7 @@
         mint:     { fur: '#cce9df', accent: '#70bfa5' },
         midnight: { fur: '#9ca8bd', accent: '#7dd3fc' }
     };
-    var DEF = { voice: 'rabbit', voiceVersion: 2, show: true, sfx: true, speed: 1, skin: 'classic', furColor: '#fffaf7', accentColor: '#f58fac', ears: 'long', bow: true, idleReminder: true, idleSeconds: 60, crack: true };
+    var DEF = { voice: 'rabbit', voiceVersion: 2, show: true, sfx: true, speed: 1, skin: 'classic', furColor: '#fffaf7', accentColor: '#f58fac', ears: 'long', bow: true, idleReminder: true, idleSeconds: 60, crack: true, react: true, reactVoice: false };
     var S = loadSettings();
     function loadSettings() {
         var s = {}, o = {}, k;
@@ -42,9 +42,12 @@
         { page: 'behavior', id: 'idleReminder', type: 'switch', label: 'تذكير عند ترك الصفحة بدون نشاط' },
         { page: 'behavior', id: 'idleSeconds', type: 'range', label: 'وقت الخمول قبل التذكير', min: 30, max: 180, step: 15, fmt: function (v) { return v + ' ثانية'; } },
         { page: 'behavior', id: 'crack', type: 'switch', label: 'تأثير شرخ الشاشة والاهتزاز' },
+        { page: 'behavior', id: 'react', type: 'switch', label: 'الأرنب يتفاعل مع إجاباتك في الاختبار' },
+        { page: 'behavior', id: 'reactVoice', type: 'switch', label: 'يعلّق بصوته على الإجابات' },
         { page: 'general', id: 'show', type: 'switch', label: 'إظهار الأرنب أثناء تعلم اللغات' },
         { page: 'general', id: 'sfx', type: 'switch', label: 'المؤثرات الصوتية للحركة' }
     ];
+    var MOODS = [['happy', 'فرحان'], ['sad', 'زعلان'], ['surprised', 'متفاجئ'], ['angry', 'متضايق'], ['sleepy', 'نعسان'], ['neutral', 'عادي']];
     var LW = 240, LH = 340, GX = 120, GY = 322;   
     var RM = !!(w.matchMedia && w.matchMedia('(prefers-reduced-motion: reduce)').matches);
     function mixHex(a, b, amount) {
@@ -80,6 +83,7 @@
         var PINK = [[0, mixHex(accent, '#ffffff', 0.3)], [1, mixHex(accent, '#000000', 0.08)]];
         var EDGE = [hexRgba(mixHex(accent, '#604b57', 0.45), 0.62), 1.8];
         var t = st.t, hx = st.look * 6, hy = st.lookY * 2, i, side;
+        var md = st.mood || 'neutral', mk = st.moodK || 0;
         c.clearRect(0, 0, LW, LH);
         c.save(); c.translate(GX, GY);
 
@@ -113,6 +117,11 @@
         }
         function ear(sd, ang) {
             var earScale = S.ears === 'short' ? 0.66 : (S.ears === 'medium' ? 0.84 : 1);
+            if (md === 'sad') { ang += sd * 0.62 * mk; earScale *= 1 - 0.2 * mk; }
+            else if (md === 'angry') { ang += sd * 0.34 * mk; }
+            else if (md === 'surprised') { ang -= sd * 0.15 * mk; earScale *= 1 + 0.06 * mk; }
+            else if (md === 'happy') { ang += Math.sin(st.t * 15 + sd) * 0.06 * mk; }
+            else if (md === 'sleepy') { ang += sd * 0.3 * mk; earScale *= 1 - 0.08 * mk; }
             c.save(); c.translate(sd * 27 + hx * 0.55, -150); c.rotate(ang);
             fe(c, 0, -44 * earScale, 18.5, 53 * earScale, 0, FUR, EDGE);
             fe(c, 0, -40 * earScale, 10.5, 41 * earScale, 0, PINK);
@@ -134,18 +143,22 @@
 
         /* خدود */
         for (side = -1; side <= 1; side += 2) {
-            fe(c, side * 41 + hx, -87, 15, 9, 0, [[0, hexRgba(accent, .78)], [0.6, hexRgba(accent, .35)], [1, hexRgba(accent, 0)]]);
+            fe(c, side * 41 + hx, -87, 15, 9, 0, [[0, hexRgba(accent, Math.min(1, .78 + (md === 'happy' ? .22 * mk : 0)))], [0.6, hexRgba(accent, .35 + (md === 'happy' ? .3 * mk : 0))], [1, hexRgba(accent, 0)]]);
         }
 
         /* عيون كبيرة لامعة */
-        var b = st.blink;
+        var b = md === 'sleepy' ? Math.max(st.blink, mk) : st.blink, happyEyes = md === 'happy' && mk > 0.45;
+        var em = md === 'sad' ? 1 - 0.14 * mk : md === 'surprised' ? 1 + 0.1 * mk : md === 'angry' ? 1 - 0.22 * mk : 1;
         for (side = -1; side <= 1; side += 2) {
             var ex = side * 27 + hx, ey = -108 + hy;
-            if (b > 0.72) {
+            if (happyEyes) {
+                c.strokeStyle = '#3a2540'; c.lineWidth = 3; c.lineCap = 'round';
+                c.beginPath(); c.moveTo(ex - 9.5, ey + 3.5); c.quadraticCurveTo(ex, ey - 8, ex + 9.5, ey + 3.5); c.stroke();
+            } else if (b > 0.72) {
                 c.strokeStyle = '#3a2540'; c.lineWidth = 2.8; c.lineCap = 'round';
                 c.beginPath(); c.moveTo(ex - 9.5, ey); c.quadraticCurveTo(ex, ey + 7, ex + 9.5, ey); c.stroke();
             } else {
-                var ry = 14.5 * (1 - b * 1.1);
+                var ry = 14.5 * em * (1 - b * 1.1);
                 fe(c, ex + st.look * 2, ey + st.lookY * 1.5, 11.8, ry, 0, [[0, '#806077'], [0.42, '#37243b'], [1, '#170c1e']]);
                 c.strokeStyle = hexRgba(mixHex(accent, '#503246', .55), .62); c.lineWidth = 1.25;
                 c.beginPath(); c.ellipse(ex + st.look * 2, ey + st.lookY * 1.5, 11.8, ry, 0, Math.PI * 1.08, Math.PI * 1.92); c.stroke();
@@ -157,6 +170,17 @@
                 c.fillStyle = 'rgba(160,200,255,.35)';
                 c.beginPath(); c.arc(ex + 1 + st.look * 2, ey + 8.5 * kk, 3, 0, 6.2832); c.fill();
             }
+            if ((md === 'sad' || md === 'angry') && mk > 0.05) {
+                var by = ey - 21, inX = ex - side * 10, outX = ex + side * 11;
+                var inY = md === 'sad' ? by - 6 * mk : by + 4 * mk, outY = md === 'sad' ? by + 2 * mk : by - 3 * mk;
+                c.strokeStyle = 'rgba(58,37,64,' + (0.8 * mk) + ')'; c.lineWidth = 2.6; c.lineCap = 'round';
+                c.beginPath(); c.moveTo(inX, inY); c.lineTo(outX, outY); c.stroke();
+            }
+        }
+        if (md === 'sad' && mk > 0.5) {
+            var tp = (st.t * 0.9) % 1;
+            c.fillStyle = 'rgba(140,195,255,' + (0.85 * (1 - tp * tp)) + ')';
+            c.beginPath(); c.ellipse(hx + 31, -96 + hy + tp * 24, 2.4, 3.4, 0, 0, 6.2832); c.fill();
         }
 
         /* الخدود الصغيرة ونقط الشوارب */
@@ -173,8 +197,12 @@
         var m = st.mouth, mry = 1.2 + m * 7.5, mrx = 6 + m * 3.5, my = -80;
         c.beginPath(); c.moveTo(nx, -90); c.lineTo(nx, -86.5); c.stroke();
         if (m < 0.06) {
-            c.beginPath(); c.moveTo(nx, -86.5); c.quadraticCurveTo(nx - 4, -80.5, nx - 9.5, -84.5); c.stroke();
-            c.beginPath(); c.moveTo(nx, -86.5); c.quadraticCurveTo(nx + 4, -80.5, nx + 9.5, -84.5); c.stroke();
+            var mw = 9.5, mc = -80.5, me = -84.5;
+            if (md === 'happy') { mw = lp(9.5, 12.5, mk); mc = lp(-80.5, -75.5, mk); me = lp(-84.5, -86.5, mk); }
+            else if (md === 'sad') { mc = lp(-80.5, -88.5, mk); me = lp(-84.5, -80, mk); }
+            else if (md === 'angry') { mc = lp(-80.5, -85, mk); me = lp(-84.5, -82.5, mk); }
+            c.beginPath(); c.moveTo(nx, -86.5); c.quadraticCurveTo(nx - 4, mc, nx - mw, me); c.stroke();
+            c.beginPath(); c.moveTo(nx, -86.5); c.quadraticCurveTo(nx + 4, mc, nx + mw, me); c.stroke();
         } else {
             c.save(); c.beginPath(); c.ellipse(nx, my, mrx, mry, 0, 0, 6.2832); c.fillStyle = mixHex(accent, '#3d1729', .58); c.fill(); c.clip();
             fe(c, nx, my + mry * 0.55, mrx * 0.7, mry * 0.55, 0, [[0, mixHex(accent, '#ffffff', .3)], [1, accent]]);
@@ -210,6 +238,16 @@
             c.restore();
         }
 
+        if (md === 'sleepy' && mk > 0.3) {
+            c.save(); c.textAlign = 'center'; c.textBaseline = 'middle';
+            for (i = 0; i < 3; i++) {
+                var zp = (st.t * 0.45 + i / 3) % 1, zs = 11 + zp * 11;
+                c.font = '900 ' + zs.toFixed(1) + 'px sans-serif';
+                c.fillStyle = 'rgba(122,98,176,' + (Math.sin(zp * Math.PI) * 0.9 * mk).toFixed(3) + ')';
+                c.fillText('Z', 66 + zp * 20 + i * 3, -142 - zp * 62);
+            }
+            c.restore();
+        }
         c.restore();
     }
 
@@ -217,14 +255,18 @@
     var R = {
         x: 0, y: 0, mode: 'idle', path: [], from: null, seg: 0, p: 0, idleT: 2.5, anchor: null, anchorT: 0,
         look: 0, lookY: 0, dir: 1, blinkT: 2, blinkP: 0, twT: 3, twP: 0, sq: 0, hopH: 0,
-        mouth: 0, speaking: false, pulse: 0, t: 0, hopSfx: false, shown: false
+        mouth: 0, speaking: false, pulse: 0, t: 0, hopSfx: false, shown: false,
+        mood: 'neutral', moodWant: 'neutral', moodK: 0, moodT: 0,
+        sleeping: false, yawnT: 0, lookAroundT: 0
     };
     var VW = 0, VH = 0, K = 0.65, HOP = 32;
     var wrap, cv, cx, bubble, bubT = 0, vis = false, lastEl = null, lastElT = 0, speakTok = 0, keep = null;
-    var root, crack, gearBtn, settingsPage, previewWrap, previewCv, previewCx, settingsOpen = false, settingsHistoryState = false, activeTab = 'rabbit', lastActivity = Date.now(), idleScolded = false, crashTimer = null, idleTimer = null;
-    var PV = { t: 0, blinkT: 2.2, blinkP: 0, twT: 3.5, twP: 0, look: 0, mouth: 0 }, PK = 0.92;
+    var root, crack, gearBtn, settingsPage, previewWrap, previewCv, previewCx, settingsOpen = false, settingsHistoryState = false, activeTab = 'rabbit', lastActivity = Date.now(), idleScolded = false, idleStage = 0, crashTimer = null, idleTimer = null;
+    var PV = { t: 0, blinkT: 2.2, blinkP: 0, twT: 3.5, twP: 0, look: 0, mouth: 0, mood: 'neutral', moodWant: 'neutral', moodK: 0, moodT: 0 }, PK = 0.92;
 
     function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function lp(a, b, k) { return a + (b - a) * k; }
+    function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
     function minY() { return 250 * K + 8; }
 
     function plan(tx, ty, sfx) {
@@ -289,6 +331,79 @@
     }
     function stop() { speakTok++; R.speaking = false; }
 
+    /* ================= المزاج وردود الفعل ================= */
+    var fx, fxc, P = [], fxOn = false;
+    var COLS = ['#f58fac', '#fbbf24', '#34d399', '#60a5fa', '#a78bfa', '#fb7185'], STAR = ['#fbbf24', '#fde68a', '#fb923c'];
+    var MSG = {
+        ok: ['برافو!', 'صح كده!', 'شاطر!', 'ممتاز، كمّل!'],
+        wrong: ['معلش، جرّب تاني', 'قريب! ركّز شوية', 'الغلط بيعلّم، كمّل'],
+        perfect: ['درجة كاملة! أنت جامد', 'يا سلام! ولا غلطة', 'أنت أسطورة، الوحدة خلصت!'],
+        good: ['كويس جدًا! قريب من الكاملة', 'شغل حلو، شوية مراجعة وتخلصها'],
+        low: ['مفيش مشكلة، راجع الكلمات وجرّب تاني', 'ماتزعلش، التكرار هو السر']
+    };
+    function setMood(name, secs) {
+        if (name === 'neutral') { R.moodWant = 'neutral'; R.moodT = 0; return; }
+        if (R.mood !== name) { R.mood = name; R.moodK = 0; }
+        R.moodWant = name; R.moodT = secs || 2;
+    }
+    function previewMood(name) {
+        if (name === 'neutral') { PV.moodWant = 'neutral'; PV.moodT = 0; return; }
+        if (PV.mood !== name) { PV.mood = name; PV.moodK = 0; }
+        PV.moodWant = name; PV.moodT = 2.8;
+    }
+    function chime() { tone(784, 1175, 0.14, 0.06, 'sine'); tone(1175, 1568, 0.16, 0.05, 'sine', 0.09); }
+    function boop() { tone(330, 180, 0.22, 0.07, 'triangle'); }
+    function fanfare() { [523, 659, 784, 1047].forEach(function (f, i) { tone(f, f * 1.01, 0.22, 0.06, 'triangle', i * 0.11); }); }
+    function hopInPlace() { if (RM || R.mode === 'hop') return; plan(R.x, R.y, false); }
+
+    function burst(x, y, n, kind, spread) {
+        if (RM || !fxc) return;
+        for (var i = 0; i < n; i++) {
+            var a = -Math.PI / 2 + (Math.random() - 0.5) * (spread || 2.4), sp = 170 + Math.random() * 270;
+            P.push({ x: x, y: y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, g: 560, r: 4 + Math.random() * 4, rot: Math.random() * 6.28, vr: (Math.random() - 0.5) * 10, life: 0, max: 1.1 + Math.random() * 0.8, kind: kind, col: pick(kind === 'star' ? STAR : COLS) });
+        }
+    }
+    function rain(n) {
+        if (RM || !fxc) return;
+        for (var i = 0; i < n; i++) P.push({ x: Math.random() * VW, y: -20 - Math.random() * VH * 0.35, vx: (Math.random() - 0.5) * 90, vy: 70 + Math.random() * 130, g: 170, r: 4 + Math.random() * 4, rot: Math.random() * 6.28, vr: (Math.random() - 0.5) * 9, life: 0, max: 3 + Math.random() * 1.8, kind: 'confetti', col: pick(COLS) });
+    }
+    function stepFx(dt) {
+        if (!fxc) return;
+        if (!vis) P.length = 0;
+        if (!P.length) { if (fxOn) { fxc.setTransform(1, 0, 0, 1, 0, 0); fxc.clearRect(0, 0, fx.width, fx.height); fxOn = false; } return; }
+        var dpr = Math.min(2, w.devicePixelRatio || 1), i, j, p;
+        fxOn = true;
+        fxc.setTransform(dpr, 0, 0, dpr, 0, 0); fxc.clearRect(0, 0, VW, VH);
+        for (i = P.length - 1; i >= 0; i--) {
+            p = P[i]; p.life += dt;
+            if (p.life >= p.max || p.y > VH + 30) { P.splice(i, 1); continue; }
+            p.vy += p.g * dt; p.vx *= 1 - dt * 0.7; p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vr * dt;
+            fxc.globalAlpha = Math.min(1, (p.max - p.life) / 0.4); fxc.fillStyle = p.col;
+            fxc.save(); fxc.translate(p.x, p.y); fxc.rotate(p.rot);
+            if (p.kind === 'star') {
+                fxc.beginPath();
+                for (j = 0; j < 10; j++) { var ang = j * Math.PI / 5 - Math.PI / 2, rd = j % 2 ? p.r * 0.65 : p.r * 1.5; if (j) fxc.lineTo(Math.cos(ang) * rd, Math.sin(ang) * rd); else fxc.moveTo(Math.cos(ang) * rd, Math.sin(ang) * rd); }
+                fxc.closePath(); fxc.fill();
+            } else fxc.fillRect(-p.r, -p.r * 0.5, p.r * 2, p.r);
+            fxc.restore();
+        }
+        fxc.globalAlpha = 1;
+    }
+
+    /* بيتنادى من core.js: react('ok' | 'wrong' | 'perfect' | 'good' | 'low') */
+    function react(type) {
+        if (!vis || !S.react || settingsOpen) return;
+        var msg = pick(MSG[type] || MSG.ok), top = R.y - 150 * K;
+        if (type === 'ok') { setMood('happy', 1.8); hopInPlace(); burst(R.x, top, 8, 'star'); chime(); }
+        else if (type === 'wrong') { setMood('sad', 2.6); boop(); }
+        else if (type === 'perfect') { setMood('happy', 5); hopInPlace(); burst(R.x, top, 26, 'confetti'); rain(60); fanfare(); }
+        else if (type === 'good') { setMood('happy', 3.5); hopInPlace(); burst(R.x, top, 14, 'star'); chime(); }
+        else if (type === 'low') { setMood('sad', 3.5); boop(); }
+        else return;
+        sayBubble(msg, type === 'ok' || type === 'wrong' ? 2.4 : 4);
+        if (S.reactVoice) speakAr(msg, 0.96, 1.28);
+    }
+
     /* ================= التحديث (كل فريم) ================= */
     function update(dt) {
         var s = R, i;
@@ -298,8 +413,13 @@
         s.twT -= dt; if (s.twT <= 0) { s.twP = 0.0001; s.twT = 3 + Math.random() * 4; }
         if (s.twP > 0) { s.twP += dt / 0.45; if (s.twP >= 1) s.twP = 0; }
         s.pulse = Math.max(0, s.pulse - dt * 4);
+        if (s.yawnT > 0) s.yawnT = Math.max(0, s.yawnT - dt);
+        if (s.lookAroundT > 0) s.lookAroundT = Math.max(0, s.lookAroundT - dt);
+        if (s.moodT > 0) { s.moodT -= dt; if (s.moodT <= 0) s.moodWant = 'neutral'; }
+        s.moodK += ((s.moodWant === 'neutral' ? 0 : 1) - s.moodK) * Math.min(1, dt * 9);
+        if (s.moodWant === 'neutral' && s.moodK < 0.02) { s.mood = 'neutral'; s.moodK = 0; }
 
-        var sqT = Math.sin(s.t * 2.2) * 0.012, lookT = 0;
+        var sqT = s.sleeping ? 0.05 + Math.sin(s.t * 1.3) * 0.012 : Math.sin(s.t * 2.2) * 0.012, lookT = 0;
         if (s.mode === 'hop') {
             var A = s.seg === 0 ? s.from : s.path[s.seg - 1], B = s.path[s.seg];
             s.p += dt / 0.4;
@@ -334,16 +454,16 @@
             } else {
                 s.idleT -= dt;
                 if (s.idleT <= 0) {
-                    if (!RM) plan(clamp(60 + Math.random() * (VW - 120), 60, VW - 60), clamp(VH * 0.55 + Math.random() * VH * 0.4, minY(), VH - 14), false);
+                    if (!RM && !s.sleeping) plan(clamp(60 + Math.random() * (VW - 120), 60, VW - 60), clamp(VH * 0.55 + Math.random() * VH * 0.4, minY(), VH - 14), false);
                     else s.idleT = 4;
                 }
-                lookT = Math.sin(s.t * 0.5) * 0.7;
+                lookT = s.sleeping ? 0 : s.lookAroundT > 0 ? Math.sin(s.t * 3.2) : Math.sin(s.t * 0.5) * 0.7;
             }
         }
         s.sq += (sqT - s.sq) * Math.min(1, dt * 26);
         s.look += (lookT - s.look) * Math.min(1, dt * 6);
         s.lookY += ((s.speaking ? -0.2 : Math.sin(s.t * 0.37) * 0.4) - s.lookY) * Math.min(1, dt * 4);
-        var mt = s.speaking ? (0.3 + 0.7 * Math.abs(Math.sin(s.t * 13))) * (0.7 + 0.3 * s.pulse) : 0;
+        var mt = s.speaking ? (0.3 + 0.7 * Math.abs(Math.sin(s.t * 13))) * (0.7 + 0.3 * s.pulse) : (s.yawnT > 0 ? Math.sin((1 - s.yawnT / 1.8) * Math.PI) * 0.95 : s.mood === 'surprised' ? 0.3 * s.moodK : 0);
         s.mouth += (mt - s.mouth) * Math.min(1, dt * 22);
         if (bubT > 0) { bubT -= dt; if (bubT <= 0 && bubble) bubble.classList.remove('on'); }
     }
@@ -353,9 +473,9 @@
         cx.setTransform(dpr * K, 0, 0, dpr * K, 0, 0);
         draw(cx, {
             t: s.t, h: s.hopH / K, sq: s.sq, look: s.look, lookY: s.lookY, lookEar: s.look,
-            blink: s.blinkP > 0 ? Math.sin(s.blinkP * Math.PI) : 0, mouth: s.mouth,
+            blink: s.blinkP > 0 ? Math.sin(s.blinkP * Math.PI) : 0, mouth: s.mouth, mood: s.mood, moodK: s.moodK,
             tw: s.twP > 0 ? Math.sin(s.twP * Math.PI * 3) * (1 - s.twP) * 0.12 : 0,
-            bob: s.speaking ? Math.sin(s.t * 13) * 2 : Math.sin(s.t * 2.2) * 0.8, dir: s.dir
+            bob: s.speaking ? Math.sin(s.t * 13) * 2 : (s.sleeping ? Math.sin(s.t * 1.3) * 1.4 : Math.sin(s.t * 2.2) * 0.8), dir: s.dir
         });
         wrap.style.transform = 'translate3d(' + (s.x - GX * K).toFixed(1) + 'px,' + (s.y - GY * K).toFixed(1) + 'px,0)';
     }
@@ -373,27 +493,29 @@
         cv.style.width = LW * K + 'px'; cv.style.height = LH * K + 'px';
         wrap.style.width = LW * K + 'px'; wrap.style.height = LH * K + 'px';
         bubble.style.left = GX * K + 'px'; bubble.style.top = (GY - 262) * K + 'px';
+        if (fx) { fx.width = Math.round(VW * dpr); fx.height = Math.round(VH * dpr); fx.style.width = VW + 'px'; fx.style.height = VH + 'px'; }
         R.x = clamp(R.x, 40, VW - 40); R.y = clamp(R.y, minY(), VH - 6);
         sizePreviewCanvas();
     }
     function sayBubble(msg, secs) { if (!bubble || !vis) return; bubble.textContent = msg; bubble.classList.add('on'); bubT = secs || 4; }
 
-    function speakScold() {
+    function speakAr(phrase, rate, pitch) {
         if (!('speechSynthesis' in w)) return;
         try {
             var ss = w.speechSynthesis;
             ss.cancel();
-            var phrase = 'ما تذاكر يااااض!';
             var u = new SpeechSynthesisUtterance(phrase);
-            u.lang = 'ar-EG'; u.rate = 0.96; u.pitch = 1.28;
+            u.lang = 'ar-EG'; u.rate = rate || 0.96; u.pitch = pitch || 1.28;
             var voices = ss.getVoices();
             var egyptian = voices.filter(function (v) { return /^ar[-_]eg/i.test(v.lang || ''); });
             var arabic = voices.filter(function (v) { return /^ar[-_]/i.test(v.lang || ''); });
             if (egyptian.length) u.voice = egyptian[0]; else if (arabic.length) u.voice = arabic[0];
             tune(u, null, phrase);
+            R.anchor = null;   /* الأرنب ما يجريش لزرار الإجابة اللي اتداس */
             ss.speak(u);
         } catch (e) {}
     }
+    function speakScold() { speakAr('ما تذاكر يااااض!', 0.96, 1.28); }
 
     function screenCrash() {
         if (!vis) return;
@@ -411,25 +533,49 @@
                 d.documentElement.classList.remove('eto-rb-hit');
             }, 2400);
         }
+        setMood('angry', 4.5);
         sayBubble('ما تذاكر يااااض!', 5.5);
         speakScold();
     }
 
     function noteActivity() {
         lastActivity = Date.now();
-        idleScolded = false;
+        idleScolded = false; idleStage = 0;
+        if (R.sleeping) wakeUp();
         if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
         if (crack) crack.classList.remove('on');
         d.documentElement.classList.remove('eto-rb-hit');
     }
 
-    function checkInactivity() {
-        if (!vis || !S.idleReminder || RM || idleScolded || d.visibilityState === 'hidden' || settingsOpen) return;
-        if (Date.now() - lastActivity < (Number(S.idleSeconds) || 60) * 1000 || R.speaking) return;
-        idleScolded = true;
-        R.anchor = null;
+    /* التذكير على مراحل: يبص حواليه (40%) ثم ينام (70%) ثم يصحى ويزعق (100%) */
+    function boredLook() {
+        R.anchor = null; R.lookAroundT = 3.5; R.idleT = Math.max(R.idleT, 3.5);
+        sayBubble(pick(['هو في حد هنا؟', 'أنت لسه معايا؟', 'يا ترى نسيتني؟']), 3.2);
+    }
+    function fallAsleep() {
+        R.anchor = null; R.sleeping = true; R.yawnT = 1.8; R.lookAroundT = 0;
+        setMood('sleepy', 1e9);
+        tone(520, 240, 0.7, 0.04, 'sine');
+        sayBubble('هاااه... هنام شوية', 3.2);
+    }
+    function wakeUp() {
+        R.sleeping = false; R.yawnT = 0; R.lookAroundT = 0;
+        if (!vis) { setMood('neutral'); return; }
+        setMood('surprised', 1.1); hopInPlace(); squeak();
+        sayBubble(pick(['صحيت! يلا نكمّل', 'آه! كنت نايم؟', 'أنا كنت بريّح عيني بس']), 2.8);
+    }
+    function wakeAndScold() {
+        idleScolded = true; R.anchor = null; R.sleeping = false; R.yawnT = 0; R.lookAroundT = 0;
+        setMood('surprised', 1);
         plan(clamp(VW / 2, 76, VW - 76), clamp(VH * 0.56, minY(), VH - 22), false);
         idleTimer = setTimeout(function () { idleTimer = null; screenCrash(); }, 820);
+    }
+    function checkInactivity() {
+        if (!vis || !S.idleReminder || RM || idleScolded || d.visibilityState === 'hidden' || settingsOpen || R.speaking) return;
+        var T = (Number(S.idleSeconds) || 60) * 1000, el = Date.now() - lastActivity;
+        if (el >= T) { wakeAndScold(); return; }
+        if (idleStage < 1 && el >= T * 0.4) { idleStage = 1; boredLook(); }
+        if (idleStage < 2 && el >= T * 0.7) { idleStage = 2; fallAsleep(); }
     }
 
     var CSS = [
@@ -438,6 +584,7 @@
         '#eto-rb .rb-wrap{position:fixed;left:0;top:0;pointer-events:none;opacity:0;transition:opacity .35s ease;will-change:transform;filter:drop-shadow(0 6px 10px rgba(120,40,70,.18))}',
         '#eto-rb .rb-wrap.on{opacity:1}',
         '#eto-rb canvas{display:block}',
+        '#eto-rb .rb-fx{position:fixed;left:0;top:0;pointer-events:none}',
         '#eto-rb .rb-bub{position:absolute;transform:translate(-50%,-100%) scale(.7);transform-origin:50% 100%;background:#fff;color:#4a1d33;font-weight:700;font-size:13px;line-height:1.5;padding:8px 13px;border-radius:16px;box-shadow:0 8px 24px rgba(120,40,70,.22);white-space:nowrap;opacity:0;transition:.25s ease;direction:rtl}',
         '#eto-rb .rb-bub::after{content:"";position:absolute;left:50%;bottom:-6px;width:12px;height:12px;background:#fff;transform:translateX(-50%) rotate(45deg);border-radius:2px}',
         '#eto-rb .rb-bub.on{opacity:1;transform:translate(-50%,-100%) scale(1)}',
@@ -581,6 +728,9 @@
     function renderPreview(dt) {
         if (!previewCx || !settingsOpen) return;
         PV.t += dt;
+        if (PV.moodT > 0) { PV.moodT -= dt; if (PV.moodT <= 0) PV.moodWant = 'neutral'; }
+        PV.moodK += ((PV.moodWant === 'neutral' ? 0 : 1) - PV.moodK) * Math.min(1, dt * 9);
+        if (PV.moodWant === 'neutral' && PV.moodK < 0.02) { PV.mood = 'neutral'; PV.moodK = 0; }
         PV.blinkT -= dt;
         if (PV.blinkT <= 0) { PV.blinkP = 0.0001; PV.blinkT = 2.2 + Math.random() * 3.2; }
         if (PV.blinkP > 0) { PV.blinkP += dt / 0.16; if (PV.blinkP >= 1) PV.blinkP = 0; }
@@ -593,7 +743,7 @@
         draw(previewCx, {
             t: PV.t, h: 0, sq: Math.sin(PV.t * 2.2) * 0.01, look: PV.look, lookY: Math.sin(PV.t * 0.4) * 0.2,
             lookEar: PV.look, blink: PV.blinkP > 0 ? Math.sin(PV.blinkP * Math.PI) : 0,
-            mouth: PV.mouth, tw: PV.twP > 0 ? Math.sin(PV.twP * Math.PI * 3) * (1 - PV.twP) * 0.12 : 0,
+            mouth: PV.mouth + (PV.mood === 'surprised' ? 0.3 * PV.moodK : 0), mood: PV.mood, moodK: PV.moodK, tw: PV.twP > 0 ? Math.sin(PV.twP * Math.PI * 3) * (1 - PV.twP) * 0.12 : 0,
             bob: Math.sin(PV.t * 2.2) * 0.8, dir: 1
         });
     }
@@ -663,6 +813,7 @@
         cv = d.createElement('canvas'); cx = cv.getContext('2d');
         bubble = d.createElement('div'); bubble.className = 'rb-bub';
         wrap.appendChild(cv); wrap.appendChild(bubble); root.appendChild(wrap);
+        fx = d.createElement('canvas'); fx.className = 'rb-fx'; fxc = fx.getContext('2d'); root.appendChild(fx);
         crack = d.createElement('div'); crack.className = 'rb-crack';
         crack.innerHTML = '<svg viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true"><path class="rb-crack-dark" d="M500 520 L420 420 380 300 290 220 M500 520 L600 420 650 300 760 230 M500 520 L410 570 300 650 230 790 M500 520 L600 590 710 670 790 810 M500 520 L490 390 455 300 470 180 M500 520 L550 650 535 760 570 900 M420 420 L330 390 260 330 M600 420 L690 390 760 330 M410 570 L360 670 300 720 M600 590 L650 690 720 750"/><path d="M500 520 L420 420 380 300 290 220 M500 520 L600 420 650 300 760 230 M500 520 L410 570 300 650 230 790 M500 520 L600 590 710 670 790 810 M500 520 L490 390 455 300 470 180 M500 520 L550 650 535 760 570 900 M420 420 L330 390 260 330 M600 420 L690 390 760 330 M410 570 L360 670 300 720 M600 590 L650 690 720 750"/></svg>';
         root.appendChild(crack); d.body.appendChild(root);
@@ -680,9 +831,9 @@
                 t.id === 'voice' ? '<h2>صوت الأرنب</h2><p>اختار أسلوب النطق وسرعته، وجرب الصوت على اللغة المفتوحة حاليًا.</p>' :
                 t.id === 'behavior' ? '<h2>الحركة والتذكير</h2><p>حدد إمتى الأرنب يفكرك بالمذاكرة، وتحكم في تأثير كسر الشاشة.</p>' :
                 '<h2>الإعدادات العامة</h2><p>تحكم في ظهور الأرنب والمؤثرات المصاحبة لحركته.</p>';
-            var extra = t.id === 'rabbit' ? '<div class="rb-page-actions"><button type="button" class="rb-action" data-reset="appearance">استعادة شكل الأرنب الافتراضي</button></div>' :
+            var extra = t.id === 'rabbit' ? '<div class="rb-row"><span>جرّب تعبيرات الأرنب</span><div class="rb-seg" data-moods="1">' + MOODS.map(function (m) { return '<button type="button" data-mood="' + m[0] + '">' + m[1] + '</button>'; }).join('') + '</div></div><div class="rb-page-actions"><button type="button" class="rb-action" data-reset="appearance">استعادة شكل الأرنب الافتراضي</button></div>' :
                 t.id === 'voice' ? '<div class="rb-page-actions"><button type="button" class="rb-action primary rb-test">تجربة الصوت</button></div><div class="rb-note">النغمة المعدّلة تعتمد على الأصوات المثبتة في جهازك؛ الصوت المسجّل الحقيقي يحتاج ملفًا صوتيًا مستقلًا.</div>' :
-                t.id === 'behavior' ? '<div class="rb-note">التذكير يعمل أثناء عرض صفحة اللغة فقط، ويتوقف تلقائيًا عند فتح الإعدادات أو عند إخفاء الصفحة.</div>' :
+                t.id === 'behavior' ? '<div class="rb-note">لو سبت الصفحة بدون نشاط: الأرنب يبص حواليه الأول، بعدين يتثاءب وينام، وفي الآخر يصحى ويزعق. التذكير يعمل أثناء عرض صفحة اللغة فقط، ويتوقف تلقائيًا عند فتح الإعدادات أو عند إخفاء الصفحة.</div>' :
                 '<div class="rb-page-actions"><button type="button" class="rb-action" data-reset="all">استعادة كل الإعدادات الافتراضية</button></div>';
             return '<section class="rb-settings-page' + (t.id === 'rabbit' ? ' active' : '') + '" data-settings-page="' + t.id + '"><div class="rb-page-intro">' + intro + '</div>' + controls + extra + '</section>';
         }).join('');
@@ -698,6 +849,8 @@
             if (tab) { setSettingsTab(tab.getAttribute('data-tab')); return; }
             if (e.target.closest('.rb-back')) { closeSettings(false); return; }
             if (e.target.closest('.rb-test')) { sample(); return; }
+            var mb = e.target.closest('[data-mood]');
+            if (mb) { previewMood(mb.getAttribute('data-mood')); return; }
             var reset = e.target.closest('[data-reset]');
             if (reset) { if (reset.getAttribute('data-reset') === 'appearance') resetAppearance(); else resetAllSettings(); return; }
             var b = e.target.closest('.rb-seg button');
@@ -734,12 +887,14 @@
             var v = on && S.show;
             if (v && !vis) {            /* دخول الأرنب من خارج الشاشة عند فتح صفحة لغة */
                 R.x = VW + 140; R.y = VH - 14; R.mode = 'idle'; R.anchor = null; R.idleT = 99;
+                R.sleeping = false; R.yawnT = 0; R.lookAroundT = 0; R.mood = 'neutral'; R.moodWant = 'neutral'; R.moodK = 0; idleStage = 0;
                 plan(VW - 110, VH - 14, false); R.hopSfx = false;
                 try { if (!localStorage.getItem('etoRabbitSeen')) { localStorage.setItem('etoRabbitSeen', '1'); setTimeout(function () { sayBubble('أهلاً! أنا أرنب إيتو. دوس على أي كلمة وأنا أنطقها.', 6); }, 1800); } } catch (e) {}
             }
             vis = v; wrap.classList.toggle('on', vis);
         }
         if (vis) { checkInactivity(); update(dt); render(); }
+        stepFx(dt);
         if (settingsOpen) renderPreview(dt);
         if (vis || settingsOpen) w.requestAnimationFrame(frame);
         else setTimeout(function () { w.requestAnimationFrame(frame); }, 250);
@@ -760,6 +915,6 @@
         w.requestAnimationFrame(frame);
     }
 
-    w.EtoRabbit = { tune: tune, stop: stop, settings: S, bubble: sayBubble, _draw: draw };
+    w.EtoRabbit = { tune: tune, stop: stop, settings: S, bubble: sayBubble, react: react, mood: setMood, _draw: draw };
     if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', init); else init();
 })(window, document);

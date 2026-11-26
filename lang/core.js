@@ -74,6 +74,19 @@
     function coursePct(L) { var r = readyUnits(L); return r.length ? Math.round(r.reduce(function (a, u) { return a + unitPct(L, u); }, 0) / r.length) : 0; }
     function groupsOf(L) {
         var groups = [];
+        if (L.levels && L.levels.length) {
+            L.levels.forEach(function (entry) {
+                var level = typeof entry === 'string' ? entry : entry.level || entry.id || entry.code;
+                if (level && !groups.some(function (g) { return g.level === level; })) groups.push({ level: level, units: [] });
+            });
+            L.units.forEach(function (u) {
+                var level = u.level || L.level || 'A1';
+                var group = groups.filter(function (g) { return g.level === level; })[0];
+                if (!group) { group = { level: level, units: [] }; groups.push(group); }
+                group.units.push(u);
+            });
+            return groups;
+        }
         L.units.forEach(function (u) {
             var level = u.level || L.level || 'A1', last = groups[groups.length - 1];
             if (!last || last.level !== level) { last = { level: level, units: [] }; groups.push(last); }
@@ -215,8 +228,11 @@
     }
 
     /* ---------- course dictionary ---------- */
-    function dictionaryKey(value) {
-        return String(value || '').toLocaleLowerCase().replace(/[¿?¡!.,;:…،؛"'“”()\[\]]/g, '').replace(/\s+/g, ' ').trim();
+    function dictionaryKey(value, L) {
+        var text = String(value || '').toLocaleLowerCase();
+        if (L && L.dictionaryGermanFold) text = text.replace(/ß/g, 'ss');
+        if (L && L.dictionaryFoldAccents && text.normalize) text = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        return text.replace(/[¿?¡!.,;:…،؛"'“”()\[\]]/g, '').replace(/\s+/g, ' ').trim();
     }
     function buildDictionary(L) {
         var map = {}, entries = [];
@@ -239,15 +255,23 @@
         });
         if (L.alphabet && L.alphabet.items) {
             L.alphabet.items.forEach(function (x) { add(x.w, '', x.m, 'A1', 'الأبجدية', 'alphabet'); });
+            (L.alphabet.sections || []).forEach(function (section) {
+                (section.items || []).forEach(function (x) { add(x.w, '', x.m, 'A1', section.title || 'الأبجدية', 'alphabet'); });
+            });
         }
-        entries.sort(function (a, b) { return a.t.localeCompare(b.t, 'es'); });
+        entries.sort(function (a, b) { return a.t.localeCompare(b.t, L.dictionaryLocale || L.locale || 'es'); });
         L.dictionaryEntries = entries;
         return entries;
     }
     function renderDictionary(L) {
-        var entries = L.dictionaryEntries || buildDictionary(L), levels = ['ALL', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+        var entries = L.dictionaryEntries || buildDictionary(L), levelValues = [];
+        (L.units || []).forEach(function (u) { var level = u.level || L.level || 'A1'; if (levelValues.indexOf(level) < 0) levelValues.push(level); });
+        var levels = ['ALL'].concat(levelValues), title = L.dictionaryTitle || 'القاموس الإسباني';
+        var kicker = L.dictionaryKicker || 'ESPAÑOL • DICTIONARY';
+        var description = L.dictionaryDescription || 'كل مفردات الكورس في مكان واحد، من A1 لحد C2. دور بالكلمة الإسباني أو معناها بالعربي، واسمع نطقها من نفس القاموس.';
+        var placeholder = L.dictionarySearchPlaceholder || 'ابحث بالإسباني أو بالعربي أو بالنطق...';
         var filters = levels.map(function (level) {
-            var label = level === 'ALL' ? 'كل المستويات' : level;
+            var label = level === 'ALL' ? (levelValues.length === 1 ? 'كل الكلمات' : 'كل المستويات') : level;
             return '<button type="button" class="lg-dict-filter" data-dict-level="' + level + '" aria-pressed="' + (level === 'ALL' ? 'true' : 'false') + '">' + label + '</button>';
         }).join('');
         var cards = entries.map(function (x, i) {
@@ -262,11 +286,11 @@
                 '<div class="lg-dict-meaning">' + esc(x.meanings.join(' • ')) + '</div>' +
                 '<div class="lg-dict-meta">' + x.levels.map(function (level) { return '<span class="lg-dict-tag">' + esc(level) + '</span>'; }).join('') + '<span class="lg-dict-tag">' + x.sources.length + ' درس</span>' + sourceBtn + '</div></article>';
         }).join('');
-        mk(pid(L, 'dictionary'), theme(L)).innerHTML = crumbs([['Lang Learning', 'lang'], [L.name, pid(L)], ['القاموس الإسباني', '']]) +
-            hero({ ico: 'fa-book-atlas', kicker: 'ESPAÑOL • DICTIONARY', title: 'القاموس الإسباني', text: 'كل مفردات الكورس في مكان واحد، من A1 لحد C2. دور بالكلمة الإسباني أو معناها بالعربي، واسمع نطقها من نفس القاموس.' }) +
+        mk(pid(L, 'dictionary'), theme(L)).innerHTML = crumbs([['Lang Learning', 'lang'], [L.name, pid(L)], [title, '']]) +
+            hero({ ico: 'fa-book-atlas', kicker: kicker, title: title, text: description }) +
             '<section class="lg-dictionary" data-dictionary-root data-l="' + L.id + '" data-active-level="ALL" style="margin-top:20px">' +
-            '<div class="lg-stats"><div class="lg-stat"><b>' + entries.length + '</b>مدخل في القاموس</div><div class="lg-stat"><b>' + L.units.length + '</b>وحدة تعليمية</div><div class="lg-stat"><b>6</b>مستويات</div></div>' +
-            '<div class="lg-dict-tools"><input class="lg-dict-search" id="lg-dict-search-' + L.id + '" type="search" placeholder="ابحث بالإسباني أو بالعربي أو بالنطق..." autocomplete="off" aria-label="ابحث في القاموس الإسباني"><span class="lg-dict-count" id="lg-dict-count-' + L.id + '">عرض ' + entries.length + ' كلمة</span></div>' +
+            '<div class="lg-stats"><div class="lg-stat"><b>' + entries.length + '</b>مدخل في القاموس</div><div class="lg-stat"><b>' + L.units.length + '</b>وحدة تعليمية</div><div class="lg-stat"><b>' + levelValues.length + '</b>مستوى</div></div>' +
+            '<div class="lg-dict-tools"><input class="lg-dict-search" id="lg-dict-search-' + L.id + '" type="search" placeholder="' + esc(placeholder) + '" autocomplete="off" aria-label="' + esc(placeholder) + '"><span class="lg-dict-count" id="lg-dict-count-' + L.id + '">عرض ' + entries.length + ' كلمة</span></div>' +
             '<div class="lg-dict-filters" aria-label="تصفية حسب المستوى">' + filters + '</div>' +
             '<div class="lg-dict-list" id="lg-dict-list-' + L.id + '">' + cards + '</div>' +
             '<div class="lg-dict-empty" id="lg-dict-empty-' + L.id + '">ملقيناش كلمة مطابقة. جرّب كتابة مختلفة.</div>' +
@@ -277,11 +301,11 @@
         var page = d.getElementById('page-' + pid(L, 'dictionary'));
         if (!page) return;
         var box = page.querySelector('[data-dictionary-root]'); if (!box) return;
-        var input = page.querySelector('#lg-dict-search-' + L.id), term = dictionaryKey(input ? input.value : '');
+        var input = page.querySelector('#lg-dict-search-' + L.id), term = dictionaryKey(input ? input.value : '', L);
         var active = box.getAttribute('data-active-level') || 'ALL', rows = page.querySelectorAll('[data-dict-item]'), shown = 0;
         Array.prototype.forEach.call(rows, function (row) {
             var levelOk = active === 'ALL' || (row.getAttribute('data-levels') || '').split(',').indexOf(active) > -1;
-            var textOk = !term || dictionaryKey(row.getAttribute('data-search')).indexOf(term) > -1;
+            var textOk = !term || dictionaryKey(row.getAttribute('data-search'), L).indexOf(term) > -1;
             var visible = levelOk && textOk;
             row.hidden = !visible; if (visible) shown++;
         });
@@ -308,8 +332,11 @@
         /* tools sit right under the hero now, not at the bottom of the page */
         var toolCards = [];
         if (L.alphabet) toolCards.push('<button type="button" class="lg-tool lg-in animate__animated animate__fadeInUp" style="--i:2" data-go="' + pid(L, 'alphabet') + '"><i class="fa-solid fa-font"></i><span><strong>' + esc(L.alphabet.title) + '</strong><small>' + L.alphabet.items.length + ' حرف بنطقه</small></span></button>');
-        if (L.dictionary) toolCards.push('<button type="button" class="lg-tool lg-in animate__animated animate__fadeInUp" style="--i:3" data-go="' + pid(L, 'dictionary') + '"><i class="fa-solid fa-book-atlas"></i><span><strong>القاموس الإسباني</strong><small>' + (L.dictionaryEntries || []).length + ' كلمة وتعبير بالترجمة والنطق</small></span></button>');
+        if (L.dictionary) toolCards.push('<button type="button" class="lg-tool lg-in animate__animated animate__fadeInUp" style="--i:3" data-go="' + pid(L, 'dictionary') + '"><i class="fa-solid fa-book-atlas"></i><span><strong>' + esc(L.dictionaryTitle || 'القاموس الإسباني') + '</strong><small>' + (L.dictionaryEntries || []).length + ' كلمة وتعبير بالترجمة والنطق</small></span></button>');
         var tools = toolCards.length ? head('أدوات الكورس', 'مكتبة اللغة ' + L.nameAr, 1) + '<div class="lg-tools">' + toolCards.join('') + '</div>' : '';
+        var learningGuide = (L.learningStages && L.learningStages.length) ? head('خريطة التدرج', L.learningStagesTitle || ('مسار المستوى ' + L.level + ' خطوة بخطوة'), 2) + '<div class="lg-road">' + L.learningStages.map(function (stage, i) {
+            return '<article class="lg-unit"><div class="lg-unit-top"><b class="n">' + esc(stage.n || String(i + 1)) + '</b><span><strong>' + esc(stage.title) + '</strong><small>' + esc(stage.units || '') + '</small></span></div><p style="margin:0;color:var(--mute);font-size:11px;line-height:1.8;font-weight:700">' + esc(stage.description || '') + '</p></article>';
+        }).join('') + '</div>' : '';
 
         var body;
         if (multi) {
@@ -319,7 +346,7 @@
                 return '<div class="lg-lvl lg-in' + an('fadeInUp') + (on ? '' : ' soon') + (on && pc >= 100 ? ' full' : '') + '" style="' + sty(m.a, m.b) + ';--i:' + (gi + 3) + '" data-code="' + esc(g.level) + '"' + (on ? ' role="button" tabindex="0" data-go="' + lvlPid(L, g.level) + '"' : '') + '>' +
                     '<div class="lg-lvl-top"><span class="lg-lvl-code">' + esc(g.level) + '</span><span class="lg-lvl-ttl"><strong>' + esc(m.ar) + '</strong><small>' + esc(m.en) + '</small></span>' + (on ? '<span class="lg-lvl-pc">' + pc + '%</span>' : '<i class="fa-solid fa-lock lk"></i>') + '</div>' +
                     '<p>' + esc((L.levelDescriptions && L.levelDescriptions[g.level]) || 'تابع الوحدات بالترتيب لتحقيق أهداف المستوى.') + '</p>' +
-                    '<div class="lg-lvl-meta"><span><i class="fa-solid fa-layer-group"></i> ' + unitsWord(g.units.length) + '</span><span><i class="fa-solid fa-lock-open"></i> ' + av + ' متاحة</span></div>' +
+                    '<div class="lg-lvl-meta"><span><i class="fa-solid fa-layer-group"></i> ' + (g.units.length ? unitsWord(g.units.length) : 'المحتوى قيد الإعداد') + '</span><span><i class="fa-solid fa-lock-open"></i> ' + av + ' متاحة</span></div>' +
                     (on ? '<div class="lg-mini"><i style="width:' + pc + '%"></i></div>' : '') +
                     '<div class="lg-go"><span>' + (on ? 'افتح المستوى' : 'قريبًا') + '</span><i class="fa-solid ' + (on ? 'fa-arrow-left' : 'fa-lock') + '"></i></div></div>';
             }).join('');
@@ -329,7 +356,7 @@
         }
         mk(pid(L), theme(L)).innerHTML = crumbs([['Lang Learning', 'lang'], [L.name, '']]) +
             hero({ ico: 'fa-book-open', kicker: 'COURSE • ' + L.name.toUpperCase() + ' ' + L.level, title: L.title, text: L.intro, extra: stats + cta, side: ring(p) }) +
-            tools + body;
+            tools + learningGuide + body;
     }
 
     /* one page per level: hero + that level's unit cards + prev/next level */
@@ -355,12 +382,20 @@
 
     function renderAlphabet(L) {
         var A = L.alphabet;
-        mk(pid(L, 'alphabet'), theme(L)).innerHTML = crumbs([['Lang Learning', 'lang'], [L.name, pid(L)], ['الأبجدية', '']]) +
-            hero({ ico: 'fa-font', kicker: 'ALPHABET', title: A.title, text: 'دوس على أي حرف تسمع كلمة بتبدأ بيه.' }) +
-            head('الحروف', A.items.length + ' حرف', 1) +
-            '<div class="lg-alpha">' + A.items.map(function (x, i) {
-                return '<button type="button" class="lg-letter lg-in animate__animated animate__zoomIn" style="--i:' + (i % 12) + '" data-alpha="' + i + '" data-l="' + L.id + '"><b>' + esc(x.l) + '</b><em>' + esc(x.ar) + '</em><small>' + esc(x.w) + ' • ' + esc(x.m) + '</small></button>';
+        function cards(items, offset) {
+            return '<div class="lg-alpha">' + items.map(function (x, i) {
+                return '<button type="button" class="lg-letter lg-in animate__animated animate__zoomIn" style="--i:' + ((i + (offset || 0)) % 12) + '" data-alpha="' + ((offset || 0) + i) + '" data-l="' + L.id + '"><b>' + esc(x.l) + '</b><em>' + esc(x.ar) + '</em><small>' + esc(x.w) + ' • ' + esc(x.m) + '</small></button>';
             }).join('') + '</div>';
+        }
+        var extra = (A.sections || []).map(function (section, i) {
+            return head('دليل النطق', section.title, i + 2) + (section.description ? '<p style="margin:0 2px 12px;color:var(--mute);font-size:12px;line-height:1.9;font-weight:700">' + esc(section.description) + '</p>' : '') + cards(section.items || [], A.items.length + (A.sections || []).slice(0, i).reduce(function (n, x) { return n + (x.items || []).length; }, 0));
+        }).join('');
+        var allItems = A.items.slice();
+        (A.sections || []).forEach(function (section) { allItems = allItems.concat(section.items || []); });
+        L.alphabetAudioItems = allItems;
+        mk(pid(L, 'alphabet'), theme(L)).innerHTML = crumbs([['Lang Learning', 'lang'], [L.name, pid(L)], ['الأبجدية', '']]) +
+            hero({ ico: 'fa-font', kicker: 'ALPHABET & PRONUNCIATION', title: A.title, text: A.intro || 'دوس على أي حرف تسمع كلمة بتبدأ بيه.' }) +
+            head('الأبجدية الأساسية', A.items.length + ' حرفًا أساسيًا', 1) + cards(A.items, 0) + extra;
     }
 
     function renderUnit(L, u) {
@@ -440,6 +475,7 @@
             box.innerHTML = dots + '<div class="lg-res"><div class="tr animate__animated animate__tada"><i class="fa-solid fa-trophy"></i></div><strong class="animate__animated animate__bounceIn">' + z.score + ' / ' + total + '</strong><p>' + msg + '</p>' +
                 '<button type="button" class="lg-btn" data-qr="1"><i class="fa-solid fa-rotate-right"></i> أعد الاختبار</button>' +
                 '<button type="button" class="lg-btn solid" data-go="' + pid(L, u) + '">رجوع للوحدة <i class="fa-solid fa-arrow-left"></i></button></div>';
+            if (!z.rx) { z.rx = 1; try { if (w.EtoRabbit) w.EtoRabbit.react(r === 1 ? 'perfect' : r >= 0.7 ? 'good' : 'low'); } catch (e) {} }
             return;
         }
         var cur = z.order[z.qi]; z.locked = false;
@@ -458,6 +494,7 @@
         if (pick.ok) { z.score++; z.log[z.qi] = 'ok'; flash(b, 'animate__pulse'); fb.style.color = '#059669'; fb.textContent = 'إجابة صح، كمّل كده.'; }
         else { z.log[z.qi] = 'no'; b.classList.add('no'); flash(b, 'animate__shakeX'); fb.style.color = '#dc2626'; fb.textContent = 'إجابة غلط. الإجابة الصح متعلّم عليها بالأخضر.'; }
         box.querySelectorAll('.lg-dots i')[z.qi].className = z.log[z.qi];
+        try { if (w.EtoRabbit) w.EtoRabbit.react(pick.ok ? 'ok' : 'wrong'); } catch (e) {} /* rabbit.js: رد فعل الأرنب */
         fb.insertAdjacentHTML('afterend', '<button type="button" class="lg-btn solid animate__animated animate__fadeInUp animate__faster" data-qn="1">' + (z.qi + 1 >= z.order.length ? 'شوف النتيجة' : 'السؤال الجاي') + ' <i class="fa-solid fa-arrow-left"></i></button>');
         return true;
     }
@@ -502,7 +539,7 @@
         var t = e.target.closest('[data-l]'); if (!t) { var q0 = e.target.closest('.lg-quiz'); if (!q0) return; t = q0; }
         var L = LANGS[t.getAttribute('data-l')]; if (!L) return;
         if (t.hasAttribute('data-dict-index')) { var entry = (L.dictionaryEntries || [])[+t.getAttribute('data-dict-index')]; if (entry) speak(L, entry.t); return; }
-        if (t.hasAttribute('data-alpha')) { speak(L, L.alphabet.items[+t.getAttribute('data-alpha')].w); return; }
+        if (t.hasAttribute('data-alpha')) { var alphaItems = L.alphabetAudioItems || L.alphabet.items; if (alphaItems[+t.getAttribute('data-alpha')]) speak(L, alphaItems[+t.getAttribute('data-alpha')].w); return; }
         var u = unitOf(L, t.getAttribute('data-u')); if (!u) return;
         if (t.classList.contains('lg-quiz')) { quizClick(e, L, u, t); return; }
         var pl = e.target.closest('[data-play]'); if (pl) { playAll(L, u, pl.getAttribute('data-play'), pl); return; }
@@ -519,7 +556,7 @@
 
     function refresh(L) {
         renderHub(); renderHome(L); if (L.dictionary) renderDictionary(L);
-        if (multiLevel(L)) groupsOf(L).forEach(function (g) { renderLevel(L, g); });
+        if (multiLevel(L)) groupsOf(L).filter(function (g) { return g.units.some(ready); }).forEach(function (g) { renderLevel(L, g); });
         L.units.forEach(function (u) { if (ready(u)) renderUnit(L, u); });
     }
     function register(L) {
@@ -535,7 +572,7 @@
         ORDER.forEach(function (id) {
             var L = LANGS[id]; if (L.status !== 'ready') return;
             renderHome(L); if (L.alphabet) renderAlphabet(L); if (L.dictionary) renderDictionary(L);
-            if (multiLevel(L)) groupsOf(L).forEach(function (g) { renderLevel(L, g); });
+            if (multiLevel(L)) groupsOf(L).filter(function (g) { return g.units.some(ready); }).forEach(function (g) { renderLevel(L, g); });
             L.units.forEach(function (u) { if (!ready(u)) return; renderUnit(L, u); var secs = secsOf(u); secs.forEach(function (s, i) { renderSec(L, u, s, i, secs); }); });
         });
         root.addEventListener('click', onClick);
