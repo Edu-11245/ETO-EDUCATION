@@ -1,4 +1,4 @@
-/* ===== Day 1 ===== اليوم كله درس واحد (day1) فيه فصول. الفصول بتتضاف في lessons/day1.js */
+/* ===== Day 1 ===== اليوم كله حصة واحدة (day1) فيها 6 فصول. الفصول جوه lessons/day1.js */
 (window.PYTHON_DAYS = window.PYTHON_DAYS || {})[1] = {
   n: 1,
   title: 'نبدأ من الصفر',

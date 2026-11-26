@@ -87,5 +87,9 @@
   window.PythonCourse.base = BASE;
   window.PythonCourse.whenDays = whenDays;
   window.PythonCourse.days = days;
-  window.PythonCourse.openDay = function (n) { currentDay = n; navigate('python-day'); };
+  window.PythonCourse.openDay = function (n) {
+    currentDay = n; var d = window.PYTHON_DAYS[n];
+    if (d && d.lessons.length === 1 && window.PythonCourse.openLesson) { window.PythonCourse.openLesson(d.lessons[0]); return; }
+    navigate('python-day');
+  };
 })();

@@ -92,7 +92,7 @@
 
   /* ===== الصفحة الرئيسية لبايثون: 3 كروت ===== */
   function hubCard(cls, icon, big, title, desc, go, page) {
-    return '<div class="py-hub-card ' + cls + '" onclick="navigate(\'' + page + '\')">' +
+    return '<div class="py-hub-card ' + cls + '" onclick="' + (/\(/.test(page) ? page : 'navigate(\'' + page + '\')') + '">' +
       '<i class="big fa-solid ' + big + '"></i>' +
       '<div class="py-hub-ico"><i class="fa-solid ' + icon + '"></i></div>' +
       '<h3>' + title + '</h3><p>' + desc + '</p>' +
@@ -111,6 +111,7 @@
         hubCard('py-hub-1', 'fa-graduation-cap', 'fa-graduation-cap', 'الكورس', 'كل يوم (Day) ليه صفحته: شرح، شرح صوتي، تطبيق، تمارين وامتحان.', 'ابدأ الكورس', 'python-course') +
         hubCard('py-hub-2', 'fa-cubes', 'fa-cubes', 'المكتبات', 'كل مكتبات بايثون المشهورة مع بحث وطريقة التسطيب على جهازك.', 'تصفّح المكتبات', 'python-libs') +
         hubCard('py-hub-3', 'fa-sitemap', 'fa-sitemap', 'Mind Map', 'خريطة الطريق كاملة: إيه اللي هتتعلمه ومن فين لفين.', 'شوف الخريطة', 'python-mindmap') +
+        hubCard('py-hub-4', 'fa-desktop', 'fa-desktop', 'الجهاز', 'جهاز وهمي جوه الموقع: Terminal وملفات وبايثون حقيقية تجرّب عليها بحرية.', 'افتح الجهاز', 'PythonCourse.openPC()') +
       '</div>';
   };
 })();

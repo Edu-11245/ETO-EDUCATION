@@ -41,7 +41,7 @@
     if (window.PySim) return Promise.resolve();
     if (simP) return simP;
     simP = new Promise(function (res) {
-      var x = document.createElement('script'); x.src = BASE + 'sim.js?v=1';
+      var x = document.createElement('script'); x.src = BASE + 'sim.js?v=6';
       x.onload = res; x.onerror = function () { simP = null; res(); }; document.head.appendChild(x);
     });
     return simP;
@@ -229,8 +229,13 @@
       return;
     }
     if (k === 'practice') {
-      el.innerHTML = '<div id="ls-sim"></div>'; syncNav();
-      loadSim().then(function () { window.PySim.mount(document.getElementById('ls-sim'), C.practice, { os: osNow() }); });
+      /* التطبيق العملي بقى في صفحة الجهاز الخاصة بالموقع (python-pc) */
+      var pc = C.practice || {}, ns = (pc.steps || []).length;
+      el.innerHTML = '<div class="pc-card"><div class="pc-ico"><i class="fa-solid fa-desktop"></i></div><div class="pc-body"><h3>تطبيق عملي على الجهاز</h3>' +
+        '<p>' + fmt(pc.intro || 'جرّب اللي اتعلمته على جهاز وهمي جوه الموقع.') + '</p>' +
+        '<div class="pc-meta"><span><i class="fa-solid fa-list-check"></i> ' + ns + ' خطوات</span><span><i class="fa-solid fa-terminal"></i> Terminal تجريبي</span></div></div>' +
+        '<button class="ls-btn" onclick="PyLesson.openPC(' + cu.c + ')">افتح الجهاز <i class="fa-solid fa-arrow-left"></i></button></div>';
+      syncNav();
       return;
     }
     var html = k === 'explain' ? explainHtml(C) : k === 'audio' ? audioHtml(C) : k === 'exercise' ? orderHtml(C) : k === 'quiz' ? quizHtml(C) : '';
@@ -238,7 +243,8 @@
   }
   function syncNav() {
     var f = flow(S.L), cu = f[S.step], C = chaps(S.L);
-    document.querySelectorAll('#ls-steps .ls-tab').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-c') === cu.c); });
+    var single = C.length === 1;
+    document.querySelectorAll('#ls-steps .ls-tab').forEach(function (b, i) { b.classList.toggle('on', single ? i === S.step : +b.getAttribute('data-c') === cu.c); });
     var dp = document.getElementById('ls-dp'); if (dp) dp.style.width = (S.step / Math.max(1, f.length - 1) * 100) + '%';
     var kd = document.getElementById('ls-kind');
     if (kd) kd.innerHTML = 'الفصل ' + (cu.c + 1) + ' من ' + C.length + ' · <i class="fa-solid ' + STEP_META[cu.k][0] + '"></i> ' + STEP_META[cu.k][1];
@@ -253,15 +259,17 @@
     if (!root || !S.L) return;
     var L = S.L, d = dayOf(L.id), done = window.PythonCourse.isDone(L.id);
     root.innerHTML =
-      '<div class="prg-hero py-hero py-hero-sm">' + window.PY.crumb(d ? 'Day ' + d.n : 'الكورس') +
+      '<div class="prg-hero py-hero py-hero-sm">' + '<button class="prg-crumb" onclick="navigate(\'python-course\')"><i class="fa-solid fa-arrow-right"></i> الكورس</button>' +
         '<div class="prg-hero-top"><div class="prg-hero-icon"><i class="fa-solid fa-book-open"></i></div>' +
         '<div><h1>' + esc(L.title) + '</h1><p>' + fmt(L.goal || '') + '</p></div></div>' +
         '<div class="py-steps"><span class="py-step"><i class="fa-regular fa-clock"></i>حوالي ' + (L.minutes || 10) + ' دقيقة</span>' +
         (done ? '<span class="py-step"><i class="fa-solid fa-check"></i>خلّصت الدرس ده</span>' : '') + '</div></div>' +
-      '<div id="ls-steps" class="ls-steps prg-scroll">' + chaps(L).map(function (C, ci) {
+      '<div id="ls-steps" class="ls-steps prg-scroll">' + (chaps(L).length === 1 ? flow(L).map(function (it, i) {
+        return '<button class="ls-tab" onclick="PyLesson.goStep(' + i + ')"><i class="fa-solid ' + STEP_META[it.k][0] + '"></i><span>' + STEP_META[it.k][1] + '</span></button>';
+      }) : chaps(L).map(function (C, ci) {
         return '<button class="ls-tab" data-c="' + ci + '" onclick="PyLesson.goChapter(' + ci + ')"><b class="ls-tn">' + (ci + 1) + '</b><span>' + esc(C.title || ('فصل ' + (ci + 1))) + '</span></button>';
-      }).join('') + '</div>' +
-      '<div class="ls-day-prog"><i id="ls-dp"></i></div><div id="ls-kind" class="ls-kind"></div>' +
+      })).join('') + '</div>' +
+      (chaps(L).length === 1 ? '' : '<div class="ls-day-prog"><i id="ls-dp"></i></div><div id="ls-kind" class="ls-kind"></div>') +
       '<div id="ls-panel" class="ls-panel"></div><div id="ls-nav" class="ls-nav"></div>';
     renderPanel();
   }
@@ -278,6 +286,7 @@
   }
 
   window.PythonCourse.openLesson = function (id) { open(id); };
+  window.PythonCourse.getLesson = function (id) { return window.PythonCourse.whenDays().then(function () { return loadLesson(id); }); };
   window.PythonCourse.hasLesson = function (id) {
     return window.PythonCourse.whenDays().then(function () { return loadLesson(id); }).then(function () { return true; }, function () { return false; });
   };
@@ -299,6 +308,7 @@
   if (window.speechSynthesis) speechSynthesis.onvoiceschanged = function () {};
 
   window.PyLesson = {
+    openPC: function (c) { stopSpeak(); stopTalk(); window.PythonCourse.openPC(S.id, c); },
     goStep: function (i) {
       stopSpeak(); stopTalk(); S.step = i; S.quiz = null; S.order = null; renderPanel();
       var el = document.getElementById('ls-steps'); if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
