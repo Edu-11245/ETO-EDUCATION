@@ -95,7 +95,7 @@ window.ETO_HADITH = [{
   "who": "طلحة بن عبيد الله رضي الله عنه",
   "desc": "رجل من أهل نجد يسأل النبي ﷺ عن الصلاة والصيام والزكاة، وبشارة الفلاح لمن يلتزم بما افترض الله عليه.",
   "g": "linear-gradient(135deg,#18364a,#0f766e 65%,#b45309)",
-  "audio": "https://github.com/Edu-11245/Hadith/blob/main/%D8%A7%D9%84%D8%AD%D8%AF%D9%8A%D8%AB%20%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A.mp3",
+  "audio": RAW + '%D8%A7%D9%84%D8%AD%D8%AF%D9%8A%D8%AB%20%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A.mp3',
   "end": "4:08",
   "segs": [
     [
