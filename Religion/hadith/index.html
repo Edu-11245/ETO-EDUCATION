@@ -57,6 +57,11 @@ html.dark .hero h1{color:#34d399}
 .stage[data-sc=sa3a]{--tc:rgba(251,113,60,.3)}
 .stage[data-sc=reveal]{--tc:rgba(253,230,138,.42)}
 .stage[data-sc=fawaid]{--tc:rgba(163,230,53,.28)}
+.stage[data-sc=prayers]{--tc:rgba(16,185,129,.34)}
+.stage[data-sc=fasting]{--tc:rgba(45,212,191,.28)}
+.stage[data-sc=zakat]{--tc:rgba(251,191,36,.28)}
+.stage[data-sc=promise]{--tc:rgba(253,230,138,.36)}
+.stage[data-sc=summary]{--tc:rgba(163,230,53,.28)}
 .stage[data-sc=intro],.stage[data-sc=end]{--tc:rgba(52,211,153,.3)}
 .cn{position:absolute!important;z-index:2!important;width:58px;height:58px;opacity:.92;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='%23fde68a' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 58V22A18 18 0 0 1 22 4h36'/%3E%3Cpath d='M12 58V26a14 14 0 0 1 14-14h32' stroke-opacity='.5'/%3E%3Cpath d='M4 4l16 16'/%3E%3C/g%3E%3Ccircle cx='24' cy='24' r='3.4' fill='%23fde68a'/%3E%3C/svg%3E") center/contain no-repeat}
 .c1{top:7px;left:7px}.c2{top:7px;right:7px;transform:scaleX(-1)}.c3{bottom:7px;left:7px;transform:scaleY(-1)}.c4{bottom:7px;right:7px;transform:scale(-1)}
@@ -279,7 +284,8 @@ function gt(){return(part?D[0]:0)+A[part].currentTime}
 function prep(h){
   if(h._ok)return;h._ok=1;
   function conv(a,end){return a.map(function(x,i){var s=T(x[0]),w=x[1].split(' '),c=[],n=0;w.forEach(function(q){c.push(n);n+=q.length+1});return{s:s,e:x[3]?T(x[3]):(a[i+1]?T(a[i+1][0]):T(end)),x:x[1],c:x[2],w:w,cw:c,tl:n}})}
-  h.I=conv(h.intro.segs,h.intro.end);h.S=conv(h.segs,h.end);
+  h.hasIntro=!!(h.intro&&h.intro.src&&Array.isArray(h.intro.segs)&&h.intro.segs.length);
+  h.I=h.hasIntro?conv(h.intro.segs,h.intro.end):[];h.S=conv(h.segs,h.end);
   h.sc=h.scenes.map(function(x,i){return{s:T(x[0]),e:h.scenes[i+1]?T(h.scenes[i+1][0]):T(h.end),k:x[1],t:x[2],it:x[3].map(function(q){q=typeof q==='string'?[q,'star']:q;return[q[0],q[1],q[2]?T(q[2]):null]})}});
   h.bl=h.blocks.map(function(x){return{s:T(x[0])}})
 }
@@ -314,7 +320,7 @@ function marks(){
 
 /* ===== صفحة الحديث ===== */
 function open(h){
-  prep(h);halt();H=h;st={};part=0;want=false;ready=false;fd=1;ft=1;var my=++tok;
+  prep(h);halt();H=h;st={};D=h.hasIntro?[T(h.intro.end),T(h.end)]:[0,T(h.end)];part=h.hasIntro?0:1;want=false;ready=false;fd=1;ft=1;var my=++tok;
   $('ttl').textContent=h.title;$('bar').style.display='block';$('hCopy').classList.remove('hid');$('hShare').classList.remove('hid');document.title='حديث رقم '+h.no+': '+h.title+' | نور الحديث';resume=getPos(h.id);
   var stars='';for(var i=0;i<12;i++)stars+='<i class="star" style="left:'+(Math.random()*96|0)+'%;top:'+(Math.random()*92|0)+'%;animation-delay:'+(Math.random()*3).toFixed(1)+'s"></i>';
   $('main').innerHTML='<div class="wrap"><div class="stage" id="stage" data-sc="intro"><div class="tint"></div><span class="cn c1"></span><span class="cn c2"></span><span class="cn c3"></span><span class="cn c4"></span>'+stars+
@@ -329,11 +335,12 @@ function open(h){
   $('tShare').onclick=function(){openSheet(h)};$('tCopy').onclick=function(){copyLink(h)};$('tTxt').onclick=function(){copyText(matnText(h),'تم نسخ نص الحديث ✓')};$('tA1').onclick=function(){setFs(fs-.1)};$('tA2').onclick=function(){setFs(fs+.1)};
   var bl=document.querySelectorAll('.blk');
   for(var k=0;k<bl.length;k++)bl[k].onclick=(function(i){return function(){if(!ready)return;seek(D[0]+h.bl[i].s);startPlay()}})(k);
-  Promise.all([getBlob(h.intro.src),getBlob(h.audio)]).then(function(u){
+  Promise.all([h.hasIntro?getBlob(h.intro.src):Promise.resolve(''),getBlob(h.audio)]).then(function(u){
     if(my!==tok)return;
-    A[0].src=u[0];A[1].src=u[1];A[0].load();A[1].load();applyRate();applyVol();
-    return Promise.all([metaWait(A[0]),metaWait(A[1])])
-  }).then(function(){if(my!==tok)return;setDur(0);setDur(1);ready=true;
+    if(u[0]){A[0].src=u[0];A[0].load()}else{A[0].removeAttribute('src');A[0].load()}
+    A[1].src=u[1];A[1].load();applyRate();applyVol();
+    return h.hasIntro?Promise.all([metaWait(A[0]),metaWait(A[1])]):metaWait(A[1])
+  }).then(function(){if(my!==tok)return;if(h.hasIntro)setDur(0);setDur(1);ready=true;
     if(resume>5){var r=$('rs');r.style.display='block';r.innerHTML='<button type="button">كمّل من '+F(resume)+'</button>';r.firstChild.onclick=function(){seek(resume);startPlay();r.style.display='none'}}});
   raf=requestAnimationFrame(tick);
 }
@@ -355,7 +362,7 @@ function startPlay(){
 }
 function toggle(){if(!H||!ready)return;if(want){want=false;ft=0}else startPlay()}
 function seek(g){
-  var np=g>=D[0]?1:0;g=Math.max(0,Math.min(g,total()-.05));
+  g=Math.max(0,Math.min(g,total()-.05));var np=H.hasIntro&&g<D[0]?0:1;
   if(np!==part){A[part].pause();part=np}
   var t=np?g-D[0]:Math.min(g,Math.max(0,D[0]-.05));
   try{A[part].currentTime=Math.max(0,t)}catch(e){}
