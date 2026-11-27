@@ -140,6 +140,24 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
           "group": "الواجبات"
         },
         {
+          "title": "Assignment 7 - Platyhelminthes , Nematoda  , Annelida",
+          "url": "https://drive.google.com/file/d/1BA7GR88bB46MtodI9Ne7ZLYy6XJ3UAhX/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الواجبات"
+        },        
+        {
+          "title": "Assignment 8 - Turbellaria , Monogenea , Trematoda",
+          "url": "https://drive.google.com/file/d/1PxCblArlHwPM_Kb-IDpoUWfw_JHWYFdl/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الواجبات"
+        },  
+        {
+          "title": "Assignment 9 - Oligochaeta , Polychaeta  , Hirudinea",
+          "url": "https://drive.google.com/file/d/1VyfUYoLltFEarIITKz3TUHfROoq1Yt5B/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "الواجبات"
+        },  
+        {
           "title": "Assignment - Membranous organelles",
           "url": "https://drive.google.com/file/d/1hue-x3UU0UvA6EOhVfZUXmJp9-HXGUKW/view?usp=drive_link",
           "kind": "pdf",
