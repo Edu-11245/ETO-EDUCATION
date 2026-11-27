@@ -17,7 +17,7 @@
     if (window.PySim) return Promise.resolve();
     if (simP) return simP;
     simP = new Promise(function (res) {
-      var x = document.createElement('script'); x.src = BASE + 'sim.js?v=11';
+      var x = document.createElement('script'); x.src = BASE + 'sim.js?v=12';
       x.onload = res; x.onerror = function () { simP = null; res(); }; document.head.appendChild(x);
     });
     return simP;

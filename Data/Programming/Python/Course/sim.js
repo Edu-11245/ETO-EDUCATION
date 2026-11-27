@@ -444,17 +444,19 @@
     do { b /= 1024; i++; } while (b >= 1024 && i < 2);
     return (b < 10 ? b.toFixed(1) : Math.round(b)) + ' ' + u[i];
   }
-  function idb() {
-    if (root.__etoIdb) return root.__etoIdb;
-    root.__etoIdb = new Promise(function (res) {
+  function idb(name) {
+    name = name || 'eto_sim_fs'; /* كل مستخدم له قاعدة بيانات خاصة: eto_sim_fs_<uid> */
+    var reg_ = root.__etoIdb = root.__etoIdb && typeof root.__etoIdb.then !== 'function' ? root.__etoIdb : {};
+    if (reg_[name]) return reg_[name];
+    reg_[name] = new Promise(function (res) {
       try {
-        var q = indexedDB.open('eto_sim_fs', 1);
+        var q = indexedDB.open(name, 1);
         q.onupgradeneeded = function () { var d = q.result; d.createObjectStore('meta'); d.createObjectStore('blob'); };
         q.onsuccess = function () { res(q.result); };
         q.onerror = q.onblocked = function () { res(null); };
       } catch (e) { res(null); }
     });
-    return root.__etoIdb;
+    return reg_[name];
   }
   function idbReq(db, store, mode, fn) {
     return new Promise(function (res, rej) {
@@ -464,11 +466,13 @@
     });
   }
   function sizeOf(c) { return typeof c === 'string' ? (root.TextEncoder ? new TextEncoder().encode(c).length : c.length) : (c && c.size) || 0; }
-  function makeFS(persist) {
+  function makeFS(persist, key) {
     var F = { m: { nodes: {}, nid: 1, used: 0 }, mem: {}, db: null, vol: !persist, tmr: 0 }, inited = null;
     var err = function (code) { var e = new Error(code); e.code = code; return e; };
     F.err = err;
+    F.persist = function () { saveMeta(); };
     function saveMeta() {
+      if (F.onChange) { try { F.onChange(); } catch (e) {} } /* هوك المزامنة السحابية */
       if (!F.db) return; clearTimeout(F.tmr);
       F.tmr = setTimeout(function () { idbReq(F.db, 'meta', 'readwrite', function (s) { return s.put(F.m, 'm'); }).catch(function () {}); }, 80);
     }
@@ -592,7 +596,7 @@
     };
     F.init = function () {
       if (inited) return inited;
-      inited = (persist ? idb() : Promise.resolve(null)).then(function (db) {
+      inited = (persist ? idb(key ? 'eto_sim_fs_' + key : null) : Promise.resolve(null)).then(function (db) {
         F.db = db; F.vol = !db;
         return db ? idbReq(db, 'meta', 'readonly', function (s) { return s.get('m'); }).catch(function () { return null; }) : null;
       }).then(function (m) {
@@ -644,7 +648,7 @@
     var freeMode = pureFree, metaDown = false, metaUsed = false;
     var wk = null, wkReady = null, wkUrl = null, running = false, asking = false, askP = '', pyLoaded = false, repl = false, replP = '>>> ';
     /* وضع حر: D: قرص حقيقي محفوظ في المتصفح. وضع الدرس: نفس الشكل بس في الذاكرة */
-    var vfs = makeFS(pureFree), vfsOn = pureFree, vfsReady = false, cwd = 'r', clip = null, edId = null, edDir = null, edName = '', edL = LANGS.py, cmReg = [], deskSel = [], upPid = 'r';
+    var vfs = makeFS(pureFree, opts.fsKey), vfsOn = pureFree, vfsReady = false, cwd = 'r', clip = null, edId = null, edDir = null, edName = '', edL = LANGS.py, cmReg = [], deskSel = [], upPid = 'r';
     var EX = { pc: { loc: 'pc', h: ['pc'], hi: 0, sel: [], q: '', items: [] }, bin: { loc: 'bin', h: ['bin'], hi: 0, sel: [], q: '', items: [] } };
     var busy = false, pending = null, headDone = false, wifi = true, vol = 60, k = 1, z = 10, timers = [], gt = 0, lastClk = '';
     var theme = ls('eto_sim_theme') || (el.closest && el.closest('.dark') ? 'dark' : 'light'), wpCustom = ls('eto_sim_wpc'), coarse = !!(root.matchMedia && root.matchMedia('(pointer:coarse)').matches);
@@ -789,7 +793,7 @@
         '</div><h4>Devices and drives (2)</h4><div class="sx-dg">' + drv.map(function (d) { return '<div class="sx-drv">' + ic('hard-drive') + '<div><b>' + d[0] + '</b><div class="bar"><i style="width:' + d[1] + '%"></i></div><small>' + d[2] + '</small></div></div>'; }).join('') + '</div></div>', '8 items');
     }
     function binBody() { return xp(nm('bin'), '<div class="sx-xb sx-empty">' + ic('trash-can') + '<p>This folder is empty</p></div>', '0 items'); }
-    function setBody() { return '<div class="sx-sb"><div class="sx-sl"><div class="sx-prev"></div><b>Personalization</b><small>Mode and background</small><div class="sx-th"><small>Choose your mode</small><div class="sx-seg"><button data-th="light">' + ic('sun') + ' Light</button><button data-th="dark">' + ic('moon') + ' Dark</button></div></div></div><div class="sx-sg"></div><input type="file" accept="image/*" hidden class="sx-file"></div>'; }
+    function setBody() { return '<div class="sx-sb"><div class="sx-sl"><div class="sx-prev"></div><b>Personalization</b><small>Mode and background</small><div class="sx-th"><small>Choose your mode</small><div class="sx-seg"><button data-th="light">' + ic('sun') + ' Light</button><button data-th="dark">' + ic('moon') + ' Dark</button></div></div><div class="sx-acc"></div></div><div class="sx-sg"></div><input type="file" accept="image/*" hidden class="sx-file"></div>'; }
 
     function renderDesktop() {
       phase = 'on'; clearT(); lastClk = ''; sc.className = 'sx-screen sx-' + os + (theme === 'light' ? ' sx-light' : '');
@@ -813,7 +817,7 @@
         '<div class="sx-vrow"><i class="fa-solid fa-' + volIc() + '" data-vi2></i><input type="range" min="0" max="100" value="' + vol + '" class="sx-vr"></div></div>';
       $('.sx-pw').style.display = '';
       bind(); exInit(); replay(); updClock(); applyWall(); mark(); task(); ghost();
-      vfs.init().then(function () { vfsReady = true; if (!alive() || phase !== 'on') return; refreshPrompt(); refreshAll(); });
+      vfs.init().then(function () { vfsReady = true; if (!alive() || phase !== 'on') return; refreshPrompt(); refreshAll(); if (opts.onFs) { try { opts.onFs(vfs, function () { if (alive() && vfsReady && phase === 'on') { refreshPrompt(); refreshAll(); } }); } catch (e) {} } });
       loadPicList().then(function (pics) {
         if (!alive() || phase !== 'on') return;
         var saved = ls('eto_sim_img');
@@ -2114,8 +2118,8 @@
       try { if (document.fullscreenElement === root_ && document.exitFullscreen) document.exitFullscreen(); } catch (e) {}
       kbLock(false); el.innerHTML = '';
     }
-    return { destroy: destroy };
+    return { destroy: destroy, fs: vfs };
   }
 
-  root.PySim = { mount: mount, util: { normCmd: normCmd, cmdOk: cmdOk, codeOk: codeOk, explain: explain, runPy: runPy } };
+  root.PySim = { mount: mount, util: { makeFS: makeFS, normCmd: normCmd, cmdOk: cmdOk, codeOk: codeOk, explain: explain, runPy: runPy } };
 })(typeof window !== 'undefined' ? window : globalThis);
