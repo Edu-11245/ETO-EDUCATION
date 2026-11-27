@@ -2,7 +2,8 @@
         let roBytes = null, roPdf = null;
         document.getElementById('ro-file').onchange = async (e) => {
             showLoad('تجهيز الصفحات...'); roBytes = await e.target.files[0].arrayBuffer();
-            roPdf = await pdfjsLib.getDocument(new Uint8Array(roBytes.slice(0))).promise;
+            const PDFJS = await window.ETO_LOADERS.loadPDFJS();
+            roPdf = await PDFJS.getDocument(new Uint8Array(roBytes.slice(0))).promise;
             const grid = document.getElementById('ro-grid'); grid.innerHTML = '';
             for(let i=1; i<=roPdf.numPages; i++) {
                 const p = await roPdf.getPage(i); const vp = p.getViewport({ scale: 0.45 });
@@ -11,6 +12,13 @@
                 const div = document.createElement('div'); div.className = "p-2 bg-white border shadow-sm cursor-move relative rounded"; div.setAttribute('data-idx', i-1);
                 div.innerHTML = `<div class="absolute top-1 right-1 bg-emerald-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">${i}</div>`;
                 c.className = "h-32 object-contain"; div.appendChild(c); grid.appendChild(div);
+            }
+            try {
+                await window.ETO_LOADERS.loadSortable();
+            } catch (error) {
+                hideLoad();
+                showToast('تعذر تحميل أداة السحب والإفلات', 'error');
+                return;
             }
             new Sortable(grid, {
                 animation: 150,

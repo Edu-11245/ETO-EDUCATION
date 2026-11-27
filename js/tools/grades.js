@@ -1,4 +1,4 @@
-/* ===== بلوك 3 (كان في index.html من سطر 7291) ===== */
+
 ;
 (function(){
 const FLD = "w-full h-12 rounded-xl border border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 px-4 text-slate-800 dark:text-white outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/10";
@@ -259,32 +259,45 @@ $('grd-exp-print').onclick = () => {
     <body>${buildSheet('full')}</body></html>`);
   w.document.close(); setTimeout(()=> w.print(), 600);
 };
-$('grd-exp-xlsx').onclick = () => {
+$('grd-exp-xlsx').onclick = async () => {
   if (!students.length) return toast('الكشف فاضي','error');
-  const rows = [
-    [$('grd-g-school').value || '', '', '', '', ''],
-    ['المادة', $('grd-g-subject').value || '', 'الفصل', $('grd-g-class').value || '', 'الدرجة من', fmt(maxMark())],
-    [],
-    ['م', 'اسم الطالب', 'الدرجة', 'النسبة %', 'التقدير']
-  ];
-  students.forEach((s,i) => {
-    const p = pctOf(s.score), g = gradeOf(p);
-    rows.push([i+1, s.name || '', s.score === '' ? '' : +s.score, p===null?'':+fmt(p), g?g.label:'']);
-  });
-  const list = scored();
-  if (list.length){
-    const avg = list.reduce((a,b)=>a + +b.score,0)/list.length;
-    const sorted = [...list].sort((a,b)=>b.score-a.score);
-    rows.push([], ['المتوسط', fmt(avg)], ['أعلى درجة', fmt(sorted[0].score), sorted[0].name],
-      ['أقل درجة', fmt(sorted[sorted.length-1].score), sorted[sorted.length-1].name],
-      ['نسبة النجاح', Math.round(list.filter(s=>pctOf(s.score)>=passPct()).length/list.length*100)+'%']);
+
+  try {
+    const XLSXLib = await window.ETO_LOADERS.loadXLSX();
+
+    const rows = [
+      [$('grd-g-school').value || '', '', '', '', ''],
+      ['المادة', $('grd-g-subject').value || '', 'الفصل', $('grd-g-class').value || '', 'الدرجة من', fmt(maxMark())],
+      [],
+      ['م', 'اسم الطالب', 'الدرجة', 'النسبة %', 'التقدير']
+    ];
+
+    students.forEach((s,i) => {
+      const p = pctOf(s.score), g = gradeOf(p);
+      rows.push([i+1, s.name || '', s.score === '' ? '' : +s.score, p===null?'':+fmt(p), g?g.label:'']);
+    });
+
+    const list = scored();
+    if (list.length){
+      const avg = list.reduce((a,b)=>a + +b.score,0)/list.length;
+      const sorted = [...list].sort((a,b)=>b.score-a.score);
+      rows.push([], ['المتوسط', fmt(avg)], ['أعلى درجة', fmt(sorted[0].score), sorted[0].name],
+        ['أقل درجة', fmt(sorted[sorted.length-1].score), sorted[sorted.length-1].name],
+        ['نسبة النجاح', Math.round(list.filter(s=>pctOf(s.score)>=passPct()).length/list.length*100)+'%']);
+    }
+
+    const ws = XLSXLib.utils.aoa_to_sheet(rows);
+    ws['!cols'] = [{wch:6},{wch:28},{wch:10},{wch:10},{wch:14}];
+
+    const wb = XLSXLib.utils.book_new();
+    XLSXLib.utils.book_append_sheet(wb, ws, 'كشف الدرجات');
+    XLSXLib.writeFile(wb, `كشف درجات ${$('grd-g-subject').value || ''}.xlsx`);
+
+    toast('اتحمّل ملف الإكسل');
+  } catch(e) {
+    console.error(e);
+    toast('تعذر تحميل أو إنشاء ملف Excel', 'error');
   }
-  const ws = XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols'] = [{wch:6},{wch:28},{wch:10},{wch:10},{wch:14}];
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'كشف الدرجات');
-  XLSX.writeFile(wb, `كشف درجات ${$('grd-g-subject').value || ''}.xlsx`);
-  toast('اتحمّل ملف الإكسل');
 };
 
 load();

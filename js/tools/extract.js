@@ -1,10 +1,11 @@
-/* ===== استخراج وحذف صفحات ===== */
+
         let extBytes = null, extNumPages = 0, finalExtBytes = null, pagesToDelete = new Set();
         document.getElementById('ext-file').onchange = async (e) => {
             if(!e.target.files.length) return;
             showLoad('جاري التحليل...');
             extBytes = await e.target.files[0].arrayBuffer();
-            const pdf = await pdfjsLib.getDocument(new Uint8Array(extBytes.slice(0))).promise;
+            const PDFJS = await window.ETO_LOADERS.loadPDFJS();
+            const pdf = await PDFJS.getDocument(new Uint8Array(extBytes.slice(0))).promise;
             extNumPages = pdf.numPages;
             document.getElementById('ext-name').textContent = `${e.target.files[0].name} (${extNumPages} صفحة)`;
             document.getElementById('ext-from').value = 1; document.getElementById('ext-to').value = extNumPages; document.getElementById('ext-exclude').value = '';

@@ -16,7 +16,8 @@
             showLoad('جاري فتح الملف...');
             try {
                 const bytes = await e.target.files[0].arrayBuffer();
-                cPdf = await pdfjsLib.getDocument(new Uint8Array(bytes)).promise;
+                const PDFJS = await window.ETO_LOADERS.loadPDFJS();
+                cPdf = await PDFJS.getDocument(new Uint8Array(bytes)).promise;
                 document.getElementById('cleaner-tot').textContent = cPdf.numPages;
                 highlights = {}; cPage = 1; await renderCPage(); showToast('تم الفتح بنجاح');
             } catch(er) { showToast("خطأ في القراءة", "error"); }

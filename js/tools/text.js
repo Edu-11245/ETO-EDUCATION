@@ -9,7 +9,11 @@
         document.getElementById('text-pdf-file').onchange = async (e) => {
             if(!e.target.files.length) return; const file = e.target.files[0]; showLoad('قراءة النص OCR...');
             try {
-                let fullText = ""; const worker = await Tesseract.createWorker(); await worker.loadLanguage('ara'); await worker.initialize('ara');
+                let fullText = "";
+                const TesseractLib = await window.ETO_LOADERS.loadTesseract();
+                const worker = await TesseractLib.createWorker();
+                await worker.loadLanguage('ara');
+                await worker.initialize('ara');
                 if (file.type.startsWith('image/')) {
                     await updateProgress(50, 'تحليل الصورة...');
                     const imageUrl = URL.createObjectURL(file);

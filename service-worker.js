@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ETO-v100';
+const CACHE_NAME = 'ETO-v35';
 
 const APP_SHELL = [
     './',
@@ -47,16 +47,33 @@ self.addEventListener('fetch', (event) => {
         (event.request.destination === 'document');
 
     if (isNavigation) {
-        event.respondWith(
-            fetch(event.request)
-                .then((networkResponse) => {
+        const networkUpdate = fetch(event.request)
+            .then((networkResponse) => {
+                if (networkResponse && networkResponse.ok) {
                     const responseClone = networkResponse.clone();
-                    caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(event.request, responseClone);
+
+                    return caches.open(CACHE_NAME).then((cache) => {
+                        return cache.put('./index.html', responseClone)
+                            .then(() => networkResponse);
                     });
-                    return networkResponse;
-                })
-                .catch(() => caches.match('./index.html'))
+                }
+
+                return networkResponse;
+            })
+            .catch(() => null);
+
+        event.waitUntil(networkUpdate.then(() => undefined));
+
+        event.respondWith(
+            caches.match('./index.html').then((cachedResponse) => {
+                if (cachedResponse) {
+                    return cachedResponse;
+                }
+
+                return networkUpdate.then((networkResponse) => {
+                    return networkResponse || caches.match('./index.html');
+                });
+            })
         );
         return;
     }

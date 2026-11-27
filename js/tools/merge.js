@@ -46,7 +46,8 @@
                 try {
                     const buf = await f.arrayBuffer();
                     if (renderId !== currentMergeRenderId) return;
-                    const pdf = await pdfjsLib.getDocument(new Uint8Array(buf.slice(0))).promise;
+                    const PDFJS = await window.ETO_LOADERS.loadPDFJS();
+                    const pdf = await PDFJS.getDocument(new Uint8Array(buf.slice(0))).promise;
                     if (renderId !== currentMergeRenderId) return;
                     const page = await pdf.getPage(1); const vp = page.getViewport({ scale: 0.5 });
                     const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
@@ -59,7 +60,8 @@
             }
 
             if(sortableInstance) sortableInstance.destroy();
-            sortableInstance = new Sortable(mList, {
+            const SortableLib = await window.ETO_LOADERS.loadSortable();
+            sortableInstance = new SortableLib(mList, {
                 animation: 150,
                 onEnd: async function (evt) {
                     const itemEl = mergeFiles.splice(evt.oldIndex, 1)[0];

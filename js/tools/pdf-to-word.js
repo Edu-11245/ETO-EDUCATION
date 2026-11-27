@@ -1,4 +1,4 @@
-/* ===== بلوك 5 (كان في index.html من سطر 8731) ===== */
+
 ;
 (function () {
     const fileInput = document.getElementById('pdf-to-word-file');
@@ -34,7 +34,8 @@
         try {
             const bytes = new Uint8Array(await file.arrayBuffer());
 
-            pdfDocument = await pdfjsLib.getDocument({
+            const PDFJS = await window.ETO_LOADERS.loadPDFJS();
+            pdfDocument = await PDFJS.getDocument({
                 data: bytes
             }).promise;
 

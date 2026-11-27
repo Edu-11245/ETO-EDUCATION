@@ -1,4 +1,4 @@
-/* ===== تعديل وقص PDF ===== */
+
         let edBytes = null, edPdf = null, edPage = 1, edRotations = {}, edCrops = {}, edZoom = 1.0;
         const edCan = document.getElementById('edit-canvas'), edCtx = edCan.getContext('2d'), cropBox = document.getElementById('crop-overlay');
         let isDrawing = false, startX, startY;
@@ -10,7 +10,9 @@
             if(!e.target.files.length) return;
             document.getElementById('edit-upload-btn').classList.add('hidden'); document.getElementById('edit-workspace').classList.remove('hidden'); document.getElementById('edit-workspace').classList.add('flex');
             showLoad('جاري الفتح...');
-            edBytes = await e.target.files[0].arrayBuffer(); edPdf = await pdfjsLib.getDocument(new Uint8Array(edBytes.slice(0))).promise;
+            edBytes = await e.target.files[0].arrayBuffer();
+            const PDFJS = await window.ETO_LOADERS.loadPDFJS();
+            edPdf = await PDFJS.getDocument(new Uint8Array(edBytes.slice(0))).promise;
             edPage = 1; edRotations = {}; edCrops = {}; await renderEdPage(); hideLoad(); showToast('جاهز للتعديل');
         };
 

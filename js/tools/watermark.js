@@ -99,7 +99,8 @@
 
                 wmBytes = await e.target.files[0].arrayBuffer();
 
-                wmPdf = await pdfjsLib.getDocument(
+                const PDFJS = await window.ETO_LOADERS.loadPDFJS();
+                wmPdf = await PDFJS.getDocument(
                     new Uint8Array(wmBytes.slice(0))
                 ).promise;
 

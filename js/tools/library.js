@@ -111,7 +111,8 @@ document.getElementById('pdf-to-ppt-file').onchange = async (e) => {
   if(!e.target.files.length) return;
   showLoad('بنحول لـ PowerPoint...');
   try{
-    const pdf = await pdfjsLib.getDocument(new Uint8Array(await e.target.files[0].arrayBuffer())).promise;
+    const PDFJS = await window.ETO_LOADERS.loadPDFJS();
+    const pdf = await PDFJS.getDocument(new Uint8Array(await e.target.files[0].arrayBuffer())).promise;
     const pptx = new PptxGenJS();
     pptx.defineLayout({ name: 'A4', width: 10, height: 7.5 });
     pptx.layout = 'A4';

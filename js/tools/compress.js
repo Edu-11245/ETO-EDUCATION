@@ -10,7 +10,8 @@
             showLoad('جاري الضغط...');
             setTimeout(async () => {
                 try {
-                    const pdf = await pdfjsLib.getDocument(new Uint8Array(compPdfBytes)).promise;
+                    const PDFJS = await window.ETO_LOADERS.loadPDFJS();
+                    const pdf = await PDFJS.getDocument(new Uint8Array(compPdfBytes)).promise;
                     const { jsPDF } = window.jspdf;
                     const qual = parseFloat(document.getElementById('compress-level').value);
                     let outPdf = null; const tCan = document.createElement('canvas'), tCtx = tCan.getContext('2d');

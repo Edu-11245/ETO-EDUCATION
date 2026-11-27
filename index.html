@@ -7,7 +7,11 @@
     <link rel="stylesheet" href="dark.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2563eb">
-    <script src="Data/Edu_tools/tools-registry.js"></script>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    <link rel="preconnect" href="https://media.istockphoto.com" crossorigin>
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1758612215020-842383aadb9e?auto=format&fit=crop&w=640&h=400&q=50" fetchpriority="high">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1641247597421-52f47b939ff8?auto=format&fit=crop&w=640&h=400&q=50" fetchpriority="high">
+    <script src="Data/Edu_tools/tools-registry.js" defer></script>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -73,26 +77,21 @@
     }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="css/fontawesome.min.css" rel="stylesheet">
-    <script src="Data/Lib/pdf.min.js"></script>
-    <script src="Data/Lib/jspdf.umd.min.js"></script>
-    <script src="Data/Lib/html2canvas.min.js"></script>
-    <script src="Data/Lib/pdf-lib.min.js"></script>
-<script src="Data/Lib/pdf-encrypt-lite.umd.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
-    <script src="Data/Lib/Sortable.min.js"></script>
-    <script src="Data/Lib/pptxgen.bundle.js"></script>
-    <script src="Data/Lib/index.iife.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
-        }
+        };
     </script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap">
 <link rel="stylesheet" href="css/main.css?v=5">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        .hidden {
+            display: none !important;
+        }
+    </style>
 <link rel="stylesheet" href="Data/Tools/ppt-pdf/ppt-pdf.css?v=1">  
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;700;900&family=Aref+Ruqaa:wght@400;700&family=Reem+Kufi:wght@400;700&display=swap" rel="stylesheet">
-    <script src="Data/Lib/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="lang/lang.css?v=3">
     <link rel="stylesheet" href="Data/Programming/programming.css?v=2">
     <link rel="stylesheet" href="Data/Programming/Python/python.css?v=6">
@@ -104,7 +103,6 @@
     <link rel="stylesheet" href="Data/Photos/photos.css?v=5">
 </head>
 <body class="min-h-screen flex flex-col text-slate-800 dark:text-slate-100 transition-colors duration-300">
-    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'Data/Lib/pdf.worker.min.js';</script>
     <nav class="bg-white/80 dark:bg-slate-900/75 backdrop-blur-xl shadow-[0_8px_30px_rgba(15,23,42,.08)] sticky top-0 z-50 border-b border-white/60 dark:border-slate-700/60 transition-all duration-300">
         <div class="max-w-screen-2xl mx-auto px-4">
              <div class="flex justify-between items-center min-h-[76px] py-2">
@@ -200,9 +198,10 @@
                     <div class="eto-module eto-module-edu" onclick="navigate('education')">
                         <div class="eto-module-image">
                             <img
-                                data-src="https://images.unsplash.com/photo-1758612215020-842383aadb9e?auto=format&fit=crop&fm=jpg&q=70&w=1200"
+                                src="https://images.unsplash.com/photo-1758612215020-842383aadb9e?auto=format&fit=crop&w=640&h=400&q=50"
                                 alt="Eto.Edu"
-                                loading="lazy"
+                                loading="eager"
+                                fetchpriority="high"
                                 decoding="async">
                             <div class="eto-module-image-overlay"></div>
 
@@ -230,9 +229,10 @@
                     <div class="eto-module eto-module-tools" onclick="navigate('extra-tools')">
                         <div class="eto-module-image">
                             <img
-                                data-src="https://images.unsplash.com/photo-1641247597421-52f47b939ff8?auto=format&fit=crop&fm=jpg&q=70&w=1200"
+                                src="https://images.unsplash.com/photo-1641247597421-52f47b939ff8?auto=format&fit=crop&w=640&h=400&q=50"
                                 alt="ETO Tools"
-                                loading="lazy"
+                                loading="eager"
+                                fetchpriority="high"
                                 decoding="async">
                             <div class="eto-module-image-overlay"></div>
 
@@ -305,9 +305,9 @@
                     <div class="eto-module eto-module-lang" onclick="navigate('lang')">
                         <div class="eto-module-image">
                             <img
-                                data-src="https://media.istockphoto.com/id/1364195079/photo/learn-language-internet-online-distance-education.jpg?s=612x612&w=is&k=20&c=mjfpQ8OOR128oLqaG2GMoSG_BT5l2bUnUxJ5vbm707s="
+                                src="https://media.istockphoto.com/id/1364195079/photo/learn-language-internet-online-distance-education.jpg?s=612x612&w=is&k=20&c=mjfpQ8OOR128oLqaG2GMoSG_BT5l2bUnUxJ5vbm707s="
                                 alt="Lang Learning"
-                                loading="lazy"
+                                loading="eager"
                                 decoding="async">
                             <div class="eto-module-image-overlay"></div>
 
@@ -335,9 +335,9 @@
                     <div class="eto-module eto-module-photos" onclick="navigate('photos')">
                         <div class="eto-module-image" style="background:linear-gradient(135deg,#be185d,#7c3aed 55%,#2563eb)">
                             <img
-                                data-src="https://images.unsplash.com/photo-1713918926680-a1d0740e7430?auto=format&fit=crop&fm=jpg&q=70&w=1200"
+                                src="https://images.unsplash.com/photo-1713918926680-a1d0740e7430?auto=format&fit=crop&w=640&h=400&q=50"
                                 alt="Photos"
-                                loading="lazy"
+                                loading="eager"
                                 decoding="async">
                             <div class="eto-module-image-overlay"></div>
 
@@ -365,9 +365,9 @@
                     <div class="eto-module eto-module-programming" onclick="navigate('programming')">
                         <div class="eto-module-image" style="background:linear-gradient(135deg,#0f172a,#1d4ed8 55%,#06b6d4)">
                             <img
-                                data-src="Data/Img/Tabs/Programming.jpg"
+                                src="Data/Img/صفحات/Programming.jpg"
                                 alt="Programming"
-                                loading="lazy"
+                                loading="eager"
                                 decoding="async">
                             <div class="eto-module-image-overlay"></div>
 
@@ -416,7 +416,7 @@
                 <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div onclick="navigate('home')" class="group cursor-pointer rounded-3xl overflow-hidden bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition duration-300 flex flex-col">
                         <div class="relative h-56 md:h-64 overflow-hidden" style="background:linear-gradient(135deg,#1e3a8a,#3b82f6)">
-                            <img src="https://images.unsplash.com/photo-1758612215020-842383aadb9e?auto=format&fit=crop&fm=jpg&q=70&w=1200" alt="Secondary Education" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.style.display='none'">
+                            <img src="https://images.unsplash.com/photo-1758612215020-842383aadb9e?auto=format&fit=crop&w=800&q=50" alt="Secondary Education" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.style.display='none'">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent"></div>
                             <div class="absolute bottom-4 right-4 w-14 h-14 rounded-2xl bg-white/90 dark:bg-slate-900/85 text-blue-700 dark:text-blue-300 flex items-center justify-center text-2xl shadow-lg"><i class="fa-solid fa-school"></i></div>
                         </div>
@@ -428,7 +428,7 @@
                     </div>
                     <div onclick="navigate('courses')" class="group cursor-pointer rounded-3xl overflow-hidden bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition duration-300 flex flex-col">
                         <div class="relative h-56 md:h-64 overflow-hidden" style="background:linear-gradient(135deg,#7c2d12,#f97316)">
-                            <img src="https://images.unsplash.com/photo-1607013407627-6ee814329547?w=1200&auto=format&fit=crop&q=70&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D" alt="College Subjects" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.style.display='none'">
+                            <img src="https://images.unsplash.com/photo-1607013407627-6ee814329547?auto=format&fit=crop&w=800&q=50" alt="College Subjects" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.style.display='none'">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent"></div>
                             <div class="absolute bottom-4 right-4 w-14 h-14 rounded-2xl bg-white/90 dark:bg-slate-900/85 text-blue-700 dark:text-blue-300 flex items-center justify-center text-2xl shadow-lg"><i class="fa-solid fa-building-columns"></i></div>
                         </div>
@@ -4223,7 +4223,7 @@ Rules:
     <script src="lang/de.js"></script>
     <script src="lang/rabbit.js?v=3"></script>
     <script src="lang/boot.js"></script>
-    <script src="./Data/Edu/CNU/F.SCIENCE/content.js?v=11"></script>
+    <script src="./Data/Edu/CNU/F.SCIENCE/content.js?v=10"></script>
    <script src="./courses/courses.js?v=6"></script>
    <script src="./courses/summaries.js?v=3"></script>
    <script src="./courses/assignments.js?v=2"></script>
@@ -4270,7 +4270,7 @@ Rules:
         <div id="music-track-list" class="music-track-list"></div>
     </div>
 
-    <audio id="site-music" preload="auto"></audio>
+    <audio id="site-music" preload="none"></audio>
 
     
 
@@ -4288,63 +4288,79 @@ Rules:
         </div>
     </div>
 
+    <script src="Data/Lib/jspdf.umd.min.js"></script>
+    <script src="Data/Lib/html2canvas.min.js"></script>
+    <script src="Data/Lib/pdf-lib.min.js"></script>
+    <script src="Data/Lib/pdf-encrypt-lite.umd.js"></script>
+    <script src="Data/Lib/pptxgen.bundle.js"></script>
+    <script src="Data/Lib/index.iife.js"></script>
+<script src="./Trns_Data/Data.js" defer></script>
 
-<script src="./Trns_Data/Data.js"></script>
+<!-- Core System -->
+<script src="js/core/utils.js?v=2" defer></script>
+<script src="js/core/ui.js?v=2" defer></script>
+<script src="js/core/navigation.js?v=3" defer></script>
+<script src="js/core/shell.js?v=1" defer></script>
+<script src="js/core/pwa.js?v=1" defer></script>
 
-    
-<script src="js/core/utils.js?v=2"></script>
-<script src="js/core/ui.js?v=2"></script>
-<script src="js/core/navigation.js?v=3"></script>
-<script src="js/core/shell.js?v=1"></script>
-<script src="js/core/pwa.js?v=1"></script>
-<script src="js/core/lazy-images.js?v=1"></script>
-<script src="js/tools/teacher-sheets.js?v=1"></script>
-<script src="js/tools/cleaner.js?v=1"></script>
-<script src="js/tools/image-cleaner.js?v=1"></script>
-<script src="js/tools/compress.js?v=1"></script>
-<script src="js/tools/merge.js?v=1"></script>
-<script src="js/tools/extract.js?v=1"></script>
-<script src="js/tools/editor.js?v=1"></script>
-<script src="js/tools/convert.js?v=1"></script>
-<script src="js/tools/text.js?v=1"></script>
-<script src="js/tools/reader.js?v=1"></script>
-<script src="js/tools/watermark.js?v=1"></script>
-<script src="js/tools/reorder.js?v=1"></script>
-<script src="js/tools/protect.js?v=1"></script>
-<script src="js/tools/music.js?v=1"></script>
-<script src="js/tools/templates.js?v=1"></script>
-<script src="js/tools/summaries.js?v=1"></script>
-<script src="js/tools/science-library.js?v=1"></script>
-<script src="js/tools/exam-online.js?v=1"></script>
-<script src="js/tools/translate.js?v=1"></script>
-<script src="js/tools/schedule.js?v=1"></script>
-<script src="js/tools/pomodoro.js?v=1"></script>
-<script src="js/tools/compare.js?v=1"></script>
-<script src="js/tools/library.js?v=1"></script>
-<script src="js/tools/grades.js?v=1"></script>
-<script src="js/tools/certificate.js?v=1"></script>
-<script src="js/tools/pdf-to-word.js?v=1"></script>
-<script src="js/tools/answers-key.js?v=1"></script>
-<script src="js/tools/calculator.js?v=1"></script>
+<!-- PDF Tools -->
+<script src="js/tools/teacher-sheets.js?v=1" defer></script>
+<script src="js/tools/cleaner.js?v=1" defer></script>
+<script src="js/tools/image-cleaner.js?v=1" defer></script>
+<script src="js/tools/compress.js?v=1" defer></script>
+<script src="js/tools/merge.js?v=1" defer></script>
+<script src="js/tools/extract.js?v=1" defer></script>
+<script src="js/tools/editor.js?v=1" defer></script>
+<script src="js/tools/convert.js?v=1" defer></script>
+<script src="js/tools/text.js?v=1" defer></script>
+<script src="js/tools/reader.js?v=1" defer></script>
+<script src="js/tools/watermark.js?v=1" defer></script>
+<script src="js/tools/reorder.js?v=1" defer></script>
+<script src="js/tools/protect.js?v=1" defer></script>
 
+<!-- Site Features -->
+<script src="js/tools/music.js?v=1" defer></script>
+<script src="js/tools/templates.js?v=1" defer></script>
+<script src="js/tools/summaries.js?v=1" defer></script>
+<script src="js/tools/science-library.js?v=1" defer></script>
+<script src="js/tools/exam-online.js?v=1" defer></script>
+<script src="js/tools/translate.js?v=1" defer></script>
+<script src="js/tools/schedule.js?v=1" defer></script>
+<script src="js/tools/pomodoro.js?v=1" defer></script>
+<script src="js/tools/compare.js?v=1" defer></script>
+<script src="js/tools/library.js?v=1" defer></script>
+<script src="js/tools/grades.js?v=1" defer></script>
+<script src="js/tools/certificate.js?v=1" defer></script>
+<script src="js/tools/pdf-to-word.js?v=1" defer></script>
+<script src="js/tools/answers-key.js?v=1" defer></script>
+<script src="js/tools/calculator.js?v=1" defer></script>
 
-<script src="./Data/Tools/mp3-to-mp4/mp3-to-mp4.js"></script>
-<script src="./Data/Tools/mp4-to-mp3/mp4-to-mp3.js"></script>
-<script src="./Data/Tools/mp3-to-wav/mp3-to-wav.js"></script>
-<script src="./Data/Tools/wav-to-mp3/wav-to-mp3.js"></script>
-<script src="./Data/Tools/mp3-to-ogg/mp3-to-ogg.js"></script>
-<script src="./Data/Tools/ogg-to-mp3/ogg-to-mp3.js"></script>
-<script src="./Data/Tools/ppt-pdf/ppt-pdf.js?v=2"></script>
-<script src="Data/Edu_tools/periodic table/periodic.js"></script>
-<script src="Data/Photos/photos-config.js?v=4"></script>
-<script src="Data/Photos/photos.js?v=6"></script>
-<script src="Data/Programming/Python/Data/map.js?v=4"></script>
-<script src="Data/Programming/Python/python.js?v=3"></script>
-<script src="Data/Programming/Python/Course/course.js?v=6"></script>
-<script src="Data/Programming/Python/Course/lesson.js?v=5"></script>
-<script src="Data/Programming/Python/Course/pc.js?v=4"></script>
-<script src="Data/Programming/Python/libraries.js?v=3"></script>
-<script src="Data/Programming/Python/mindmap.js?v=2"></script>
-<script src="Data/Programming/programming.js?v=3"></script>
+<!-- Audio Converters -->
+<script src="./Data/Tools/mp3-to-mp4/mp3-to-mp4.js" defer></script>
+<script src="./Data/Tools/mp4-to-mp3/mp4-to-mp3.js" defer></script>
+<script src="./Data/Tools/mp3-to-wav/mp3-to-wav.js" defer></script>
+<script src="./Data/Tools/wav-to-mp3/wav-to-mp3.js" defer></script>
+<script src="./Data/Tools/mp3-to-ogg/mp3-to-ogg.js" defer></script>
+<script src="./Data/Tools/ogg-to-mp3/ogg-to-mp3.js" defer></script>
+
+<!-- PowerPoint -->
+<script src="./Data/Tools/ppt-pdf/ppt-pdf.js?v=2" defer></script>
+
+<!-- Educational Tools -->
+<script src="Data/Edu_tools/periodic table/periodic.js" defer></script>
+
+<!-- Photos -->
+<script src="Data/Photos/photos-config.js?v=4" defer></script>
+<script src="Data/Photos/photos.js?v=6" defer></script>
+
+<!-- Python -->
+<script src="Data/Programming/Python/Data/map.js?v=4" defer></script>
+<script src="Data/Programming/Python/python.js?v=3" defer></script>
+<script src="Data/Programming/Python/Course/course.js?v=6" defer></script>
+<script src="Data/Programming/Python/Course/lesson.js?v=5" defer></script>
+<script src="Data/Programming/Python/Course/pc.js?v=4" defer></script>
+<script src="Data/Programming/Python/libraries.js?v=3" defer></script>
+<script src="Data/Programming/Python/mindmap.js?v=2" defer></script>
+<script src="Data/Programming/programming.js?v=3" defer></script>
 </body>
 </html>

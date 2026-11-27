@@ -102,7 +102,8 @@
             try {
                 let fullText = "";
                 if (file.type === 'application/pdf') {
-                    const pdf = await pdfjsLib.getDocument(new Uint8Array(await file.arrayBuffer())).promise;
+                    const PDFJS = await window.ETO_LOADERS.loadPDFJS();
+                    const pdf = await PDFJS.getDocument(new Uint8Array(await file.arrayBuffer())).promise;
                     for (let i = 1; i <= pdf.numPages; i++) {
                         await updateProgress(Math.round((i / pdf.numPages) * 100), `صفحة ${i}`);
                         const page = await pdf.getPage(i);
@@ -112,7 +113,8 @@
                     }
                     if (!fullText.trim()) {
                         showLoad('الملف صورة، جاري القراءة بالـ OCR...');
-                        const worker = await Tesseract.createWorker();
+                        const TesseractLib = await window.ETO_LOADERS.loadTesseract();
+                        const worker = await TesseractLib.createWorker();
                         await worker.loadLanguage('ara+eng');
                         await worker.initialize('ara+eng');
                         for (let i = 1; i <= pdf.numPages; i++) {
@@ -126,7 +128,8 @@
                         await worker.terminate();
                     }
                 } else if (file.type.startsWith('image/')) {
-                    const worker = await Tesseract.createWorker();
+                    const TesseractLib = await window.ETO_LOADERS.loadTesseract();
+                    const worker = await TesseractLib.createWorker();
                     await worker.loadLanguage('ara+eng');
                     await worker.initialize('ara+eng');
                     await updateProgress(50, 'تحليل الصورة...');

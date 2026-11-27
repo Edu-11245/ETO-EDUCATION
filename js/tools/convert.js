@@ -24,7 +24,9 @@
         
         document.getElementById('pdf-to-img-file').onchange = async (e) => {
             if(!e.target.files.length) return; showLoad('استخراج الصور...');
-            const buf = await e.target.files[0].arrayBuffer(); const pdf = await pdfjsLib.getDocument(new Uint8Array(buf)).promise;
+            const buf = await e.target.files[0].arrayBuffer();
+            const PDFJS = await window.ETO_LOADERS.loadPDFJS();
+            const pdf = await PDFJS.getDocument(new Uint8Array(buf)).promise;
             const resDiv = document.getElementById('pdf-to-img-results'); resDiv.innerHTML = '';
             for (let i = 1; i <= pdf.numPages; i++) {
                 const btn = document.createElement('button');
