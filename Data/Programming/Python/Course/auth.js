@@ -16,7 +16,7 @@
   function css() {
     if (document.getElementById('eto-auth-css')) return;
     var l = document.createElement('link'); l.id = 'eto-auth-css'; l.rel = 'stylesheet';
-    l.href = ((root.PythonCourse && root.PythonCourse.base) || 'Data/Programming/Python/Course/') + 'auth.css?v=2'; document.head.appendChild(l);
+    l.href = ((root.PythonCourse && root.PythonCourse.base) || 'Data/Programming/Python/Course/') + 'auth.css?v=3'; document.head.appendChild(l);
   }
   function lib() {
     if (libP) return libP;
@@ -80,26 +80,18 @@
   function lampSet(st, on, fromLamp) {
     LAMP.on = on;
     st.classList.toggle('on', on);
+    var sd = st.querySelector('.au-side'); if (sd) sd.inert = !on;
     if (!fromLamp && LAMP.api) LAMP.api.set(on);
-  }
-
-  function dust(st) {
-    var h = '', i;
-    for (i = 0; i < 18; i++) {
-      var a = Math.random() * Math.PI * 2, r = 60 + Math.random() * 230;
-      h += '<i style="--x:' + Math.round(Math.cos(a) * r) + 'px;--y:' + Math.round(Math.sin(a) * r * 0.8) + 'px;--mx:' + Math.round(Math.random() * 40 - 20) + 'px;--my:' + Math.round(-10 - Math.random() * 40) + 'px;--d:' + (5 + Math.random() * 6).toFixed(1) + 's;--b:' + (1.5 + Math.random() * 3).toFixed(1) + 's"></i>';
-    }
-    st.querySelector('.au-dust').innerHTML = h;
   }
 
   function stage(box) {
     var st = box.firstElementChild;
     if (st && st.__eto) return st;
     LAMP.on = false; LAMP.api = null;
-    box.innerHTML = '<div class="au" dir="rtl"><div class="au-sky"></div><div class="au-glow"></div><div class="au-dust"></div><div class="au-hint"><b></b><span>اضغط على الأباجورة</span></div><div class="au-stat"></div><div class="au-side"></div></div>';
+    box.innerHTML = '<div class="au" dir="rtl"><div class="au-sky"></div><div class="au-stat"></div><div class="au-side"></div></div>';
     st = box.firstElementChild; st.__eto = true;
-    dust(st);
-    script(lampBase() + 'lamp.js?v=1').then(function () {
+    st.querySelector('.au-side').inert = true;
+    script(lampBase() + 'lamp.js?v=2').then(function () {
       if (!st.isConnected || !root.EtoLamp) return;
       LAMP.api = root.EtoLamp.mount(st, { on: LAMP.on, onToggle: function (v) { lampSet(st, v, true); } });
     }, function () { lampSet(st, true, true); });

@@ -27,7 +27,7 @@
     if (window.EtoAuth) return Promise.resolve();
     if (authP) return authP;
     function sc(src) { return new Promise(function (res) { var x = document.createElement('script'); x.src = src; x.onload = res; x.onerror = function () { x.remove(); res(); }; document.head.appendChild(x); }); }
-    authP = sc(BASE + 'config.js?v=1').then(function () { return sc(BASE + 'auth.js?v=1'); }).then(function () { if (!window.EtoAuth) authP = null; });
+    authP = sc(BASE + 'config.js?v=1').then(function () { return sc(BASE + 'auth.js?v=2'); }).then(function () { if (!window.EtoAuth) authP = null; });
     return authP;
   }
   function osNow() {
