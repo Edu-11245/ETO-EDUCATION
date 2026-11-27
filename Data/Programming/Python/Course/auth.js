@@ -1,10 +1,5 @@
-/* ===== تسجيل الدخول والبروفايل (Firebase Auth + Realtime Database) =====
-   EtoAuth.gate(box, alive) => Promise<{ user, profile }>   بيعرض شاشة الدخول جوه box لحد ما المستخدم يخلّص
-   EtoAuth.signOut(onDone)  => بيسأل "تحفظ بيانات تسجيل الدخول؟" ثم بيخرّج
-   EtoAuth.getSaved() / EtoAuth.forget()  => بيانات الدخول المحفوظة (للإعدادات)
-   EtoAuth.user / EtoAuth.profile */
 (function (root) {
-  var CFG = root.ETO_CONFIG || {}, SDK = 'https://www.gstatic.com/firebasejs/9.23.0/'  /* نفس نسخة exam-online.js عشان ما يحصلش تعارض */;
+  var CFG = root.ETO_CONFIG || {}, SDK = 'https://www.gstatic.com/firebasejs/9.23.0/';
   var SAVED = 'eto_saved_login', libP = null, A = null, DB = null;
   var E = { user: null, profile: null };
   var JOBS = ['طالب مدرسة', 'طالب جامعة', 'موظف', 'مبرمج', 'صاحب شغل حر', 'مش شغال دلوقتي', 'أخرى'];
@@ -21,11 +16,11 @@
   function css() {
     if (document.getElementById('eto-auth-css')) return;
     var l = document.createElement('link'); l.id = 'eto-auth-css'; l.rel = 'stylesheet';
-    l.href = ((root.PythonCourse && root.PythonCourse.base) || 'Data/Programming/Python/Course/') + 'auth.css?v=1'; document.head.appendChild(l);
+    l.href = ((root.PythonCourse && root.PythonCourse.base) || 'Data/Programming/Python/Course/') + 'auth.css?v=2'; document.head.appendChild(l);
   }
   function lib() {
     if (libP) return libP;
-    /* لو Firebase متحمّل من حتة تانية (زي exam-online.js) بنكمّل عليه ومنحمّلوش تاني */
+
     var p = root.firebase ? Promise.resolve() : script(SDK + 'firebase-app-compat.js');
     libP = p
       .then(function () { return Promise.all([
@@ -63,7 +58,6 @@
     return m[c] || ('حصلت مشكلة (' + (c || 'غير معروفة') + ').');
   }
 
-  /* ---------- البروفايل ---------- */
   function loadProfile(uid) { return DB.ref('users/' + uid).once('value').then(function (d) { return d.val(); }); }
   function saveProfile(u, p) {
     var T = root.firebase.database.ServerValue.TIMESTAMP, ref = DB.ref('users/' + u.uid);
@@ -79,10 +73,53 @@
     return saveProfile(E.user, n).then(function (d) { E.profile = d; return d; });
   };
 
-  /* ---------- الواجهة ---------- */
-  function shell(box, inner) {
-    box.innerHTML = '<div class="au" dir="rtl"><div class="au-card"><div class="au-logo"><i class="fa-solid fa-laptop-code"></i></div>' + inner + '</div></div>';
-    return box.querySelector('.au-card');
+  var LAMP = { on: false, api: null };
+
+  function lampBase() { return (root.PythonCourse && root.PythonCourse.base) || 'Data/Programming/Python/Course/'; }
+
+  function lampSet(st, on, fromLamp) {
+    LAMP.on = on;
+    st.classList.toggle('on', on);
+    if (!fromLamp && LAMP.api) LAMP.api.set(on);
+  }
+
+  function dust(st) {
+    var h = '', i;
+    for (i = 0; i < 18; i++) {
+      var a = Math.random() * Math.PI * 2, r = 60 + Math.random() * 230;
+      h += '<i style="--x:' + Math.round(Math.cos(a) * r) + 'px;--y:' + Math.round(Math.sin(a) * r * 0.8) + 'px;--mx:' + Math.round(Math.random() * 40 - 20) + 'px;--my:' + Math.round(-10 - Math.random() * 40) + 'px;--d:' + (5 + Math.random() * 6).toFixed(1) + 's;--b:' + (1.5 + Math.random() * 3).toFixed(1) + 's"></i>';
+    }
+    st.querySelector('.au-dust').innerHTML = h;
+  }
+
+  function stage(box) {
+    var st = box.firstElementChild;
+    if (st && st.__eto) return st;
+    LAMP.on = false; LAMP.api = null;
+    box.innerHTML = '<div class="au" dir="rtl"><div class="au-sky"></div><div class="au-glow"></div><div class="au-dust"></div><div class="au-hint"><b></b><span>اضغط على الأباجورة</span></div><div class="au-stat"></div><div class="au-side"></div></div>';
+    st = box.firstElementChild; st.__eto = true;
+    dust(st);
+    script(lampBase() + 'lamp.js?v=1').then(function () {
+      if (!st.isConnected || !root.EtoLamp) return;
+      LAMP.api = root.EtoLamp.mount(st, { on: LAMP.on, onToggle: function (v) { lampSet(st, v, true); } });
+    }, function () { lampSet(st, true, true); });
+    return st;
+  }
+
+  function shell(box, inner, view) {
+    var st = stage(box), side = st.querySelector('.au-side');
+    side.innerHTML = '<div class="au-card' + (st.classList.contains('on') ? ' au-swap' : '') + '"><div class="au-logo"><i class="fa-solid fa-laptop-code"></i></div>' + inner + '</div>';
+    st.classList.remove('chk');
+    st.classList.toggle('lg', view === 'login');
+    if (view !== 'login' && !LAMP.on) lampSet(st, true, false);
+    return side.firstChild;
+  }
+
+  function status(box, text) {
+    var st = stage(box);
+    st.classList.add('chk'); st.classList.remove('lg');
+    st.querySelector('.au-stat').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>' + esc(text) + '</span>';
+    st.querySelector('.au-side').innerHTML = '';
   }
   function setErr(card, t) { var e = card.querySelector('.au-err'); if (e) { e.textContent = t || ''; e.style.display = t ? '' : 'none'; } }
   function busy(card, on) { card.querySelectorAll('button,input,select').forEach(function (x) { x.disabled = on; }); card.classList.toggle('au-busy', on); }
@@ -100,7 +137,7 @@
       '<div class="au-err" style="display:none"></div>' +
       '<button class="au-go" type="button">' + (signup ? 'إنشاء الحساب' : 'تسجيل الدخول') + '</button>' +
       (signup ? '' : '<button class="au-lnk" data-a="reset" type="button">نسيت الباسورد؟</button>') +
-      '<button class="au-lnk" data-a="sw" type="button">' + (signup ? 'عندي حساب بالفعل' : 'معنديش حساب. إنشاء حساب جديد') + '</button>');
+      '<button class="au-lnk" data-a="sw" type="button">' + (signup ? 'عندي حساب بالفعل' : 'معنديش حساب. إنشاء حساب جديد') + '</button>', 'login');
 
     var em = card.querySelector('.au-em'), pw = card.querySelector('.au-pw');
     function run(p) {
@@ -168,11 +205,10 @@
     });
   }
 
-  /* ---------- API ---------- */
   E.gate = function (box, alive) {
     alive = alive || function () { return true; }; css();
     return new Promise(function (res, rej) {
-      shell(box, '<div class="au-wait"><i class="fa-solid fa-spinner fa-spin"></i> جاري التحقق من الحساب...</div>');
+      status(box, 'جاري التحقق من الحساب...');
       lib().then(function () {
         if (!alive()) return;
         var first = true, off = A.onAuthStateChanged(function (u) {
@@ -192,7 +228,6 @@
   E.getSaved = function () { try { return JSON.parse(localStorage.getItem(SAVED)) || null; } catch (e) { return null; } };
   E.forget = function () { try { localStorage.removeItem(SAVED); } catch (e) {} };
 
-  /* تسجيل الخروج: بيسأل يحفظ بيانات الدخول (الإيميل والاسم بس، مش الباسورد) ولا لأ */
   E.signOut = function (onDone) {
     var u = E.user, p = E.profile || {}, d = document.createElement('div');
     d.className = 'au-ov'; d.dir = 'rtl';
