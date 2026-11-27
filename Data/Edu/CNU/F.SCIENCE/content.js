@@ -83,6 +83,11 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
           "url": "https://drive.google.com/file/d/1pe2icqS3_Ln6u0WQZmMT3ZS5NZeBuGI8/view?usp=drive_link",
           "kind": "pdf",
           "group": "Biology"
+        },
+          "title": "Biology 9",
+          "url": "https://drive.google.com/file/d/1ARTyHC5FDmXurm7RY7d3bOXGjGVz2hAE/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "Biology"
         }
       ],
       "summaries": [
