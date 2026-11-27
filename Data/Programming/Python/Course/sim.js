@@ -3,10 +3,11 @@
    خطوات: { kind:'open' } | { kind:'cmd', say, expect, out:'..'|{win,mac,linux}, hint } | { kind:'code', say, file, expect, hint }
    الرحلة: Open Computer ← فولسكرين ← اختيار النظام ← تحميل ← صوت فتح ← سطح مكتب (This PC / Recycle Bin / About Dev / Terminal)
    v4: تحميل مسبق حقيقي في الكاش وقت البوت | Light/Dark من الإعدادات | خلفيات صور ثابتة (wallpapers/) | تطبيق Eto Search
+   v5: ملفات حقيقية (C: نظام للقراءة فقط، D: بحد 1 جيجا محفوظ في المتصفح) + كليك يمين زي الويندوز + محرر Eto Code بتلوين وتشغيل
    تخصيص: window.ETO_SIM.google = { key, cx } (اختياري، عشان نتايج جوجل تظهر جوه Eto Search) | window.ETO_ME = { photo:'..', ... }  |  window.ETO_SIM = { sounds:{ win:'url', mac:'url', linux:'url' } } */
 (function (root) {
   var BASE = (function () { var s = document.currentScript; return s && s.src ? s.src.replace(/[^\/]*$/, '') : ''; })();
-  if (!document.getElementById('sx-css')) { var lk = document.createElement('link'); lk.id = 'sx-css'; lk.rel = 'stylesheet'; lk.href = BASE + 'sim.css?v=7'; document.head.appendChild(lk); }
+  if (!document.getElementById('sx-css')) { var lk = document.createElement('link'); lk.id = 'sx-css'; lk.rel = 'stylesheet'; lk.href = BASE + 'sim.css?v=10'; document.head.appendChild(lk); }
   var W = 1000, H = 625, PYV = '0.26.4';
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (m) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]; }); };
   var fmt = function (s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/`(.+?)`/g, '<code dir="ltr">$1</code>'); };
@@ -62,15 +63,231 @@
     String(code).split('\n').forEach(function (l) { var m = /^\s*print\(\s*(["'])(.*)\1\s*\)\s*$/.exec(l); if (m) out.push(m[2]); });
     return out.join('\n');
   }
-  function loadPy() {
-    if (root.__etoPy) return root.__etoPy;
-    root.__etoPy = new Promise(function (res, rej) {
-      var s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/pyodide/v' + PYV + '/full/pyodide.js';
-      s.onload = function () { root.loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v' + PYV + '/full/' }).then(res, rej); };
-      s.onerror = function () { root.__etoPy = null; rej(new Error('net')); };
-      document.head.appendChild(s);
-    });
-    return root.__etoPy;
+  /* Python الحقيقية (Pyodide) بتشتغل جوه Web Worker: Stop / Ctrl+C بيقتلوا الـWorker فالتاب مش بيتجمد أبداً.
+     input() شغال جوه الترمنال: الكود بيتحول (AST) لـawait على سؤال بيظهر في الترمنال، حتى جوه الدوال. */
+  function workerMain() {
+    var py = null, inRes = null;
+    var PYSRC = [
+    "import ast, sys, traceback, inspect, js",
+    "",
+    "def _own(fn):",
+    "    st = list(fn.body)",
+    "    while st:",
+    "        n = st.pop()",
+    "        if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda, ast.ClassDef)):",
+    "            continue",
+    "        yield n",
+    "        st.extend(ast.iter_child_nodes(n))",
+    "",
+    "def _prep(tree):",
+    "    fns = [n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and not (n.name.startswith('__') and n.name.endswith('__'))]",
+    "    names, mk = set(), set()",
+    "    def hit(f):",
+    "        if isinstance(f, ast.Name):",
+    "            return f.id == 'input' or f.id in names",
+    "        if isinstance(f, ast.Attribute):",
+    "            return f.attr in names",
+    "        return False",
+    "    ch = True",
+    "    while ch:",
+    "        ch = False",
+    "        for fn in fns:",
+    "            if fn in mk:",
+    "                continue",
+    "            for n in _own(fn):",
+    "                if isinstance(n, ast.Call) and hit(n.func):",
+    "                    mk.add(fn); names.add(fn.name); ch = True",
+    "                    break",
+    "    class T(ast.NodeTransformer):",
+    "        def visit_Call(self, n):",
+    "            self.generic_visit(n)",
+    "            if hit(n.func):",
+    "                if isinstance(n.func, ast.Name) and n.func.id == 'input':",
+    "                    n.func = ast.Name('__ainput', ast.Load())",
+    "                return ast.copy_location(ast.Await(n), n)",
+    "            return n",
+    "        def visit_FunctionDef(self, n):",
+    "            self.generic_visit(n)",
+    "            if n in mk:",
+    "                return ast.copy_location(ast.AsyncFunctionDef(**{k: getattr(n, k) for k in n._fields}), n)",
+    "            return n",
+    "    return T().visit(tree)",
+    "",
+    "_HM = '@@HINT@@ '",
+    "",
+    "_SYN = [",
+    "    (\"was never closed\", \"\u0641\u064a\u0647 \u0642\u0648\u0633 \u0623\u0648 \u0639\u0644\u0627\u0645\u0629 \u0627\u062a\u0641\u062a\u062d\u062a \u0648\u0645\u0627 \u0627\u062a\u0642\u0641\u0644\u062a\u0634. \u0631\u0627\u062c\u0639 \u0627\u0644\u0623\u0642\u0648\u0627\u0633 ( ) [ ] { } \u0641\u064a \u0627\u0644\u0633\u0637\u0631 \u062f\u0647 \u0648\u0627\u0644\u0644\u064a \u0642\u0628\u0644\u0647.\"),",
+    "    (\"unterminated string literal\", \"\u0627\u0644\u0646\u0635 \u0645\u0627 \u0627\u062a\u0642\u0641\u0644\u0634. \u0644\u0627\u0632\u0645 \u064a\u0628\u062f\u0623 \u0648\u064a\u0646\u062a\u0647\u064a \u0628\u0646\u0641\u0633 \u0639\u0644\u0627\u0645\u0629 \u0627\u0644\u062a\u0646\u0635\u064a\u0635 (\\\" \u0623\u0648 ').\"),",
+    "    (\"expected ':'\", \"\u0646\u0627\u0642\u0635 \u0646\u0642\u0637\u062a\u064a\u0646 : \u0641\u064a \u0622\u062e\u0631 \u0627\u0644\u0633\u0637\u0631. \u0628\u0639\u062f if \u0648 for \u0648 while \u0648 def \u0644\u0627\u0632\u0645 \u062a\u0643\u062a\u0628 :\"),",
+    "    (\"Missing parentheses in call to 'print'\", \"\u0641\u064a \u0628\u0627\u064a\u062b\u0648\u0646 3 \u0644\u0627\u0632\u0645 print \u0628\u0623\u0642\u0648\u0627\u0633\u060c \u0632\u064a print(\\\"Hello\\\").\"),",
+    "    (\"instead of '='\", \"\u0641\u064a \u0627\u0644\u0634\u0631\u0637 \u0627\u0633\u062a\u062e\u062f\u0645 == \u0644\u0644\u0645\u0642\u0627\u0631\u0646\u0629. \u0639\u0644\u0627\u0645\u0629 = \u0628\u062a\u062d\u0637 \u0642\u064a\u0645\u0629 \u0641\u064a \u0645\u062a\u063a\u064a\u0631 \u0628\u0633.\"),",
+    "    (\"unmatched ')'\", \"\u0641\u064a\u0647 \u0642\u0648\u0633 \u0642\u0641\u0644 \u0632\u064a\u0627\u062f\u0629 \u0645\u0646 \u063a\u064a\u0631 \u0642\u0648\u0633 \u0641\u062a\u062d.\"),",
+    "    (\"cannot assign to\", \"\u0645\u0634 \u064a\u0646\u0641\u0639 \u062a\u062d\u0637 \u0642\u064a\u0645\u0629 \u0641\u064a \u0627\u0644\u062d\u0627\u062c\u0629 \u062f\u064a. \u0639\u0644\u0649 \u0627\u0644\u0634\u0645\u0627\u0644 \u0645\u0646 = \u0644\u0627\u0632\u0645 \u064a\u0628\u0642\u0649 \u0627\u0633\u0645 \u0645\u062a\u063a\u064a\u0631.\"),",
+    "    (\"invalid decimal literal\", \"\u0627\u0633\u0645 \u0627\u0644\u0645\u062a\u063a\u064a\u0631 \u0645\u0627 \u064a\u0646\u0641\u0639\u0634 \u064a\u0628\u062f\u0623 \u0628\u0631\u0642\u0645\u060c \u0648\u0645\u0627 \u064a\u0646\u0641\u0639\u0634 \u0641\u064a\u0647 \u0645\u0633\u0627\u0641\u0627\u062a.\"),",
+    "]",
+    "",
+    "def _hint(e):",
+    "    m = str(e)",
+    "    if isinstance(e, IndentationError):",
+    "        if 'expected an indented block' in m:",
+    "            return \"\u062a\u0644\u0645\u064a\u062d: \u0628\u0639\u062f \u0627\u0644\u0646\u0642\u0637\u062a\u064a\u0646 : \u0644\u0627\u0632\u0645 \u0627\u0644\u0633\u0637\u0631 \u0627\u0644\u0644\u064a \u0628\u0639\u062f\u0647 \u064a\u0628\u0642\u0649 \u0645\u062a\u0632\u0627\u062d (4 \u0645\u0633\u0627\u0641\u0627\u062a \u0641\u064a \u0623\u0648\u0644\u0647).\"",
+    "        if 'unindent' in m:",
+    "            return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0645\u0633\u0627\u0641\u0627\u062a \u0641\u064a \u0623\u0648\u0644 \u0627\u0644\u0633\u0637\u0631 \u0645\u0634 \u0645\u062a\u0633\u0627\u0648\u064a\u0629 \u0645\u0639 \u0628\u0627\u0642\u064a \u0627\u0644\u0643\u062a\u0644\u0629. \u062e\u0644\u0651\u064a \u0643\u0644 \u0633\u0637\u0648\u0631 \u0627\u0644\u0643\u062a\u0644\u0629 \u0628\u0646\u0641\u0633 \u0627\u0644\u0625\u0632\u0627\u062d\u0629.\"",
+    "        return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0633\u0637\u0631 \u062f\u0647 \u0645\u062a\u0632\u0627\u062d \u0632\u064a\u0627\u062f\u0629 \u0645\u0646 \u063a\u064a\u0631 \u0633\u0628\u0628. \u0634\u064a\u0644 \u0627\u0644\u0645\u0633\u0627\u0641\u0627\u062a \u0645\u0646 \u0623\u0648\u0644\u0647.\"",
+    "    if isinstance(e, SyntaxError):",
+    "        msg = getattr(e, 'msg', None) or m",
+    "        for k, v in _SYN:",
+    "            if k in msg:",
+    "                return \"\u062a\u0644\u0645\u064a\u062d: \" + v",
+    "        return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u062c\u0645\u0644\u0629 \u0645\u0643\u062a\u0648\u0628\u0629 \u063a\u0644\u0637. \u0631\u0627\u062c\u0639 \u0627\u0644\u0623\u0642\u0648\u0627\u0633 \u0648\u0639\u0644\u0627\u0645\u0627\u062a \u0627\u0644\u062a\u0646\u0635\u064a\u0635 \u0648\u0627\u0644\u0646\u0642\u0637\u062a\u064a\u0646 \u0648\u0627\u0644\u0645\u0633\u0627\u0641\u0627\u062a \u0641\u064a \u0627\u0644\u0633\u0637\u0631 \u062f\u0647 (\u0648\u0641\u064a \u0627\u0644\u0644\u064a \u0642\u0628\u0644\u0647).\"",
+    "    if isinstance(e, UnboundLocalError):",
+    "        return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0645\u062a\u063a\u064a\u0631 \u062f\u0647 \u0627\u062a\u0633\u062a\u062e\u062f\u0645 \u062c\u0648\u0647 \u0627\u0644\u062f\u0627\u0644\u0629 \u0642\u0628\u0644 \u0645\u0627 \u064a\u0627\u062e\u062f \u0642\u064a\u0645\u0629. \u0625\u062f\u0651\u064a\u0644\u0647 \u0642\u064a\u0645\u0629 \u0627\u0644\u0623\u0648\u0644\u060c \u0623\u0648 \u0644\u0648 \u0639\u0627\u064a\u0632 \u062a\u0639\u062f\u0651\u0644 \u0645\u062a\u063a\u064a\u0631 \u0628\u0631\u0651\u0647 \u0627\u0644\u062f\u0627\u0644\u0629 \u0627\u0643\u062a\u0628 global \u0642\u0628\u0644\u0647.\"",
+    "    if isinstance(e, NameError):",
+    "        n = getattr(e, 'name', None)",
+    "        return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0627\u0633\u0645\" + (\" '\" + n + \"'\" if n else \"\") + \" \u0645\u0634 \u0645\u0639\u0631\u0651\u0641. \u064a\u0627 \u0625\u0645\u0627 \u0643\u062a\u0628\u062a\u0647 \u063a\u0644\u0637 (\u0628\u0627\u064a\u062b\u0648\u0646 \u0628\u062a\u0641\u0631\u0651\u0642 \u0628\u064a\u0646 \u0627\u0644\u062d\u0631\u0648\u0641 \u0627\u0644\u0643\u0628\u064a\u0631\u0629 \u0648\u0627\u0644\u0635\u063a\u064a\u0631\u0629)\u060c \u064a\u0627 \u0625\u0645\u0627 \u0644\u0627\u0632\u0645 \u062a\u0639\u0631\u0651\u0641\u0647 \u0627\u0644\u0623\u0648\u0644 \u0642\u0628\u0644 \u0645\u0627 \u062a\u0633\u062a\u062e\u062f\u0645\u0647.\"",
+    "    if isinstance(e, ZeroDivisionError):",
+    "        return \"\u062a\u0644\u0645\u064a\u062d: \u0645\u0641\u064a\u0634 \u0642\u0633\u0645\u0629 \u0639\u0644\u0649 \u0635\u0641\u0631. \u0627\u062a\u0623\u0643\u062f \u0625\u0646 \u0627\u0644\u0645\u0642\u0633\u0648\u0645 \u0639\u0644\u064a\u0647 \u0645\u0634 0.\"",
+    "    if isinstance(e, IndexError):",
+    "        return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0641\u0647\u0631\u0633 \u0623\u0643\u0628\u0631 \u0645\u0646 \u0622\u062e\u0631 \u0639\u0646\u0635\u0631. \u0627\u0644\u0639\u062f \u0628\u064a\u0628\u062f\u0623 \u0645\u0646 0\u060c \u0641\u0622\u062e\u0631 \u0639\u0646\u0635\u0631 \u0631\u0642\u0645\u0647 len(\u0627\u0644\u0642\u0627\u0626\u0645\u0629) - 1.\"",
+    "    if isinstance(e, KeyError):",
+    "        return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0645\u0641\u062a\u0627\u062d \u062f\u0647 \u0645\u0634 \u0645\u0648\u062c\u0648\u062f \u0641\u064a \u0627\u0644\u0640dict. \u0627\u062a\u0623\u0643\u062f \u0645\u0646 \u0643\u062a\u0627\u0628\u062a\u0647\u060c \u0623\u0648 \u0627\u0633\u062a\u062e\u062f\u0645 .get() \u0639\u0634\u0627\u0646 \u0645\u0627 \u064a\u0636\u0631\u0628\u0634 \u062e\u0637\u0623.\"",
+    "    if isinstance(e, ModuleNotFoundError):",
+    "        return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0645\u0643\u062a\u0628\u0629 \u062f\u064a \u0645\u0634 \u0645\u0648\u062c\u0648\u062f\u0629 \u0647\u0646\u0627. \u0627\u062a\u0623\u0643\u062f \u0645\u0646 \u0627\u0633\u0645\u0647\u0627\u060c \u0623\u0648 \u0625\u0646\u0647\u0627 \u0645\u0646 \u0627\u0644\u0645\u0643\u062a\u0628\u0627\u062a \u0627\u0644\u0645\u062f\u0645\u062c\u0629 \u0641\u064a \u0628\u0627\u064a\u062b\u0648\u0646.\"",
+    "    if isinstance(e, ImportError):",
+    "        return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0627\u0633\u0645 \u062f\u0647 \u0645\u0634 \u0645\u0648\u062c\u0648\u062f \u062c\u0648\u0647 \u0627\u0644\u0645\u0643\u062a\u0628\u0629. \u0631\u0627\u062c\u0639 \u0643\u062a\u0627\u0628\u062a\u0647.\"",
+    "    if isinstance(e, FileNotFoundError):",
+    "        return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0645\u0644\u0641 \u0645\u0634 \u0645\u0648\u062c\u0648\u062f. \u0627\u062a\u0623\u0643\u062f \u0645\u0646 \u0627\u0644\u0627\u0633\u0645 \u0648\u0645\u0646 \u0625\u0646\u0647 \u0641\u064a \u0646\u0641\u0633 \u0627\u0644\u0645\u0643\u0627\u0646.\"",
+    "    if isinstance(e, RecursionError):",
+    "        return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u062f\u0627\u0644\u0629 \u0628\u062a\u0646\u0627\u062f\u064a \u0646\u0641\u0633\u0647\u0627 \u0645\u0646 \u063a\u064a\u0631 \u0634\u0631\u0637 \u0648\u0642\u0641. \u0644\u0627\u0632\u0645 \u064a\u0628\u0642\u0649 \u0641\u064a\u0647 \u062d\u0627\u0644\u0629 \u0628\u062a\u0648\u0642\u0641 \u0639\u0646\u062f\u0647\u0627.\"",
+    "    if isinstance(e, AttributeError):",
+    "        return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0643\u0627\u0626\u0646 \u062f\u0647 \u0645\u0639\u0646\u062f\u0648\u0634 \u0627\u0644\u062f\u0627\u0644\u0629 \u0623\u0648 \u0627\u0644\u062e\u0627\u0635\u064a\u0629 \u062f\u064a. \u0627\u062a\u0623\u0643\u062f \u0645\u0646 \u0627\u0644\u0627\u0633\u0645 \u0648\u0645\u0646 \u0646\u0648\u0639 \u0627\u0644\u0643\u0627\u0626\u0646 (str, list, dict ...).\"",
+    "    if isinstance(e, ValueError):",
+    "        if 'invalid literal for int()' in m or 'could not convert string to float' in m:",
+    "            return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0646\u0635 \u0627\u0644\u0644\u064a \u0628\u062a\u062d\u0648\u0651\u0644\u0647 \u0644\u0631\u0642\u0645 \u0645\u0634 \u0631\u0642\u0645 \u0635\u062d\u064a\u062d (\u0645\u0645\u0643\u0646 \u0641\u064a\u0647 \u062d\u0631\u0648\u0641 \u0623\u0648 \u0645\u0633\u0627\u0641\u0627\u062a \u0623\u0648 \u0641\u0627\u0636\u064a).\"",
+    "        if 'unpack' in m:",
+    "            return \"\u062a\u0644\u0645\u064a\u062d: \u0639\u062f\u062f \u0627\u0644\u0645\u062a\u063a\u064a\u0631\u0627\u062a \u0639\u0644\u0649 \u0627\u0644\u0634\u0645\u0627\u0644 \u0645\u0634 \u0632\u064a \u0639\u062f\u062f \u0627\u0644\u0642\u064a\u0645 \u0639\u0644\u0649 \u0627\u0644\u064a\u0645\u064a\u0646.\"",
+    "        if 'math domain error' in m:",
+    "            return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0642\u064a\u0645\u0629 \u062f\u064a \u062e\u0627\u0631\u062c \u0627\u0644\u0645\u0633\u0645\u0648\u062d \u0644\u0644\u062f\u0627\u0644\u0629 \u0627\u0644\u0631\u064a\u0627\u0636\u064a\u0629 (\u0632\u064a \u0627\u0644\u062c\u0630\u0631 \u0644\u0631\u0642\u0645 \u0633\u0627\u0644\u0628).\"",
+    "        return None",
+    "    if isinstance(e, TypeError):",
+    "        if 'can only concatenate str' in m or ('must be str' in m and 'not int' in m):",
+    "            return \"\u062a\u0644\u0645\u064a\u062d: \u0645\u0634 \u064a\u0646\u0641\u0639 \u062a\u062c\u0645\u0639 \u0646\u0635 \u0645\u0639 \u0631\u0642\u0645. \u062d\u0648\u0651\u0644 \u0627\u0644\u0631\u0642\u0645 \u0628\u0640 str() \u0623\u0648 \u0627\u0633\u062a\u062e\u062f\u0645 f-string.\"",
+    "        if 'unsupported operand' in m:",
+    "            return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0639\u0645\u0644\u064a\u0629 \u062f\u064a \u0645\u0634 \u0645\u0645\u0643\u0646\u0629 \u0628\u064a\u0646 \u0627\u0644\u0646\u0648\u0639\u064a\u0646 \u062f\u0648\u0644. \u0627\u062a\u0623\u0643\u062f \u0645\u0646 \u0646\u0648\u0639 \u0643\u0644 \u0642\u064a\u0645\u0629 (\u0645\u0645\u0643\u0646 \u062a\u062d\u062a\u0627\u062c int() \u0623\u0648 float()).\"",
+    "        if 'object is not callable' in m:",
+    "            return \"\u062a\u0644\u0645\u064a\u062d: \u0628\u062a\u062d\u0627\u0648\u0644 \u062a\u0646\u0627\u062f\u064a \u062d\u0627\u062c\u0629 \u0645\u0634 \u062f\u0627\u0644\u0629 \u0628\u0623\u0642\u0648\u0627\u0633 (). \u063a\u0627\u0644\u0628\u0627\u064b \u0633\u0645\u0651\u064a\u062a \u0645\u062a\u063a\u064a\u0631 \u0628\u0627\u0633\u0645 \u062f\u0627\u0644\u0629\u060c \u0623\u0648 \u0646\u0633\u064a\u062a \u0639\u0644\u0627\u0645\u0629 \u0628\u064a\u0646 \u062d\u0627\u062c\u062a\u064a\u0646.\"",
+    "        if 'positional argument' in m or 'required argument' in m:",
+    "            return \"\u062a\u0644\u0645\u064a\u062d: \u0639\u062f\u062f \u0627\u0644\u0642\u064a\u0645 \u0627\u0644\u0644\u064a \u0628\u0639\u062a\u0651\u0647\u0627 \u0644\u0644\u062f\u0627\u0644\u0629 \u0645\u0634 \u0645\u0637\u0627\u0628\u0642 \u0644\u0644\u064a \u0647\u064a \u0645\u0633\u062a\u0646\u064a\u0627\u0647. \u0631\u0627\u062c\u0639 \u062a\u0639\u0631\u064a\u0641 \u0627\u0644\u062f\u0627\u0644\u0629.\"",
+    "        if 'does not support item assignment' in m:",
+    "            return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0646\u0635 (str) \u0648\u0627\u0644\u0640tuple \u062b\u0627\u0628\u062a\u064a\u0646\u060c \u0645\u0627 \u064a\u0646\u0641\u0639\u0634 \u062a\u063a\u064a\u0651\u0631 \u0639\u0646\u0635\u0631 \u062c\u0648\u0627\u0647\u0645. \u0627\u0639\u0645\u0644 \u0646\u0633\u062e\u0629 \u062c\u062f\u064a\u062f\u0629.\"",
+    "        if 'not subscriptable' in m:",
+    "            return \"\u062a\u0644\u0645\u064a\u062d: \u0627\u0644\u0646\u0648\u0639 \u062f\u0647 \u0645\u0627 \u064a\u0646\u0641\u0639\u0634 \u062a\u0633\u062a\u062e\u062f\u0645 \u0639\u0644\u064a\u0647 [ ]. \u0627\u062a\u0623\u0643\u062f \u0625\u0646\u0647 \u0642\u0627\u0626\u0645\u0629 \u0623\u0648 \u0646\u0635 \u0623\u0648 dict.\"",
+    "        if 'not iterable' in m:",
+    "            return \"\u062a\u0644\u0645\u064a\u062d: for \u0628\u062a\u0644\u0641 \u0639\u0644\u0649 \u0642\u0627\u0626\u0645\u0629 \u0623\u0648 \u0646\u0635 \u0623\u0648 range \u0628\u0633. \u0627\u0644\u0631\u0642\u0645 \u0644\u0648\u062d\u062f\u0647 \u0645\u0627 \u064a\u0646\u0641\u0639\u0634\u060c \u062c\u0631\u0651\u0628 range(\u0627\u0644\u0631\u0642\u0645).\"",
+    "        return None",
+    "    return None",
+    "",
+    "async def __eto_run(src, fname):",
+    "    g = {'__name__': '__main__', '__file__': fname}",
+    "    async def _ai(p=''):",
+    "        sys.stdout.flush()",
+    "        return await js.etoAsk(str(p))",
+    "    g['__ainput'] = _ai",
+    "    try:",
+    "        tree = ast.parse(src, fname)",
+    "        if 'input' in src:",
+    "            tree = _prep(tree)",
+    "        ast.fix_missing_locations(tree)",
+    "        code = compile(tree, fname, 'exec', flags=ast.PyCF_ALLOW_TOP_LEVEL_AWAIT)",
+    "        r = eval(code, g)",
+    "        if inspect.iscoroutine(r):",
+    "            await r",
+    "    except SystemExit:",
+    "        pass",
+    "    except BaseException as e:",
+    "        tb = e.__traceback__",
+    "        while tb is not None and tb.tb_frame.f_code.co_filename != fname:",
+    "            tb = tb.tb_next",
+    "        sys.stdout.flush()",
+    "        sys.stderr.write(''.join(traceback.format_exception(type(e), e, tb)))",
+    "        sys.stderr.flush()",
+    "        hh = _hint(e)",
+    "        if hh:",
+    "            sys.stderr.write(_HM + hh + '\\n'); sys.stderr.flush()",
+    "    sys.stdout.flush()",
+    "",
+    "import code",
+    "",
+    "class _Ex:",
+    "    def __repr__(self):",
+    "        return 'Use exit() or Ctrl-D (i.e. EOF) to exit'",
+    "    def __call__(self, *a):",
+    "        raise SystemExit",
+    "",
+    "class _Con(code.InteractiveConsole):",
+    "    def _h(self):",
+    "        hh = _hint(sys.exc_info()[1])",
+    "        if hh:",
+    "            sys.stderr.write(_HM + hh + '\\n')",
+    "    def showtraceback(self):",
+    "        super().showtraceback(); self._h()",
+    "    def showsyntaxerror(self, *a, **k):",
+    "        super().showsyntaxerror(*a, **k); self._h()",
+    "",
+    "_con = None",
+    "",
+    "def __eto_repl_start():",
+    "    global _con",
+    "    g = {'__name__': '__main__', '__doc__': None}",
+    "    def _noin(*a):",
+    "        raise EOFError('input() is not supported in the shell yet - run it from a file: python file.py')",
+    "    g['input'] = _noin",
+    "    g['exit'] = g['quit'] = _Ex()",
+    "    _con = _Con(g)",
+    "",
+    "def __eto_repl(line):",
+    "    try:",
+    "        more = _con.push(line)",
+    "    except SystemExit:",
+    "        return 'exit'",
+    "    sys.stdout.flush(); sys.stderr.flush()",
+    "    return 'more' if more else 'ok'",
+    "",
+    "def __eto_repl_reset():",
+    "    _con.resetbuffer()"
+    ].join('\n');
+    self.etoAsk = function (p) { return new Promise(function (r) { inRes = r; postMessage({ t: 'in', s: String(p) }); }); };
+    function fail(er) { postMessage({ t: 'fatal', s: String(er && er.message || er) }); }
+    self.onmessage = function (e) {
+      var m = e.data;
+      if (m.t === 'init') {
+        try {
+          importScripts(m.base + 'pyodide.js');
+          loadPyodide({ indexURL: m.base }).then(function (p) {
+            py = p;
+            py.setStdout({ batched: function (x) { postMessage({ t: 'out', s: x }); } });
+            py.setStderr({ batched: function (x) { postMessage({ t: 'err', s: x }); } });
+            py.setStdin({ stdin: function () { return null; } });
+            py.runPython(PYSRC);
+            postMessage({ t: 'ready' });
+          }).catch(fail);
+        } catch (er) { fail(er); }
+      } else if (m.t === 'run') {
+        var done = function () { postMessage({ t: 'done' }); };
+        try {
+          py.globals.get('__eto_run')(m.code, m.name).then(done, function (er) { postMessage({ t: 'err', s: String(er && er.message || er) }); done(); });
+        } catch (er) { postMessage({ t: 'err', s: String(er) }); done(); }
+      } else if (m.t === 'repl-init') {
+        py.globals.get('__eto_repl_start')();
+      } else if (m.t === 'repl') {
+        var rr; try { rr = py.globals.get('__eto_repl')(m.s); } catch (er) { postMessage({ t: 'err', s: String(er && er.message || er) }); rr = 'ok'; }
+        postMessage({ t: 'done', r: rr });
+      } else if (m.t === 'repl-reset') {
+        py.globals.get('__eto_repl_reset')();
+      } else if (m.t === 'ans') {
+        if (inRes) { var r = inRes; inRes = null; r(m.s); }
+      }
+    };
   }
   function warm() {
     if (root.__etoWarm) return root.__etoWarm;
@@ -150,6 +367,272 @@
     else [392, 523.3, 659.3, 784, 1046.5, 784, 659.3].forEach(function (f, j) { tone(f, t + j * .13, .9, 'sine', .12 * v, 3500); });
   }
 
+  /* ---------- اللغات (محرر Eto Code): كل لغة جديدة بتتضاف هنا بس ----------
+     run:'py' = بتتشغّل فعلاً. باقي اللغات: تلوين + حفظ، والتشغيل بيتفعّل لما كورسها ينزل. */
+  var LANG_ORDER = ['py', 'js', 'html', 'css', 'java', 'cpp', 'c', 'cs', 'txt'];
+  var setOf = function (s) { var o = {}; s.split(' ').forEach(function (w) { if (w) o[w] = 1; }); return o; };
+  var LANGS = {
+    py: { name: 'Python', label: 'Python File', def: 'main.py', exts: ['py', 'pyw'], ic: 'b:python', col: '#60a5fa', run: 'py', hash: 1, py: 1,
+      kw: setOf('False None True and as assert async await break class continue def del elif else except finally for from global if import in is lambda nonlocal not or pass raise return try while with yield match case'),
+      bi: setOf('print input len range int str float list dict set tuple bool type open sum min max abs sorted enumerate zip map filter isinstance round self cls super object') },
+    js: { name: 'JavaScript', label: 'JavaScript File', def: 'script.js', exts: ['js', 'mjs', 'json'], ic: 'b:js', col: '#facc15', bt: 1,
+      kw: setOf('break case catch class const continue debugger default delete do else export extends finally for function if import in instanceof let new of return super switch this throw try typeof var void while with yield async await null true false undefined'),
+      bi: setOf('console document window Math JSON Array Object String Number Promise Date parseInt parseFloat setTimeout fetch') },
+    html: { name: 'HTML', label: 'HTML File', def: 'index.html', exts: ['html', 'htm'], ic: 'b:html5', col: '#fb923c', markup: 1, kw: {}, bi: {} },
+    css: { name: 'CSS', label: 'CSS File', def: 'style.css', exts: ['css'], ic: 'b:css3-alt', col: '#38bdf8', css: 1,
+      kw: setOf('important auto none block flex grid inline absolute relative fixed solid bold normal center'), bi: {} },
+    java: { name: 'Java', label: 'Java File', def: 'Main.java', exts: ['java'], ic: 'b:java', col: '#f87171',
+      kw: setOf('abstract boolean break byte case catch char class continue default do double else enum extends final finally float for if implements import instanceof int interface long new null package private protected public return short static super switch this throw throws true false try void while'),
+      bi: setOf('String System Math Integer List ArrayList Scanner Object') },
+    cpp: { name: 'C++', label: 'C++ File', def: 'main.cpp', exts: ['cpp', 'cc', 'hpp'], ic: 'file-code', col: '#a78bfa',
+      kw: setOf('auto bool break case catch char class const continue default delete do double else enum explicit extern false float for friend goto if inline int long namespace new nullptr operator private protected public return short signed sizeof static struct switch template this throw true try typedef typename union unsigned using virtual void volatile while'),
+      bi: setOf('std cout cin endl string vector map printf scanf include define') },
+    c: { name: 'C', label: 'C File', def: 'main.c', exts: ['c', 'h'], ic: 'file-code', col: '#94a3b8',
+      kw: setOf('auto break case char const continue default do double else enum extern float for goto if int long register return short signed sizeof static struct switch typedef union unsigned void volatile while'),
+      bi: setOf('printf scanf malloc free include define NULL') },
+    cs: { name: 'C#', label: 'C# File', def: 'Program.cs', exts: ['cs'], ic: 'file-code', col: '#c084fc',
+      kw: setOf('abstract bool break byte case catch char class const continue decimal default do double else enum false finally float for foreach if int interface long namespace new null object override private protected public readonly return static string struct switch this throw true try using var virtual void while'),
+      bi: setOf('Console Math List String Main') },
+    txt: { name: 'Plain Text', label: 'Text Document', def: 'notes.txt', exts: ['txt', 'md', 'log', 'csv'], ic: 'file-lines', col: '#cbd5e1', kw: {}, bi: {} }
+  };
+  var TEXTX = /\.(py|pyw|js|mjs|json|html?|css|java|c|h|cpp|cc|hpp|cs|txt|md|csv|log|xml|ya?ml|ini|sh|bat|ts|sql)$/i;
+  function langOf(name) {
+    var e = String(name || '').toLowerCase().split('.').pop();
+    for (var j = 0; j < LANG_ORDER.length; j++) if (LANGS[LANG_ORDER[j]].exts.indexOf(e) >= 0) return LANGS[LANG_ORDER[j]];
+    return LANGS.txt;
+  }
+  function fileIc(name, dir) {
+    if (dir) return ['folder', '#fbbf24'];
+    var L = langOf(name), e = String(name).toLowerCase().split('.').pop();
+    if (L !== LANGS.txt || /^(txt|md|log|csv)$/.test(e)) return [L.ic, L.col];
+    if (/^(png|jpe?g|gif|webp|svg|bmp|avif)$/.test(e)) return ['file-image', '#c084fc'];
+    if (/^(mp3|wav|ogg)$/.test(e)) return ['file-audio', '#fb7185'];
+    if (/^(mp4|webm|mkv)$/.test(e)) return ['file-video', '#f472b6'];
+    if (/^(zip|rar|7z|gz)$/.test(e)) return ['file-zipper', '#fbbf24'];
+    if (e === 'pdf') return ['file-pdf', '#f87171'];
+    return ['file', '#9ca3af'];
+  }
+  var R_CM_H = /#[^\n]*/, R_CM_C = /\/\/[^\n]*|\/\*[\s\S]*?(?:\*\/|$)/, R_CM_CSS = /\/\*[\s\S]*?(?:\*\/|$)/, R_CM_HT = /<!--[\s\S]*?(?:-->|$)/;
+  var R_ST_PY = /"""[\s\S]*?(?:"""|$)|'''[\s\S]*?(?:'''|$)|"(?:\\.|[^"\\\n])*"?|'(?:\\.|[^'\\\n])*'?/;
+  var R_ST_C = /"(?:\\.|[^"\\\n])*"?|'(?:\\.|[^'\\\n])*'?/, R_ST_JS = /`(?:\\[\s\S]|[^`\\])*`?|"(?:\\.|[^"\\\n])*"?|'(?:\\.|[^'\\\n])*'?/;
+  var R_NUM = /\b(?:0x[\da-fA-F]+|\d[\d_]*(?:\.\d+)?(?:[eE][+-]?\d+)?)\b/, R_WORD = /[A-Za-z_$][\w$]*/;
+  function mkRe(L) {
+    var cm = L.hash ? R_CM_H : L.markup ? R_CM_HT : L.css ? R_CM_CSS : R_CM_C, st = L.py ? R_ST_PY : L.bt ? R_ST_JS : R_ST_C;
+    var sp = L.py ? /@[A-Za-z_][\w.]*/ : L.markup ? /<\/?[A-Za-z][\w:-]*|\/?>/ : /(?!)/;
+    return new RegExp('(' + cm.source + ')|(' + st.source + ')|(' + sp.source + ')|(' + R_NUM.source + ')|(' + R_WORD.source + ')', 'g');
+  }
+  function hl(code, L) {
+    if (!L || code.length > 150000) return esc(code);
+    var re = L.re || (L.re = mkRe(L)), out = '', last = 0, m, t;
+    re.lastIndex = 0;
+    while ((m = re.exec(code))) {
+      if (m[0] === '') { re.lastIndex++; continue; }
+      out += esc(code.slice(last, m.index));
+      t = m[1] != null ? 'c' : m[2] != null ? 's' : m[3] != null ? 'd' : m[4] != null ? 'n' : L.kw[m[5]] ? 'k' : L.bi[m[5]] ? 'b' : code.charAt(re.lastIndex) === '(' ? 'f' : '';
+      out += t ? '<span class="tk-' + t + '">' + esc(m[0]) + '</span>' : esc(m[0]);
+      last = re.lastIndex;
+    }
+    return out + esc(code.slice(last));
+  }
+
+  /* ---------- نظام الملفات: C: للنظام بس (قراءة فقط) و D: قرص حقيقي 1 جيجا ----------
+     D: بيتخزن في IndexedDB بتاع المتصفح (ملفات حقيقية ومحفوظة)، وأي كتابة بتتحسب بالبايت وبتتمنع لما توصل 1 جيجا. */
+  var D_CAP = 1073741824;
+  function fmtSize(b) {
+    if (b < 1024) return b + ' B';
+    var u = ['KB', 'MB', 'GB'], i = -1;
+    do { b /= 1024; i++; } while (b >= 1024 && i < 2);
+    return (b < 10 ? b.toFixed(1) : Math.round(b)) + ' ' + u[i];
+  }
+  function idb() {
+    if (root.__etoIdb) return root.__etoIdb;
+    root.__etoIdb = new Promise(function (res) {
+      try {
+        var q = indexedDB.open('eto_sim_fs', 1);
+        q.onupgradeneeded = function () { var d = q.result; d.createObjectStore('meta'); d.createObjectStore('blob'); };
+        q.onsuccess = function () { res(q.result); };
+        q.onerror = q.onblocked = function () { res(null); };
+      } catch (e) { res(null); }
+    });
+    return root.__etoIdb;
+  }
+  function idbReq(db, store, mode, fn) {
+    return new Promise(function (res, rej) {
+      var tx = db.transaction(store, mode), r = fn(tx.objectStore(store));
+      tx.oncomplete = function () { res(r && r.result); };
+      tx.onerror = tx.onabort = function () { rej(tx.error || new Error('idb')); };
+    });
+  }
+  function sizeOf(c) { return typeof c === 'string' ? (root.TextEncoder ? new TextEncoder().encode(c).length : c.length) : (c && c.size) || 0; }
+  function makeFS(persist) {
+    var F = { m: { nodes: {}, nid: 1, used: 0 }, mem: {}, db: null, vol: !persist, tmr: 0 }, inited = null;
+    var err = function (code) { var e = new Error(code); e.code = code; return e; };
+    F.err = err;
+    function saveMeta() {
+      if (!F.db) return; clearTimeout(F.tmr);
+      F.tmr = setTimeout(function () { idbReq(F.db, 'meta', 'readwrite', function (s) { return s.put(F.m, 'm'); }).catch(function () {}); }, 80);
+    }
+    function bPut(id, v) {
+      if (!F.db) { F.mem[id] = v; return Promise.resolve(); }
+      return idbReq(F.db, 'blob', 'readwrite', function (s) { return s.put(v, id); }).catch(function () { throw err('quota'); });
+    }
+    function bGet(id) { return F.db ? idbReq(F.db, 'blob', 'readonly', function (s) { return s.get(id); }) : Promise.resolve(F.mem[id]); }
+    function bDel(id) { if (!F.db) { delete F.mem[id]; return Promise.resolve(); } return idbReq(F.db, 'blob', 'readwrite', function (s) { return s.delete(id); }).catch(function () {}); }
+    function vn(n) {
+      n = String(n == null ? '' : n).trim();
+      if (!n || n === '.' || n === '..' || n.length > 120 || /[\\\/:*?"<>|]/.test(n) || /[. ]$/.test(n)) throw err('name');
+      return n;
+    }
+    function reg(pid, name, t, size) {
+      var id = 'n' + (F.m.nid++), x = Date.now();
+      return (F.m.nodes[id] = { id: id, n: name, t: t, p: pid, s: size || 0, m: x, c: x });
+    }
+    F.get = function (id) { return F.m.nodes[id] || null; };
+    F.kids = function (pid) {
+      var o = [], a = F.m.nodes;
+      for (var k in a) if (a[k].p === pid && !a[k].del) o.push(a[k]);
+      return o.sort(function (x, y) { return x.t !== y.t ? (x.t === 'd' ? -1 : 1) : x.n.localeCompare(y.n, undefined, { numeric: true, sensitivity: 'base' }); });
+    };
+    F.bin = function () { var o = []; for (var k in F.m.nodes) if (F.m.nodes[k].del) o.push(F.m.nodes[k]); return o.sort(function (a, b) { return b.del - a.del; }); };
+    F.find = function (pid, name) {
+      var l = String(name).toLowerCase(), a = F.kids(pid);
+      for (var j = 0; j < a.length; j++) if (a[j].n.toLowerCase() === l) return a[j];
+      return null;
+    };
+    F.has = function (pid, name, skip) { var n = F.find(pid, name); return !!n && n.id !== skip; };
+    F.uniq = function (pid, name) {
+      var base = name, ext = '', i = name.lastIndexOf('.'), n = name, c = 2;
+      if (i > 0) { base = name.slice(0, i); ext = name.slice(i); }
+      while (F.has(pid, n)) n = base + ' (' + (c++) + ')' + ext;
+      return n;
+    };
+    F.live = function (id) { while (id) { var n = F.m.nodes[id]; if (!n || n.del) return false; id = n.p; } return true; };
+    F.under = function (id, anc) { while (id) { if (id === anc) return true; var n = F.m.nodes[id]; id = n && n.p; } return false; };
+    F.parts = function (id) { var o = []; while (id && id !== 'r') { var n = F.m.nodes[id]; if (!n) break; o.unshift(n.n); id = n.p; } return o; };
+    F.path = function (id) { return 'D:/' + F.parts(id).join('/'); };
+    F.desk = function () {
+      var d = F.find('r', 'Desktop');
+      if (!d || d.t !== 'd') { d = reg('r', F.uniq('r', 'Desktop'), 'd'); saveMeta(); }
+      return d.id;
+    };
+    F.free = function () { return Math.max(0, D_CAP - F.m.used); };
+    F.mkdir = function (pid, name) {
+      name = vn(name); if (!F.m.nodes[pid]) throw err('nf'); if (F.has(pid, name)) throw err('exists');
+      var n = reg(pid, name, 'd'); saveMeta(); return n;
+    };
+    F.mkfile = function (pid, name, content) {
+      try { name = vn(name); } catch (e) { return Promise.reject(e); }
+      if (!F.m.nodes[pid]) return Promise.reject(err('nf'));
+      if (F.has(pid, name)) return Promise.reject(err('exists'));
+      var sz = sizeOf(content); if (F.m.used + sz > D_CAP) return Promise.reject(err('space'));
+      var id = 'n' + (F.m.nid++);
+      return bPut(id, content).then(function () {
+        var x = Date.now(), n = F.m.nodes[id] = { id: id, n: name, t: 'f', p: pid, s: sz, m: x, c: x, b: typeof content === 'string' ? 0 : 1 };
+        F.m.used += sz; saveMeta(); return n;
+      });
+    };
+    F.write = function (id, content) {
+      var n = F.m.nodes[id]; if (!n || n.t !== 'f') return Promise.reject(err('nf'));
+      var sz = sizeOf(content); if (F.m.used - n.s + sz > D_CAP) return Promise.reject(err('space'));
+      return bPut(id, content).then(function () { F.m.used += sz - n.s; n.s = sz; n.m = Date.now(); saveMeta(); return n; });
+    };
+    F.read = function (id) { return bGet(id); };
+    F.readText = function (id) {
+      return bGet(id).then(function (c) { return c == null ? '' : typeof c === 'string' ? c : c.text ? c.text() : ''; });
+    };
+    F.rename = function (id, name) {
+      var n = F.m.nodes[id]; if (!n) throw err('nf'); name = vn(name);
+      if (F.has(n.p, name, id)) throw err('exists'); n.n = name; n.m = Date.now(); saveMeta(); return n;
+    };
+    F.move = function (id, pid, name) {
+      var n = F.m.nodes[id]; if (!n || !F.m.nodes[pid]) throw err('nf');
+      if (n.t === 'd' && F.under(pid, id)) throw err('self');
+      var nm = name == null ? n.n : vn(name);
+      if (name != null ? F.has(pid, nm, id) : (n.p !== pid && F.has(pid, nm))) { if (name != null) throw err('exists'); nm = F.uniq(pid, nm); }
+      n.p = pid; n.n = nm; n.m = Date.now(); saveMeta(); return n;
+    };
+    F.copy = function (id, pid, name) {
+      var n = F.m.nodes[id]; if (!n) return Promise.reject(err('nf'));
+      var nm = name == null ? F.uniq(pid, n.n) : name;
+      if (n.t === 'f') return F.read(id).then(function (c) { return F.mkfile(pid, nm, c == null ? '' : c); });
+      if (F.under(pid, id)) return Promise.reject(err('self'));
+      var d; try { d = F.mkdir(pid, nm); } catch (e) { return Promise.reject(e); }
+      return F.kids(id).reduce(function (p, k) { return p.then(function () { return F.copy(k.id, d.id); }); }, Promise.resolve()).then(function () { return d; });
+    };
+    F.trash = function (id) { var n = F.m.nodes[id]; if (!n || id === 'r') throw err('nf'); n.del = Date.now(); saveMeta(); };
+    F.restore = function (id) {
+      var n = F.m.nodes[id]; if (!n) throw err('nf');
+      if (!F.live(n.p)) n.p = 'r';
+      n.n = F.uniq(n.p, n.n); delete n.del; saveMeta(); return n;
+    };
+    F.purge = function (id) {
+      var a = F.m.nodes, ids = [id], j = 0, k, freed = 0;
+      while (j < ids.length) { for (k in a) if (a[k].p === ids[j]) ids.push(k); j++; }
+      return Promise.all(ids.map(function (x) { var n = a[x]; if (n && n.t === 'f') { freed += n.s; return bDel(x); } return null; })).then(function () {
+        ids.forEach(function (x) { delete a[x]; }); F.m.used = Math.max(0, F.m.used - freed); saveMeta();
+      });
+    };
+    F.empty = function () { return F.bin().reduce(function (p, n) { return p.then(function () { return F.purge(n.id); }); }, Promise.resolve()); };
+    F.size = function (id) { var n = F.m.nodes[id]; if (!n) return 0; if (n.t === 'f') return n.s; return F.kids(id).reduce(function (s, k) { return s + F.size(k.id); }, 0); };
+    F.count = function (id) { var c = { f: 0, d: 0 }; F.kids(id).forEach(function (k) { if (k.t === 'f') c.f++; else { c.d++; var q = F.count(k.id); c.f += q.f; c.d += q.d; } }); return c; };
+    /* مسار → id. بيقبل D:\a\b و /a/b و a/b و .. و مسارات لينكس/ماك الوهمية */
+    F.resolve = function (str, cwd, osn) {
+      var s = String(str == null ? '' : str).trim().replace(/\\/g, '/'), cur = cwd || 'r', abs = false;
+      if (/^[A-Za-z]:/.test(s)) { if (s.charAt(0).toUpperCase() !== 'D') return 'denied'; s = s.slice(2); abs = true; }
+      var pre = osn === 'mac' ? /^\/Volumes\/Eto\.Edu(?=\/|$)/i : osn === 'linux' ? /^\/mnt\/eto(?=\/|$)/i : null;
+      if (pre && pre.test(s)) { s = s.replace(pre, ''); abs = true; } else if (s.charAt(0) === '/') { if (osn !== 'win') return 'denied'; abs = true; }
+      if (abs) cur = 'r';
+      var ps = s.split('/');
+      for (var j = 0; j < ps.length; j++) {
+        var p = ps[j]; if (!p || p === '.') continue;
+        if (p === '..') { var n = F.m.nodes[cur]; cur = (n && n.p) || 'r'; continue; }
+        var c = F.find(cur, p); if (!c) return null; cur = c.id;
+      }
+      return cur;
+    };
+    F.init = function () {
+      if (inited) return inited;
+      inited = (persist ? idb() : Promise.resolve(null)).then(function (db) {
+        F.db = db; F.vol = !db;
+        return db ? idbReq(db, 'meta', 'readonly', function (s) { return s.get('m'); }).catch(function () { return null; }) : null;
+      }).then(function (m) {
+        if (m && m.nodes) F.m = m;
+        if (!F.m.nodes.r) { var x = Date.now(); F.m.nodes.r = { id: 'r', n: 'D:', t: 'd', p: null, s: 0, m: x, c: x }; }
+        var u = 0; for (var k in F.m.nodes) if (F.m.nodes[k].t === 'f') u += F.m.nodes[k].s;
+        F.m.used = u; F.desk();
+        try { if (persist && navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}
+        /* ملفات النسخة القديمة (كانت في localStorage) بتتنقل لـ D: مرة واحدة */
+        if (!persist) return;
+        var old; try { old = JSON.parse(localStorage.getItem('eto_sim_files') || '{}'); } catch (e) { old = {}; }
+        var ks = Object.keys(old || {}).filter(function (n) { return typeof old[n] === 'string'; });
+        if (!ks.length) return;
+        return ks.reduce(function (p, n) { return p.then(function () { return F.has('r', n) ? null : F.mkfile('r', n, old[n]).catch(function () {}); }); }, Promise.resolve())
+          .then(function () { try { localStorage.removeItem('eto_sim_files'); } catch (e) {} });
+      }).then(function () { return F; });
+      return inited;
+    };
+    return F;
+  }
+  /* شجرة C: (للقراءة بس). النص = حجم ملف، الأوبجكت = فولدر */
+  var CT = {
+    win: { 'Windows': { 'System32': { 'kernel32.dll': '740 KB', 'ntdll.dll': '2.1 MB', 'cmd.exe': '289 KB', 'drivers': {}, 'config': {} }, 'Fonts': {}, 'Boot': {}, 'Temp': {} },
+      'Program Files': { 'Eto.Edu': { 'EtoSim.exe': '38 MB' }, 'Python312': { 'python.exe': '103 KB', 'pythonw.exe': '101 KB' } }, 'Program Files (x86)': {}, 'ProgramData': {},
+      'Users': { 'you': { 'Desktop': {}, 'Documents': {}, 'Downloads': {}, 'Pictures': {} }, 'Public': {} }, 'bootmgr': '414 KB', 'pagefile.sys': '4 GB' },
+    mac: { 'System': { 'Library': {}, 'Applications': {} }, 'Library': {}, 'Applications': { 'Terminal.app': {}, 'Safari.app': {}, 'Eto Code.app': {} }, 'Users': { 'you': { 'Desktop': {}, 'Documents': {}, 'Downloads': {} } }, 'usr': { 'bin': {}, 'lib': {} }, 'bin': {}, 'private': {} },
+    linux: { 'bin': {}, 'boot': { 'vmlinuz': '14 MB', 'grub': {} }, 'etc': { 'hostname': '7 B', 'passwd': '2 KB', 'fstab': '1 KB' }, 'home': { 'you': {} }, 'lib': {}, 'usr': { 'bin': {}, 'lib': {}, 'share': {} }, 'var': { 'log': {} }, 'mnt': {} }
+  };
+  var DRV = { win: ['Local Disk (C:)', 'Eto.Edu (D:)'], mac: ['Macintosh HD', 'Eto.Edu'], linux: ['Filesystem Root', 'Eto.Edu'] };
+  function errMsg(e) {
+    var c = e && e.code;
+    return c === 'space' ? 'There is not enough space on Eto.Edu (D:). The drive size is 1 GB.'
+      : c === 'quota' ? 'The browser refused to store more data. Free some browser storage and try again.'
+      : c === 'exists' ? 'An item with that name already exists in this location.'
+      : c === 'name' ? 'That name is not valid. A name can\'t be empty or contain  \\ / : * ? " < > |'
+      : c === 'self' ? 'You can\'t copy or move a folder into itself.'
+      : c === 'bin' ? 'This type of file can\'t be opened in Eto Code.'
+      : 'The item could not be found.';
+  }
+
   /* ---------- المحاكي ---------- */
   function mount(el, P, opts) {
     opts = opts || {};
@@ -158,7 +641,11 @@
     if (pureFree) steps = []; else if (steps[0].kind !== 'open') steps.unshift({ kind: 'open', say: 'ده سطح مكتب الجهاز. دوس على أيقونة **Terminal** عشان تفتحها.' });
     var os = opts.os || 'win', lang = 'en', i = 0, tries = 0, tr = [], cmdH = [], hp = 0, files = {}, wopen = {}, dirty = false, phase = 'off', sel = '';
     var W = 1000, H = 625; /* مقاس الشاشة الوهمية: ثابت في الدرس، وفي وضع الصفحة بيتحسب على مقاس شاشة المستخدم */
-    var freeMode = pureFree, edName = '', metaDown = false, metaUsed = false;
+    var freeMode = pureFree, metaDown = false, metaUsed = false;
+    var wk = null, wkReady = null, wkUrl = null, running = false, asking = false, askP = '', pyLoaded = false, repl = false, replP = '>>> ';
+    /* وضع حر: D: قرص حقيقي محفوظ في المتصفح. وضع الدرس: نفس الشكل بس في الذاكرة */
+    var vfs = makeFS(pureFree), vfsOn = pureFree, vfsReady = false, cwd = 'r', clip = null, edId = null, edDir = null, edName = '', edL = LANGS.py, cmReg = [], deskSel = [], upPid = 'r';
+    var EX = { pc: { loc: 'pc', h: ['pc'], hi: 0, sel: [], q: '', items: [] }, bin: { loc: 'bin', h: ['bin'], hi: 0, sel: [], q: '', items: [] } };
     var busy = false, pending = null, headDone = false, wifi = true, vol = 60, k = 1, z = 10, timers = [], gt = 0, lastClk = '';
     var theme = ls('eto_sim_theme') || (el.closest && el.closest('.dark') ? 'dark' : 'light'), wpCustom = ls('eto_sim_wpc'), coarse = !!(root.matchMedia && root.matchMedia('(pointer:coarse)').matches);
     var activePicUrl = '', currentPicIndex = 0, picLoadId = 0, loadingPicIndex = -1;
@@ -263,13 +750,16 @@
       ui.innerHTML = '<div class="sx-welcome"><div class="sx-wall"></div><div class="sx-wc">' + logo(78) + '<h2>Welcome</h2><div class="sx-spin sm"><i></i><i></i><i></i><i></i><i></i></div></div></div>'; applyWall();
       tmo(renderDesktop, 500);
     }
-    function shutdown() { clearT(); busy = false; pending = null; wopen = {}; tr = []; headDone = false; cmdH = []; sel = ''; i = 0; tries = 0; files = {}; dirty = false; renderOff(); }
+    function shutdown() { clearT(); busy = false; pending = null; wopen = {}; tr = []; headDone = false; cmdH = []; sel = ''; i = 0; tries = 0; stopRun(true); files = {}; dirty = false; cwd = 'r'; clip = null; deskSel = []; edId = null; edDir = null; edName = ''; EX.pc.loc = 'pc'; EX.pc.h = ['pc']; EX.pc.hi = 0; EX.pc.sel = []; EX.bin.sel = []; renderOff(); }
 
     /* ---- مرحلة 3: سطح المكتب ---- */
-    var PROMPT = function () { return os === 'win' ? 'PS C:\\Users\\you&gt; ' : os === 'mac' ? 'you@MacBook ~ % ' : '<span class="g">you@ubuntu</span>:<span class="b">~</span>$ '; };
-    var EDNAME = { win: 'Notepad', mac: 'TextEdit', linux: 'gedit' };
+    var PROMPT = function () {
+      if (vfsOn && vfsReady) { var p = shPath(cwd); return os === 'win' ? 'PS ' + esc(p) + '&gt; ' : os === 'mac' ? 'you@MacBook ' + esc(cwd === 'r' ? 'Eto.Edu' : vfs.get(cwd).n) + ' % ' : '<span class="g">you@ubuntu</span>:<span class="b">' + esc(p) + '</span>$ '; }
+      return os === 'win' ? 'PS C:\\Users\\you&gt; ' : os === 'mac' ? 'you@MacBook ~ % ' : '<span class="g">you@ubuntu</span>:<span class="b">~</span>$ ';
+    };
+    var EDNAME = { win: 'Eto Code', mac: 'Eto Code', linux: 'Eto Code' };
     function nm(a) { return a === 'ed' ? EDNAME[os] : a === 'about' ? 'About Dev' : a === 'term' ? 'Terminal' : a === 'search' ? 'Eto Search' : NAMES[os][a]; }
-    function aic(a) { return a === 'ed' ? ['file-pen', 'var(--ic-set)'] : a === 'term' ? ['terminal', 'var(--ic-term)'] : a === 'search' ? ['magnifying-glass', 'var(--ic-search)'] : a === 'pc' ? [os === 'win' ? 'desktop' : os === 'mac' ? 'hard-drive' : 'house', 'var(--ic-pc)'] : a === 'about' ? ['folder-open', 'var(--ic-about)'] : a === 'bin' ? ['trash-can', 'var(--ic-bin)'] : ['gear', 'var(--ic-set)']; }
+    function aic(a) { return a === 'ed' ? ['code', '#a78bfa'] : a === 'term' ? ['terminal', 'var(--ic-term)'] : a === 'search' ? ['magnifying-glass', 'var(--ic-search)'] : a === 'pc' ? [os === 'win' ? 'desktop' : os === 'mac' ? 'hard-drive' : 'house', 'var(--ic-pc)'] : a === 'about' ? ['folder-open', 'var(--ic-about)'] : a === 'bin' ? ['trash-can', 'var(--ic-bin)'] : ['gear', 'var(--ic-set)']; }
     function langTxt() { return os === 'win' ? (lang === 'en' ? '<span>ENG</span><span>US</span>' : '<span>ARA</span><span>EG</span>') : os === 'mac' ? (lang === 'en' ? 'ABC' : 'ع') : (lang === 'en' ? 'en' : 'ar'); }
     function volIc() { return vol === 0 ? 'volume-xmark' : vol < 50 ? 'volume-low' : 'volume-high'; }
     function tray() {
@@ -295,7 +785,7 @@
     function pcBody() {
       var fol = [['Desktop', 'desktop', '#60a5fa'], ['Documents', 'file-lines', '#cbd5e1'], ['Downloads', 'download', '#4ade80'], ['Pictures', 'image', '#c084fc'], ['Music', 'music', '#fb7185'], ['Videos', 'film', '#f472b6']];
       var drv = [['Local Disk (C:)', 62, '48 GB free of 128 GB'], ['Eto.Edu (D:)', 24, '152 GB free of 200 GB']];
-      return xp(nm('pc'), '<div class="sx-xb"><h4>Folders (6)</h4><div class="sx-fg">' + fol.map(function (f) { return '<div class="sx-f"><span style="color:' + f[2] + '">' + ic(f[1]) + '</span>' + f[0] + '</div>'; }).join('') +
+      return xp(nm('pc'), '<div class="sx-xb"><div class="sx-myf"></div><h4>Folders (6)</h4><div class="sx-fg">' + fol.map(function (f) { return '<div class="sx-f"><span style="color:' + f[2] + '">' + ic(f[1]) + '</span>' + f[0] + '</div>'; }).join('') +
         '</div><h4>Devices and drives (2)</h4><div class="sx-dg">' + drv.map(function (d) { return '<div class="sx-drv">' + ic('hard-drive') + '<div><b>' + d[0] + '</b><div class="bar"><i style="width:' + d[1] + '%"></i></div><small>' + d[2] + '</small></div></div>'; }).join('') + '</div></div>', '8 items');
     }
     function binBody() { return xp(nm('bin'), '<div class="sx-xb sx-empty">' + ic('trash-can') + '<p>This folder is empty</p></div>', '0 items'); }
@@ -305,24 +795,25 @@
       phase = 'on'; clearT(); lastClk = ''; sc.className = 'sx-screen sx-' + os + (theme === 'light' ? ' sx-light' : '');
       var top = os === 'mac' ? '<div class="sx-top"><span class="sx-l"><button class="sx-tray" data-sm>' + ic('b:apple') + '</button><b>Terminal</b><span>Shell</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span></span><span class="sx-r">' + tray() + '<span class="sx-clk" data-clk></span></span></div>'
         : os === 'linux' ? '<div class="sx-top"><span class="sx-l"><button class="sx-tray" data-sm><b>Activities</b></button></span><span class="sx-clk sx-c" data-clk></span><span class="sx-r">' + tray() + '</span></div>' : '';
-      var dock = os === 'win' ? '<div class="sx-bar"><span class="sx-bc"><span class="sx-st" data-sm>' + WINLOGO + '</span>' + appIco('search') + appIco('term') + appIco('pc') + appIco('set') + '</span>' +
+      var dock = os === 'win' ? '<div class="sx-bar"><span class="sx-bc"><span class="sx-st" data-sm>' + WINLOGO + '</span>' + appIco('search') + appIco('term') + appIco('ed') + appIco('pc') + appIco('set') + '</span>' +
           '<span class="sx-br"><i class="fa-solid fa-chevron-up sx-chev"></i>' + tray() + '<button class="sx-clk" data-clk></button></span></div>'
-        : '<div class="sx-dock">' + appIco('pc') + appIco('term') + appIco('search') + appIco('about') + appIco('set') + '</div>';
+        : '<div class="sx-dock">' + appIco('pc') + appIco('term') + appIco('ed') + appIco('search') + appIco('about') + appIco('set') + '</div>';
       var win = function (c, a, t, body, isT) { return '<div class="sx-w sx-' + c + '" data-w="' + a + '">' + head(t, isT) + body + '</div>'; };
-      var icons = ['pc', 'bin', 'about', 'search'].map(function (a) { var c = aic(a); return '<div class="sx-di" data-app="' + a + '"><span class="sx-dic" style="color:' + c[1] + '">' + '<i class="fa-solid fa-' + c[0] + '"></i></span>' + nm(a) + '</div>'; }).join('');
+      var icons = deskIcons();
       var apps = ['term', 'ed', 'search', 'pc', 'about', 'set', 'bin'].map(function (a) { var c = aic(a); return '<button class="sx-ap" data-app="' + a + '"><span style="color:' + c[1] + '"><i class="fa-solid fa-' + c[0] + '"></i></span><em>' + nm(a) + '</em></button>'; }).join('');
       ui.innerHTML = '<div class="sx-wall"></div>' + top + '<div class="sx-desk"><div class="sx-dis">' + icons + '</div>' +
-        win('term', 'term', os === 'mac' ? 'you — -zsh — 80×24' : os === 'linux' ? 'you@ubuntu: ~' : '', '<div class="sx-tb" dir="ltr"><div class="sx-lines"></div><div class="sx-inl"><span class="sx-p">' + PROMPT() + '</span><input class="sx-in" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="terminal"></div></div>', 1) +
-        win('ed', 'ed', '<span class="sx-fn">file.py</span>' + (os === 'mac' ? '' : ' - ' + EDNAME[os]), '<div class="sx-menu"><span>File</span><span>Edit</span><span>View</span></div><textarea class="sx-ta" dir="ltr" spellcheck="false" autocapitalize="off"></textarea><div class="sx-ef"><span class="sx-pos">Ln 1, Col 1</span><span>UTF-8</span><button class="ls-btn sx-save"><i class="fa-solid fa-floppy-disk"></i> Save</button></div>') +
-        win('about', 'about', ic('folder-open') + ' About Dev', aboutBody()) + win('pc', 'pc', ic('folder') + ' ' + nm('pc'), pcBody()) + win('bin', 'bin', ic('trash-can') + ' ' + nm('bin'), binBody()) + win('set', 'set', ic('gear') + ' ' + nm('set'), setBody()) + win('search', 'search', ic('magnifying-glass') + ' Eto Search', searchBody()) +
+        win('term', 'term', os === 'mac' ? 'you — -zsh — 80×24' : os === 'linux' ? 'you@ubuntu: ~' : '', '<div class="sx-tb" dir="ltr"><div class="sx-stw"><button class="sx-stop" type="button" title="Ctrl+C"><i class="fa-solid fa-stop"></i> Stop</button></div><div class="sx-lines"></div><div class="sx-inl"><span class="sx-p">' + PROMPT() + '</span><input class="sx-in" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="terminal"></div></div>', 1) +
+        win('ed', 'ed', '<span class="sx-fn">untitled.py</span>' + ' - ' + EDNAME[os], edBody()) +
+        win('about', 'about', ic('folder-open') + ' About Dev', aboutBody()) + win('pc', 'pc', ic('folder') + ' ' + nm('pc'), exSkel('pc')) + win('bin', 'bin', ic('trash-can') + ' ' + nm('bin'), exSkel('bin')) + win('set', 'set', ic('gear') + ' ' + nm('set'), setBody()) + win('search', 'search', ic('magnifying-glass') + ' Eto Search', searchBody()) +
         '</div>' + dock +
         '<div class="sx-sm"><div class="sx-smh">' + logo(26) + '<b>Eto<span>.Edu</span></b><small>Pinned</small></div><div class="sx-smg">' + apps + '</div>' +
         '<div class="sx-smf"><span class="sx-usr"><i>E</i> Eto</span><button class="sx-pwr" data-act="off" title="Shut down"><i class="fa-solid fa-power-off"></i></button></div></div>' +
-        '<div class="sx-cm"><ul><li data-app="search">' + ic('magnifying-glass') + ' Eto Search</li><li data-app="set">' + ic('image') + ' Personalize</li><li data-app="term">' + ic('terminal') + ' Open Terminal</li><li data-app="about">' + ic('folder-open') + ' About Dev</li></ul></div>' +
+        '<div class="sx-cm"></div><input type="file" multiple hidden class="sx-up">' +
         '<div class="sx-fly"><div class="sx-tiles"><button data-tile="wifi" class="' + (wifi ? 'on' : '') + '"><i class="fa-solid fa-wifi"></i><span>Wi-Fi</span></button><button class="on"><i class="fa-brands fa-bluetooth-b"></i><span>Bluetooth</span></button><button><i class="fa-solid fa-plane"></i><span>Airplane</span></button></div>' +
         '<div class="sx-vrow"><i class="fa-solid fa-' + volIc() + '" data-vi2></i><input type="range" min="0" max="100" value="' + vol + '" class="sx-vr"></div></div>';
       $('.sx-pw').style.display = '';
-      bind(); replay(); updClock(); applyWall(); mark(); task(); ghost();
+      bind(); exInit(); replay(); updClock(); applyWall(); mark(); task(); ghost();
+      vfs.init().then(function () { vfsReady = true; if (!alive() || phase !== 'on') return; refreshPrompt(); refreshAll(); });
       loadPicList().then(function (pics) {
         if (!alive() || phase !== 'on') return;
         var saved = ls('eto_sim_img');
@@ -494,10 +985,14 @@
     /* ---- النوافذ ---- */
     function front(w) { w.style.zIndex = ++z; }
     function openWin(a) {
-      var w = $('.sx-' + a); if (!w) return; closeMenus(); wopen[a] = true; w.classList.add('show'); front(w); mark(); if (a === 'set') wpGrid(); if (a === 'search') tmo(function () { var i = $('.es-in'); if (i) i.focus(); }, 40);
+      var w = $('.sx-' + a); if (!w) return; closeMenus(); wopen[a] = true; w.classList.add('show'); front(w); mark(); if (a === 'set') wpGrid(); if (a === 'pc' || a === 'bin') exDraw(a); if (a === 'search') tmo(function () { var i = $('.es-in'); if (i) i.focus(); }, 40);
     }
-    function closeWin(w) { var a = w.getAttribute('data-w'); w.classList.remove('show', 'max'); wopen[a] = false; mark(); ghost(); }
-    function openApp(a) { if (a === 'term') openTerm(); else if (a === 'ed') { var n = edName || 'untitled.py'; closeMenus(); openEd(n, files[n]); } else openWin(a); }
+    function closeWin(w, force) {
+      var a = w.getAttribute('data-w');
+      if (a === 'ed' && dirty && vfsOn && force !== true) { edAsk().then(function (r) { if (r === 'y') saveVfs().then(function (ok) { if (ok) closeWin(w, true); }); else if (r === 'n') closeWin(w, true); }); return; }
+      w.classList.remove('show', 'max'); wopen[a] = false; mark(); ghost();
+    }
+    function openApp(a) { if (a === 'term') openTerm(); else if (a === 'ed') { closeMenus(); if (wopen.ed) front($('.sx-ed')); else if (vfsOn) edNew(); else { var n = edName || 'untitled.py'; openEd(n, files[n]); } } else openWin(a); }
     function closeMenus() { ['.sx-fly', '.sx-sm', '.sx-cm'].forEach(function (q) { var n = $(q); if (n) n.classList.remove('open'); }); }
 
     /* ---- لغة ---- */
@@ -524,35 +1019,48 @@
 
     /* ---- ربط الأحداث ---- */
     function bind() {
-      var inp = $('.sx-in'), ta = $('.sx-ta'), term = $('.sx-term'), ed = $('.sx-ed'), desk = $('.sx-desk'); bindSearch();
+      var inp = $('.sx-in'), term = $('.sx-term'), ed = $('.sx-ed'), desk = $('.sx-desk'); bindSearch();
       inp.addEventListener('keydown', function (e) {
         if (arKey(e, inp)) return;
-        if (e.key === 'Enter') { e.preventDefault(); var v = inp.value; inp.value = ''; submit(v); }
-        else if (e.key === 'ArrowUp' && cmdH.length) { e.preventDefault(); hp = Math.max(0, hp - 1); inp.value = cmdH[hp] || ''; }
-        else if (e.key === 'ArrowDown') { e.preventDefault(); hp = Math.min(cmdH.length, hp + 1); inp.value = cmdH[hp] || ''; }
+        if (e.key === 'Enter') { e.preventDefault(); var v = inp.value; inp.value = ''; if (asking) answer(v); else if (repl) replLine(v); else submit(v); }
+        else if (repl && !running && e.ctrlKey && (e.key || '').toLowerCase() === 'd') { e.preventDefault(); line(esc(replP), 'o'); replEnd(); }
+        else if (repl && !running && e.ctrlKey && (e.key || '').toLowerCase() === 'c' && !String(window.getSelection())) { e.preventDefault(); line(esc(replP + inp.value), 'o'); line('KeyboardInterrupt', 'o'); inp.value = ''; if (wk) wk.postMessage({ t: 'repl-reset' }); setPrompt('>>> '); }
+        else if (e.key === 'ArrowUp' && cmdH.length && !asking) { e.preventDefault(); hp = Math.max(0, hp - 1); inp.value = cmdH[hp] || ''; }
+        else if (e.key === 'ArrowDown' && !asking) { e.preventDefault(); hp = Math.min(cmdH.length, hp + 1); inp.value = cmdH[hp] || ''; }
         else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'l') { e.preventDefault(); clearTerm(); }
       });
       term.addEventListener('mousedown', function (e) { front(term); if (!e.target.closest('.sx-wh')) tmo(function () { inp.focus(); }, 0); });
       ed.addEventListener('mousedown', function () { front(ed); });
       el.querySelectorAll('.sx-about,.sx-pc,.sx-bin,.sx-set,.sx-search').forEach(function (w) { w.addEventListener('mousedown', function () { front(w); }); });
-      ta.addEventListener('keydown', function (e) { if (arKey(e, ta)) return; if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save(); } });
-      ta.addEventListener('input', function () { dirty = true; title(); });
-      ['keyup', 'click', 'input'].forEach(function (ev) { ta.addEventListener(ev, function () { var v = ta.value.slice(0, ta.selectionStart).split('\n'); $('.sx-pos').textContent = 'Ln ' + v.length + ', Col ' + (v[v.length - 1].length + 1); }); });
-      $('.sx-save').addEventListener('click', save);
+      edBind();
+      $('.sx-stop').addEventListener('click', function (e) { e.stopPropagation(); stopRun(); });
       /* أيقونات التاسك بار والدوك والقوائم */
-      el.querySelectorAll('.sx-ico[data-app],.sx-ap,.sx-cm li').forEach(function (b) {
+      el.querySelectorAll('.sx-ico[data-app],.sx-ap').forEach(function (b) {
         b.addEventListener('click', function () { var a = b.getAttribute('data-app'), w = $('.sx-' + a); if (b.classList.contains('sx-ico') && wopen[a] && w) { front(w); closeMenus(); } else openApp(a); });
       });
-      /* أيقونات سطح المكتب: كليك يحدد، دبل كليك يفتح */
-      el.querySelectorAll('.sx-di').forEach(function (d) {
-        d.addEventListener('click', function (e) { e.stopPropagation(); el.querySelectorAll('.sx-di').forEach(function (x) { x.classList.toggle('sel', x === d); }); if (coarse) openApp(d.getAttribute('data-app')); });
-        d.addEventListener('dblclick', function () { openApp(d.getAttribute('data-app')); });
+      /* أيقونات سطح المكتب (بتشمل ملفات فولدر Desktop): كليك يحدد، دبل كليك يفتح، كليك يمين قايمة */
+      var dis = $('.sx-dis');
+      dis.addEventListener('click', function (e) { var d = e.target.closest('.sx-di'); if (!d) return; e.stopPropagation(); selDesk(d, e.ctrlKey || e.metaKey); if (coarse) openDesk(d); });
+      dis.addEventListener('dblclick', function (e) { var d = e.target.closest('.sx-di'); if (d) openDesk(d); });
+      dis.addEventListener('contextmenu', function (e) {
+        var d = e.target.closest('.sx-di'); if (!d) return; e.preventDefault(); e.stopPropagation();
+        if (!d.hasAttribute('data-did')) { selDesk(d); cmOpen(e, [{ ic: 'folder-open', l: 'Open', a: function () { openDesk(d); } }]); return; }
+        if (!d.classList.contains('sel')) selDesk(d);
+        cmOpen(e, nodeMenu(deskSel.slice()));
       });
-      desk.addEventListener('click', function () { el.querySelectorAll('.sx-di.sel').forEach(function (x) { x.classList.remove('sel'); }); });
+      desk.addEventListener('click', function () { el.querySelectorAll('.sx-di.sel').forEach(function (x) { x.classList.remove('sel'); }); deskSel = []; });
       desk.addEventListener('contextmenu', function (e) {
-        e.preventDefault(); var m = $('.sx-cm'), r = sc.getBoundingClientRect(); closeMenus();
-        m.style.left = Math.min(W - 190, (e.clientX - r.left) / k) + 'px'; m.style.top = Math.min(H - 130, (e.clientY - r.top) / k) + 'px'; m.classList.add('open');
+        if (e.target.closest('.sx-w')) return; e.preventDefault();
+        el.querySelectorAll('.sx-di.sel').forEach(function (x) { x.classList.remove('sel'); }); deskSel = [];
+        cmOpen(e, deskBlank());
       });
+      desk.addEventListener('dragover', function (e) { if (e.dataTransfer && [].indexOf.call(e.dataTransfer.types || [], 'Files') >= 0) e.preventDefault(); });
+      desk.addEventListener('drop', function (e) { if (!e.dataTransfer || !e.dataTransfer.files.length) return; e.preventDefault(); if (vfsReady) upFiles(e.dataTransfer.files, vfs.desk()); });
+      $('.sx-cm').addEventListener('click', function (e) {
+        var li = e.target.closest('li[data-ci]'); if (!li || li.classList.contains('dis')) return;
+        var it = cmReg[+li.getAttribute('data-ci')]; if (!it || it.sub) return; closeMenus(); if (it.a) it.a();
+      });
+      $('.sx-up').addEventListener('change', function (e) { upFiles(e.target.files, upPid); e.target.value = ''; });
       el.querySelectorAll('[data-lang]').forEach(function (b) { b.addEventListener('click', function () { setLang(lang === 'en' ? 'ar' : 'en'); }); });
       el.querySelectorAll('[data-qs]').forEach(function (b) { b.addEventListener('click', function (e) { e.stopPropagation(); var f = $('.sx-fly'), o = !f.classList.contains('open'); closeMenus(); f.classList.toggle('open', o); }); });
       el.querySelectorAll('[data-sm]').forEach(function (b) { b.addEventListener('click', function (e) { e.stopPropagation(); var f = $('.sx-sm'), o = !f.classList.contains('open'); closeMenus(); f.classList.toggle('open', o); }); });
@@ -604,7 +1112,7 @@
       if (metaDown) {
         var c = e.code, h = true;
         if (c === 'Space') setLang(lang === 'en' ? 'ar' : 'en');
-        else if (c === 'KeyD') el.querySelectorAll('.sx-w.show').forEach(closeWin);
+        else if (c === 'KeyD') el.querySelectorAll('.sx-w.show').forEach(function (w) { closeWin(w); });
         else if (c === 'KeyE') openApp('pc');
         else if (c === 'KeyS' || c === 'KeyQ') openApp('search');
         else if (c === 'KeyI') openApp('set');
@@ -619,6 +1127,12 @@
       metaDown = false;
     }, true);
     on(window, 'blur', function () { metaDown = false; });
+    on(document, 'keydown', function (e) {
+      if (!running || !alive() || phase !== 'on' || !active() || !e.ctrlKey || e.altKey || e.shiftKey || (e.key || '').toLowerCase() !== 'c') return;
+      var sl = ''; try { sl = String(window.getSelection()); } catch (x) {}
+      if (sl) return; /* فيه نص متحدد: سيبه للنسخ العادي */
+      e.preventDefault(); e.stopPropagation(); stopRun();
+    }, true);
 
     /* ---- Eto Search ---- */
     var esCur = 'all', esId = 0;
@@ -740,7 +1254,7 @@
       line('<span class="sx-p">' + PROMPT() + '</span>' + esc(c));
       var st = steps[i], run = /^python/.test(normCmd(c));
       if (st && st.kind === 'cmd' && cmdOk(c, st.expect)) { emit(String(pick(st.out, os)).split('\n').filter(function (x, j, a) { return x !== '' || a.length > 1; }), next, run ? 420 : 120); return; }
-      if (freeMode && freeCmd(c)) return;
+      if (freeMode && (vfsOn ? vfsCmd(c) : freeCmd(c))) return;
       var g = generic(c);
       if (g != null) { emit(g === '' ? [] : g.split('\n'), null, run ? 420 : 120); if (st && st.kind === 'cmd') { tries++; task('الأمر ده اشتغل، بس مش هو المطلوب في الخطوة. اقرا التعليمات فوق.', 'bad'); } return; }
       tries++; emit([notFound(c)], null, 120);
@@ -748,21 +1262,18 @@
     }
 
     /* ---- المحرر ---- */
-    function title() { var n = edName || (steps[i] && steps[i].file) || 'file.py', f = $('.sx-fn'); if (f) f.textContent = (dirty ? '*' : '') + n; }
-    function openEd(name, content) {
-      var e = $('.sx-ed'); if (!e) return; closeMenus(); edName = name; wopen.ed = true; dirty = false; front(e); $('.sx-fn').textContent = name; $('.sx-ta').value = content || ''; $('.sx-pos').textContent = 'Ln 1, Col 1';
-      e.classList.add('show'); mark(); tmo(function () { $('.sx-ta').focus(); }, 40);
-    }
+    function title() { var n = edName || (steps[i] && steps[i].file) || 'file.py', f = $('.sx-fn'); if (f) f.textContent = (dirty ? '\u25CF ' : '') + n; }
     function save() {
+      if (!wopen.ed) return;
+      if (vfsOn) { saveVfs(); return; }
       if (freeMode) {
-        if (!wopen.ed) return;
         var nme = edName; if (!nme || nme === 'untitled.py') { var r = root.prompt('File name', 'hello.py'); if (!r) return; nme = r.trim().replace(/[\\/]/g, ''); if (!nme) return; edName = nme; }
-        files[nme] = $('.sx-ta').value; dirty = false; title(); var ed = $('.sx-ed'); ed.classList.add('saved'); tmo(function () { ed.classList.remove('saved'); }, 500); return;
+        files[nme] = $('.ce-ta').value; vfsPutLegacy(nme, files[nme]); dirty = false; title(); flash(); return;
       }
-      var st = steps[i]; if (!st || st.kind !== 'code' || !wopen.ed) return;
-      var v = $('.sx-ta').value, e = $('.sx-ed');
+      var st = steps[i]; if (!st || st.kind !== 'code') return;
+      var v = $('.ce-ta').value, e = $('.sx-ed');
       if (codeOk(v, st.expect)) {
-        files[st.file] = v; dirty = false; title(); e.classList.add('saved');
+        files[st.file] = v; vfsPutLegacy(st.file, v); dirty = false; title(); e.classList.add('saved');
         tmo(function () { e.classList.remove('saved'); e.classList.remove('show'); wopen.ed = false; next(); tmo(function () { var inp = $('.sx-in'); if (inp && wopen.term) inp.focus(); }, 300); }, 650);
         return;
       }
@@ -787,7 +1298,7 @@
         '<div class="ls-actions">' + (st.hint ? '<button class="ls-btn ghost sx-hint"><i class="fa-regular fa-lightbulb"></i> تلميح</button>' : '') +
         (tries >= 2 && sol ? '<button class="ls-btn ghost sx-show"><i class="fa-solid fa-eye"></i> اعرض الحل</button>' : '') + '</div></div>';
       var h = t.querySelector('.sx-hint'); if (h) h.onclick = function () { task(st.hint, 'ok'); };
-      var s = t.querySelector('.sx-show'); if (s) s.onclick = function () { if (st.kind === 'cmd') { $('.sx-in').value = sol; $('.sx-in').focus(); } else { $('.sx-ta').value = sol; } };
+      var s = t.querySelector('.sx-show'); if (s) s.onclick = function () { if (st.kind === 'cmd') { $('.sx-in').value = sol; $('.sx-in').focus(); } else { $('.ce-ta').value = sol; dirty = true; edSync(); } };
     }
     function next() {
       i++; tries = 0; mark(); ghost();
@@ -797,39 +1308,807 @@
     }
 
     /* ---- الاستخدام الحر: بايثون حقيقية جوه الـTerminal نفسه ---- */
-    function free() { freeMode = true; }
-    function pyExec(code) {
-      busy = true; hideIn();
-      if (!root.__etoPy) line('Loading Python (first run only, about 10 MB)...', 'o');
-      loadPy().then(function (py) {
-        var buf = [];
-        py.setStdout({ batched: function (x) { buf.push(x); } }); py.setStderr({ batched: function (x) { buf.push(x); } });
-        py.setStdin({ stdin: function () { var v = root.prompt('input()'); return v == null ? '' : v; } });
-        return py.runPythonAsync(code).then(function () { return buf; }, function (e) { return buf.concat(String(e.message || e).trim().split('\n').slice(-4)); });
-      }).then(function (out) { if (dead) return; emit(out, null, 0); }, function () { if (dead) return; emit(['Could not load Python. Check your internet connection.'], null, 0); });
+    function free() { freeMode = true; edInfo(); }
+    function setRun(b) { running = b; var tb = $('.sx-tb'); if (tb) tb.classList.toggle('sx-running', b); }
+    function wkKill() {
+      if (wk) { wk.onmessage = null; wk.onerror = null; try { wk.terminate(); } catch (e) {} }
+      if (wkUrl) { try { URL.revokeObjectURL(wkUrl); } catch (e) {} }
+      wk = null; wkReady = null; wkUrl = null;
+    }
+    function wkStart() {
+      if (wkReady) return wkReady;
+      var p = new Promise(function (res, rej) {
+        var w;
+        try { wkUrl = URL.createObjectURL(new Blob(['(' + workerMain.toString() + ')()'], { type: 'text/javascript' })); w = wk = new Worker(wkUrl); } catch (e) { rej(e); return; }
+        w.onmessage = function (ev) {
+          var m = ev.data || {};
+          if (m.t === 'ready') res(); else if (m.t === 'fatal') rej(new Error(m.s)); else wkMsg(m);
+        };
+        w.onerror = function () { rej(new Error('worker')); };
+        w.postMessage({ t: 'init', base: 'https://cdn.jsdelivr.net/pyodide/v' + PYV + '/full/' });
+      });
+      wkReady = p;
+      p.catch(function () { if (wkReady === p) wkKill(); });
+      return p;
+    }
+    function wkMsg(m) {
+      if (dead || !running) return;
+      if (m.t === 'out' || m.t === 'err') { if (m.s.indexOf('@@HINT@@') === 0) line(esc(m.s.slice(8).trim()), 'o sx-ht'); else line(esc(m.s), 'o'); }
+      else if (m.t === 'in') ask(m.s);
+      else if (m.t === 'done') { setRun(false); busy = false; if (repl) { if (m.r === 'exit') replEnd(); else setPrompt(m.r === 'more' ? '... ' : '>>> '); } showIn(); }
+    }
+    /* input() جوه الترمنال: السؤال بيظهر مكان البرومبت، والإجابة بتترجع للبرنامج */
+    function ask(p) { asking = true; askP = p; var pl = $('.sx-inl .sx-p'); if (pl) pl.textContent = p; showIn(); }
+    function answer(v) {
+      asking = false; line(esc(askP + v), 'o');
+      var pl = $('.sx-inl .sx-p'); if (pl) pl.innerHTML = PROMPT();
+      hideIn(); if (wk) wk.postMessage({ t: 'ans', s: v });
+    }
+    function stopRun(silent) {
+      if (!running && !wk) return;
+      var was = running;
+      if (asking) { asking = false; var pl = $('.sx-inl .sx-p'); if (pl) pl.innerHTML = PROMPT(); }
+      wkKill(); setRun(false);
+      if (repl) { repl = false; var pl2 = $('.sx-inl .sx-p'); if (pl2) pl2.innerHTML = PROMPT(); }
+      if (was && !silent) { line('^C', 'o'); line('KeyboardInterrupt', 'o'); busy = false; showIn(); }
+    }
+    /* ---- python لوحده = shell تفاعلي (>>> / ...) بنفس الـWorker ---- */
+    function setPrompt(t) { replP = t; var pl = $('.sx-inl .sx-p'); if (pl) pl.textContent = t; }
+    function replEnd() { repl = false; var pl = $('.sx-inl .sx-p'); if (pl) pl.innerHTML = PROMPT(); }
+    function startRepl() {
+      busy = true; hideIn(); setRun(true);
+      line(pyLoaded ? 'Starting Python...' : 'Loading Python (first run only, about 10 MB)...', 'o');
+      wkStart().then(function () {
+        pyLoaded = true;
+        if (dead || !running || !wk) return;
+        wk.postMessage({ t: 'repl-init' });
+        repl = true; setRun(false); busy = false;
+        line('Python 3.12.4 (main) on ' + (os === 'win' ? 'win32' : os === 'mac' ? 'darwin' : 'linux'), 'o');
+        line('Type "help", "copyright", "credits" or "license" for more information.', 'o');
+        setPrompt('>>> '); showIn();
+      }, function () {
+        if (dead) return; setRun(false);
+        emit(['Could not load Python. Check your internet connection.'], null, 0);
+      });
+    }
+    function replLine(v) {
+      if (busy || !wk) return;
+      line(esc(replP + v), 'o'); if (v.trim()) { cmdH.push(v); hp = cmdH.length; }
+      busy = true; hideIn(); setRun(true); wk.postMessage({ t: 'repl', s: v });
+    }
+    function pyExec(code, name) {
+      busy = true; hideIn(); setRun(true);
+      line(pyLoaded ? 'Starting Python...' : 'Loading Python (first run only, about 10 MB)...', 'o');
+      wkStart().then(function () {
+        pyLoaded = true;
+        if (dead || !running || !wk) return;
+        wk.postMessage({ t: 'run', code: String(code), name: name || 'main.py' });
+      }, function () {
+        if (dead) return; setRun(false);
+        emit(['Could not load Python. Check your internet connection.'], null, 0);
+      });
+    }
+    /* ---- ملفاتي: حفظ دائم في وضع الاستخدام الحر ---- */
+    function loadFiles() { try { var o = JSON.parse(ls('eto_sim_files') || '{}'); return o && typeof o === 'object' && !Array.isArray(o) ? o : {}; } catch (e) { return {}; } }
+    function saveFiles() { if (pureFree) ls('eto_sim_files', JSON.stringify(files)); }
+    function fillFiles() {
+      var m = $('.sx-myf'); if (!m) return; var ks = Object.keys(files);
+      m.innerHTML = ks.length ? '<h4>My files (' + ks.length + ')</h4><div class="sx-fg">' + ks.map(function (n) { return '<div class="sx-f" data-file="' + esc(n) + '" title="' + esc(n) + '"><span style="color:#fbbf24">' + ic('file-code') + '</span>' + esc(n) + '</div>'; }).join('') + '</div>' : '';
     }
     function freeCmd(c) {
       var n = normCmd(c), p = n.split(' '), cmd = p[0].toLowerCase(), a = p.slice(1).join(' ');
       if (cmd === 'python') {
-        if (p[1] === '-c') { pyExec(c.replace(/^\s*\S+\s+-c\s+/, '').replace(/^(["'])([\s\S]*)\1$/, '$2')); return true; }
+        if (p[1] === '-c') { pyExec(c.replace(/^\s*\S+\s+-c\s+/, '').replace(/^(["'])([\s\S]*)\1$/, '$2'), '<string>'); return true; }
         if (/\.py$/.test(p[1] || '')) {
-          if (files[p[1]] == null) emit(["python: can't open file '" + p[1] + "': [Errno 2] No such file or directory"], null, 0); else pyExec(files[p[1]]);
+          if (files[p[1]] == null) emit(["python: can't open file '" + p[1] + "': [Errno 2] No such file or directory"], null, 0); else pyExec(files[p[1]], p[1]);
           return true;
         }
+        if (p.length === 1) { startRepl(); return true; }
         return false;
       }
       if (/^(notepad|nano|gedit|code|edit|open)$/.test(cmd) && p[1]) { openEd(p[1], files[p[1]]); return true; }
       if (cmd === 'cat' || cmd === 'type') { emit(files[a] != null ? String(files[a]).split('\n') : [cmd + ': ' + a + ': No such file'], null, 0); return true; }
       if (cmd === 'echo') { emit([a], null, 0); return true; }
-      if (/^(rm|del)$/.test(cmd)) { if (files[a] != null) delete files[a]; else emit([cmd + ': ' + a + ': No such file'], null, 0); return true; }
-      if (cmd === 'help') { emit(['python file.py   run a file (real Python)', 'python -c "print(1+1)"', 'notepad file.py  create or edit a file', 'ls / dir, cat file, echo text, rm file, clear'], null, 0); return true; }
+      if (/^(rm|del)$/.test(cmd)) { if (files[a] != null) { delete files[a]; saveFiles(); } else emit([cmd + ': ' + a + ': No such file'], null, 0); return true; }
+      if (cmd === 'help') { emit(['python file.py   run a file (real Python)', 'python           (alone) open the interactive shell, exit() to leave', 'python -c "print(1+1)"', 'notepad file.py  create or edit a file', 'ls / dir, cat file, echo text, rm file, clear', 'Ctrl+C (or the Stop button) stops a running program'], null, 0); return true; }
       return false;
+    }
+
+    /* =====================================================================
+       v5: ملفات حقيقية (C: نظام للقراءة فقط / D: بحد 1 جيجا) + كليك يمين + محرر Eto Code
+       ===================================================================== */
+    var ROOTL = os === 'win' ? 'This PC' : 'Computer';
+    function shPath(id) {
+      var ps = vfs.parts(id);
+      if (os === 'win') return 'D:\\' + ps.join('\\');
+      return (os === 'mac' ? '/Volumes/Eto.Edu' : '/mnt/eto') + (ps.length ? '/' + ps.join('/') : '');
+    }
+    function refreshPrompt() { if (asking || repl) return; var pl = $('.sx-inl .sx-p'); if (pl) pl.innerHTML = PROMPT(); }
+    function refreshAll() {
+      if (!alive() || phase !== 'on') return;
+      deskDraw(); exDraw('pc'); exDraw('bin');
+    }
+    /* أي عملية على الملفات: بتتنفذ، بتحدّث الشاشة، وأي خطأ بيظهر في رسالة */
+    function op(fn) {
+      var p; try { p = Promise.resolve(fn()); } catch (e) { p = Promise.reject(e); }
+      return p.then(function (r) { refreshAll(); return r; }, function (e) { refreshAll(); showErr(e); return null; });
+    }
+
+    /* ---- رسائل وحوارات جوه الجهاز ---- */
+    function dlg(o) {
+      return new Promise(function (res) {
+        var d = document.createElement('div'), bs = o.b || [['OK', 'ok', 1]], pv = 'ok', done = false;
+        bs.forEach(function (b) { if (b[2]) pv = b[1]; });
+        d.className = 'sx-dlg';
+        d.innerHTML = '<div class="dl-card"><div class="dl-h">' + esc(o.t || 'Eto.Edu') + '</div><div class="dl-b">' + (o.m || '') +
+          (o.input ? '<input class="dl-in" dir="ltr" spellcheck="false" autocomplete="off" autocapitalize="off" value="' + esc(o.input.v || '') + '">' : '') + '</div><div class="dl-f">' +
+          bs.map(function (b) { return '<button class="dl-btn' + (b[2] ? ' pri' : '') + '" data-v="' + esc(b[1]) + '">' + esc(b[0]) + '</button>'; }).join('') + '</div></div>';
+        ui.appendChild(d);
+        var inp = d.querySelector('.dl-in');
+        function fin(v) { if (done) return; done = true; var val = inp ? inp.value : null; d.remove(); res(inp ? (v === pv ? val : null) : v); }
+        d.addEventListener('click', function (e) { var b = e.target.closest('[data-v]'); if (b) fin(b.getAttribute('data-v')); });
+        d.addEventListener('mousedown', function (e) { e.stopPropagation(); });
+        d.addEventListener('contextmenu', function (e) { if (!e.target.closest('.dl-in')) e.preventDefault(); e.stopPropagation(); });
+        d.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') { e.stopPropagation(); fin(null); }
+          else if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') { e.preventDefault(); fin(pv); }
+        });
+        if (inp) { inp.focus(); var s = o.input.sel; inp.setSelectionRange(s ? s[0] : 0, s ? s[1] : inp.value.length); }
+        else { var pb = d.querySelector('.dl-btn.pri') || d.querySelector('.dl-btn'); if (pb) pb.focus(); }
+      });
+    }
+    function showErr(e, t) { return dlg({ t: t || 'Eto.Edu', m: '<p>' + esc(errMsg(e)) + '</p>' }); }
+    function denyC() {
+      return dlg({ t: 'Destination Folder Access Denied', m: '<p>You can\'t create or change items on this drive.</p><p><b>' + esc(DRV[os][0]) + '</b> is reserved for system files and is read-only. Use <b>' + esc(DRV[os][1]) + '</b> for your files and projects.</p>',
+        b: [['Open ' + DRV[os][1], 'd', 1], ['Close', 'x']] }).then(function (v) { if (v === 'd') exOpenAt('pc', 'd/r'); });
+    }
+    function propDlg(t, rows) {
+      return dlg({ t: t, m: '<table class="dl-tb">' + rows.map(function (r) { return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td></tr>'; }).join('') + '</table>' });
+    }
+    /* اختيار ملف/مكان حفظ (Open / Save As) */
+    function fileDlg(o) {
+      return new Promise(function (res) {
+        var cur = o.dir && vfs.get(o.dir) && vfs.live(o.dir) ? o.dir : 'r', pick = null, d = document.createElement('div'), sv = o.mode === 'save';
+        d.className = 'sx-dlg';
+        d.innerHTML = '<div class="dl-card dl-wide"><div class="dl-h">' + (sv ? 'Save As' : 'Open') + '</div><div class="dl-pa"></div><div class="dl-ls"></div>' +
+          (sv ? '<div class="dl-nm"><span>File name</span><input class="dl-in" dir="ltr" spellcheck="false" autocomplete="off" value="' + esc(o.name || '') + '"></div>' : '') +
+          '<div class="dl-f"><button class="dl-btn pri" data-v="ok">' + (sv ? 'Save' : 'Open') + '</button><button class="dl-btn" data-v="x">Cancel</button></div></div>';
+        ui.appendChild(d);
+        var inp = d.querySelector('.dl-in'), ls_ = d.querySelector('.dl-ls'), done = false;
+        function draw() {
+          d.querySelector('.dl-pa').textContent = shPath(cur);
+          var h = cur !== 'r' ? '<div class="dl-r" data-up="1">' + ic('folder-open') + '<span>..</span></div>' : '';
+          vfs.kids(cur).forEach(function (n) {
+            var v = fileIc(n.n, n.t === 'd');
+            h += '<div class="dl-r' + (pick === n.id ? ' on' : '') + (n.t === 'f' && sv ? ' dim' : '') + '" data-id="' + n.id + '"><i style="color:' + v[1] + '"></i>' + ic(v[0]).replace('<i ', '<i style="color:' + v[1] + '" ') + '<span>' + esc(n.n) + '</span><small>' + (n.t === 'f' ? fmtSize(n.s) : '') + '</small></div>';
+          });
+          ls_.innerHTML = h || '<div class="dl-e">This folder is empty</div>';
+        }
+        function fin(v) {
+          if (done) return;
+          if (v === 'ok') {
+            if (sv) { var nmv = inp.value.trim(); if (!nmv) return; done = true; d.remove(); res({ pid: cur, name: nmv }); return; }
+            var n = pick && vfs.get(pick); if (!n || n.t !== 'f') return;
+            done = true; d.remove(); res({ id: n.id }); return;
+          }
+          done = true; d.remove(); res(null);
+        }
+        d.addEventListener('click', function (e) {
+          var b = e.target.closest('[data-v]'); if (b) { fin(b.getAttribute('data-v')); return; }
+          var r = e.target.closest('.dl-r'); if (!r) return;
+          if (r.hasAttribute('data-up')) { var cn = vfs.get(cur); cur = (cn && cn.p) || 'r'; pick = null; draw(); return; }
+          var n = vfs.get(r.getAttribute('data-id'));
+          if (n.t === 'd') { cur = n.id; pick = null; draw(); } else { pick = n.id; if (sv) inp.value = n.n; draw(); }
+        });
+        d.addEventListener('dblclick', function (e) { var r = e.target.closest('.dl-r[data-id]'); if (r && !sv && vfs.get(r.getAttribute('data-id')).t === 'f') { pick = r.getAttribute('data-id'); fin('ok'); } });
+        d.addEventListener('mousedown', function (e) { e.stopPropagation(); });
+        d.addEventListener('contextmenu', function (e) { e.preventDefault(); e.stopPropagation(); });
+        d.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') { e.stopPropagation(); fin('x'); } else if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') { e.preventDefault(); fin('ok'); }
+        });
+        draw(); if (inp) { inp.focus(); var dt = inp.value.lastIndexOf('.'); inp.setSelectionRange(0, dt > 0 ? dt : inp.value.length); }
+      });
+    }
+
+    /* ---- قوايم الكليك يمين (زي الويندوز) ---- */
+    function cmHtml(items) {
+      return '<ul>' + items.map(function (m) {
+        if (m === '-') return '<li class="sep"></li>';
+        var idx = cmReg.push(m) - 1;
+        return '<li class="' + (m.dis ? 'dis ' : '') + (m.sub ? 'has' : '') + '" data-ci="' + idx + '">' + (m.ic ? ic(m.ic) : '<i></i>') + '<span>' + esc(m.l) + '</span>' +
+          (m.k ? '<kbd>' + esc(m.k) + '</kbd>' : '') + (m.sub ? '<b class="fa-solid fa-chevron-right sub"></b>' + cmHtml(m.sub).replace('<ul>', '<ul class="sx-sub">') : '') + '</li>';
+      }).join('') + '</ul>';
+    }
+    function cmOpen(e, items) {
+      var m = $('.sx-cm'), r = sc.getBoundingClientRect(); closeMenus(); cmReg = [];
+      m.innerHTML = cmHtml(items); m.classList.add('open');
+      var x = (e.clientX - r.left) / k, y = (e.clientY - r.top) / k, w = m.offsetWidth, h = m.offsetHeight;
+      m.style.left = Math.max(0, Math.min(W - w - 4, x)) + 'px'; m.style.top = Math.max(0, Math.min(H - h - 52, y)) + 'px';
+      m.classList.toggle('flip', x + w + 230 > W);
+    }
+    function newMenu(pid) {
+      var go = function (f) { return function () { if (!pid) denyC(); else f(); }; };
+      var a = [{ ic: 'folder', l: 'Folder', a: go(function () { mkNew('dir', pid); }) }, '-'];
+      LANG_ORDER.forEach(function (id) { a.push({ ic: LANGS[id].ic, l: LANGS[id].label, a: go(function () { mkNew(id, pid); }) }); });
+      return a;
+    }
+    function mkNew(kind, pid) {
+      var L = kind === 'dir' ? null : LANGS[kind], def = vfs.uniq(pid, kind === 'dir' ? 'New folder' : L.def), dot = def.lastIndexOf('.');
+      dlg({ t: kind === 'dir' ? 'New Folder' : 'New ' + L.label, m: '<p>Name</p>', input: { v: def, sel: [0, kind === 'dir' || dot < 1 ? def.length : dot] }, b: [['Create', 'ok', 1], ['Cancel', 'x']] }).then(function (v) {
+        if (v == null) return;
+        v = v.trim(); if (kind !== 'dir' && !/\.[^.\s]+$/.test(v)) v += '.' + L.exts[0];
+        return op(function () { return kind === 'dir' ? vfs.mkdir(pid, v) : vfs.mkfile(pid, v, ''); }).then(function (n) { if (n) selectNew(pid, n.id); });
+      });
+    }
+    function selectNew(pid, id) {
+      if (pid === vfs.desk()) { deskSel = [id]; deskDraw(); }
+      if (EX.pc.loc === 'd/' + pid) { EX.pc.sel = [id]; exDraw('pc'); }
+    }
+    function actPaste(pid) {
+      if (!clip) return; var c = clip;
+      op(function () {
+        return c.ids.reduce(function (p, id) {
+          return p.then(function () {
+            var n = vfs.get(id); if (!n || !vfs.live(id)) return;
+            if (c.mode === 'cut') { vfs.move(id, pid); return; }
+            return vfs.copy(id, pid);
+          });
+        }, Promise.resolve()).then(function () { if (c.mode === 'cut') clip = null; });
+      });
+    }
+    function actDel(ids) { op(function () { ids.forEach(function (id) { vfs.trash(id); }); deskSel = []; EX.pc.sel = []; }); }
+    function actRename(id) {
+      var n = vfs.get(id); if (!n) return; var dot = n.t === 'f' ? n.n.lastIndexOf('.') : -1;
+      dlg({ t: 'Rename', m: '<p>New name</p>', input: { v: n.n, sel: [0, dot > 0 ? dot : n.n.length] }, b: [['Rename', 'ok', 1], ['Cancel', 'x']] }).then(function (v) {
+        if (v != null) op(function () { vfs.rename(id, v); });
+      });
+    }
+    function actProps(ids) {
+      var dt = function (x) { return new Date(x).toLocaleString('en-US'); };
+      if (ids.length > 1) {
+        var sz = 0, f = 0, dd = 0; ids.forEach(function (id) { var n = vfs.get(id); if (!n) return; sz += vfs.size(id); if (n.t === 'f') f++; else { dd++; var q = vfs.count(id); f += q.f; dd += q.d; } });
+        return propDlg(ids.length + ' items', [['Contains', f + ' files, ' + dd + ' folders'], ['Size', fmtSize(sz)]]);
+      }
+      var n = vfs.get(ids[0]); if (!n) return;
+      var s = vfs.size(n.id), rows = [['Type', n.t === 'd' ? 'File folder' : langOf(n.n).name + ' file'], ['Location', shPath(n.p)], ['Size', fmtSize(s) + ' (' + s.toLocaleString('en-US') + ' bytes)']];
+      if (n.t === 'd') { var c = vfs.count(n.id); rows.push(['Contains', c.f + ' files, ' + c.d + ' folders']); }
+      rows.push(['Created', dt(n.c)], ['Modified', dt(n.m)]);
+      return propDlg(n.n, rows);
+    }
+    function actUpload(pid) { upPid = pid; var u = $('.sx-up'); if (u) u.click(); }
+    function upFiles(list, pid) {
+      var fl = [].slice.call(list || []); if (!fl.length) return;
+      var p = Promise.resolve(), bad = null;
+      fl.forEach(function (f) {
+        p = p.then(function () {
+          var nmv = vfs.uniq(pid, f.name.replace(/[\\\/:*?"<>|]/g, '_')), txt = TEXTX.test(f.name) && f.size < 5e6;
+          return (txt ? f.text() : Promise.resolve(f)).then(function (c) { return vfs.mkfile(pid, nmv, c); });
+        }).catch(function (e) { bad = bad || e; });
+      });
+      p.then(function () { refreshAll(); if (bad) showErr(bad); });
+    }
+    function openNode(n) { if (!n) return; if (n.t === 'd') exOpenAt('pc', 'd/' + n.id); else edOpenNode(n); }
+    function nodeMenu(ids) {
+      var one = ids.length === 1 ? vfs.get(ids[0]) : null, dir = one && one.t === 'd', prot = ids.indexOf(vfs.desk()) >= 0, m = [];
+      if (one) {
+        m.push({ ic: dir ? 'folder-open' : 'file-pen', l: dir ? 'Open' : 'Open with Eto Code', a: function () { openNode(one); } });
+        if (!dir && langOf(one.n).run) m.push({ ic: 'play', l: 'Run with Python', a: function () { runNode(one); } });
+        if (dir) m.push({ ic: 'terminal', l: 'Open in Terminal', a: function () { termAt(one.id); } });
+        m.push('-');
+      }
+      m.push({ ic: 'scissors', l: 'Cut', k: 'Ctrl+X', dis: prot, a: function () { clip = { mode: 'cut', ids: ids.slice() }; refreshAll(); } },
+        { ic: 'copy', l: 'Copy', k: 'Ctrl+C', a: function () { clip = { mode: 'copy', ids: ids.slice() }; refreshAll(); } });
+      if (dir) m.push({ ic: 'paste', l: 'Paste', k: 'Ctrl+V', dis: !clip, a: function () { actPaste(one.id); } });
+      m.push('-', { ic: 'trash-can', l: 'Delete', k: 'Del', dis: prot, a: function () { actDel(ids); } });
+      if (one) m.push({ ic: 'pen', l: 'Rename', k: 'F2', dis: prot, a: function () { actRename(one.id); } });
+      m.push('-', { ic: 'circle-info', l: 'Properties', a: function () { actProps(ids); } });
+      return m;
+    }
+
+    /* ---- سطح المكتب: أيقونات النظام + محتوى فولدر Desktop (اللي على D:) ---- */
+    function deskIcons() {
+      var s = ['pc', 'bin', 'about', 'search'].map(function (a) { var c = aic(a); return '<div class="sx-di" data-app="' + a + '"><span class="sx-dic" style="color:' + c[1] + '"><i class="fa-solid fa-' + c[0] + '"></i></span>' + nm(a) + '</div>'; }).join('');
+      if (!vfsReady) return s;
+      return s + vfs.kids(vfs.desk()).map(function (n) {
+        var v = fileIc(n.n, n.t === 'd');
+        return '<div class="sx-di' + (deskSel.indexOf(n.id) >= 0 ? ' sel' : '') + (clip && clip.mode === 'cut' && clip.ids.indexOf(n.id) >= 0 ? ' cut' : '') + '" data-did="' + n.id + '" title="' + esc(n.n) + '"><span class="sx-dic" style="color:' + v[1] + '">' + ic(v[0]) + '</span><em>' + esc(n.n) + '</em></div>';
+      }).join('');
+    }
+    function deskDraw() { var d = $('.sx-dis'); if (d) d.innerHTML = deskIcons(); }
+    function selDesk(d, add) {
+      el.querySelectorAll('.sx-di').forEach(function (x) { x.classList.toggle('sel', x === d || (add && x.classList.contains('sel'))); });
+      deskSel = [].map.call(el.querySelectorAll('.sx-di.sel[data-did]'), function (x) { return x.getAttribute('data-did'); });
+    }
+    function openDesk(d) { var a = d.getAttribute('data-app'); if (a) openApp(a); else openNode(vfs.get(d.getAttribute('data-did'))); }
+    function deskBlank() {
+      var pid = vfsReady ? vfs.desk() : null;
+      return [{ ic: 'plus', l: 'New', sub: newMenu(pid) }, '-',
+        { ic: 'paste', l: 'Paste', k: 'Ctrl+V', dis: !clip || !pid, a: function () { actPaste(pid); } },
+        { ic: 'upload', l: 'Upload files here...', dis: !pid, a: function () { actUpload(pid); } }, '-',
+        { ic: 'terminal', l: 'Open in Terminal', a: function () { termAt(pid || 'r'); } },
+        { ic: 'folder-open', l: 'Open File Explorer', a: function () { openApp('pc'); } }, '-',
+        { ic: 'image', l: 'Personalize', a: function () { openWin('set'); } },
+        { ic: 'rotate', l: 'Refresh', k: 'F5', a: refreshAll }];
+    }
+
+    /* ---- مستكشف الملفات (This PC + الفولدرات + Recycle Bin) ---- */
+    function exSkel(w) {
+      var cb = w === 'bin'
+        ? '<button data-xa="empty">' + ic('broom') + ' Empty Recycle Bin</button><button data-xa="restore">' + ic('rotate-left') + ' Restore</button>'
+        : '<button data-xa="new">' + ic('plus') + ' New <i class="fa-solid fa-chevron-down"></i></button><button data-xa="upload">' + ic('upload') + ' Upload</button><span class="sp"></span>' +
+          ['cut|scissors|Cut', 'copy|copy|Copy', 'paste|paste|Paste', 'ren|pen|Rename', 'del|trash-can|Delete'].map(function (b) { b = b.split('|'); return '<button data-xa="' + b[0] + '" title="' + b[2] + '">' + ic(b[1]) + '</button>'; }).join('');
+      return '<div class="sx-xp xe" data-ex="' + w + '"><div class="sx-xt"><i class="fa-solid fa-arrow-left" data-x="back"></i><i class="fa-solid fa-arrow-right" data-x="fwd"></i><i class="fa-solid fa-arrow-up" data-x="up"></i>' +
+        '<span class="sx-ad"></span><span class="sx-sr">' + ic('magnifying-glass') + '<input class="xe-q" dir="auto" placeholder="Search" spellcheck="false" autocomplete="off"></span></div>' +
+        '<div class="xe-cb">' + cb + '</div><div class="sx-xb xe-body" tabindex="0"></div><div class="sx-xs"><span class="xe-st"></span><span class="xe-sp"></span></div></div>';
+    }
+    function dItem(n) {
+      return { key: n.id, src: 'd', k: n.t === 'd' ? 'dir' : 'file', id: n.id, loc: 'd/' + n.id, name: n.n, size: n.t === 'f' ? fmtSize(n.s) : '', ico: fileIc(n.n, n.t === 'd') };
+    }
+    function cNode(parts) {
+      var t = CT[os]; for (var j = 0; j < parts.length; j++) { t = t && typeof t === 'object' ? t[parts[j]] : null; } return t;
+    }
+    function exList(w) {
+      var s = EX[w], L = s.loc.split('/'), out = [];
+      if (w === 'bin') { vfs.bin().forEach(function (n) { var it = dItem(n); it.size = fmtSize(vfs.size(n.id)); out.push(it); }); }
+      else if (L[0] === 'pc') {
+        var u = vfs.m.used;
+        out = [{ key: 'drv:c', src: 'c', k: 'drive', loc: 'c', name: DRV[os][0], pct: 62, info: '48 GB free of 128 GB · System (read-only)', ro: 1 },
+          { key: 'drv:d', src: 'd', k: 'drive', loc: 'd/r', name: DRV[os][1], pct: Math.max(u ? 1 : 0, Math.round(u / D_CAP * 100)), info: fmtSize(vfs.free()) + ' free of 1 GB' }];
+        return out;
+      } else if (L[0] === 'c') {
+        var t = cNode(L.slice(1));
+        if (t && typeof t === 'object') Object.keys(t).sort(function (a, b) {
+          var da = typeof t[a] === 'object', db = typeof t[b] === 'object'; return da !== db ? (da ? -1 : 1) : a.localeCompare(b);
+        }).forEach(function (kk) { var dir = typeof t[kk] === 'object'; out.push({ key: s.loc + '/' + kk, src: 'c', k: dir ? 'dir' : 'file', loc: s.loc + '/' + kk, name: kk, size: dir ? '' : t[kk], ico: fileIc(kk, dir), ro: 1 }); });
+      } else {
+        if (!vfs.get(L[1]) || !vfs.live(L[1])) { s.loc = 'pc'; s.h = ['pc']; s.hi = 0; return exList(w); }
+        vfs.kids(L[1]).forEach(function (n) { out.push(dItem(n)); });
+      }
+      if (s.q) out = out.filter(function (it) { return it.name.toLowerCase().indexOf(s.q) >= 0; });
+      return out;
+    }
+    function exCrumbs(w) {
+      var s = EX[w], L = s.loc.split('/'), c = [];
+      if (w === 'bin') return [{ l: nm('bin') }];
+      c.push({ l: ROOTL, loc: 'pc' });
+      if (L[0] === 'pc') return c;
+      if (L[0] === 'c') { c.push({ l: DRV[os][0], loc: 'c' }); for (var j = 1; j < L.length; j++) c.push({ l: L[j], loc: L.slice(0, j + 1).join('/') }); return c; }
+      c.push({ l: DRV[os][1], loc: 'd/r' });
+      var ch = [], id = L[1]; while (id && id !== 'r') { var n = vfs.get(id); if (!n) break; ch.unshift({ l: n.n, loc: 'd/' + n.id }); id = n.p; }
+      return c.concat(ch);
+    }
+    function exDraw(w) {
+      var s = EX[w], win = $('.sx-' + w), xp = win && win.querySelector('.xe'); if (!xp) return;
+      var items = exList(w), body = xp.querySelector('.xe-body'), L = s.loc.split('/'), cutIds = clip && clip.mode === 'cut' ? clip.ids : [];
+      s.items = items; s.sel = s.sel.filter(function (kk) { return items.some(function (it) { return it.key === kk; }); });
+      xp.querySelector('.sx-ad').innerHTML = ic(w === 'bin' ? 'trash-can' : 'folder') + exCrumbs(w).map(function (c) { return '<em' + (c.loc ? ' data-go="' + c.loc + '"' : '') + '>' + esc(c.l) + '</em>'; }).join('<span class="sp">›</span>');
+      var sl = function (it) { return s.sel.indexOf(it.key) >= 0 ? ' sel' : ''; };
+      if (s.loc === 'pc') {
+        body.innerHTML = '<h4>Devices and drives (2)</h4><div class="sx-dg">' + items.map(function (it, j) {
+          return '<div class="sx-drv' + sl(it) + '" data-i="' + j + '">' + ic('hard-drive') + '<div><b>' + esc(it.name) + (it.ro ? ' ' + ic('lock') : '') + '</b><div class="bar"><i style="width:' + it.pct + '%"></i></div><small>' + esc(it.info) + '</small></div></div>';
+        }).join('') + '</div>';
+      } else if (items.length) {
+        body.innerHTML = '<div class="xe-g">' + items.map(function (it, j) {
+          return '<div class="xf' + sl(it) + (cutIds.indexOf(it.id) >= 0 ? ' cut' : '') + '" data-i="' + j + '" title="' + esc(it.name) + '"><span class="xi" style="color:' + it.ico[1] + '">' + ic(it.ico[0]) + '</span><span class="xn"><b>' + esc(it.name) + '</b><small>' + esc(it.size || '') + '</small></span></div>';
+        }).join('') + '</div>';
+      } else body.innerHTML = '<div class="sx-empty">' + ic(w === 'bin' ? 'trash-can' : 'folder-open') + '<p>' + (s.q ? 'No items match your search' : w === 'bin' ? 'Recycle Bin is empty' : 'This folder is empty') + '</p></div>';
+      xp.querySelector('.xe-sp').textContent = L[0] === 'd' ? fmtSize(vfs.free()) + ' free of 1 GB' + (vfs.vol ? ' · not saved (private mode)' : '') : L[0] === 'c' ? 'Read-only system drive' : '';
+      xp.querySelector('[data-x="back"]').classList.toggle('off', s.hi <= 0); xp.querySelector('[data-x="fwd"]').classList.toggle('off', s.hi >= s.h.length - 1); xp.querySelector('[data-x="up"]').classList.toggle('off', s.loc === 'pc' || w === 'bin');
+      var pb = xp.querySelector('[data-xa="paste"]'); if (pb) pb.classList.toggle('off', !clip);
+      exMark(w);
+    }
+    function exMark(w) {
+      var s = EX[w], xp = $('.sx-' + w + ' .xe'); if (!xp) return;
+      xp.querySelectorAll('[data-i]').forEach(function (x) { var it = s.items[+x.getAttribute('data-i')]; x.classList.toggle('sel', !!it && s.sel.indexOf(it.key) >= 0); });
+      xp.querySelector('.xe-st').textContent = s.items.length + (s.items.length === 1 ? ' item' : ' items') + (s.sel.length ? ' · ' + s.sel.length + ' selected' : '');
+    }
+    function exGo(w, loc, keep) {
+      var s = EX[w];
+      if (!keep) { s.h = s.h.slice(0, s.hi + 1); if (s.h[s.hi] !== loc) { s.h.push(loc); s.hi = s.h.length - 1; } }
+      s.loc = loc; s.sel = []; s.q = ''; var q = $('.sx-' + w + ' .xe-q'); if (q) q.value = '';
+      exDraw(w);
+    }
+    function exHist(w, d) { var s = EX[w], n = s.hi + d; if (n < 0 || n >= s.h.length) return; s.hi = n; exGo(w, s.h[n], true); }
+    function exUp(w) {
+      var s = EX[w], L = s.loc.split('/');
+      if (L[0] === 'd') { var n = vfs.get(L[1]); exGo(w, n && n.p ? 'd/' + n.p : 'pc'); }
+      else if (L[0] === 'c') { if (L.length === 1) exGo(w, 'pc'); else { L.pop(); exGo(w, L.join('/')); } }
+    }
+    function exOpenAt(w, loc) { openWin(w); exGo(w, loc); }
+    function exOpen(w, it) {
+      if (w === 'bin') { dlg({ t: 'Recycle Bin', m: '<p>You can\'t open items in the Recycle Bin. Restore the item first.</p>' }); return; }
+      if (it.k !== 'file') return exGo(w, it.loc);
+      if (it.src === 'c') { dlg({ t: 'Access denied', m: '<p><b>' + esc(it.name) + '</b> is a protected system file and can\'t be opened.</p>' }); return; }
+      edOpenNode(vfs.get(it.id));
+    }
+    function exSel(w) { var s = EX[w]; return s.items.filter(function (it) { return s.sel.indexOf(it.key) >= 0; }); }
+    function exIds(w) { return exSel(w).filter(function (it) { return it.src === 'd' && it.id; }).map(function (it) { return it.id; }); }
+    function exMenu(w, its) {
+      var it = its[0];
+      if (w === 'bin') {
+        var ids = its.map(function (x) { return x.id; });
+        return [{ ic: 'rotate-left', l: 'Restore', a: function () { exRestore(ids); } }, { ic: 'trash-can', l: 'Delete permanently', a: function () { exPurge(ids); } }, '-', { ic: 'circle-info', l: 'Properties', a: function () { actProps(ids); } }];
+      }
+      if (it.src === 'c' || it.k === 'drive') {
+        var m = [{ ic: it.k === 'file' ? 'lock' : 'folder-open', l: 'Open', a: function () { exOpen(w, it); } }, '-'];
+        if (it.k !== 'drive') m.push({ ic: 'scissors', l: 'Cut', k: 'Ctrl+X', dis: 1 }, { ic: 'copy', l: 'Copy', k: 'Ctrl+C', dis: 1 }, '-', { ic: 'trash-can', l: 'Delete', k: 'Del', dis: 1 }, { ic: 'pen', l: 'Rename', k: 'F2', dis: 1 }, '-');
+        m.push({ ic: 'circle-info', l: 'Properties', a: function () { propsStatic(it); } });
+        return m;
+      }
+      return nodeMenu(its.map(function (x) { return x.id; }));
+    }
+    function propsStatic(it) {
+      if (it.k === 'drive') {
+        return it.src === 'c' ? propDlg(it.name, [['Type', 'System drive'], ['Access', 'Read-only'], ['Capacity', '128 GB'], ['Free space', '48 GB'], ['Used for', 'System files only']])
+          : propDlg(it.name, [['Type', 'Local Disk'], ['Capacity', '1 GB'], ['Used', fmtSize(vfs.m.used)], ['Free space', fmtSize(vfs.free())], ['Stored', vfs.vol ? 'In memory only (not saved)' : 'In this browser (real files)']]);
+      }
+      return propDlg(it.name, [['Type', it.k === 'dir' ? 'System folder' : 'System file'], ['Access', 'Read-only'], ['Size', it.size || '-']]);
+    }
+    function exBlank(w) {
+      var s = EX[w], L = s.loc.split('/'), r = { ic: 'rotate', l: 'Refresh', k: 'F5', a: refreshAll };
+      if (w === 'bin') return [{ ic: 'broom', l: 'Empty Recycle Bin', dis: !vfs.bin().length, a: exEmpty }, '-', r];
+      if (L[0] === 'pc') return [r];
+      var pid = L[0] === 'd' ? L[1] : null, m = [{ ic: 'plus', l: 'New', sub: newMenu(pid) }, '-',
+        { ic: 'paste', l: 'Paste', k: 'Ctrl+V', dis: !clip, a: function () { if (pid) actPaste(pid); else denyC(); } },
+        { ic: 'upload', l: 'Upload files here...', a: function () { if (pid) actUpload(pid); else denyC(); } }, '-'];
+      if (pid) m.push({ ic: 'terminal', l: 'Open in Terminal', a: function () { termAt(pid); } });
+      m.push(r);
+      if (pid) m.push('-', { ic: 'circle-info', l: 'Properties', a: function () { actProps([pid]); } });
+      return m;
+    }
+    function exRestore(ids) { op(function () { ids.forEach(function (id) { vfs.restore(id); }); }); }
+    function exPurge(ids) {
+      dlg({ t: 'Delete permanently', m: '<p>Delete ' + (ids.length > 1 ? ids.length + ' items' : '<b>' + esc((vfs.get(ids[0]) || {}).n || '') + '</b>') + ' permanently? This can\'t be undone.</p>', b: [['Delete', 'y', 1], ['Cancel', 'x']] }).then(function (v) {
+        if (v === 'y') op(function () { return ids.reduce(function (p, id) { return p.then(function () { return vfs.purge(id); }); }, Promise.resolve()); });
+      });
+    }
+    function exEmpty() {
+      if (!vfs.bin().length) return;
+      dlg({ t: 'Delete Multiple Items', m: '<p>Are you sure you want to permanently delete all items in the Recycle Bin?</p>', b: [['Yes', 'y', 1], ['No', 'x']] }).then(function (v) { if (v === 'y') op(function () { return vfs.empty(); }); });
+    }
+    function exCmd(w, a, btn) {
+      var s = EX[w], L = s.loc.split('/'), pid = L[0] === 'd' ? L[1] : null, ids = exIds(w);
+      if (a === 'new') {
+        if (L[0] === 'pc') { dlg({ t: 'New', m: '<p>Open a drive first, then create a folder or file inside it.</p>' }); return; }
+        var r = btn.getBoundingClientRect(); cmOpen({ clientX: r.left, clientY: r.bottom + 2 }, newMenu(pid));
+      }
+      else if (a === 'upload') { if (pid) actUpload(pid); else if (L[0] === 'c') denyC(); }
+      else if (a === 'cut' && ids.length) clip = { mode: 'cut', ids: ids }, refreshAll();
+      else if (a === 'copy' && ids.length) clip = { mode: 'copy', ids: ids }, refreshAll();
+      else if (a === 'paste') { if (!clip) return; if (pid) actPaste(pid); else if (L[0] === 'c') denyC(); }
+      else if (a === 'ren' && ids.length === 1) actRename(ids[0]);
+      else if (a === 'del' && ids.length) actDel(ids);
+      else if (a === 'empty') exEmpty();
+      else if (a === 'restore') { var bi = exSel('bin').map(function (x) { return x.id; }); if (bi.length) exRestore(bi); }
+    }
+    function exKey(w, e) {
+      if (e.target.tagName === 'INPUT') return;
+      var c = e.ctrlKey || e.metaKey, kk = (e.key || '').toLowerCase(), s = EX[w], ids = exIds(w), L = s.loc.split('/'), pid = L[0] === 'd' ? L[1] : null, h = true;
+      if (kk === 'delete' && w !== 'bin' && ids.length) actDel(ids);
+      else if (kk === 'delete' && w === 'bin' && s.sel.length) exPurge(exSel('bin').map(function (x) { return x.id; }));
+      else if (kk === 'f2' && ids.length === 1) actRename(ids[0]);
+      else if (kk === 'f5') refreshAll();
+      else if (c && kk === 'c' && ids.length) { clip = { mode: 'copy', ids: ids }; refreshAll(); }
+      else if (c && kk === 'x' && ids.length) { clip = { mode: 'cut', ids: ids }; refreshAll(); }
+      else if (c && kk === 'v') { if (pid) actPaste(pid); else if (L[0] === 'c') denyC(); }
+      else if (c && kk === 'a') { s.sel = s.items.map(function (it) { return it.key; }); exMark(w); }
+      else if (kk === 'backspace') exUp(w);
+      else if (kk === 'enter' && s.sel.length === 1) exOpen(w, exSel(w)[0]);
+      else h = false;
+      if (h) { e.preventDefault(); e.stopPropagation(); }
+    }
+    function exInit() {
+      ['pc', 'bin'].forEach(function (w) {
+        var win = $('.sx-' + w), xp = win.querySelector('.xe'), body = xp.querySelector('.xe-body'), s = EX[w];
+        xp.addEventListener('click', function (e) {
+          var g = e.target.closest('[data-go]'); if (g) { exGo(w, g.getAttribute('data-go')); return; }
+          var xb = e.target.closest('[data-x]'); if (xb) { var a = xb.getAttribute('data-x'); if (a === 'back') exHist(w, -1); else if (a === 'fwd') exHist(w, 1); else exUp(w); return; }
+          var ca = e.target.closest('[data-xa]'); if (ca) exCmd(w, ca.getAttribute('data-xa'), ca);
+        });
+        xp.querySelector('.xe-q').addEventListener('input', function (e) { s.q = e.target.value.toLowerCase(); exDraw(w); });
+        body.addEventListener('click', function (e) {
+          body.focus({ preventScroll: true });
+          var x = e.target.closest('[data-i]'), it = x && s.items[+x.getAttribute('data-i')];
+          if (!it) { s.sel = []; exMark(w); return; }
+          if (e.ctrlKey || e.metaKey) { var j = s.sel.indexOf(it.key); if (j >= 0) s.sel.splice(j, 1); else s.sel.push(it.key); } else s.sel = [it.key];
+          exMark(w); if (coarse) exOpen(w, it);
+        });
+        body.addEventListener('dblclick', function (e) { var x = e.target.closest('[data-i]'), it = x && s.items[+x.getAttribute('data-i')]; if (it) exOpen(w, it); });
+        body.addEventListener('contextmenu', function (e) {
+          e.preventDefault(); e.stopPropagation(); body.focus({ preventScroll: true });
+          var x = e.target.closest('[data-i]'), it = x && s.items[+x.getAttribute('data-i')];
+          if (it) { if (s.sel.indexOf(it.key) < 0) { s.sel = [it.key]; exMark(w); } cmOpen(e, exMenu(w, exSel(w))); }
+          else { s.sel = []; exMark(w); cmOpen(e, exBlank(w)); }
+        });
+        body.addEventListener('keydown', function (e) { exKey(w, e); });
+        body.addEventListener('dragover', function (e) { if (w === 'pc' && e.dataTransfer && [].indexOf.call(e.dataTransfer.types || [], 'Files') >= 0) { e.preventDefault(); e.stopPropagation(); } });
+        body.addEventListener('drop', function (e) {
+          if (w !== 'pc' || !e.dataTransfer || !e.dataTransfer.files.length) return; e.preventDefault(); e.stopPropagation();
+          var L = s.loc.split('/'); if (L[0] === 'd') upFiles(e.dataTransfer.files, L[1]); else if (L[0] === 'c') denyC();
+        });
+      });
+    }
+
+    /* ---- محرر Eto Code ---- */
+    function edBody() {
+      return '<div class="ce"><div class="ce-bar">' + (vfsOn ? '<button data-e="new" title="New file">' + ic('file-circle-plus') + '</button><button data-e="open" title="Open (Ctrl+O)">' + ic('folder-open') + '</button>' : '') +
+        '<button data-e="save" title="Save (Ctrl+S)">' + ic('floppy-disk') + '<span>Save</span></button><span class="ce-sp"></span><span class="ce-lg"></span>' +
+        '<button class="ce-run" data-e="run" title="Run (F5)">' + ic('play') + '<span>Run</span></button></div>' +
+        '<div class="ce-main"><div class="ce-gut" aria-hidden="true"></div><div class="ce-wrap"><pre class="ce-hl" aria-hidden="true"></pre><textarea class="ce-ta" dir="ltr" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off"></textarea></div></div>' +
+        '<div class="ce-st"><span class="sx-pos">Ln 1, Col 1</span><span>Spaces: 4</span><span>UTF-8</span><span class="ce-ln"></span><span class="ce-path"></span></div></div>';
+    }
+    function edSync() {
+      var ta = $('.ce-ta'); if (!ta) return;
+      var v = ta.value, n = v.split('\n').length, g = $('.ce-gut');
+      $('.ce-hl').innerHTML = hl(v, edL) + '\n';
+      if (g.__n !== n) { g.__n = n; var s = ''; for (var j = 1; j <= n; j++) s += j + '\n'; g.textContent = s; g.style.width = (String(n).length * 9 + 24) + 'px'; }
+      edScroll();
+    }
+    function edScroll() { var ta = $('.ce-ta'), h = $('.ce-hl'), g = $('.ce-gut'); if (!ta || !h) return; h.scrollTop = ta.scrollTop; h.scrollLeft = ta.scrollLeft; g.scrollTop = ta.scrollTop; }
+    function edInfo() {
+      var a = $('.ce-ln'), p = $('.ce-path'), r = $('.ce-run'), l = $('.ce-lg');
+      if (a) a.textContent = edL.name; if (l) l.textContent = edL.name;
+      if (p) p.textContent = edId && vfs.get(edId) ? shPath(vfs.get(edId).p) : vfsOn ? 'Not saved yet' : '';
+      if (r) r.style.display = freeMode ? '' : 'none';
+    }
+    function edSet(text, name, id, dir) {
+      var e = $('.sx-ed'); if (!e) return; closeMenus(); edId = id || null; edDir = dir || null; edName = name; dirty = false; edL = langOf(name);
+      front(e); $('.ce-ta').value = text || ''; edSync(); title(); edInfo(); $('.sx-pos').textContent = 'Ln 1, Col 1';
+      wopen.ed = true; e.classList.add('show'); mark(); tmo(function () { var t = $('.ce-ta'); if (t) t.focus(); }, 40);
+    }
+    function openEd(name, content) { edSet(content || '', name, null, null); }
+    function edAsk() { return dlg({ t: 'Eto Code', m: '<p>Do you want to save changes to <b>' + esc(edName || 'untitled') + '</b>?</p>', b: [['Save', 'y', 1], ['Don\'t save', 'n'], ['Cancel', 'x']] }); }
+    function edGuard(next) {
+      if (vfsOn && dirty && wopen.ed) edAsk().then(function (r) { if (r === 'y') saveVfs(false).then(function (ok) { if (ok) next(); }); else if (r === 'n') next(); });
+      else next();
+    }
+    function edNew() { edGuard(function () { edSet('', 'untitled.py', null, vfs.desk()); }); }
+    function edOpenNode(n) {
+      if (!n) return; if (n.t === 'd') return openNode(n);
+      if (n.b) { showErr({ code: 'bin' }); return; }
+      edGuard(function () { vfs.readText(n.id).then(function (t) { edSet(t, n.n, n.id, n.p); }); });
+    }
+    function edOpenDlg() { edGuard(function () { fileDlg({ mode: 'open', dir: edDir || vfs.desk() }).then(function (r) { if (r) { var n = vfs.get(r.id); if (n && n.b) showErr({ code: 'bin' }); else if (n) vfs.readText(n.id).then(function (t) { edSet(t, n.n, n.id, n.p); }); } }); }); }
+    function edOpenPath(arg) {
+      var id = vfs.resolve(arg, cwd, os);
+      if (id && id !== 'denied' && vfs.get(id)) return edOpenNode(vfs.get(id));
+      var s = splitPath(arg); edGuard(function () { edSet('', s.name || arg, null, s.pid || cwd); });
+    }
+    function flash() { var e = $('.sx-ed'); if (!e) return; e.classList.add('saved'); tmo(function () { e.classList.remove('saved'); }, 500); }
+    function saveVfs() {
+      var text = $('.ce-ta').value, cur = edId && vfs.get(edId);
+      if (cur && !cur.del) {
+        return vfs.write(edId, text).then(function () { dirty = false; title(); flash(); refreshAll(); return true; }, function (e) { showErr(e); return false; });
+      }
+      return fileDlg({ mode: 'save', name: edName || 'untitled.py', dir: edDir || vfs.desk() }).then(function (r) {
+        if (!r) return false;
+        var fnm = /\.[^.\s]+$/.test(r.name) ? r.name : r.name + '.' + edL.exts[0], ex = vfs.find(r.pid, fnm), go;
+        if (ex && ex.t === 'd') go = Promise.reject(vfs.err('exists'));
+        else if (ex) go = dlg({ t: 'Confirm Save As', m: '<p><b>' + esc(fnm) + '</b> already exists.</p><p>Do you want to replace it?</p>', b: [['Replace', 'y', 1], ['Cancel', 'x']] }).then(function (v) { return v === 'y' ? vfs.write(ex.id, text) : null; });
+        else go = vfs.mkfile(r.pid, fnm, text);
+        return go.then(function (n) {
+          if (!n) return false;
+          edId = n.id; edDir = n.p; edName = n.n; edL = langOf(n.n); dirty = false; title(); edInfo(); edSync(); flash(); refreshAll(); return true;
+        }, function (e) { showErr(e); return false; });
+      });
+    }
+    function vfsPutLegacy(name, text) {
+      if (!vfsReady) return;
+      try { var ex = vfs.find('r', name); (ex ? vfs.write(ex.id, text) : vfs.mkfile('r', name, text)).then(refreshAll, function () {}); } catch (e) {}
+    }
+    function edRun() {
+      if (!freeMode) return;
+      if (!edL.run) {
+        dlg({ t: 'Eto Code', m: '<p><b>' + esc(edL.name) + '</b> can\'t be run here yet.</p><p>Running ' + esc(edL.name) + ' will be available with its course. You can still write and save your code.</p>' }); return;
+      }
+      if (!vfsOn) { if (!wopen.term) openTerm(); line('<span class="sx-p">' + PROMPT() + '</span>' + esc('python ' + (edName || 'main.py'))); pyExec($('.ce-ta').value, edName || 'main.py'); return; }
+      (dirty || !edId ? saveVfs() : Promise.resolve(true)).then(function (ok) { var n = ok && edId && vfs.get(edId); if (n) runNode(n); });
+    }
+    function headLines() {
+      var d = new Date(), lg = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) + ' ' + d.toLocaleTimeString('en-GB');
+      return os === 'win' ? ['Windows PowerShell', 'Copyright (C) Microsoft Corporation. All rights reserved.', '', 'Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows', ''] : os === 'mac' ? ['Last login: ' + lg + ' on ttys000'] : [];
+    }
+    function runNode(n) {
+      if (running) stopRun(true);
+      if (!headDone) { headDone = true; headLines().forEach(function (l) { line(esc(l), 'o'); }); }
+      cwd = n.p; refreshPrompt();
+      if (!wopen.term) { var t = $('.sx-term'); wopen.term = true; t.classList.add('show'); mark(); }
+      front($('.sx-term')); closeMenus();
+      line('<span class="sx-p">' + PROMPT() + '</span>' + esc('python ' + n.n));
+      busy = true; hideIn();
+      vfs.readText(n.id).then(function (t) { pyExec(t, n.n); }, function () { busy = false; showIn(); });
+    }
+    function termAt(pid) { cwd = pid || 'r'; openTerm(); refreshPrompt(); }
+    function ed_in(ta) { ta.dispatchEvent(new Event('input', { bubbles: true })); }
+    function lineSpan(v, s, e) { if (e > s && v.charAt(e - 1) === '\n') e--; var a = v.lastIndexOf('\n', s - 1) + 1, b = v.indexOf('\n', e); return [a, b < 0 ? v.length : b]; }
+    function tabKey(ta, sh) {
+      var v = ta.value, s = ta.selectionStart, e = ta.selectionEnd;
+      if (!sh && s === e) { ta.setRangeText('    ', s, e, 'end'); ed_in(ta); return; }
+      var r = lineSpan(v, s, e), ls_ = v.slice(r[0], r[1]).split('\n'), d0 = 0, dl = 0;
+      ls_ = ls_.map(function (l, j) {
+        if (!sh) return '    ' + l;
+        var m = /^( {1,4}|\t)/.exec(l); if (!m) return l; if (j === 0) d0 = m[0].length; dl += m[0].length; return l.slice(m[0].length);
+      });
+      ta.setRangeText(ls_.join('\n'), r[0], r[1], 'end');
+      ta.setSelectionRange(sh ? Math.max(r[0], s - d0) : s + 4, sh ? Math.max(r[0], e - dl) : e + 4 * ls_.length); ed_in(ta);
+    }
+    function toggleCm(ta) {
+      var cm = edL.hash ? '#' : edL.css || edL.markup || edL === LANGS.txt ? '' : '//'; if (!cm) return;
+      var v = ta.value, r = lineSpan(v, ta.selectionStart, ta.selectionEnd), ls_ = v.slice(r[0], r[1]).split('\n');
+      var all = ls_.every(function (l) { return !l.trim() || l.replace(/^\s*/, '').indexOf(cm) === 0; });
+      var out = ls_.map(function (l) {
+        if (!l.trim()) return l;
+        return all ? l.replace(cm + ' ', '').replace(cm, '') : l.replace(/^(\s*)/, '$1' + cm + ' ');
+      }).join('\n');
+      ta.setRangeText(out, r[0], r[1], 'end'); ta.setSelectionRange(r[0], r[0] + out.length); ed_in(ta);
+    }
+    function edKey(e) {
+      var ta = e.target, kk = e.key, c = e.ctrlKey || e.metaKey, lk = (kk || '').toLowerCase();
+      if (c && lk === 's') { e.preventDefault(); save(); return; }
+      if (c && lk === 'o' && vfsOn) { e.preventDefault(); edOpenDlg(); return; }
+      if (kk === 'F5' || (c && kk === 'Enter')) { e.preventDefault(); edRun(); return; }
+      if (c && kk === '/') { e.preventDefault(); toggleCm(ta); return; }
+      if (kk === 'Tab') { e.preventDefault(); tabKey(ta, e.shiftKey); return; }
+      if (kk === 'Enter' && !c && !e.altKey && !e.shiftKey) {
+        e.preventDefault();
+        var v = ta.value, s = ta.selectionStart, a = v.lastIndexOf('\n', s - 1) + 1, ln = v.slice(a, s), ind = /^[ \t]*/.exec(ln)[0], t = ln.replace(/\s+$/, '');
+        if (edL.hash ? /:$/.test(t) : /[{(\[]$/.test(t)) ind += '    ';
+        ta.setRangeText('\n' + ind, s, ta.selectionEnd, 'end'); ed_in(ta);
+      }
+    }
+    function edBind() {
+      var ta = $('.ce-ta');
+      ta.addEventListener('keydown', edKey);
+      ta.addEventListener('input', function () { dirty = true; title(); edSync(); });
+      ta.addEventListener('scroll', edScroll);
+      ['keyup', 'click', 'input'].forEach(function (ev) { ta.addEventListener(ev, function () { var v = ta.value.slice(0, ta.selectionStart).split('\n'); $('.sx-pos').textContent = 'Ln ' + v.length + ', Col ' + (v[v.length - 1].length + 1); }); });
+      $('.ce-bar').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-e]'); if (!b) return; var a = b.getAttribute('data-e');
+        if (a === 'save') save(); else if (a === 'run') edRun(); else if (a === 'new') edNew(); else if (a === 'open') edOpenDlg();
+      });
+      edInfo();
+    }
+
+    /* ---- أوامر الترمنال على الملفات الحقيقية ---- */
+    function argv(s) { var o = [], re = /"([^"]*)"|'([^']*)'|(\S+)/g, m; while ((m = re.exec(s))) o.push(m[1] != null ? m[1] : m[2] != null ? m[2] : m[3]); return o; }
+    function uq(s) { s = String(s).trim(); var m = /^(["'])([\s\S]*)\1$/.exec(s); return m ? m[2] : s; }
+    function protMsg() { return 'Access denied: the C: drive is a protected system drive (read-only). Your files live on D:'; }
+    function nfMsg(cmd, arg) {
+      return os === 'win' ? cmd + " : Cannot find path '" + arg + "' because it does not exist." : os === 'mac' ? cmd + ': ' + arg + ': No such file or directory' : cmd + ": cannot access '" + arg + "': No such file or directory";
+    }
+    function rsv(cmd, arg) {
+      var id = vfs.resolve(arg, cwd, os);
+      if (id === 'denied') return { err: protMsg() };
+      var n = id && vfs.get(id); return n ? { n: n } : { err: nfMsg(cmd, arg) };
+    }
+    function splitPath(arg) {
+      var s = String(arg).replace(/\\/g, '/'), j = s.lastIndexOf('/'), pp = j >= 0 ? s.slice(0, j) || '/' : '.', nn = s.slice(j + 1);
+      var r = vfs.resolve(pp, cwd, os);
+      if (r === 'denied') return { err: protMsg() };
+      var n = r && vfs.get(r); if (!n || n.t !== 'd') return { err: nfMsg('path', arg) };
+      return { pid: n.id, name: nn };
+    }
+    function aEmit(p) {
+      busy = true; hideIn();
+      p.then(function (l) { refreshAll(); emit(l || [], null, 0); }, function (e) { refreshAll(); emit([errMsg(e)], null, 0); });
+    }
+    function vfsCmd(c) {
+      if (!vfsReady) return false;
+      var raw = c.trim(), mm = /^(\S+)\s*([\s\S]*)$/.exec(raw), cmd = mm[1].toLowerCase(), rest = mm[2].trim(), av = argv(rest), np = normCmd(c).split(' ');
+      var ar = av.filter(function (x) { return !/^-/.test(x) && !/^\/[a-z]$/i.test(x); }), rec = av.some(function (x) { return /^-[a-z]*r/i.test(x) || /^\/s$/i.test(x); });
+      var say = function (l) { emit(l, null, 0); return true; }, T = Promise.resolve();
+      if (np[0] === 'python') {
+        if (np[1] === '-c') { pyExec(c.replace(/^\s*\S+\s+-c\s+/, '').replace(/^([\"'])([\s\S]*)\1$/, '$2'), '<string>'); return true; }
+        if (np.length === 1) { startRepl(); return true; }
+        var pf = uq(rest);
+        if (/\.py$/i.test(pf)) {
+          var id = vfs.resolve(pf, cwd, os), n = id && id !== 'denied' && vfs.get(id);
+          if (id === 'denied') return say([protMsg()]);
+          if (!n) return say(["python: can't open file '" + pf + "': [Errno 2] No such file or directory"]);
+          if (n.t === 'd') return say(["python: can't open file '" + pf + "': [Errno 13] Permission denied"]);
+          busy = true; hideIn(); vfs.readText(n.id).then(function (t) { pyExec(t, n.n); }); return true;
+        }
+        return false;
+      }
+      var r, s;
+      switch (cmd) {
+        case 'ls': case 'dir': case 'll': case 'gci': case 'get-childitem':
+          r = rsv(cmd, ar[0] || '.'); if (r.err) return say([r.err]);
+          if (r.n.t === 'f') return say([r.n.n]);
+          var ks = vfs.kids(r.n.id).map(function (x) { return x.n + (x.t === 'd' ? (os === 'win' ? '\\' : '/') : ''); });
+          return say(os === 'win' ? ks : ks.length ? [ks.join('  ')] : []);
+        case 'cd': case 'chdir': case 'set-location': case 'sl':
+          if (!ar.length) { cwd = 'r'; refreshPrompt(); return true; }
+          r = rsv('cd', ar[0]); if (r.err) return say([r.err]);
+          if (r.n.t !== 'd') return say([os === 'win' ? "cd : '" + ar[0] + "' is not a directory." : 'cd: not a directory: ' + ar[0]]);
+          cwd = r.n.id; refreshPrompt(); return true;
+        case 'pwd': return say([shPath(cwd)]);
+        case 'mkdir': case 'md': case 'new-folder':
+          if (!ar.length) return say([cmd + ': missing operand']);
+          return aEmit(T.then(function () {
+            ar.forEach(function (a) {
+              if (av.indexOf('-p') >= 0 && !/^([A-Za-z]:|\/)/.test(a)) {
+                var cur = cwd; a.replace(/\\/g, '/').split('/').filter(Boolean).forEach(function (pt) { var f = vfs.find(cur, pt); cur = f ? f.id : vfs.mkdir(cur, pt).id; });
+              } else { var sp = splitPath(a); if (sp.err) throw { code: 'x', msg: sp.err }; vfs.mkdir(sp.pid, sp.name); }
+            }); return [];
+          }).catch(function (e) { if (e && e.msg) return [e.msg]; throw e; })), true;
+        case 'touch': case 'ni':
+          if (!ar.length) return say([cmd + ': missing file operand']);
+          return aEmit(ar.reduce(function (p, a) {
+            return p.then(function (o) {
+              var sp = splitPath(a); if (sp.err) { o.push(sp.err); return o; }
+              var ex = vfs.find(sp.pid, sp.name); if (ex) { ex.m = Date.now(); return o; }
+              return vfs.mkfile(sp.pid, sp.name, '').then(function () { return o; });
+            });
+          }, Promise.resolve([]))), true;
+        case 'cat': case 'type': case 'gc': case 'get-content':
+          if (!ar.length) return say([cmd + ': missing file operand']);
+          r = rsv(cmd, ar[0]); if (r.err) return say([r.err]);
+          if (r.n.t === 'd') return say([cmd + ': ' + ar[0] + ': Is a directory']);
+          if (r.n.b) return say([cmd + ': ' + ar[0] + ': binary file']);
+          return aEmit(vfs.readText(r.n.id).then(function (t) { return t === '' ? [] : t.replace(/\n$/, '').split('\n'); })), true;
+        case 'rm': case 'del': case 'erase': case 'rmdir': case 'rd': case 'remove-item': case 'ri':
+          if (!ar.length) return say([cmd + ': missing operand']);
+          var out = [];
+          ar.forEach(function (a) {
+            var q = rsv(cmd, a); if (q.err) { out.push(q.err); return; }
+            if (q.n.id === vfs.desk()) { out.push(cmd + ': cannot remove the Desktop folder'); return; }
+            if (q.n.t === 'd' && !rec && !/^(rmdir|rd)$/.test(cmd)) { out.push(os === 'win' ? cmd + " : The item '" + a + "' is a directory. Use -Recurse." : cmd + ": cannot remove '" + a + "': Is a directory (use -r)"); return; }
+            if (q.n.t === 'd' && !rec && vfs.kids(q.n.id).length) { out.push(cmd + ": failed to remove '" + a + "': Directory not empty"); return; }
+            vfs.trash(q.n.id);
+          });
+          refreshAll(); return say(out);
+        case 'mv': case 'move': case 'ren': case 'rename': case 'mi': case 'move-item': case 'rni': case 'rename-item':
+          if (ar.length < 2) return say([cmd + ': missing destination file operand']);
+          s = rsv(cmd, ar[0]); if (s.err) return say([s.err]);
+          return aEmit(T.then(function () {
+            var did = vfs.resolve(ar[1], cwd, os); if (did === 'denied') return [protMsg()];
+            var dn = did && vfs.get(did);
+            if (dn && dn.t === 'd' && dn.id !== s.n.id) { if (vfs.has(dn.id, s.n.n, s.n.id)) throw vfs.err('exists'); vfs.move(s.n.id, dn.id, s.n.n); return []; }
+            var sp = splitPath(ar[1]); if (sp.err) return [sp.err];
+            vfs.move(s.n.id, sp.pid, sp.name); return [];
+          })), true;
+        case 'cp': case 'copy': case 'copy-item': case 'cpi':
+          if (ar.length < 2) return say([cmd + ': missing destination file operand']);
+          s = rsv(cmd, ar[0]); if (s.err) return say([s.err]);
+          if (s.n.t === 'd' && !rec) return say([cmd + ": -r not specified; omitting directory '" + ar[0] + "'"]);
+          return aEmit(T.then(function () {
+            var did = vfs.resolve(ar[1], cwd, os); if (did === 'denied') return [protMsg()];
+            var dn = did && vfs.get(did);
+            if (dn && dn.t === 'd') { if (vfs.has(dn.id, s.n.n)) throw vfs.err('exists'); return vfs.copy(s.n.id, dn.id, s.n.n).then(function () { return []; }); }
+            var sp = splitPath(ar[1]); if (sp.err) return [sp.err];
+            return vfs.copy(s.n.id, sp.pid, sp.name).then(function () { return []; });
+          })), true;
+        case 'echo': case 'write-output': {
+          var m = /^([\s\S]*?)\s*(>>?)\s*("[^"]+"|'[^']+'|\S+)\s*$/.exec(rest);
+          if (!m) return say([uq(rest)]);
+          var txt = uq(m[1]), sp = splitPath(uq(m[3])), app = m[2] === '>>';
+          if (sp.err) return say([sp.err]);
+          return aEmit(T.then(function () {
+            var ex = vfs.find(sp.pid, sp.name);
+            if (ex && ex.t === 'd') return [cmd + ': ' + sp.name + ': Is a directory'];
+            if (!ex) return vfs.mkfile(sp.pid, sp.name, txt + '\n').then(function () { return []; });
+            return (app ? vfs.readText(ex.id) : Promise.resolve('')).then(function (old) { return vfs.write(ex.id, (app && old && !/\n$/.test(old) ? old + '\n' : old) + txt + '\n'); }).then(function () { return []; });
+          })), true;
+        }
+        case 'explorer': case 'explorer.exe': case 'start': case 'open': case 'xdg-open': case 'ii': case 'nautilus':
+          r = rsv(cmd, ar[0] || '.'); if (r.err) return say([r.err]);
+          openNode(r.n); return true;
+        case 'notepad': case 'nano': case 'gedit': case 'code': case 'edit': case 'vim': case 'vi': case 'subl':
+          if (!ar.length) { edNew(); return true; }
+          if (ar[0] === '.') { openNode(vfs.get(cwd)); return true; }
+          edOpenPath(ar[0]); return true;
+        case 'help':
+          return say(['python file.py        run a Python file (real Python)', 'python               interactive shell, exit() to leave', 'ls / dir             list files          cd <folder>   change folder', 'mkdir <name>         new folder          touch <file>  new empty file',
+            'cat <file>           show a file         echo text > file', 'cp / mv / rm         copy, move, delete (rm sends to the Recycle Bin)', 'code <file>          open in Eto Code    explorer .    open this folder', 'Ctrl+C or Stop       stops a running program', 'Your files live on D: (1 GB). C: is for the system only.']);
+        default: return false;
+      }
     }
 
     renderOff(); fit();
     /* إيقاف كامل: بيفصل كل المستمعين والمؤقتات ويفضّي الجهاز */
     function destroy() {
-      if (dead) return; dead = true; clearT(); clearInterval(tick);
+      if (dead) return; dead = true; wkKill(); clearT(); clearInterval(tick);
       off.forEach(function (f) { f(); }); off = [];
       if (ro) ro.disconnect(); if (craf) cancelAnimationFrame(craf);
       try { if (document.fullscreenElement === root_ && document.exitFullscreen) document.exitFullscreen(); } catch (e) {}

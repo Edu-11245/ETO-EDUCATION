@@ -17,10 +17,18 @@
     if (window.PySim) return Promise.resolve();
     if (simP) return simP;
     simP = new Promise(function (res) {
-      var x = document.createElement('script'); x.src = BASE + 'sim.js?v=8';
+      var x = document.createElement('script'); x.src = BASE + 'sim.js?v=11';
       x.onload = res; x.onerror = function () { simP = null; res(); }; document.head.appendChild(x);
     });
     return simP;
+  }
+  var authP = null;
+  function loadAuth() {
+    if (window.EtoAuth) return Promise.resolve();
+    if (authP) return authP;
+    function sc(src) { return new Promise(function (res) { var x = document.createElement('script'); x.src = src; x.onload = res; x.onerror = function () { x.remove(); res(); }; document.head.appendChild(x); }); }
+    authP = sc(BASE + 'config.js?v=1').then(function () { return sc(BASE + 'auth.js?v=1'); }).then(function () { if (!window.EtoAuth) authP = null; });
+    return authP;
   }
   function osNow() {
     try { var o = localStorage.getItem('eto_py_os'); if (o) return o; } catch (e) {}
@@ -53,14 +61,40 @@
       if (!window.PySim) { box.innerHTML = '<div class="pc-loading">مش قادر أحمّل الجهاز. اتأكد من الاتصال وجرّب تاني.</div>'; return; }
       var C = L ? (L.chapters ? L.chapters[ctx.ci || 0] : L) : null;
       var P = C && C.practice ? C.practice : FREE, lesson = !!(C && C.practice);
+      /* الوضع الحر (قرص D) محتاج تسجيل دخول. وضع الدرس من غير تسجيل */
+      if (!lesson) {
+        loadAuth().then(function () {
+          if (tok !== S.token) return;
+          if (!window.EtoAuth) { box.innerHTML = '<div class="pc-loading">مش قادر أحمّل نظام الحساب. جرّب تاني.</div>'; return; }
+          window.EtoAuth.gate(box, function () { return tok === S.token && document.body.contains(box); }).then(function (a) {
+            if (tok !== S.token) return; start(a);
+          });
+        });
+        return;
+      }
+      start(null);
+      function start(acc) {
       box.innerHTML = '';
-      S.sim = window.PySim.mount(box, P, { os: osNow(), page: true });
+      /* لما الطالب يخلّص كل خطوات الدرس: إشعار للكورس + زرار رجوع للدرس */
+      var onDone = lesson ? function () {
+        try { if (window.PythonCourse.onPracticeDone) window.PythonCourse.onPracticeDone(ctx.id, ctx.ci || 0); } catch (e) {}
+        try { window.dispatchEvent(new CustomEvent('eto:practice-done', { detail: { id: ctx.id, ci: ctx.ci || 0 } })); } catch (e) {}
+        var t = box.querySelector('.sx-task');
+        if (t && !t.querySelector('.pc-finish')) t.insertAdjacentHTML('beforeend', '<div class="ls-actions pc-finish" style="margin-top:10px"><button class="ls-btn" onclick="goBackPage()"><i class="fa-solid fa-arrow-right"></i> رجوع للدرس</button></div>');
+      } : null;
+      S.sim = window.PySim.mount(box, P, { os: osNow(), page: true, onDone: onDone });
       /* شريط صغير فوق: رجوع (وضع حر لو جاي من درس) */
       var hb = box.querySelector('.sx-hb'), sm = box.querySelector('.sx-brand small');
       if (sm && lesson) sm.textContent = L.title;
+      if (hb && acc) {
+        var pr = acc.profile, ini = esc((pr.name || '?').trim().charAt(0));
+        hb.insertAdjacentHTML('afterbegin', '<button class="pc-acc" title="تسجيل الخروج"><b>' + (pr.photo ? '<img src="' + esc(pr.photo) + '" alt="">' : ini) + '</b><span>' + esc(pr.name) + '</span><i class="fa-solid fa-right-from-bracket"></i></button>');
+        hb.querySelector('.pc-acc').onclick = function () { window.EtoAuth.signOut(function () { window.loadPythonPC(); }); };
+      }
       if (hb) hb.insertAdjacentHTML('afterbegin',
         (lesson ? '<button class="pc-back" onclick="PythonCourse.openPC()"><i class="fa-solid fa-unlock"></i><span>وضع حر</span></button>' : '') +
         '<button class="pc-back" onclick="goBackPage()"><i class="fa-solid fa-arrow-right"></i><span>رجوع</span></button>');
+      }
     });
   };
 })();

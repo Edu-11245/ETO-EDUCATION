@@ -388,3 +388,12 @@
 .sx-light .sx-w{box-shadow:0 0 0 1px rgba(15,23,42,.12),0 4px 14px rgba(15,23,42,.25)}
 .sx-light .sx-sm,.sx-light .sx-fly{box-shadow:0 0 0 1px rgba(15,23,42,.12),0 6px 18px rgba(15,23,42,.22)}
 .sx-screen .sx-ico,.sx-screen .sx-di,.sx-screen .sx-ap,.sx-screen .sx-st{transition:none}
+
+/* v8: زرار Stop في الترمنال أثناء تشغيل برنامج */
+.sx-stw{position:sticky;top:0;height:0;z-index:5;direction:ltr}
+.sx-stop{display:none;position:absolute;right:0;top:2px;align-items:center;gap:6px;padding:4px 10px;border:1px solid rgba(255,255,255,.25);border-radius:7px;background:rgba(220,38,38,.92);color:#fff;font:600 12px/1.2 system-ui,sans-serif;cursor:pointer}
+.sx-running .sx-stop{display:inline-flex}
+.sx-stop:hover{background:#dc2626}
+
+/* v9: تلميحات الأخطاء بالعربي تحت الـtraceback */
+.sx-l.sx-ht{direction:rtl;unicode-bidi:plaintext;text-align:right;color:#fcd34d;border-right:3px solid #fbbf24;padding-right:9px;margin:3px 0 5px;font-family:system-ui,'Segoe UI',Tahoma,sans-serif;font-size:13px;line-height:1.7;white-space:pre-wrap}
