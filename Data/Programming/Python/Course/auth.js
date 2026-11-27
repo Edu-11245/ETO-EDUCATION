@@ -16,7 +16,7 @@
   function css() {
     if (document.getElementById('eto-auth-css')) return;
     var l = document.createElement('link'); l.id = 'eto-auth-css'; l.rel = 'stylesheet';
-    l.href = ((root.PythonCourse && root.PythonCourse.base) || 'Data/Programming/Python/Course/') + 'auth.css?v=3'; document.head.appendChild(l);
+    l.href = ((root.PythonCourse && root.PythonCourse.base) || 'Data/Programming/Python/Course/') + 'auth.css?v=4'; document.head.appendChild(l);
   }
   function lib() {
     if (libP) return libP;
@@ -91,7 +91,7 @@
     box.innerHTML = '<div class="au" dir="rtl"><div class="au-sky"></div><div class="au-stat"></div><div class="au-side"></div></div>';
     st = box.firstElementChild; st.__eto = true;
     st.querySelector('.au-side').inert = true;
-    script(lampBase() + 'lamp.js?v=2').then(function () {
+    script(lampBase() + 'lamp.js?v=3').then(function () {
       if (!st.isConnected || !root.EtoLamp) return;
       LAMP.api = root.EtoLamp.mount(st, { on: LAMP.on, onToggle: function (v) { lampSet(st, v, true); } });
     }, function () { lampSet(st, true, true); });

@@ -1,43 +1,49 @@
 /* ===== شاشة الدخول (الأباجورة) =====
-   خفيفة: مفيش backdrop-filter ولا mix-blend-mode ولا blur متحرك.
-   كل الحركة opacity/transform بس. */
-.au{position:relative;min-height:clamp(560px,86vh,820px);overflow:hidden;isolation:isolate;border-radius:18px;background:#060a14;color:#e8eefc;font-family:'Cairo',sans-serif}
-.au-sky{position:absolute;inset:0;z-index:0;background:radial-gradient(900px 620px at 30% 62%,#0f1a33 0,transparent 70%),radial-gradient(1400px 900px at 75% 0,#12204a 0,transparent 62%),#060a14}
-.au-sky:before{content:"";position:absolute;inset:0;opacity:.5;background-image:radial-gradient(1px 1px at 8% 14%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 17% 72%,#bcd0ff 50%,transparent 51%),radial-gradient(1.4px 1.4px at 26% 30%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 38% 12%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 47% 84%,#bcd0ff 50%,transparent 51%),radial-gradient(1.4px 1.4px at 58% 22%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 66% 64%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 74% 9%,#bcd0ff 50%,transparent 51%),radial-gradient(1.4px 1.4px at 83% 38%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 91% 78%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 96% 18%,#bcd0ff 50%,transparent 51%),radial-gradient(1px 1px at 4% 52%,#fff 50%,transparent 51%)}
-.au:before{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 58%,rgba(0,0,0,.5) 100%)}
+   لوحة ألوان واحدة: كحلي/أزرق السايت + نور دافي من الأباجورة بس.
+   خفيفة: مفيش backdrop-filter ولا mix-blend-mode ولا blur. الحركة opacity/transform فقط. */
+.au{position:relative;min-height:clamp(540px,84vh,780px);overflow:hidden;isolation:isolate;border-radius:18px;background:#070b16;color:#e8eefc;font-family:'Cairo',sans-serif}
+.au-sky{position:absolute;inset:0;z-index:0;background:radial-gradient(1000px 640px at 30% 70%,#0e1830 0,transparent 70%),radial-gradient(1300px 800px at 80% 0,#13234f 0,transparent 62%),#070b16}
+.au-sky:before{content:"";position:absolute;inset:0;opacity:.45;background-image:radial-gradient(1px 1px at 8% 14%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 17% 72%,#bcd0ff 50%,transparent 51%),radial-gradient(1.4px 1.4px at 26% 30%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 38% 12%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 47% 84%,#bcd0ff 50%,transparent 51%),radial-gradient(1.4px 1.4px at 58% 22%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 66% 64%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 74% 9%,#bcd0ff 50%,transparent 51%),radial-gradient(1.4px 1.4px at 83% 38%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 91% 78%,#fff 50%,transparent 51%)}
+/* النور المنتشر في الأوضة لما الأباجورة تنوّر */
+.au-sky:after{content:"";position:absolute;inset:0;opacity:0;transition:opacity .7s ease;background:radial-gradient(ellipse 62% 78% at 30% 50%,rgba(255,226,170,.17),rgba(255,200,130,.06) 46%,transparent 74%)}
+.au.on .au-sky:after{opacity:1}
+.au:before{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 60%,rgba(0,0,0,.45) 100%)}
 .au-stat{position:absolute;z-index:4;left:50%;bottom:3%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:#94a3c4;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:opacity .5s}
 .au.chk .au-stat{opacity:1}
 
 /* ===== الأباجورة ===== */
-.au-lamp{position:absolute;z-index:2;left:30%;top:50%;height:min(88%,540px);aspect-ratio:300/520;transform:translate(-50%,-50%);outline:0;-webkit-tap-highlight-color:transparent}
+.au-lamp{position:absolute;z-index:2;left:30%;top:50%;height:min(74%,400px);aspect-ratio:300/500;transform:translate(-50%,-50%);outline:0;-webkit-tap-highlight-color:transparent}
 .au-lamp:focus-visible{outline:2px solid #60a5fa;outline-offset:6px;border-radius:14px}
 .au-lamp svg{display:block;overflow:visible}
-.au-lamp:before{content:"";position:absolute;left:50%;top:49%;width:280%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;opacity:0;transition:opacity .6s ease;background:radial-gradient(circle,rgba(255,176,78,.30) 0,rgba(255,150,50,.12) 26%,transparent 58%)}
-.au-lamp.lit:before{opacity:1}
-.au-lamp .L{opacity:0;transition:opacity .55s ease}
+.au-lamp .L{opacity:0;transition:opacity .5s ease}
 .au-lamp.lit .L{opacity:1}
-.au-lamp .D{opacity:.6;transition:opacity .55s ease}
-.au-lamp.lit .D{opacity:0}
-.au-lamp.fl .L,.au-lamp.fl:before{animation:lp-fl .85s linear both}
+.au-lamp.fl .L{animation:lp-fl .85s linear both}
+.au-lamp.fl .halo{transform-box:fill-box;transform-origin:center;animation:lp-fl .85s linear both,lp-pop .85s ease-out}
 .au-lamp .hit{cursor:grab;touch-action:none}
 .au-lamp.dg .hit{cursor:grabbing}
 .au-lamp .ring{transform-box:fill-box;transform-origin:center;animation:lp-ring 2.6s ease-out infinite}
 .au-lamp.lit .ring,.au-lamp.dg .ring{animation:none;opacity:0}
 
-/* ===== الشاشة اللي على اليمين: معتمة وبتنوّر مع النور ===== */
-.au-side{position:absolute;z-index:6;top:50%;right:clamp(16px,6.5vw,96px);width:min(410px,calc(100% - 32px));max-height:calc(100% - 28px);overflow:auto;transform:translateY(-50%);border-radius:20px;scrollbar-width:none;pointer-events:none}
+/* ===== الشاشة اللي على اليمين: معتمة وبتنوّر مع الأباجورة ===== */
+.au-side{position:absolute;z-index:6;top:50%;right:clamp(16px,6vw,90px);width:min(390px,calc(100% - 32px));max-height:calc(100% - 28px);overflow:auto;transform:translateY(-50%);border-radius:20px;scrollbar-width:none;pointer-events:none}
 .au-side::-webkit-scrollbar{display:none}
 .au.on .au-side{pointer-events:auto}
-.au-card{position:relative;display:flex;flex-direction:column;gap:12px;padding:26px 24px;border-radius:20px;background:linear-gradient(160deg,#142040,#0b1226);border:1px solid rgba(96,140,255,.12);box-shadow:0 26px 60px -30px #000;transition:border-color 1.2s ease .3s}
-.au.on .au-card{border-color:rgba(96,140,255,.3)}
-.au-card:after{content:"";position:absolute;inset:-1px;border-radius:inherit;background:#03050b;opacity:.88;pointer-events:none;transition:opacity 1.3s ease .35s}
+.au-card{position:relative;display:flex;flex-direction:column;gap:12px;padding:26px 24px;border-radius:20px;background:linear-gradient(160deg,#16244a,#0c1430);border:1px solid rgba(110,150,255,.14);box-shadow:0 24px 56px -30px #000;transition:border-color .9s ease .2s}
+.au.on .au-card{border-color:rgba(150,180,255,.34)}
+/* انعكاس نور الأباجورة على الكارت من ناحيتها */
+.au-card:before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .8s ease .15s;background:radial-gradient(120% 90% at 0 50%,rgba(255,224,170,.15),transparent 62%)}
+.au.on .au-card:before{opacity:1}
+/* العتمة: بتروح بوميض زي النور بالظبط */
+.au-card:after{content:"";position:absolute;inset:-1px;border-radius:inherit;background:#03060d;opacity:.9;pointer-events:none;transition:opacity .7s ease .1s}
 .au.on .au-card:after{opacity:0}
+.au.fl .au-card:after{animation:lp-fld .85s linear both}
+.au.fl .au-card:before,.au.fl .au-sky:after{animation:lp-fl .85s linear both}
 .au-card.au-swap{animation:au-sw .45s cubic-bezier(.2,.8,.2,1)}
-.au-logo{width:52px;height:52px;border-radius:16px;background:rgba(59,130,246,.14);border:1px solid rgba(96,165,250,.3);color:#60a5fa;display:grid;place-items:center;font-size:22px;margin:0 auto}
+.au-logo{width:52px;height:52px;border-radius:16px;background:rgba(59,130,246,.14);border:1px solid rgba(96,165,250,.32);color:#6aa8ff;display:grid;place-items:center;font-size:22px;margin:0 auto}
 .au-card h2{margin:0;text-align:center;font-size:21px;font-weight:900;color:#f1f5ff}
-.au-sub{margin:0;text-align:center;color:#94a3c4;font-size:13.5px;font-weight:600;line-height:1.8}
+.au-sub{margin:0;text-align:center;color:#9aa9c8;font-size:13.5px;font-weight:600;line-height:1.8}
 .au-sub.ok{color:#86efac}
-.au-card label{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:800;color:#c5d2ee}
+.au-card label{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:800;color:#c8d4ee}
 .au-card input,.au-card select{font:600 14px Cairo,sans-serif;padding:10px 12px;border:1.5px solid rgba(255,255,255,.1);border-radius:11px;background:rgba(255,255,255,.05);color:#e8eefc;outline:0;width:100%;box-sizing:border-box;transition:border-color .2s,box-shadow .2s,background .2s}
 .au-card input:focus,.au-card select:focus{border-color:#3b82f6;background:rgba(255,255,255,.08);box-shadow:0 0 0 3px rgba(59,130,246,.25)}
 .au-card select option{background:#0f1730;color:#e8eefc}
@@ -52,29 +58,33 @@
 .au-or:before,.au-or:after{content:"";flex:1;height:1px;background:rgba(255,255,255,.12)}
 .au-err{background:rgba(220,38,38,.16);border:1px solid rgba(248,113,113,.3);color:#fca5a5;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:700;line-height:1.7}
 .au-saved{display:flex;align-items:center;gap:8px;justify-content:center;background:rgba(59,130,246,.14);color:#93c5fd;border-radius:10px;padding:7px 10px;font-weight:800;font-size:13px}
-.au-wait{text-align:center;color:#c5d2ee;font-weight:700;padding:18px 0}
+.au-wait{text-align:center;color:#c8d4ee;font-weight:700;padding:18px 0}
 .au-busy{opacity:.7;pointer-events:none}
 .au-ov{position:fixed;inset:0;z-index:99999;background:rgba(2,4,10,.78);display:grid;place-items:center;padding:16px;font-family:'Cairo',sans-serif}
-.au-dlg{background:linear-gradient(160deg,#142040,#0b1226);border:1px solid rgba(96,140,255,.25);color:#e8eefc;border-radius:18px;padding:22px;max-width:380px;width:100%;box-shadow:0 30px 70px -20px #000}
+.au-dlg{background:linear-gradient(160deg,#16244a,#0c1430);border:1px solid rgba(110,150,255,.28);color:#e8eefc;border-radius:18px;padding:22px;max-width:380px;width:100%;box-shadow:0 30px 70px -20px #000}
 .au-dlg h3{margin:0 0 8px;font-size:18px;font-weight:900;color:#f1f5ff}
-.au-dlg p{margin:0 0 14px;font-size:13.5px;line-height:1.9;color:#94a3c4;font-weight:600}
+.au-dlg p{margin:0 0 14px;font-size:13.5px;line-height:1.9;color:#9aa9c8;font-weight:600}
 .au-row{display:flex;flex-direction:column;gap:8px}
 .pc-acc{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:0;color:inherit;border-radius:999px;padding:3px 10px 3px 4px;font:700 12px Cairo,sans-serif;cursor:pointer}
 .pc-acc b{width:24px;height:24px;border-radius:50%;background:#2563eb;color:#fff;display:grid;place-items:center;font-size:12px;overflow:hidden}
 .pc-acc b img{width:100%;height:100%;object-fit:cover}
 
 @keyframes lp-fl{0%{opacity:0}10%{opacity:1}18%{opacity:.15}30%{opacity:.9}40%{opacity:.3}55%{opacity:1}70%{opacity:.8}100%{opacity:1}}
-@keyframes lp-ring{0%{transform:scale(.7);opacity:.75}100%{transform:scale(2.3);opacity:0}}
+@keyframes lp-fld{0%{opacity:.9}10%{opacity:0}18%{opacity:.76}30%{opacity:.09}40%{opacity:.63}55%{opacity:0}70%{opacity:.18}100%{opacity:0}}
+@keyframes lp-pop{0%{transform:scale(.55)}20%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes lp-ring{0%{transform:scale(.7);opacity:.7}100%{transform:scale(2.2);opacity:0}}
 @keyframes au-sw{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
 
 @media(max-width:820px){
-.au{min-height:900px}
-.au-lamp{left:50%;top:23%;height:min(300px,34%)}
+.au{min-height:880px}
+.au-lamp{left:50%;top:22%;height:min(260px,30%)}
+.au-sky:after{background:radial-gradient(ellipse 90% 40% at 50% 22%,rgba(255,226,170,.17),transparent 72%)}
+.au-card:before{background:radial-gradient(120% 90% at 50% 0,rgba(255,224,170,.15),transparent 62%)}
 .au-side{top:auto;bottom:14px;right:50%;transform:translateX(50%)}
 .au-stat{bottom:12%}
 }
 @media(prefers-reduced-motion:reduce){
 .au-lamp .ring{animation:none;opacity:0}
-.au-lamp.fl .L,.au-lamp.fl:before{animation:none}
-.au-lamp .L,.au-lamp .D,.au-lamp:before,.au-card:after,.au-card{transition-duration:.01s;transition-delay:0s}
+.au-lamp.fl .L,.au-lamp.fl .halo,.au.fl .au-card:after,.au.fl .au-card:before,.au.fl .au-sky:after{animation:none}
+.au-lamp .L,.au-card:after,.au-card:before,.au-card,.au-sky:after{transition-duration:.01s;transition-delay:0s}
 }
