@@ -4,7 +4,7 @@
    EtoAuth.getSaved() / EtoAuth.forget()  => بيانات الدخول المحفوظة (للإعدادات)
    EtoAuth.user / EtoAuth.profile */
 (function (root) {
-  var CFG = root.ETO_CONFIG || {}, SDK = 'https://www.gstatic.com/firebasejs/10.12.2/';
+  var CFG = root.ETO_CONFIG || {}, SDK = 'https://www.gstatic.com/firebasejs/9.23.0/'  /* نفس نسخة exam-online.js عشان ما يحصلش تعارض */;
   var SAVED = 'eto_saved_login', libP = null, A = null, DB = null;
   var E = { user: null, profile: null };
   var JOBS = ['طالب مدرسة', 'طالب جامعة', 'موظف', 'مبرمج', 'صاحب شغل حر', 'مش شغال دلوقتي', 'أخرى'];
@@ -25,13 +25,17 @@
   }
   function lib() {
     if (libP) return libP;
-    libP = script(SDK + 'firebase-app-compat.js')
-      .then(function () { return Promise.all([script(SDK + 'firebase-auth-compat.js'), script(SDK + 'firebase-database-compat.js')]); })
+    /* لو Firebase متحمّل من حتة تانية (زي exam-online.js) بنكمّل عليه ومنحمّلوش تاني */
+    var p = root.firebase ? Promise.resolve() : script(SDK + 'firebase-app-compat.js');
+    libP = p
+      .then(function () { return Promise.all([
+        root.firebase.auth ? 0 : script(SDK + 'firebase-auth-compat.js'),
+        root.firebase.database ? 0 : script(SDK + 'firebase-database-compat.js')]); })
       .then(function () {
         var u = CFG.firebase && CFG.firebase.databaseURL;
         if (!/^https:\/\/[\w-]+(\.[\w-]+)*\.(firebaseio\.com|firebasedatabase\.app)\/?$/.test(u || '')) { var er = new Error('cfg'); er.code = 'eto/no-database-url'; throw er; }
-        if (!root.firebase.apps.length) root.firebase.initializeApp(CFG.firebase);
-        A = root.firebase.auth(); DB = root.firebase.database();
+        var app = root.firebase.apps.filter(function (a) { return a.name === 'eto-pc'; })[0] || root.firebase.initializeApp(CFG.firebase, 'eto-pc');
+        A = app.auth(); DB = app.database();
         A.languageCode = 'ar';
       })
       .catch(function (e) { libP = null; throw e; });
