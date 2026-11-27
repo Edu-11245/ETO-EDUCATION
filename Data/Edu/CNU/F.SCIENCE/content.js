@@ -25,6 +25,12 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
           "group": "Invertebrate"
         },
         {
+          "title": "Invertebrate 4",
+          "url": "https://drive.google.com/file/d/1Db7JQ5GQbZ4q2XWJqRi-WInvDD5I3IDZ/view?usp=drive_link",
+          "kind": "pdf",
+          "group": "Invertebrate"
+        },
+        {
           "title": "Lab 1",
           "url": "https://drive.google.com/file/d/13dXJh2GEHxje7eCgZG6E6Yx6CfkdUtuT/view?usp=drive_link",
           "kind": "pdf",
