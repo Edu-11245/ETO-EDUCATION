@@ -80,7 +80,7 @@ window.ETO_CONTENT["sci-cnu"] = /*DATA*/{
         },
         {
           "title": "Biology 3",
-          "url": "https://drive.google.com/file/d/1ubocLDMo9Zby72ethkU8b0QequqxEQvN/view?usp=drive_link",
+          "url": "https://drive.google.com/file/d/1lFIjzqCVL3bGsYTgNYUsZN_U-ffipzeX/view?usp=drive_link",
           "kind": "pdf",
           "group": "Biology"
         },
